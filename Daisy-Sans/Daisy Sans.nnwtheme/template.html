@@ -142,6 +142,15 @@ Presentation:
       var words = daisy.words || ["", "", "", "Footnote", "Close", "Footnotes"];
       var joiner = /^(ja|zh)/i.test(daisy.lang) ? "" : " ";
       var headed = [];
+      // A plain list of notes (a WordPress list block, say) whose items are the targets
+      // of superscript markers in the text is a footnotes list too.
+      document.querySelectorAll("sup a[href^='#'], a.footnote[href^='#']").forEach(function (marker) {
+        var note = document.getElementById(decodeURIComponent(marker.hash.slice(1)));
+        var list = note && note.closest("li") && note.closest("li").closest("ol, ul");
+        if (list && !list.contains(marker) && !list.closest(".footnotes, .wp-block-footnotes")) {
+          list.classList.add("wp-block-footnotes");
+        }
+      });
       function referenceFor(id) {
         var links = document.querySelectorAll("a[href*='#']");
         for (var i = 0; i < links.length; i++) {
