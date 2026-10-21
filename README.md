@@ -3,13 +3,13 @@
 
 Two NetNewsWire themes by [Shane Hendry](https://shanehendry.com), one design in two typefaces:
 
-- **Daisy** is set in New York, Apple's serif, like a fine leather-bound book.
-- **Daisy Sans** is the same theme in the system sans-serif, SF Pro.
+- **Daisy** is set in New York
+- **Daisy Sans** is set in SF Pro
 <!-- nnw-theme-identity:end -->
 
 ## The words to all the work
 
-Both themes share one stylesheet and differ only in typeface. They are typeset and designed with extra attention to the little things:
+Both themes share one stylesheet and differ only in typeface. They're typeset and designed with extra attention to the little things:
 
 - Simple, consistent attribution: "John Siracusa for Hypercritical"
 - Relative times: "2 hours ago", "Yesterday"
@@ -20,7 +20,8 @@ Both themes share one stylesheet and differ only in typeface. They are typeset a
 Favorite writers and bloggers also get extra special treatment in both:
 
 - Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts
-- Formats podcast and sponsor posts cleanly from [Daring Fireball](https://daringfireball.net), [Six Colors](https://sixcolors.com), and more
+- Reformats podcast and sponsor labels from [Daring Fireball](https://daringfireball.net), [Six Colors](https://sixcolors.com), and more
+- Reformats "issue" numbers for feeds like [Snake](https://snake.substack.com)
 - Treats [Daring Fireball's](https://daringfireball.net) self-linking posts uniquely, forgive me John
 - Cleans up funky Squarespace stuff
 
