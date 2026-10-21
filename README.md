@@ -11,7 +11,7 @@ Looks simple, that's the point.
 Extra attention to the little things:
 
 - Simple, consistent attribution: "John Siracusa for Hypercritical"
-- Relative times: 2 hours ago, Yesterday
+- Relative times: "2 hours ago", "Yesterday"
 - Interactive footnotes with a clear footnote design
 - Link deduplication
 - Localization into 30+ languages
