@@ -1,6 +1,8 @@
 <!-- nnw-theme-identity:start -->
 # Daisy and Daisy Sans
 
+![Daisy in NetNewsWire](screenshots/Daisy%20Hero.png)
+
 Two NetNewsWire themes by [Shane Hendry](https://shanehendry.com), one design in two typefaces:
 
 - **Daisy** is set in New York
