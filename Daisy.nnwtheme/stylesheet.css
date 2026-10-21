@@ -81,6 +81,12 @@
   --space-medium: 1.5em;
   --space-large: 3.11rem;
   --indent: 1.25rem;
+  /* Extra space under the title before a lead image. An image has no half-leading
+     like text does, so it needs a little more than --space-large for the gap from
+     the title's baseline to the image to match the gap from the credit row's
+     baseline to the title's cap height. Depends on the typeface's metrics, so
+     Daisy Sans sets its own value (see scripts/build-sans.sh). */
+  --lead-image-extra: 0.16rem;
 
   /* The type styles the whole design is built from. Most text (the credit row, the
      date, footnotes, captions, tables, code) uses only these. Always use these names
@@ -705,12 +711,14 @@ h1 a {
 
 /* Title spacing, measured from letters: the gap from the meta row's baseline to
    the title's cap height equals the gap from the title's baseline to whatever
-   follows. Text gets it from the header margin; a lead image needs a little more. */
+   follows. Text gets it from the header margin; a lead image needs a little more
+   (--lead-image-extra). The image's margin and the header's margin overlap, so the
+   larger of the two is the gap. */
 .articleBody > figure:first-child,
 .articleBody > p:first-child:has(> img:only-child),
 .articleBody > p:first-child:has(> a:only-child > img:only-child),
 .articleBody > div:first-child:has(img, video, iframe):not(:has(p)) {
-  margin-top: 2.83rem;
+  margin-top: calc(var(--space-large) + var(--lead-image-extra));
 }
 
 
