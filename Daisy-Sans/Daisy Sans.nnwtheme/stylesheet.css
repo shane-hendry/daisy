@@ -706,6 +706,15 @@ h1 a {
   color: inherit;
 }
 
+/* With no link line below (hidden, moved to the eyebrow, or no address), the title's
+   --space-small margin would add to the header's --space-large; drop it so the gap
+   below the title equals the gap above. */
+h1:has(+ .external-link.same-page),
+h1:has(+ .external-link.moved),
+h1:has(+ .external-link .external-link-url:empty) {
+  margin-bottom: 0;
+}
+
 /* Title spacing, measured from letters: the gap from the meta row's baseline to
    the title's cap height equals the gap from the title's baseline to whatever
    follows. Text gets it from the header margin; a lead image needs a little more
