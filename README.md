@@ -4,15 +4,13 @@
 A NetNewsWire theme by [Shane Hendry](https://shanehendry.com). Also try [Daisy Sans](https://github.com/shane-hendry/daisy-sans).
 <!-- nnw-theme-identity:end -->
 
-## The words do all the work
+## The words to all the work
 
-Looks simple, that's the point.
-
-Extra attention to the little things:
+Typeset and designed like a fine leather-bound book, with extra attention to the little things:
 
 - Simple, consistent attribution: "John Siracusa for Hypercritical"
 - Relative times: "2 hours ago", "Yesterday"
-- Interactive footnotes and a nice footnote design
+- Nice, interactive footnote design
 - Link deduplication
 - Support for 30+ languages and XXXXXL font sizes
 
