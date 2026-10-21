@@ -692,9 +692,16 @@ a:focus-visible {
   margin-top: 1.5em;
 }
 
-.view-post a,
-.view-post a:hover {
+.view-post a {
   text-decoration: none;
+}
+
+.view-post a::after {
+  content: "\00a0\2192";
+}
+
+.view-post a:hover {
+  text-decoration: underline;
 }
 
 .untitled .article-header > h1 {
