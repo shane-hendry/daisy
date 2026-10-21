@@ -18,7 +18,8 @@
                         every kind of HTML element. Nothing here is specific to
                         Daisy's personality.
      2. DESIGN          What makes Daisy look like Daisy: the credit row, the title,
-                        the sponsor label, untitled posts, footnotes.
+                        the sponsor label, untitled posts, footnotes, expandable
+                        blocks.
      3. FEED CONTENT    Special handling for how feeds deliver their content: spacer
                         blocks, blank paragraphs, wide tables, centred text, and
                         writing in other scripts.
@@ -280,7 +281,7 @@ h6 {
 
 /* --- 1.5 Paragraphs and blocks ----------------------------------------
    The default gap above and below each block, then paragraphs at the paragraph
-   gap (--space-medium). */
+   gap (--space-medium). Expandable "details" blocks are styled in part 2. */
 
 p,
 ul,
@@ -288,18 +289,12 @@ ol,
 blockquote,
 pre,
 table,
-figure,
-details {
+figure {
   margin-block: 1.3em;
 }
 
 p {
   margin-block: var(--space-medium);
-}
-
-summary {
-  cursor: pointer;
-  font-weight: var(--weight-medium);
 }
 
 hr {
@@ -361,7 +356,9 @@ small {
 }
 
 del,
-s {
+s,
+strike,
+[style*="line-through"] {
   text-decoration-thickness: var(--line-thin);
 }
 
@@ -641,7 +638,7 @@ caption {
 /* =====================================================================
    2. DESIGN
    What makes Daisy look like Daisy: the credit row, the title, the sponsor
-   label, untitled posts, and footnotes.
+   label, untitled posts, footnotes, and expandable blocks.
    ===================================================================== */
 
 
@@ -1026,6 +1023,88 @@ hr + .footnotes-title {
 }
 
 
+/* --- 2.9 Expandable blocks (details) -----------------------------------
+   A <details> element with a <summary> label: a block the reader can open. Closed,
+   it looks like a one-line block quote: the same bar and --indent, with the label
+   and a small chevron beside it. Opened, the bar grows to cover the revealed text,
+   which sits at the same indent as quotes and footnotes. The label and chevron are
+   one quiet link, and turn orange (bar included) on hover. Sample article:
+   fixtures/elements.toml. */
+
+details {
+  margin-block: var(--space-medium);
+  padding-inline-start: var(--indent);
+  position: relative;
+}
+
+/* The bar matches a block quote's (see 1.8). */
+details::before {
+  background: var(--text);
+  bottom: calc(0.495em - max(2px, 0.11em));
+  content: "";
+  inset-inline-start: 0;
+  position: absolute;
+  top: calc(0.500em - max(2px, 0.11em));
+  width: max(2px, 0.11em);
+}
+
+/* The label. The browser's own triangle is replaced by the chevron below. */
+summary {
+  color: var(--text);
+  cursor: pointer;
+  display: block;
+  font-weight: var(--weight-medium);
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The chevron: two sides of a small square, turned to point down, or up when open. */
+summary::after {
+  border-style: solid;
+  border-width: 0 max(1.5px, 0.09em) max(1.5px, 0.09em) 0;
+  content: "";
+  display: inline-block;
+  height: 0.42em;
+  margin-inline-start: 0.5em;
+  transform: translateY(-0.2em) rotate(45deg);
+  width: 0.42em;
+}
+
+details[open] > summary::after {
+  transform: translateY(0.02em) rotate(-135deg);
+}
+
+summary:hover {
+  color: var(--accent);
+}
+
+details:has(> summary:hover)::before {
+  background: var(--accent);
+}
+
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The revealed text starts --space-small below the label, paragraphs inside it sit
+   half a paragraph gap apart, and the last one ends flush with the bar. */
+details > p {
+  margin-block: calc(var(--space-medium) / 2);
+}
+
+details > summary + * {
+  margin-top: var(--space-small);
+}
+
+details > :last-child {
+  margin-bottom: 0;
+}
+
+
 /* =====================================================================
    3. FEED CONTENT
    Special handling for how feeds deliver their content. Publishing tools add
@@ -1105,7 +1184,8 @@ hr + .footnotes-title {
 }
 
 .no-tracking blockquote::before,
-.no-tracking .footnote-panel::before {
+.no-tracking .footnote-panel::before,
+.no-tracking details::before {
   bottom: 0;
   top: 0;
 }
@@ -1207,13 +1287,15 @@ hr + .footnotes-title {
   }
 
   .article blockquote::before,
-  .article .footnote-panel::before {
+  .article .footnote-panel::before,
+  .article details::before {
     bottom: calc(0.270em - max(2px, 0.11em));
     top: calc(0.275em - max(2px, 0.11em));
   }
 
   .article.no-tracking blockquote::before,
-  .article.no-tracking .footnote-panel::before {
+  .article.no-tracking .footnote-panel::before,
+  .article.no-tracking details::before {
     bottom: 0;
     top: 0;
   }

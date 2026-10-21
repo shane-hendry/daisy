@@ -17,6 +17,8 @@ body = '''<p>Plain paragraph with <strong>bold</strong>, <em>italic</em>, <del>d
 <p class="has-small-font-size">Small caption-style paragraph in the WordPress manner.</p>
 <p><br></p>
 <details><summary>Click to expand</summary><p>Hidden content.</p></details>
+<details open><summary>An expanded block</summary><p>The revealed text sits inside the same bar, which grows to cover it.</p><p>A second paragraph checks the gap between paragraphs inside the block.</p></details>
+<p>Text after the blocks.</p>
 <table><caption>Table caption</caption><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td>One</td><td>1</td></tr><tr><td>Two</td><td>2</td></tr></tbody></table>
 <pre><code>let x = 1
 print(x)</code></pre>
