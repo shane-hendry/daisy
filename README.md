@@ -4,24 +4,24 @@
 A NetNewsWire theme by [Shane Hendry](https://shanehendry.com). Also try [Daisy Sans](https://github.com/shane-hendry/daisy-sans).
 <!-- nnw-theme-identity:end -->
 
-## The devil's in the details
+## The words do all the work
 
-Looks simple, that's the point. You shouldn't even notice what's going on under the hood.
+Looks simple, that's the point.
 
 Extra attention to the little things:
 
-- Simple, consistent attribution: "John Siracusa for Hypercritical".
-- Relative times: 2 hours ago, Yesterday, etc.
-- Interactive footnotes with a clear footnote design.
-- Link deduplication.
-- All these features localized to 30+ languages.
+- Simple, consistent attribution: "John Siracusa for Hypercritical"
+- Relative times: 2 hours ago, Yesterday
+- Interactive footnotes with a clear footnote design
+- Link deduplication
+- Localization into 30+ languages
 
-Also, Daisy's favorite writers and bloggers get a little extra special treatment. For example:
+Daisy's favorite writers and bloggers also get extra special treatment:
 
-- Untitled posts don't show a title, like Kottke's quick links, Manton Reece's posts, and social posts.
-- Cleaner formatting for common posts like podcasts and sponsors from Daring Fireball, Six Colors, and more.
-- Daring Fireball's self-referential posts are specially formatted, forgive me John.
-- Funky Squarespace stuff is cleaned up.
+- Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts
+- Formats podcast and sponsor posts cleanly from [Daring Fireball](https://daringfireball.net), [Six Colors](https://sixcolors.com), and more
+- Treats [Daring Fireball's](https://daringfireball.net) self-linking posts uniquely, forgive me John
+- Cleans up funky Squarespace stuff
 
 ## Language and accessibility
 
