@@ -304,6 +304,42 @@ Presentation:
         el.classList.add("blank");
       }
     });
+    // A leading non-breaking space (an editor's way of indenting) would shift the first line.
+    document.querySelectorAll(".articleBody p").forEach(function (p) {
+      var first = p.firstChild;
+      if (first && first.nodeType === 3) first.nodeValue = first.nodeValue.replace(/^[\s\u00a0]+/, "");
+    });
+    // A paragraph holding an image and text (a caption written into the same paragraph)
+    // is tagged for the stylesheet. Non-breaking spaces and blanks around the image are
+    // removed first, since they would indent the first line.
+    document.querySelectorAll(".articleBody p").forEach(function (p) {
+      var kids = Array.prototype.slice.call(p.childNodes);
+      var isMedia = function (n) {
+        return n && n.nodeType === 1 &&
+          (n.tagName === "IMG" || (n.tagName === "A" && n.children.length === 1 && n.firstElementChild.tagName === "IMG"));
+      };
+      if (!kids.some(isMedia)) return;
+      kids.forEach(function (n, i) {
+        if (n.nodeType !== 3) return;
+        var near = isMedia(kids[i - 1]) || isMedia(kids[i + 1]) || i === 0;
+        if (near) n.nodeValue = n.nodeValue.replace(i === 0 ? /^[\s\u00a0]+/ : /^[\s\u00a0]+|[\s\u00a0]+$/g, "");
+        if (!n.nodeValue) p.removeChild(n);
+      });
+      var rest = p.cloneNode(true);
+      rest.querySelectorAll("img").forEach(function (img) { img.remove(); });
+      if (!rest.textContent.replace(/[\s\u00a0]+/g, "")) return;
+      p.classList.add("image-text");
+      if (isMedia(p.firstChild)) p.classList.add("media-first");
+      if (isMedia(p.lastChild)) p.classList.add("media-last");
+    });
+    // A short text-only div right after an image-only div is that image's caption.
+    document.querySelectorAll(".articleBody > div").forEach(function (div) {
+      var text = div.textContent.replace(/[\s\u00a0]+/g, " ").trim();
+      if (!text || text.length > 100 || div.querySelector("img, video, iframe, p, div, ul, ol, blockquote, table, pre, figure, hr, h1, h2, h3, h4, h5, h6")) return;
+      var prev = div.previousElementSibling;
+      while (prev && prev.classList.contains("blank")) prev = prev.previousElementSibling;
+      if (prev && prev.tagName === "DIV" && !prev.textContent.trim() && prev.querySelector("img")) div.classList.add("media-caption");
+    });
     // Arabic, Indic, Thai and CJK articles: switch off letter-spacing (see the stylesheet).
     (function () {
       var article = document.querySelector(".article");

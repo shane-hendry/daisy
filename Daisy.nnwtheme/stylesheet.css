@@ -1132,7 +1132,19 @@ details > :last-child {
 }
 
 
-/* --- 3.2 Blank blocks and built-in alignment ---------------------------- */
+/* --- 3.2 Substack --------------------------------------------------------
+   Substack puts two small buttons (restack and expand) on top of each image. On
+   Substack's own site its stylesheet places them in the image's corner and shows them
+   on hover. Here they have no styling and no scripts, so they would sit below the
+   image as two empty boxes. Only that wrapper is hidden, and only when it sits
+   directly inside Substack's image box (.image2-inset), so nothing else with a
+   similar class can be caught. Sample: fixtures/substack.toml. */
+.image2-inset > .image-link-expand {
+  display: none;
+}
+
+
+/* --- 3.3 Blank blocks and built-in alignment ---------------------------- */
 
 /* Blank paragraphs and divs some publishers use as spacers. template.html tags
    them .blank only when they hold no text and no media. Sample:
@@ -1158,7 +1170,62 @@ details > :last-child {
 }
 
 
-/* --- 3.3 Lists with a label ---------------------------------------------
+/* --- 3.4 Images and text in one block ------------------------------------
+   Blogger and similar editors put an image and its caption in the same paragraph, as
+   <p><a style="margin: 0 1em"><img></a>caption</p>, and often centre it and pad it with
+   non-breaking spaces. template.html tags such paragraphs .image-text (plus
+   .media-first / .media-last when the image is at that end) and trims the padding.
+   Here the image fills the column like any other, its link's own margins are dropped,
+   the caption sits under it like a figcaption, and the paragraph keeps the same
+   distance from its neighbours as an image on its own (2em; see 1.10). Text-only divs
+   (Blogger's .separator) get the paragraph gap, or the caption gap when short and under
+   an image-only div. Sample: fixtures/image-text.toml. */
+
+.articleBody p.image-text > :is(img, a:has(> img)) {
+  display: block;
+  margin: 0 0 0.5rem !important;
+}
+
+.articleBody p.image-text > :is(img, a:has(> img)) ~ :is(img, a:has(> img)) {
+  margin-top: 2em !important;
+}
+
+.articleBody p.media-first {
+  margin-top: 2em;
+}
+
+.articleBody p.media-last {
+  margin-bottom: 2em;
+}
+
+.articleBody p.media-last > :is(img, a:has(> img)):last-child {
+  margin-bottom: 0 !important;
+}
+
+.articleBody > p.media-first:first-child {
+  margin-top: calc(var(--space-large) + var(--lead-image-extra));
+}
+
+.untitled .articleBody > p.media-first:first-child {
+  margin-top: 2.95rem;
+}
+
+.articleBody > div:not(:has(img, video, iframe, p, div, ul, ol, blockquote, table, pre, figure, hr, h1, h2, h3, h4, h5, h6)) {
+  margin-block: var(--space-medium);
+}
+
+/* A short text-only div right under an image-only div is its caption (template.html
+   tags it .media-caption): it sits under the image like a figcaption. */
+.articleBody > div:has(+ .media-caption) {
+  margin-bottom: 0.5rem;
+}
+
+.articleBody > div.media-caption {
+  margin-top: 0.5rem;
+}
+
+
+/* --- 3.5 Lists with a label ---------------------------------------------
    A list's label (a short paragraph right before the list, tagged .list-label by
    template.html) sits close to its list, about the space between list items. */
 
@@ -1171,7 +1238,7 @@ details > :last-child {
 }
 
 
-/* --- 3.4 Arabic, Indic, Thai and CJK text -------------------------------
+/* --- 3.6 Arabic, Indic, Thai and CJK text -------------------------------
    template.html adds .no-tracking when most of an article is in one of those
    scripts. Letter-spacing breaks the joins in cursive scripts and crowds
    full-width characters, and the quote bar's cap-height alignment only fits New
@@ -1235,6 +1302,22 @@ details > :last-child {
   .article p:has(> a:only-child > img:only-child),
   .article .articleBody > div:has(img, video, iframe):not(:has(p)) {
     margin-block: 1.25em;
+  }
+
+  .article .articleBody > div:has(+ .media-caption) {
+    margin-bottom: 0.5rem;
+  }
+
+  .article p.media-first {
+    margin-top: 1.25em;
+  }
+
+  .article p.media-last {
+    margin-bottom: 1.25em;
+  }
+
+  .article .articleBody > p.media-first:first-child {
+    margin-top: 1.25em;
   }
 
   .article .articleBody > figure:first-child,
