@@ -1,0 +1,1061 @@
+/* Daisy Sans: system sans, all text black, orange only on link hover and highlights. */
+:root {
+  color-scheme: light dark;
+  --canvas: #fff;
+  --text: #161616;
+  --accent: #f05a00;
+  --rule: #161616;
+  --code-surface: #f4f4f4;
+  --mark: #f05a00;
+  --measure: 66ch;
+  --gutter: clamp(23px, 5vw, 55px);
+  --serif: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 115%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #121212;
+    --text: #ececec;
+      --accent: #ff7a2e;
+    --rule: #ececec;
+    --code-surface: #1c1c1c;
+    --mark: #ff7a2e;
+  }
+}
+
+/* iOS replaces this with the reader's Dynamic Type size. macOS leaves the macro
+   literal, so the declaration is invalid there and is dropped — no platform query
+   needed, and none wanted: desktop WebKit lacks -webkit-touch-callout, so such a
+   query previews false. See `npx nnw-theme@2 guide theme-format`. */
+:root {
+  font-size: [[font-size]]px;
+  -webkit-text-size-adjust: none;
+}
+
+/* macOS applies one of these to the text_size_class element; inert on iOS.
+   NetNewsWire emits the capital-L spellings, its own themes select lowercase. */
+.smallText {
+  font-size: 16.1px;
+}
+
+.mediumText {
+  font-size: 18.4px;
+}
+
+.largeText {
+  font-size: 20.7px;
+}
+
+.xlargeText,
+.xLargeText {
+  font-size: 23px;
+}
+
+.xxlargeText,
+.xxLargeText {
+  font-size: 25.3px;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.008em;
+  line-height: 1.7;
+  overflow-wrap: break-word;
+}
+
+body {
+  margin: 0;
+  /* Page margins are in px so they never change with the reader's text size. */
+  padding: clamp(28px, 6vw, 92px) var(--gutter);
+}
+
+.article {
+  container-type: inline-size;
+  margin: 0 auto;
+  max-width: var(--measure);
+}
+
+.article-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-bottom: 3rem;
+}
+
+/* The credit sits at the start of the top row and the date at the end. When the
+   text is large relative to the screen (accessibility text sizes), the date drops
+   to its own line below the credit. The container query compares the column's
+   width with the text size: 14em is about 335px at 24px text. */
+.meta {
+  align-items: baseline;
+  display: flex;
+  gap: 0 1rem;
+  justify-content: space-between;
+}
+
+@container (max-width: 14em) {
+  .meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  /* At these sizes the title is set at the body text size so words stay whole. */
+  .article-header h1 {
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+}
+
+/* "Author for Blog". With no author the joining word drops out and only the blog remains. */
+.attribution {
+  min-width: 0;
+}
+
+.byline:empty,
+.byline:empty + .byline-for,
+.same-name .byline,
+.same-name .byline-for {
+  display: none;
+}
+
+.feed,
+.byline a {
+  text-decoration: none;
+}
+
+/* If "Author for Blog" has to wrap, the blog name moves down as one piece. */
+.feed {
+  display: inline-block;
+}
+
+.feed:hover,
+.byline a:hover {
+  text-decoration: underline;
+}
+
+.dateline {
+  flex: none;
+}
+
+.external-link {
+  margin-top: 0.2rem;
+}
+
+.external-link a,
+.external-link a:hover {
+  text-decoration: none;
+}
+
+/* The link line never wraps: a label, then the address cut with an ellipsis after 32
+   characters. Long social post URLs and tracking strings are the target. */
+.external-link a {
+  display: flex;
+  gap: 0 0.3em;
+  max-width: 100%;
+}
+
+.external-link-label {
+  flex: none;
+  white-space: nowrap;
+}
+
+.external-link-url {
+  max-width: 32ch;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.external-link.same-page,
+.external-link:has(.external-link-url:empty) {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 2.2em;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 3.2rem 0 0.25rem;
+  text-wrap: pretty;
+}
+
+h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h2 {
+  font-size: 1.4em;
+  margin-top: 2.2em;
+}
+
+h3 {
+  font-size: 1.12em;
+  margin-top: 1.8em;
+}
+
+
+a {
+  color: var(--text);
+  text-decoration-thickness: max(1px, 0.055em);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+p,
+ul,
+ol,
+blockquote,
+pre,
+table,
+figure {
+  margin-block: 1.3em;
+}
+
+p {
+  margin-block: 1.5em;
+}
+
+/* The rule runs from the cap height of the first line to the baseline of the
+   last. Offsets are New York's metrics inside a 1.7 line box: the line top to the
+   cap top is 0.500em, the baseline to the line bottom is 0.495em. The rule
+   overshoots both ends by its own thickness (2px, growing with the text). */
+blockquote {
+  margin-inline: 0;
+  padding-inline-start: 1.25rem;
+  position: relative;
+}
+
+blockquote::before {
+  background: var(--text);
+  bottom: calc(0.495em - max(2px, 0.11em));
+  content: "";
+  inset-inline-start: 0;
+  position: absolute;
+  top: calc(0.500em - max(2px, 0.11em));
+  width: max(2px, 0.11em);
+}
+
+mark {
+  -webkit-box-decoration-break: clone;
+  background: var(--mark);
+  border-radius: 0.2em;
+  box-decoration-break: clone;
+  color: #fff;
+  padding: 0.05em calc(0.15em + 2px);
+}
+
+code,
+pre {
+  font-family: var(--mono);
+  font-size: 0.85em;
+}
+
+code {
+  background: var(--code-surface);
+  border-radius: 0.2rem;
+  padding: 0.1em 0.3em;
+}
+
+pre {
+  background: var(--code-surface);
+  border-radius: 0.25rem;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+img,
+video,
+audio {
+  height: auto;
+  max-width: 100%;
+}
+
+iframe {
+  max-width: 100%;
+}
+
+/* Inline media fills the column; emoji and smilies stay inline-sized. */
+.articleBody img:not(.emoji):not(.wp-smiley),
+.articleBody video,
+.articleBody iframe {
+  display: block;
+  width: 100%;
+}
+
+.articleBody iframe {
+  border: 0;
+}
+
+/* Only video players are forced to 16:9; other embeds keep their own height. */
+.articleBody iframe[src*="youtube"],
+.articleBody iframe[src*="youtu.be"],
+.articleBody iframe[src*="vimeo"],
+.articleBody iframe[src*="video"] {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+figure {
+  margin-inline: 0;
+}
+
+/* Text boxes carry half-leading above and below the letters; images don't. To
+   make the visible gap beside an image match the gap between paragraphs, media
+   blocks get 2em: the 1.5em paragraph margin plus roughly the half-leading
+   (0.35em) and the space between line box and letters (0.14em). */
+figure,
+p:has(> img:only-child),
+p:has(> a:only-child > img:only-child),
+.articleBody > div:has(img, video, iframe):not(:has(p)) {
+  margin-block: 2em;
+}
+
+/* Title spacing, measured from letters: the gap from the meta row's baseline to
+   the title's cap height equals the gap from the title's baseline to whatever
+   follows. Text gets it from the header margin; a lead image needs a little more. */
+.articleBody > figure:first-child,
+.articleBody > p:first-child:has(> img:only-child),
+.articleBody > p:first-child:has(> a:only-child > img:only-child),
+.articleBody > div:first-child:has(img, video, iframe):not(:has(p)) {
+  margin-top: 2.83rem;
+}
+
+/* WordPress spacer blocks add fixed-height gaps on top of the paragraph margins;
+   the theme's own spacing is enough. */
+.wp-block-spacer {
+  display: none;
+}
+
+/* Publishers sometimes centre blurbs with inline styles; keep text start-aligned. */
+.articleBody [style*="text-align: center"],
+.articleBody [style*="text-align:center"],
+.articleBody [align="center"] {
+  text-align: start !important;
+}
+
+/* Paragraphs set entirely in italics (newsletter blurbs, boilerplate) read as
+   plain text; template.html tags them. Emphasis inside normal text is kept. */
+.articleBody .no-italic em,
+.articleBody .no-italic i {
+  font-style: normal;
+}
+
+figcaption {
+  color: var(--text);
+  font-size: 0.8em;
+  margin-top: 0.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 0.9em;
+  width: 100%;
+}
+
+/* Tables have no rules: spacing and the bold header row do the separating. Rows sit
+   close together, the outer cells sit flush with the text column, and digits line
+   up in columns. */
+table {
+  line-height: 1.4;
+}
+
+th,
+td {
+  border: 0;
+  font-variant-numeric: tabular-nums;
+  padding: 0.2em 0.75rem;
+  text-align: start;
+  vertical-align: top;
+}
+
+th:first-child,
+td:first-child {
+  padding-inline-start: 0;
+}
+
+th:last-child,
+td:last-child {
+  padding-inline-end: 0;
+}
+
+/* On narrow screens the table is set a little smaller and tighter so it rarely
+   needs to scroll. */
+@container (max-width: 34em) {
+  table {
+    font-size: 0.85em;
+  }
+
+  th,
+  td {
+    padding-inline: 0.5em;
+  }
+
+  th:first-child,
+  td:first-child {
+    padding-inline-start: 0;
+  }
+
+  th:last-child,
+  td:last-child {
+    padding-inline-end: 0;
+  }
+}
+
+/* Content that is too wide scrolls on its own, never the whole article. It runs out
+   to the screen edge, and template.html sizes tables so a column is cut off by that
+   edge, which is the cue that there is more. Wide elements the app doesn't wrap get
+   the same treatment from the script (.scroll-x). */
+.nnw-overflow,
+.scroll-x {
+  margin-inline: calc(-1 * var(--gutter));
+  overflow-x: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Last resort: the page itself never scrolls sideways. */
+html,
+body {
+  overflow-x: clip;
+}
+
+/* Elements never ask for more width than the column, whatever their own styles say. */
+.articleBody :is(div, figure, section, article, aside, p, ul, ol, blockquote, pre, img, video, iframe, svg, canvas, picture, object, embed, form, details) {
+  max-width: 100%;
+}
+
+/* Footnotes. NetNewsWire turns a marker like <sup><a href="#fn1">1</a></sup> into a
+   tap-to-open popover. The popover is created inside the <sup>, so it inherits the
+   superscript rule's 0.75em size and zero line height; it alone undoes both (0.9 of
+   body size = 1.2 x 0.75), and its container is left alone because the marker must
+   not change size when the popover opens. */
+.newsfoot-footnote-popover {
+  font-size: 1.2em;
+  font-weight: 400;
+  line-height: 1.4;
+  /* Centered on the marker, and as wide as the text column: the page gutter on
+     small screens, the column's own width on wide ones. */
+  left: calc(-1 * (50vw - var(--gutter)));
+  max-width: 100cqw;
+  padding: 0;
+  right: calc(-1 * (50vw - var(--gutter)));
+}
+
+.newsfoot-footnote-popover-inner p {
+  margin-block: 0.6em;
+}
+
+/* The arrow is a bordered square turned 45 degrees and half hidden behind the
+   popover's inner box. The inner box needs a solid background to hide that half,
+   which leaves a clean notch pointing at the marker. */
+.newsfoot-footnote-popover-inner {
+  background: var(--canvas);
+}
+
+/* The marker keeps NetNewsWire's generous tap area, but its wide side padding is
+   pulled back so it sits close to the word it belongs to. */
+a.footnote {
+  font-size: 1em;
+  margin-inline: -0.35em;
+  top: 0;
+}
+
+.newsfoot-footnote-popover,
+.newsfoot-footnote-popover-arrow {
+  background: var(--canvas);
+  border: max(1px, 0.055em) solid var(--rule);
+  color: var(--text);
+}
+
+@media (max-width: 34rem) {
+  h1 {
+    font-size: 1.8em;
+  }
+}
+
+/* Everything below covers elements that would otherwise show browser defaults. */
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.6em;
+}
+
+h4 {
+  font-size: 1em;
+  margin-top: 1.6em;
+}
+
+h5 {
+  font-size: 0.9em;
+  margin-top: 1.6em;
+}
+
+h6 {
+  font-size: 0.85em;
+  margin-top: 1.6em;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+small {
+  font-size: 0.85em;
+}
+
+del,
+s {
+  text-decoration-thickness: max(1px, 0.055em);
+}
+
+/* Superscripts and subscripts are raised with an offset, not vertical-align, so
+   they never push the line apart. */
+sub,
+sup {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+abbr[title] {
+  text-decoration: underline dotted;
+  text-decoration-thickness: max(1px, 0.055em);
+  text-underline-offset: 0.2em;
+}
+
+ul,
+ol {
+  padding-inline-start: 1.5em;
+}
+
+li {
+  margin-block: 0.4em;
+}
+
+li > p {
+  margin-block: 0.6em;
+}
+
+li > ul,
+li > ol {
+  margin-block: 0.4em;
+}
+
+dt {
+  font-weight: 600;
+}
+
+dd {
+  margin-inline: 1.5em 0;
+}
+
+hr {
+  border: 0;
+  border-top: max(2px, 0.11em) solid var(--rule);
+  margin-block: 2.35em;
+}
+
+kbd,
+samp,
+var {
+  font-family: var(--mono);
+  font-size: 0.85em;
+}
+
+kbd {
+  border: 1px solid var(--rule);
+  border-radius: 0.2rem;
+  padding: 0.1em 0.35em;
+}
+
+pre {
+  line-height: 1.5;
+  tab-size: 4;
+}
+
+th {
+  font-weight: 600;
+}
+
+caption {
+  caption-side: bottom;
+  font-size: 0.8em;
+  padding-top: 0.5rem;
+  text-align: start;
+}
+
+details {
+  margin-block: 1.3em;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+audio {
+  width: 100%;
+}
+
+/* Small-print paragraphs (WordPress "small" text, caption classes) read as captions. */
+.has-small-font-size,
+.wp-caption-text,
+.wp-element-caption {
+  font-size: 0.8em;
+}
+
+/* Blank paragraphs and divs some publishers use as spacers. template.html tags
+   them .blank only when they hold no text and no media. */
+.articleBody p:empty,
+.articleBody .blank {
+  display: none;
+}
+
+::selection {
+  background: var(--mark);
+  color: #fff;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Arabic, Indic, Thai and CJK text: template.html adds .no-tracking when most of
+   an article is in one of those scripts. Letter-spacing breaks the joins in
+   cursive scripts and crowds full-width characters, and the quote rule's
+   cap-height alignment only fits New York's Latin letters, so the rule goes full height. */
+.no-tracking,
+.no-tracking * {
+  letter-spacing: 0 !important;
+}
+
+.no-tracking blockquote::before,
+.no-tracking .footnote-panel::before {
+  bottom: 0;
+  top: 0;
+}
+
+/* Untitled posts (the title is only the start of the body): no title, and a
+   "View original" line at the bottom replaces the title's link to the original. The
+   header margin keeps the same gap, measured from the letters, as titled posts. Like
+   the titled gaps it is deliberately larger than the gap between paragraphs, so the
+   credit row reads as a header and not as another paragraph break. */
+.view-post {
+  display: none;
+}
+
+.untitled .view-post {
+  display: block;
+  margin-top: 1.5em;
+}
+
+.view-post a {
+  text-decoration: none;
+}
+
+.view-post a:hover {
+  text-decoration: underline;
+}
+
+.untitled .article-header > h1 {
+  display: none;
+}
+
+.untitled .article-header {
+  margin-bottom: 3.11rem;
+}
+
+.untitled .articleBody > figure:first-child,
+.untitled .articleBody > p:first-child:has(> img:only-child),
+.untitled .articleBody > p:first-child:has(> a:only-child > img:only-child),
+.untitled .articleBody > div:first-child:has(img, video, iframe):not(:has(p)) {
+  margin-top: 2.95rem;
+}
+
+
+/* The eyebrow: a small "Sponsor" line above a sponsored title, at body size. It takes
+   the title's usual space below the credit row, and the title sits just under it. The
+   eyebrow, title and link line form one block, set apart from the credit row above
+   and the article below by more than a paragraph gap. */
+.eyebrow {
+  align-items: baseline;
+  display: flex;
+  gap: 0 0.4em;
+  margin-top: 3.11rem;
+}
+
+.eyebrow-label {
+  min-width: 0;
+}
+
+/* When the eyebrow is a link (a sponsor's name), it's a quiet one: no underline. */
+.eyebrow a,
+.eyebrow a:hover {
+  text-decoration: none;
+}
+
+.external-link.moved {
+  display: none;
+}
+
+/* Set so the visible gap from the eyebrow to the title equals the gap from the title
+   to the link line below it, both measured from the letters. */
+.eyebrow + h1 {
+  margin-top: 0.4rem;
+}
+
+/* A list's label (a short paragraph right before the list, tagged by template.html)
+   sits close to its list, about the space between list items. */
+.articleBody p.list-label {
+  margin-bottom: 0.4em;
+}
+
+.articleBody .list-label + :is(ul, ol) {
+  margin-top: 0.4em;
+}
+
+/* Footnotes section at the end of the article: a "Footnotes" heading, no indent, no
+   list numbers, and each note headed "Footnote 1", which links back to its line in
+   the article. The original return arrows are hidden. template.html builds the
+   heading and the labels. */
+.footnotes ol,
+.footnotes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footnotes li {
+  margin-block: 1.5em;
+}
+
+.footnotes li:first-child {
+  margin-top: 0;
+}
+
+.footnotes-title {
+  margin-bottom: 1em;
+}
+
+/* The space around the rule tracks the paragraph gap: when paragraph spacing changes,
+   the rule's margin and the heading's margin below move by the same amount. The rule
+   sits evenly between the last paragraph and the heading,
+   measured from what the eye sees: the bottom of the last line's descenders (p, g, y)
+   to the top of the heading's capitals. The heading's margin alone sets the space
+   below the rule, so the rule's own bottom margin is dropped. */
+hr:has(+ .footnotes-title) {
+  margin-bottom: 0;
+}
+
+hr + .footnotes-title {
+  margin-top: 1.63em;
+}
+
+.footnote-label {
+  display: block;
+  font-weight: 500;
+}
+
+/* Return links the publisher put in the note (arrows, emoji): the label replaces them. */
+.footnote-backlink {
+  display: none;
+}
+
+.footnotes .footnoteBackLink,
+.footnotes .reversefootnote,
+.footnotes .footnote-return:not(.footnote-label) {
+  display: none;
+}
+
+/* The label belongs to the list; inside a footnote panel the panel has its own header. */
+.footnote-panel-body .footnote-label {
+  display: none;
+}
+
+/* Footnote panel: opens under the paragraph like a block quote (same bar, same
+   indent), with a "Footnote 1" header and a close button. It shows and hides
+   instantly. The note text sits in .newsfoot-footnote-popover so NetNewsWire's own
+   structural styles are undone for it below. */
+.footnote-panel {
+  margin-block: 1.5em;
+  padding-inline-start: 1.25rem;
+  position: relative;
+}
+
+/* The bar matches a block quote's: cap height of the first line to the baseline of
+   the last, overshooting by its own thickness (offsets for a 1.7 line box). */
+.footnote-panel::before {
+  background: var(--text);
+  bottom: calc(0.495em - max(2px, 0.11em));
+  content: "";
+  inset-inline-start: 0;
+  position: absolute;
+  top: calc(0.500em - max(2px, 0.11em));
+  width: max(2px, 0.11em);
+}
+
+.footnote-panel-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footnote-panel-title {
+  font-weight: 500;
+}
+
+.footnote-panel-close {
+  -webkit-tap-highlight-color: transparent;
+  align-items: center;
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-weight: 500;
+  margin: -12px -12px -12px 0;
+  min-height: 44px;
+  padding: 0 12px;
+}
+
+.footnote-panel-close:hover {
+  color: var(--accent);
+}
+
+.footnote-panel-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.footnote-panel .footnote-panel-body.newsfoot-footnote-popover,
+.footnote-panel .footnote-panel-body {
+  background: none;
+  border: 0;
+  display: block;
+  font-size: 1em;
+  left: auto;
+  line-height: inherit;
+  margin: 0.3em 0 0;
+  max-width: none;
+  padding: 0;
+  position: static;
+  right: auto;
+  top: auto;
+  transform: none;
+}
+
+.footnote-panel-body p {
+  margin-block: 0.6em;
+}
+
+.footnote-panel-body > :first-child {
+  margin-top: 0;
+}
+
+.footnote-panel-body > :last-child {
+  margin-bottom: 0;
+}
+
+.footnote-panel-body .reversefootnote,
+.footnote-panel-body .footnoteBackLink,
+.footnote-panel-body .footnote-return {
+  display: none;
+}
+
+
+/* NetNewsWire's empty state ("No selection"; "Loading…" and "Multiple selection"
+   share this element): large, centred in the window both ways. */
+body > .systemMessage {
+  align-items: center;
+  cursor: default;
+  display: flex;
+  font-size: 1.75rem;
+  inset: 0;
+  justify-content: center;
+  margin: 0;
+  position: fixed;
+  text-align: center;
+  -webkit-user-select: none;
+}
+
+/* Accessibility text sizes (the column is narrower than 14em): the gaps between
+   blocks shrink from their normal proportions, which would be enormous at this size. */
+@container (max-width: 14em) {
+  .article p,
+  .article ul,
+  .article ol,
+  .article blockquote,
+  .article pre,
+  .article table {
+    margin-block: 1em;
+  }
+
+  .article figure,
+  .article p:has(> img:only-child),
+  .article p:has(> a:only-child > img:only-child),
+  .article .articleBody > div:has(img, video, iframe):not(:has(p)) {
+    margin-block: 1.25em;
+  }
+
+  .article .articleBody > figure:first-child,
+  .article .articleBody > p:first-child:has(> img:only-child),
+  .article .articleBody > p:first-child:has(> a:only-child > img:only-child),
+  .article .articleBody > div:first-child:has(img, video, iframe):not(:has(p)) {
+    margin-top: 1.25em;
+  }
+
+  .article .article-header,
+  .article.untitled .article-header {
+    margin-bottom: 1.75em;
+  }
+
+  .article .article-header h1 {
+    margin-top: 1.5em;
+  }
+
+  .article .article-header .eyebrow {
+    margin-top: 1.5em;
+  }
+
+  .article .article-header .eyebrow + h1 {
+    margin-top: 0.45rem;
+  }
+
+  .article h2 {
+    margin-top: 1.4em;
+  }
+
+  .article h3,
+  .article h4,
+  .article h5,
+  .article h6 {
+    margin-top: 1.2em;
+  }
+
+  .article hr {
+    margin-block: 1.5em;
+  }
+
+  .article.untitled .view-post {
+    margin-top: 1em;
+  }
+
+  /* Line spacing matches the title's, and the quote indent tightens to roughly the
+     gap between lines. The quote rule's offsets are New York's metrics inside a 1.25
+     line box: line top to cap top 0.275em, baseline to line bottom 0.270em. */
+  .article-header,
+  .articleBody,
+  .view-post {
+    line-height: 1.25;
+  }
+
+  .article blockquote,
+  .article .footnote-panel {
+    padding-inline-start: 0.75em;
+  }
+
+  .article .footnote-panel {
+    margin-block: 1em;
+  }
+
+  .article .footnotes li {
+    margin-block: 1em;
+  }
+
+  /* The title's own margin sets the space below this rule, so the rule's is dropped. */
+  /* The title's own margin sets the space below this rule, so the rule's is dropped. */
+  .article hr:has(+ .footnotes-title) {
+    margin-bottom: 0;
+  }
+
+  .article hr + .footnotes-title {
+    margin-top: 0.865em;
+  }
+
+  .article .footnotes li:first-child {
+    margin-top: 0;
+  }
+
+  .article .footnote-panel::before {
+    bottom: calc(0.270em - max(2px, 0.11em));
+    top: calc(0.275em - max(2px, 0.11em));
+  }
+
+  /* At these sizes the "Footnote 1" label is dropped (screen readers still get it)
+     and Close sits alone at the start of the line. */
+  .article .footnote-panel-title {
+    display: none;
+  }
+
+  .article .footnote-panel-header {
+    justify-content: flex-start;
+  }
+
+  .article .footnote-panel-close {
+    margin: 0 0 0 -12px;
+  }
+
+  .article .footnote-panel-body {
+    margin-top: 0.5em;
+  }
+
+  .article table {
+    line-height: 1.25;
+  }
+
+  .article blockquote::before {
+    bottom: calc(0.270em - max(2px, 0.11em));
+    top: calc(0.275em - max(2px, 0.11em));
+  }
+
+  .article.no-tracking blockquote::before,
+  .article.no-tracking .footnote-panel::before {
+    bottom: 0;
+    top: 0;
+  }
+}
