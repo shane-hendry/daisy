@@ -6,11 +6,11 @@ set -eu
 cd "$(dirname "$0")/.."
 
 SRC=Daisy.nnwtheme
-OUT=Daisy-Sans/Daisy-Sans.nnwtheme
+OUT="Daisy-Sans/Daisy Sans.nnwtheme"
 SANS='ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif'
 
-dest=$OUT
-[ "${1:-}" = "--check" ] && dest=$(mktemp -d)/Daisy-Sans.nnwtheme
+dest="$OUT"
+[ "${1:-}" = "--check" ] && dest="$(mktemp -d)/Daisy Sans.nnwtheme"
 mkdir -p "$dest"
 
 cp "$SRC/template.html" "$SRC/LICENSE" "$dest/"
@@ -22,5 +22,5 @@ sed -e 's|com\.shanehendry\.daisy|com.shanehendry.daisy-sans|' \
 grep -q "$SANS" "$dest/stylesheet.css" || { echo "font substitution failed" >&2; exit 1; }
 
 if [ "${1:-}" = "--check" ]; then
-  diff -r "$dest" "$OUT" >/dev/null || { echo "Daisy-Sans is stale: run scripts/build-sans.sh" >&2; exit 1; }
+  diff -r "$dest" "$OUT" >/dev/null || { echo "Daisy Sans is stale: run scripts/build-sans.sh" >&2; exit 1; }
 fi

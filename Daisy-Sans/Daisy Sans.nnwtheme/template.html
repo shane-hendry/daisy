@@ -1,0 +1,699 @@
+<!-- NetNewsWire template variables. Each name below is used in double
+brackets, which are left off here: NetNewsWire substitutes macros inside
+comments too, and an article that closes a comment would end this one early.
+
+Article:
+  title                      Article title.
+  preferred_link             Best URL for opening the article.
+  body                       Article body as HTML.
+
+Feed and author:
+  feed_link_title            Feed name.
+  feed_link                  Feed URL.
+  byline                     Author names and links as HTML.
+  avatar_src                 Source URL for the feed icon or avatar.
+
+External link:
+  external_link_label        Localized label for the external link.
+  external_link_stripped     External URL without its scheme, for display.
+  external_link              External URL supplied by the article author.
+
+Date and time:
+  dateline_style             "articleDateline" when a title exists;
+                             otherwise "articleDatelineTitle".
+  datetime_long              Long localized publication date and time.
+  datetime_medium            Medium localized publication date and time.
+  datetime_short             Short localized publication date and time.
+  date_long                  Long localized publication date.
+  date_medium                Medium localized publication date.
+  date_short                 Short localized publication date.
+  time_long                  Long localized publication time.
+  time_medium                Medium localized publication time.
+  time_short                 Short localized publication time.
+
+Presentation:
+  text_size_class            Article text-size class selected by the reader.
+-->
+<main class="article" data-nnw-theme="daisy">
+  <header class="article-header">
+    <div class="meta">
+      <div class="attribution"><span class="byline">[[byline]]</span><span class="byline-for"> for </span><a class="feed" href="[[feed_link]]">[[feed_link_title]]</a></div>
+      <time class="dateline [[dateline_style]]" datetime="[[datetime_long]]">[[date_medium]]</time>
+    </div>
+    <h1><a href="[[preferred_link]]">[[title]]</a></h1>
+    <div class="external-link"><a href="[[external_link]]"><span class="external-link-label">[[external_link_label]]</span> <span class="external-link-url">[[external_link_stripped]]</span></a></div>
+  </header>
+  <div class="articleBody [[text_size_class]]">
+    [[body]]
+  </div>
+  <footer class="view-post [[text_size_class]]"><a href="[[preferred_link]]">View original</a></footer>
+  <script>
+    // Shared by the scripts below: the reader's language and the words for it.
+    var daisy = { lang: "en", words: null };
+    // A short single paragraph followed by a list is almost always that list's label
+    // ("Sponsored by:"), so it sits close to the list instead of a paragraph away.
+    document.querySelectorAll(".articleBody p").forEach(function (p) {
+      var next = p.nextElementSibling;
+      if (!next || !/^(UL|OL)$/.test(next.tagName) || p.classList.contains("blank")) return;
+      var text = p.textContent.replace(/\s+/g, " ").trim();
+      if (!text || text.length > 90 || p.querySelector("img, video, audio, iframe, br")) return;
+      p.classList.add("list-label");
+    });
+    // Wide content scrolls on its own, never the page. Tables that need to scroll are
+    // sized so a column is cut off by the screen edge, which shows there is more.
+    // Anything else wider than the screen is wrapped so it scrolls by itself.
+    (function () {
+      var root = document.documentElement;
+      var running = false;
+      function cutFraction(wrapper, row) {
+        var edge = wrapper.clientWidth;
+        var left0 = wrapper.getBoundingClientRect().left;
+        for (var i = 0; i < row.cells.length; i++) {
+          var r = row.cells[i].getBoundingClientRect();
+          var l = r.left - left0, rr = r.right - left0;
+          if (l < edge && rr > edge) return (edge - l) / (rr - l);
+        }
+        return 0;
+      }
+      function tuneTable(wrapper) {
+        var table = wrapper.querySelector("table");
+        if (!table || !table.rows.length) return;
+        table.style.fontSize = "";
+        var edge = wrapper.clientWidth;
+        var tableRight = function () { return table.getBoundingClientRect().right - wrapper.getBoundingClientRect().left; };
+        if (tableRight() <= edge + 1) return;
+        var row = table.rows[0];
+        for (var i = 0; i < table.rows.length; i++) {
+          if (table.rows[i].cells.length > row.cells.length) row = table.rows[i];
+        }
+        var good = function () { var f = cutFraction(wrapper, row); return f >= 0.3 && f <= 0.7; };
+        if (good()) return;
+        var base = parseFloat(getComputedStyle(table).fontSize);
+        var large = edge / parseFloat(getComputedStyle(root).fontSize) < 14;
+        for (var step = 1; step <= 14; step++) {
+          var factors = large ? [1 + step * 0.01] : [1 + step * 0.01, 1 - step * 0.01];
+          for (var k = 0; k < factors.length; k++) {
+            table.style.fontSize = (base * factors[k]) + "px";
+            if (tableRight() > edge + 1 && good()) return;
+          }
+        }
+        table.style.fontSize = "";
+      }
+      function containOverflow() {
+        var limit = root.clientWidth;
+        var offenders = [];
+        document.querySelectorAll(".articleBody *, .article-header *").forEach(function (el) {
+          if (el.closest(".nnw-overflow, .scroll-x, .newsfoot-footnote-popover")) return;
+          // Skip anything inside an element that already scrolls (a code block, say).
+          for (var up = el.parentElement; up && up !== document.body; up = up.parentElement) {
+            if (getComputedStyle(up).overflowX !== "visible") return;
+          }
+          if (/^(PRE)$/.test(el.tagName) && getComputedStyle(el).overflowX !== "visible") return;
+          if (el.getBoundingClientRect().right <= limit + 1) return;
+          for (var i = 0; i < offenders.length; i++) if (offenders[i].contains(el)) return;
+          offenders.push(el);
+        });
+        offenders.forEach(function (el) {
+          var wrap = document.createElement("div");
+          wrap.className = "scroll-x";
+          el.parentNode.insertBefore(wrap, el);
+          wrap.appendChild(el);
+        });
+      }
+      function layout() {
+        if (running) return;
+        running = true;
+        try {
+          document.querySelectorAll(".nnw-overflow").forEach(tuneTable);
+          containOverflow();
+        } finally {
+          running = false;
+        }
+      }
+      layout();
+      window.addEventListener("load", layout);
+      var timer;
+      window.addEventListener("resize", function () { clearTimeout(timer); timer = setTimeout(layout, 50); });
+    })();
+    // The footnotes section at the end: a "Footnotes" heading, and each note headed
+    // "Footnote 1", a link back to that line in the article. The numbered list
+    // markers and the original return arrows are hidden by the stylesheet.
+    (function () {
+      var words = daisy.words || ["", "", "", "Footnote", "Close", "Footnotes"];
+      var joiner = /^(ja|zh)/i.test(daisy.lang) ? "" : " ";
+      var headed = [];
+      function referenceFor(id) {
+        var links = document.querySelectorAll("a[href*='#']");
+        for (var i = 0; i < links.length; i++) {
+          var a = links[i];
+          if (a.closest(".footnotes") || !a.hash) continue;
+          if (decodeURIComponent(a.hash.slice(1)) === id) return a;
+        }
+        return null;
+      }
+      document.querySelectorAll(".footnotes li[id]").forEach(function (li, index) {
+        var marker = referenceFor(li.id);
+        if (!marker) return;
+        var anchor = marker.closest("sup") || marker;
+        // Some publishers give the marker no id even though the note's return arrow
+        // points at one ("fnref:1"); give the marker an id so the label can link to it.
+        if (!anchor.id && !marker.id) anchor.id = "daisy-fnref-" + (index + 1);
+        var refId = anchor.id || marker.id;
+        var guess = li.id.replace(/^fn/, "fnref");
+        var holder = li.closest(".footnotes");
+        if (headed.indexOf(holder) < 0) {
+          headed.push(holder);
+          var list = li.closest("ol, ul");
+          var title = document.createElement("h2");
+          title.className = "footnotes-title";
+          title.textContent = words[5];
+          list.parentNode.insertBefore(title, list);
+        }
+        var number = marker.textContent.trim() || String(index + 1);
+        var label = document.createElement("a");
+        label.className = "footnote-label footnote-return";
+        label.href = "#" + refId;
+        label.textContent = words[3] + joiner + number;
+        // Take the reader to that line, leaving it a third of the way down the screen
+        // so it isn't hidden under the app's top bar.
+        label.addEventListener("click", function (ev) {
+          var line = document.getElementById(refId);
+          if (!line) return;
+          ev.preventDefault();
+          ev.stopImmediatePropagation();
+          window.scrollTo({ top: Math.max(0, line.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3) });
+        });
+        li.insertBefore(label, li.firstChild);
+        // Any other link in the note that leads back to the reference (a return arrow
+        // or emoji, whatever the publisher uses) is hidden: the label does that job.
+        li.querySelectorAll("a[href*='#']").forEach(function (a) {
+          if (a === label || !a.hash) return;
+          var target = decodeURIComponent(a.hash.slice(1));
+          if (target === refId || target === marker.id || target === anchor.id || target === guess) {
+            a.classList.add("footnote-backlink");
+          }
+        });
+      });
+    })();
+    // Return links left in a note, whatever the publisher built them from: an arrow or
+    // emoji glyph alone, or a link to a spot that isn't in the article. The "Footnote 1"
+    // header does that job, so they're hidden.
+    (function () {
+      document.querySelectorAll(".footnotes li a[href*='#']").forEach(function (a) {
+        if (a.classList.contains("footnote-label") || !a.hash) return;
+        var glyph = /^[\s\u2190-\u21ff\u2934\u2935\u2b05-\u2b07\u23ce\ufe0e\ufe0f\u{1f519}\u{1f51d}]+$/u.test(a.textContent);
+        var title = /return|back/i.test(a.getAttribute("title") || "");
+        var dead = !document.getElementById(decodeURIComponent(a.hash.slice(1)));
+        if (glyph || (title && dead) || (title && !a.textContent.trim().replace(/\W/g, ""))) {
+          a.classList.add("footnote-backlink");
+        }
+      });
+    })();
+    // Footnotes open as a note panel under the paragraph, in the style of a block
+    // quote, with a "Footnote 1" header and a close button. It shows and hides
+    // instantly. This replaces NetNewsWire's floating popover; the note text lives in
+    // .newsfoot-footnote-popover so NetNewsWire's own checks still find it.
+    (function () {
+      var words = daisy.words || ["", "", "", "Footnote", "Close"];
+      var current = null;
+      var MARKER = "a.footnote, sup > a[href*='#fn'], sup > div > a[href*='#fn'], a[id^='footnote-anchor-']";
+
+      function noteFor(marker) {
+        if (!marker.hash) return null;
+        var target = document.getElementById(decodeURIComponent(marker.hash.slice(1)));
+        if (!target) return null;
+        if (marker.matches("a[id^='footnote-anchor-']")) {
+          var html = "";
+          for (var node = target.nextElementSibling; node && !node.matches("a[id^='footnote-']"); node = node.nextElementSibling) {
+            html += node.outerHTML;
+          }
+          return html;
+        }
+        return target.innerHTML;
+      }
+
+      function place(panel, marker) {
+        var block = marker.closest("p, li, blockquote, h2, h3, h4, h5, h6, dt, dd, figcaption, td, th");
+        if (!block) block = marker.parentElement;
+        if (block.matches("li")) {
+          block.appendChild(panel);
+        } else if (block.matches("td, th")) {
+          var table = block.closest("table");
+          var holder = table.closest(".nnw-overflow") || table;
+          holder.parentNode.insertBefore(panel, holder.nextSibling);
+        } else {
+          block.parentNode.insertBefore(panel, block.nextSibling);
+        }
+      }
+
+      function close() {
+        if (!current) return;
+        var closing = current;
+        current = null;
+        closing.marker.setAttribute("aria-expanded", "false");
+        closing.panel.remove();
+      }
+
+      function open(marker, html) {
+        var number = marker.textContent.trim();
+        var label = words[3] + (/^(ja|zh)/i.test(daisy.lang) ? "" : " ") + number;
+        var panel = document.createElement("section");
+        panel.className = "footnote-panel";
+        panel.setAttribute("role", "note");
+        panel.setAttribute("aria-label", label);
+        panel.innerHTML = '<div class="footnote-panel-header">' +
+          '<span class="footnote-panel-title"></span>' +
+          '<button type="button" class="footnote-panel-close"></button></div>' +
+          '<div class="footnote-panel-body newsfoot-footnote-popover"></div>';
+        panel.querySelector(".footnote-panel-title").textContent = label;
+        var button = panel.querySelector(".footnote-panel-close");
+        button.textContent = words[4];
+        button.addEventListener("click", function (ev) { ev.stopPropagation(); close(); });
+        var body = panel.querySelector(".footnote-panel-body");
+        body.innerHTML = html;
+        place(panel, marker);
+        marker.setAttribute("aria-expanded", "true");
+        current = { marker: marker, panel: panel, body: body };
+      }
+
+      document.addEventListener("click", function (ev) {
+        var anchor = ev.target instanceof Element ? ev.target.closest("a") : null;
+        if (anchor && anchor.matches(MARKER)) {
+          var html = noteFor(anchor);
+          if (html !== null) {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            var same = current && current.marker === anchor;
+            close();
+            if (!same) open(anchor, html);
+            return;
+          }
+        }
+        if (current && !current.panel.contains(ev.target)) close();
+      }, true);
+
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape") close();
+      });
+    })();
+    // Blank paragraphs and divs (publishers' spacers) are hidden; anything with text
+    // or media stays.
+    document.querySelectorAll(".articleBody p, .articleBody div").forEach(function (el) {
+      if (!el.textContent.trim() &&
+          !el.querySelector("img, video, audio, iframe, svg, picture, canvas, object, embed, hr, table, input")) {
+        el.classList.add("blank");
+      }
+    });
+    // Arabic, Indic, Thai and CJK articles: switch off letter-spacing (see the stylesheet).
+    (function () {
+      var article = document.querySelector(".article");
+      var title = document.querySelector(".article-header h1");
+      var body = document.querySelector(".articleBody");
+      if (!article || !body) return;
+      var sample = ((title ? title.textContent : "") + " " + body.textContent)
+        .replace(/\s+/g, "").slice(0, 400);
+      if (!sample) return;
+      var other = sample.match(/[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿ऀ-෿฀-๿぀-ヿ㐀-䶿一-鿿가-힯]/g);
+      if (other && other.length / sample.length >= 0.2) {
+        article.classList.add("no-tracking");
+      }
+    })();
+    // Posts with no title of their own are "untitled": the title is hidden and a "View
+    // original" line goes at the bottom. That means a title that is empty, only the
+    // start of the body ("First sentence of the post…"), the whole body, or just a
+    // web address. (A link line that would sit under the title moves down too: below.)
+    (function () {
+      var article = document.querySelector(".article");
+      var title = document.querySelector(".article-header h1 a");
+      var body = document.querySelector(".articleBody");
+      if (!article || !title || !body) return;
+      function normalize(text) {
+        return text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"')
+          .replace(/\s+/g, " ").trim().toLowerCase();
+      }
+      var raw = title.textContent;
+      var shown = normalize(raw);
+      var bodyText = normalize(body.textContent);
+      var untitled = false;
+      if (!shown) {
+        untitled = true;
+      } else if (/^https?:\/\/\S+$/.test(shown)) {
+        untitled = true;
+      } else if (shown === bodyText) {
+        untitled = true;
+      } else {
+        var match = raw.match(/^(.*?)\s*(…|\.\.\.)\s*$/);
+        if (match) {
+          var stem = normalize(match[1]);
+          untitled = stem.length >= 8 && bodyText.indexOf(stem) === 0;
+        }
+      }
+      if (untitled) article.classList.add("untitled");
+    })();
+    // Language: the words the theme adds itself ("for", "View original", relative dates)
+    // follow the reader's system language. NetNewsWire already localizes the date
+    // and the "Link:" label. Languages not listed here fall back to English.
+    (function () {
+      // [joins "Author" and "Blog", "View original", "just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", "on", "View post"]
+      var STRINGS = {
+        en: [" for ", "View original", "Just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", " on ", "View post"],
+        es: [" para ", "Ver original", "Ahora mismo", "Nota al pie", "Cerrar", "Notas al pie", "Fuente:", "En seguimiento de", " en ", "Ver publicación"],
+        fr: [" pour ", "Voir l’original", "À l’instant", "Note", "Fermer", "Notes", "Source :", "Suite à", " sur ", "Voir la publication"],
+        de: [" für ", "Original ansehen", "Gerade eben", "Fußnote", "Schließen", "Fußnoten", "Quelle:", "Weiterführend zu", " auf ", "Beitrag ansehen"],
+        it: [" per ", "Vedi originale", "Adesso", "Nota", "Chiudi", "Note", "Fonte:", "Seguito di", " su ", "Vedi post"],
+        pt: [" para ", "Ver original", "Agora mesmo", "Nota de rodapé", "Fechar", "Notas de rodapé", "Fonte:", "Em seguimento a", " no ", "Ver publicação"],
+        nl: [" voor ", "Origineel bekijken", "Zojuist", "Voetnoot", "Sluiten", "Voetnoten", "Bron:", "Vervolg op", " op ", "Bericht bekijken"],
+        sv: [" för ", "Visa originalet", "Nyss", "Fotnot", "Stäng", "Fotnoter", "Källa:", "Uppföljning av", " på ", "Visa inlägg"],
+        da: [" for ", "Se originalen", "Lige nu", "Fodnote", "Luk", "Fodnoter", "Kilde:", "Opfølgning på", " på ", "Se indlæg"],
+        nb: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg"],
+        no: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg"],
+        nn: [" for ", "Sjå originalen", "Akkurat no", "Fotnote", "Lat att", "Fotnotar", "Kjelde:", "Oppfølging av", " på ", "Sjå innlegg"],
+        fi: [" · ", "Näytä alkuperäinen", "Juuri nyt", "Alaviite", "Sulje", "Alaviitteet", "Lähde:", "Jatkoa aiheelle", " · ", "Näytä julkaisu"],
+        pl: [" dla ", "Zobacz oryginał", "Przed chwilą", "Przypis", "Zamknij", "Przypisy", "Źródło:", "W nawiązaniu do", " na ", "Zobacz wpis"],
+        cs: [" pro ", "Zobrazit originál", "Právě teď", "Poznámka", "Zavřít", "Poznámky", "Zdroj:", "Navazuje na", " na ", "Zobrazit příspěvek"],
+        sk: [" pre ", "Zobraziť originál", "Práve teraz", "Poznámka", "Zavrieť", "Poznámky", "Zdroj:", "Nadväzuje na", " na ", "Zobraziť príspevok"],
+        hu: [" · ", "Eredeti megtekintése", "Az imént", "Lábjegyzet", "Bezárás", "Lábjegyzetek", "Forrás:", "Folytatás:", " · ", "Bejegyzés megtekintése"],
+        ro: [" pentru ", "Vezi originalul", "Chiar acum", "Notă", "Închide", "Note", "Sursa:", "În continuarea", " pe ", "Vezi postarea"],
+        ru: [" для ", "Открыть оригинал", "Только что", "Сноска", "Закрыть", "Сноски", "Источник:", "В продолжение", " в ", "Открыть запись"],
+        uk: [" для ", "Переглянути оригінал", "Щойно", "Виноска", "Закрити", "Виноски", "Джерело:", "У продовження", " у ", "Переглянути допис"],
+        tr: [" · ", "Orijinali görüntüle", "Az önce", "Dipnot", "Kapat", "Dipnotlar", "Kaynak:", "Devamı:", " · ", "Gönderiyi görüntüle"],
+        el: [" για ", "Προβολή πρωτοτύπου", "Μόλις τώρα", "Υποσημείωση", "Κλείσιμο", "Υποσημειώσεις", "Πηγή:", "Συνέχεια του", " στο ", "Προβολή ανάρτησης"],
+        he: [" עבור ", "הצג את המקור", "ממש עכשיו", "הערת שוליים", "סגור", "הערות שוליים", "מקור:", "המשך:", " · ", "הצג פוסט"],
+        ar: [" · ", "عرض الأصل", "الآن", "حاشية", "إغلاق", "الحواشي", "المصدر:", "متابعة:", " على ", "عرض المنشور"],
+        fa: [" · ", "مشاهده نسخه اصلی", "همین الان", "پانویس", "بستن", "پانویس‌ها", "منبع:", "پیگیری:", " در ", "مشاهده نوشته"],
+        hi: [" · ", "मूल देखें", "अभी अभी", "पाद-टिप्पणी", "बंद करें", "पाद-टिप्पणियाँ", "स्रोत:", "अनुवर्ती:", " पर ", "पोस्ट देखें"],
+        th: [" · ", "ดูต้นฉบับ", "เมื่อสักครู่นี้", "เชิงอรรถ", "ปิด", "เชิงอรรถ", "แหล่งที่มา:", "ต่อจาก", " บน ", "ดูโพสต์"],
+        vi: [" cho ", "Xem bản gốc", "Vừa xong", "Chú thích", "Đóng", "Chú thích", "Nguồn:", "Tiếp nối", " trên ", "Xem bài viết"],
+        id: [" untuk ", "Lihat aslinya", "Baru saja", "Catatan kaki", "Tutup", "Catatan kaki", "Sumber:", "Menindaklanjuti", " di ", "Lihat postingan"],
+        ms: [" untuk ", "Lihat asal", "Baru sahaja", "Nota kaki", "Tutup", "Nota kaki", "Sumber:", "Susulan kepada", " di ", "Lihat hantaran"],
+        ja: [" · ", "元のページを表示", "たった今", "脚注", "閉じる", "脚注", "出典:", "続報:", " · ", "投稿を表示"],
+        ko: [" · ", "원문 보기", "방금", "각주", "닫기", "각주", "출처:", "후속:", " · ", "게시물 보기"],
+        "zh-Hans": [" · ", "查看原文", "刚刚", "脚注", "关闭", "脚注", "来源:", "跟进:", " · ", "查看帖子"],
+        "zh-Hant": [" · ", "查看原文", "剛剛", "註腳", "關閉", "註腳", "來源:", "後續:", " · ", "查看貼文"]
+      };
+      var lang = String(navigator.language || "en").replace("_", "-");
+      var base = lang.toLowerCase().split("-")[0];
+      var key = base === "zh" ? (/hant|tw|hk|mo/i.test(lang) ? "zh-Hant" : "zh-Hans") : base;
+      var words = STRINGS[key] || STRINGS.en;
+      daisy.lang = lang;
+      daisy.words = words;
+
+      var joiner = document.querySelector(".byline-for");
+      if (joiner) joiner.textContent = words[0];
+      var viewPost = document.querySelector(".view-post a");
+      if (viewPost) viewPost.textContent = words[1];
+
+      // Read the date NetNewsWire formatted in the system language (long date, medium
+      // time) by learning that language's month names, digits and field order.
+      function parseLocalized(formatted) {
+        var raw = formatted.replace(/[‎‏؜]/g, "")
+          .replace(/[  ]/g, " ").replace(/\s+/g, " ").trim();
+        var dtf = new Intl.DateTimeFormat(lang, { dateStyle: "long", timeStyle: "medium" });
+        var options = dtf.resolvedOptions();
+        if (options.calendar !== "gregory" && options.calendar !== "buddhist") return NaN;
+        var nf = new Intl.NumberFormat(lang, { useGrouping: false });
+        var digits = {};
+        for (var i = 0; i < 10; i++) digits[nf.format(i)] = String(i);
+        function ascii(text) {
+          return text.replace(/\p{Nd}/gu, function (d) { return digits[d] === undefined ? d : digits[d]; });
+        }
+        var text = ascii(raw);
+        var months = [];
+        var order = [];
+        for (var m = 0; m < 12; m++) {
+          var parts = dtf.formatToParts(new Date(2021, m, 14, 15, 9, 26));
+          for (var p = 0; p < parts.length; p++) {
+            if (parts[p].type === "month") months.push(ascii(parts[p].value));
+            if (m === 0 && /^(day|year|hour|minute|second)$/.test(parts[p].type)) order.push(parts[p].type);
+          }
+        }
+        var found = -1;
+        for (var k = 0; k < 12; k++) {
+          if (months[k] && text.indexOf(months[k]) >= 0 &&
+              (found < 0 || months[k].length > months[found].length)) found = k;
+        }
+        if (found < 0) return NaN;
+        text = text.replace(months[found], " ");
+        var numbers = text.match(/\d+/g);
+        if (!numbers || numbers.length !== order.length) return NaN;
+        var values = {};
+        for (var n = 0; n < order.length; n++) values[order[n]] = parseInt(numbers[n], 10);
+        var hour = values.hour % 24;
+        if (options.hourCycle === "h12" || options.hourCycle === "h11") {
+          // Day-period words ("PM", "下午", "凌晨"): learn which hours each covers.
+          var periods = {};
+          for (var h = 0; h < 24; h++) {
+            dtf.formatToParts(new Date(2021, 2, 14, h, 9, 9)).forEach(function (x) {
+              if (x.type !== "dayPeriod") return;
+              var entry = periods[x.value] || (periods[x.value] = { am: false, pm: false });
+              entry[h >= 12 ? "pm" : "am"] = true;
+            });
+          }
+          var chosen = null;
+          Object.keys(periods).forEach(function (word) {
+            if (text.indexOf(word) >= 0 && (chosen === null || word.length > chosen.length)) chosen = word;
+          });
+          if (chosen === null) return NaN;
+          var entry = periods[chosen];
+          var afternoon = entry.pm && !entry.am ? true : entry.am && !entry.pm ? false :
+            (values.hour === 12 || values.hour <= 6);
+          hour = (values.hour % 12) + (afternoon ? 12 : 0);
+        }
+        var year = options.calendar === "buddhist" ? values.year - 543 : values.year;
+        if (year < 1990 || year > 2100 || values.day < 1 || values.day > 31 ||
+            hour > 23 || values.minute > 59 || values.second > 59) return NaN;
+        return new Date(year, found, values.day, hour, values.minute, values.second);
+      }
+
+      // Recent dates read relative: "12 minutes ago", "3 hours ago", "Yesterday",
+      // "4 days ago". Seven days and older keep the normal date. The full date stays
+      // in the tooltip. If the date can't be read, nothing changes.
+      var time = document.querySelector(".dateline");
+      if (!time) return;
+      var attr = time.getAttribute("datetime") || "";
+      if (!attr) return;
+      var then;
+      try {
+        if (base === "en") {
+          then = new Date(attr.replace(/[  ]/g, " ").replace(/\s+at\s+/i, " ").trim());
+        } else {
+          then = parseLocalized(attr);
+          if (isNaN(then)) then = new Date(attr);
+        }
+      } catch (error) {
+        return;
+      }
+      if (isNaN(then)) return;
+      var now = new Date();
+      var ms = now - then;
+      if (ms < -5 * 60000) return;
+      var rtf = null;
+      if (base !== "en") {
+        try { rtf = new Intl.RelativeTimeFormat(lang, { numeric: "auto" }); } catch (error) { rtf = null; }
+      }
+      // Labels stand alone in the header, so they start with a capital letter
+      // ("Hace 3 días"), and Japanese and Chinese drop the space after the number.
+      function finish(text) {
+        text = text.replace(/\s*\(1\)/, "");
+        if (/^(ja|zh)/i.test(lang)) text = text.replace(/(\d) (?=[\u3040-\u30FF\u3400-\u9FFF])/g, "$1");
+        return text.charAt(0).toLocaleUpperCase(lang) + text.slice(1);
+      }
+      // Norwegian's built-in "døgn" (24-hour period) reads oddly for days.
+      function norwegianDays(count) {
+        return "for " + count + (count === 1 ? " dag" : " dager") + " siden";
+      }
+      function english(count, unit) {
+        return count + " " + unit + (count === 1 ? "" : "s") + " ago";
+      }
+      var minutes = Math.floor(ms / 60000);
+      var hours = Math.floor(ms / 3600000);
+      var label;
+      if (minutes < 1) {
+        label = words[2];
+      } else if (minutes < 60) {
+        label = rtf ? finish(rtf.format(-minutes, "minute")) : english(minutes, "minute");
+      } else if (hours < 24) {
+        label = rtf ? finish(rtf.format(-hours, "hour")) : english(hours, "hour");
+      } else {
+        var startOfDay = function (d) {
+          return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        };
+        var days = Math.round((startOfDay(now) - startOfDay(then)) / 86400000);
+        if (days === 1) label = rtf ? finish(rtf.format(-1, "day")) : "Yesterday";
+        else if (days < 7) label = !rtf ? english(days, "day") :
+          (/^(nb|nn|no)$/.test(base) ? finish(norwegianDays(days)) : finish(rtf.format(-days, "day")));
+        else return;
+      }
+      time.title = time.textContent;
+      time.textContent = label;
+    })();
+    // Hide the "Link:" row when it points at the same page as the title.
+    (function () {
+      var row = document.querySelector(".external-link");
+      var title = document.querySelector(".article-header h1 a");
+      var link = row && row.querySelector("a");
+      if (!title || !link) return;
+      function normalize(href) {
+        try {
+          var url = new URL(href);
+          return url.hostname.replace(/^www\./i, "").toLowerCase() +
+            url.pathname.replace(/\/+$/, "") + url.search;
+        } catch (error) {
+          return "";
+        }
+      }
+      var a = normalize(title.getAttribute("href"));
+      if (a && a === normalize(link.getAttribute("href"))) {
+        row.classList.add("same-page");
+        return;
+      }
+      // A site can publish one post under two of its own hosts (the title links to the
+      // guid on micro.blog, the link line to the custom domain): same path, same page.
+      var parts = function (href) {
+        try { var u = new URL(href); return { host: u.hostname.replace(/^www\./i, "").toLowerCase(), rest: u.pathname.replace(/\/+$/, "") + u.search }; } catch (error) { return null; }
+      };
+      var own = parts(title.getAttribute("href"));
+      var out = parts(link.getAttribute("href"));
+      var feed = parts((document.querySelector(".feed") || {}).href || "");
+      if (own && out && own.rest && own.rest === out.rest &&
+          (out.host === own.host || (feed && out.host === feed.host))) {
+        row.classList.add("same-page");
+      }
+    })();
+    // Show the link's domain without a leading "www.".
+    document.querySelectorAll(".external-link-url").forEach(function (span) {
+      span.textContent = span.textContent.replace(/^www\./i, "");
+    });
+    // Category tags in headlines move to a small line above the title (the eyebrow):
+    // "(Podcast) Title", "[Update] Title", and the known series and sponsor forms
+    // "App Report: Title", "The Talk Show: Title" and "Sponsor: Title". A sponsor's name moves up with it:
+    // "(Sponsor) Name: Headline" becomes "Sponsor: Name" over "Headline".
+    document.querySelectorAll(".article-header h1 a").forEach(function (a) {
+      var node = a.firstChild;
+      if (!node || node.nodeType !== 3) return;
+      var text = node.data;
+      var sponsorWords = "sponsor|sponsored|advertisement|advert|ad|promoted|promotion|anzeige|werbung|gesponsert|sponsorisée?|publicité|patrocinado|patrocinador|publicidad|sponsorizzato|pubblicità|реклама|广告|廣告|広告|광고|إعلان";
+      var series = "app report|podcast|the talk show";
+      var tagged = text.match(/^\s*[\[(]\s*([^\[\]()]{1,24}?)\s*[\])]\s*/);
+      var plain = text.match(new RegExp("^\\s*(" + sponsorWords + "|" + series + ")\\s*[:\\u2014\\u2013-]\\s+", "i"));
+      var found = tagged || plain;
+      if (!found || text.length <= found[0].length) return;
+      var label = found[1].trim();
+      if (!/\p{L}/u.test(label)) return;
+      var rest = text.slice(found[0].length);
+      if (new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
+        var split = rest.match(/^(.{1,60}?):\s+(.+)$/);
+        if (split) {
+          label = label + ": " + split[1];
+          rest = split[2];
+        }
+      }
+      var eyebrow = document.createElement("div");
+      eyebrow.className = "eyebrow";
+      // If the post has a link line that would sit under the title, the eyebrow itself
+      // becomes that link ("Sponsor: Mux" opens the sponsor's page), and the line is dropped.
+      var row = document.querySelector(".article-header .external-link");
+      var from = row && row.querySelector("a");
+      var domain = row && row.querySelector(".external-link-url");
+      var linked = row && from && domain && !row.classList.contains("same-page") && domain.textContent.trim();
+      var name = document.createElement(linked ? "a" : "span");
+      name.className = "eyebrow-label";
+      name.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+      if (linked) {
+        name.href = from.getAttribute("href");
+        row.classList.add("moved");
+      }
+      eyebrow.appendChild(name);
+      var heading = a.closest("h1");
+      heading.parentNode.insertBefore(eyebrow, heading);
+      node.data = rest;
+    });
+    // An untitled post's link line moves to the bottom: "View original" links to it, so
+    // the address isn't shown at the top.
+    (function () {
+      var article = document.querySelector(".article");
+      if (!article || !article.classList.contains("untitled")) return;
+      var row = document.querySelector(".article-header .external-link");
+      var from = row && row.querySelector("a");
+      var domain = row && row.querySelector(".external-link-url");
+      var view = document.querySelector(".view-post a");
+      if (row && from && view && domain && domain.textContent.trim() && !row.classList.contains("same-page")) {
+        view.href = from.getAttribute("href");
+        row.classList.add("moved");
+      }
+    })();
+    // The link line's label: "Source: example.com", or "A follow-up to example.com" when
+    // the post links to another page on its own site. The words follow the reader's
+    // language; they replace NetNewsWire's generic "Link:".
+    (function () {
+      var row = document.querySelector(".article-header .external-link");
+      var from = row && row.querySelector("a");
+      var label = row && row.querySelector(".external-link-label");
+      var own = document.querySelector(".article-header h1 a");
+      if (!from || !label || !own) return;
+      var words = daisy.words || [];
+      var hostOf = function (href) {
+        try { return new URL(href).hostname.replace(/^www\./i, "").toLowerCase(); } catch (error) { return ""; }
+      };
+      var target = hostOf(from.getAttribute("href"));
+      var site = [hostOf(own.getAttribute("href")), hostOf((document.querySelector(".feed") || {}).href || "")];
+      var inSite = target && site.indexOf(target) >= 0;
+      var text = inSite ? words[7] : words[6];
+      if (text) label.textContent = text;
+    })();
+    // Mastodon and Bluesky: the credit reads "Name on Mastodon" (the name links to the
+    // profile) and the bottom line says "View post".
+    (function () {
+      var credit = document.querySelector(".attribution");
+      var author = credit && credit.querySelector(".byline");
+      var joiner = credit && credit.querySelector(".byline-for");
+      var blog = credit && credit.querySelector(".feed");
+      var own = document.querySelector(".article-header h1 a");
+      if (!author || !joiner || !blog || !own) return;
+      var url;
+      try { url = new URL(own.getAttribute("href")); } catch (error) { return; }
+      var platform = null;
+      if (url.hostname === "bsky.app") platform = "Bluesky";
+      else if (/^\/@[^\/]+\/\d+/.test(url.pathname)) platform = "Mastodon";
+      if (!platform) return;
+      var words = daisy.words || [];
+      var name = (author.textContent.trim() || blog.textContent.trim()).replace(/\s*[-–—]\s*Bluesky$/i, "");
+      // "@handle - Real Name" shows the real name; with no name after the handle, the handle stays.
+      if (platform === "Bluesky") name = name.replace(/^@\S+\s+[-–—]\s+(?=\S)/, "");
+      if (!name) return;
+      var profile = document.createElement("a");
+      profile.href = blog.getAttribute("href");
+      profile.textContent = name;
+      author.textContent = "";
+      author.appendChild(profile);
+      author.style.display = "inline";
+      joiner.textContent = words[8] || " on ";
+      joiner.style.display = "inline";
+      var site = document.createElement("span");
+      site.textContent = platform;
+      blog.parentNode.replaceChild(site, blog);
+      var view = document.querySelector(".view-post a");
+      if (view) view.textContent = words[9] || "View post";
+    })();
+    // "Manton Reece for Manton Reece": when the author and the blog have the same name,
+    // the credit shows it once.
+    (function () {
+      var credit = document.querySelector(".attribution");
+      var author = credit && credit.querySelector(".byline");
+      var blog = credit && credit.querySelector(".feed");
+      if (!author || !blog) return;
+      var clean = function (text) { return text.replace(/\s+/g, " ").trim().toLowerCase(); };
+      if (clean(author.textContent) && clean(author.textContent) === clean(blog.textContent)) {
+        credit.classList.add("same-name");
+      }
+    })();
+    // Progressive enhancement: un-italicize paragraphs that are one big <em>/<i>.
+    document.querySelectorAll(".articleBody p").forEach(function (p) {
+      var kids = p.children;
+      if (kids.length === 1 && /^(EM|I)$/.test(kids[0].tagName) &&
+          kids[0].textContent.trim() === p.textContent.trim()) {
+        p.classList.add("no-italic");
+      }
+    });
+  </script>
+</main>
