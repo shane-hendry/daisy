@@ -1,0 +1,19 @@
+title = "A newsletter whose intro blurb is one big italic paragraph"
+feed_link_title = "Example Newsletter"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/post"
+byline = "Pat Writer"
+external_link = "https://x.com/BarackObama/status/2111819687524774170"
+external_link_label = "Link:"
+external_link_stripped = "x.com/BarackObama/status/2111819687524774170"
+date_medium = "Oct 12, 2026"
+body = '''<p style="text-align: center;"><em>Welcome to the new Example Newsletter, a weekly digest. If you’re not subscribed, follow <a href="https://example.org/signup">this link to sign up</a>. Email us at <a href="mailto:hello@example.org">hello@example.org</a>.</em></p>
+<figure><img src="https://example.org/a.jpg" width="1024" height="683"></figure>
+<div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+<p>Paragraph after a WordPress spacer block.</p>
+<div class="tiled-gallery__gallery"><div class="tiled-gallery__row"><div class="tiled-gallery__col"><figure class="tiled-gallery__item"><img src="https://example.org/b.jpg" width="800" height="500"></figure></div></div></div>
+<p>Paragraph after a gallery wrapper.</p>
+<p>Second paragraph for comparison.</p>
+<h3>A heading</h3>
+<p>This paragraph has one <em>emphasized phrase</em> in the middle, which must stay italic.</p>
+<p><em>Single emphasized sentence with <strong>bold</strong> inside.</em></p>'''

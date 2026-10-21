@@ -1,0 +1,14 @@
+title = "A post with a data table"
+feed_link_title = "Daring Fireball"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/table"
+byline = "Pat Writer"
+date_medium = "Oct 19, 2026"
+body = '''<p>The results were interesting; I am glad I asked. Here is how the answers broke down by where people saw the question.</p>
+<table><thead><tr><th></th><th>X</th><th>Threads</th><th>Mastodon</th><th>Total</th></tr></thead>
+<tbody><tr><td>October</td><td>36%</td><td>38%</td><td>39%</td><td>37%</td></tr>
+<tr><td>November</td><td>35%</td><td>42%</td><td>45%</td><td>39%</td></tr>
+<tr><td>December</td><td>10%</td><td>9%</td><td>8%</td><td>10%</td></tr>
+<tr><td>January</td><td>19%</td><td>11%</td><td>8%</td><td>14%</td></tr></tbody>
+<tfoot><tr><td><em>Responses</em></td><td>1,382</td><td>1,034</td><td>449</td><td>2,865</td></tr></tfoot></table>
+<p>That is the whole table, with no rules between the rows and nothing above or below it.</p>'''

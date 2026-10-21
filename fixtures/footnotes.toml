@@ -1,0 +1,16 @@
+title = "A post with footnotes"
+feed_link_title = "Daring Fireball"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/footnotes"
+byline = "Pat Writer"
+date_medium = "Oct 19, 2026"
+body = '''<p>Yesterday I posted the same question to my followers on X, Threads, and Mastodon:<sup id="fnr1-demo"><a href="#fn1-demo">1</a></sup></p>
+<blockquote><p>Poll, only for people who have pre-ordered a Duo. When is your delivery date?</p></blockquote>
+<p>The results were interesting; I am glad I asked. A second note appears here, in the middle of a sentence,<sup id="fnr2-demo"><a href="#fn2-demo">2</a></sup> with more text after it so the paragraph wraps onto a second line.</p>
+<div class="footnotes"><hr />
+<ol>
+<li id="fn1-demo"><p>I did not ask on Bluesky because, despite launching over three years ago, it still lacks a poll feature. There is a third-party thing called <a href="https://poll.blue/">poll.blue</a>, but I could not be bothered. <a href="#fnr1-demo" class="footnoteBackLink" title="Jump back to footnote 1 in the text.">&#8617;&#xFE0E;</a></p></li>
+<li id="fn2-demo"><p>A short second note. <a href="#fnr2-demo" class="footnoteBackLink" title="Jump back to footnote 2 in the text.">&#8617;&#xFE0E;</a></p></li>
+</ol></div>'''
+[expect.footnotes]
+keep_with_word = false

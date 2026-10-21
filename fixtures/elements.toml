@@ -1,0 +1,23 @@
+title = "Every element, once"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/elements"
+byline = "Pat Writer"
+date_medium = "Oct 19, 2026"
+body = '''<p>Plain paragraph with <strong>bold</strong>, <em>italic</em>, <del>deleted</del>, H<sub>2</sub>O, x<sup>2</sup>, <abbr title="HyperText Markup Language">HTML</abbr>, <kbd>⌘K</kbd>, <small>small print</small> and <mark>highlighted</mark> text.</p>
+<h2>Second-level heading</h2>
+<h3>Third-level heading</h3>
+<h4>Fourth-level heading</h4>
+<h5>Fifth-level heading</h5>
+<h6>Sixth-level heading</h6>
+<ul><li>First bullet with enough text to wrap onto a second line so the indent and spacing show clearly in the preview</li><li>Second bullet<ul><li>Nested bullet</li><li>Another nested bullet</li></ul></li><li><p>A bullet holding a paragraph.</p><p>And a second paragraph inside it.</p></li></ul>
+<ol><li>First step</li><li>Second step</li><li>Third step</li></ol>
+<dl><dt>Term</dt><dd>Definition of the term, indented.</dd></dl>
+<hr>
+<p class="has-small-font-size">Small caption-style paragraph in the WordPress manner.</p>
+<p><br></p>
+<details><summary>Click to expand</summary><p>Hidden content.</p></details>
+<table><caption>Table caption</caption><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td>One</td><td>1</td></tr><tr><td>Two</td><td>2</td></tr></tbody></table>
+<pre><code>let x = 1
+print(x)</code></pre>
+<p>Last paragraph after everything.</p>'''

@@ -1,0 +1,10 @@
+title = "Labels before code"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/code"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>So:</p><pre><code>/* Define the locations */
+@location --contact-page {
+  pathname: ("/contact");
+}</code></pre><p>Another label:</p><blockquote><p>A quoted line that follows a short label paragraph.</p></blockquote><p>An ordinary paragraph that is not a label, long enough to be a real sentence of body text on its own line.</p><pre><code>let x = 1</code></pre>'''

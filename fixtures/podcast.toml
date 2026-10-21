@@ -1,0 +1,8 @@
+title = "(Podcast) Clockwise 678: Sliced by the Bleeding Edge"
+feed_link_title = "Six Colors"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/podcast"
+byline = "Six Colors Podcasts"
+date_medium = "Oct 20, 2026"
+body = '''<p>Our thoughts on the new HomeView and its confusing pricing, whether we are using AI agents, how we feel about passkeys, and if we would ever use an Apple Pencil with an iPhone Fold.</p>
+<p>A second paragraph so the fixture reads as a real article for the readability check, with enough words in it.</p>'''

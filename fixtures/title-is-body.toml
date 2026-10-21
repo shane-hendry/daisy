@@ -1,0 +1,7 @@
+title = "Thinking about how a short note can be its own title and its own body"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/note"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>Thinking about how a short note can be its own title and its own body</p>'''

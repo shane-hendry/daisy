@@ -1,0 +1,31 @@
+# nnw-theme-stub: screenshot v2
+name: Refresh marketplace screenshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      fixture:
+        description: Fixture to capture (article, kitchen-sink, or a fixtures/*.toml name)
+        type: string
+        default: article
+      appearance:
+        description: Appearance to capture
+        type: choice
+        options: [light, dark]
+        default: light
+      card:
+        description: Capture the marketplace card's shape instead of the full page
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  screenshot:
+    uses: dave-atx/nnw-theme/.github/workflows/theme-screenshot.yml@v2
+    with:
+      fixture: ${{ inputs.fixture }}
+      appearance: ${{ inputs.appearance }}
+      card: ${{ inputs.card }}

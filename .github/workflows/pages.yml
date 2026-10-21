@@ -1,0 +1,24 @@
+# nnw-theme-stub: pages v2
+# Publishes the checked preview gallery when Pages builds from GitHub Actions.
+name: Publish preview pages
+
+on:
+  workflow_run:
+    workflows: [Theme checks]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+# One group per branch or tag: a tag pushed with main triggers a second run, which
+# skips its deploy and must not cancel main's.
+concurrency:
+  group: pages-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
+jobs:
+  pages:
+    uses: dave-atx/nnw-theme/.github/workflows/theme-pages.yml@v2

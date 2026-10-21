@@ -1,0 +1,8 @@
+title = "App Report: Apps worth grabbing"
+feed_link_title = "Six Colors"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/app-report"
+byline = "Philip Michaels"
+date_medium = "Oct 20, 2026"
+body = '''<p>Our thoughts on the new HomeView and its confusing pricing, whether we are using AI agents, how we feel about passkeys, and if we would ever use an Apple Pencil with an iPhone Fold.</p>
+<p>A second paragraph so the fixture reads as a real article for the readability check, with enough words in it.</p>'''

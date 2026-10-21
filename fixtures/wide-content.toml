@@ -1,0 +1,14 @@
+title = "Content that is too wide"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/wide"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>An ordinary paragraph first, so the fixture reads as a real article. Below are elements that ask for more width than the screen has.</p>
+<div style="width: 1100px; background: #eee">A div with a fixed width of 1100 pixels.</div>
+<img src="https://example.org/huge.jpg" width="2400" height="1200" style="width: 1800px">
+<p style="width: 1000px">A paragraph with a fixed width of a thousand pixels that should never make the page scroll sideways.</p>
+<pre><code>this is one very long line of code that goes on and on and on and on and on and on and on and on and on and on</code></pre>
+<p>https://example.org/a/very/long/address/with/no/spaces/or/breaks/that/keeps/going/and/going/and/going/forever/and/ever</p>
+<table style="width: 1200px"><tr><td>Wide</td><td>table</td><td>with</td><td>a</td><td>fixed</td><td>width</td></tr></table>
+<p>The last paragraph.</p>'''

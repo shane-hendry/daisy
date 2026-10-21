@@ -1,0 +1,11 @@
+title = "A post whose external link is its own address"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://www.example.org/posts/self-link/"
+byline = "Pat Writer"
+external_link = "http://example.org/posts/self-link"
+external_link_label = "Link:"
+external_link_stripped = "example.org/posts/self-link"
+date_medium = "Oct 20, 2026"
+body = '''<p>Some feeds put the article's own address in the external link field, which would make the Link row repeat the title's destination. The theme hides the row in that case, comparing the two addresses without their scheme, www prefix or trailing slash.</p>
+<p>A second paragraph keeps the readability check satisfied and gives the preview something to show under the title.</p>'''

@@ -1,0 +1,5 @@
+feed_link_title = "@gruber.foo - John Gruber"
+feed_link = "https://bsky.app/profile/bsky.app"
+preferred_link = "https://bsky.app/profile/bsky.app/post/3myaytlknus25"
+date_medium = "Oct 19, 2026"
+body = '''<p>if you remember none pizza with left beef, it is time to start taking a daily multivitamin and to drink some water too, since the joke needs a long enough post to count.</p><p>A second short paragraph so the readability check treats this as a real article.</p>'''

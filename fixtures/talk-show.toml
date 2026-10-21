@@ -1,0 +1,15 @@
+title = "The Talk Show: ‘I’m Thinking X, Not X’"
+feed_link_title = "Daring Fireball"
+feed_link = "https://daringfireball.net/"
+preferred_link = "https://daringfireball.net/linked/2026/09/26/the-talk-show-455"
+byline = "John Gruber"
+external_link = "https://daringfireball.net/thetalkshow/2026/09/25/ep-455"
+external_link_label = "Link:"
+external_link_stripped = "daringfireball.net/thetalkshow/2026/09/25/ep-455"
+date_medium = "Sep 26, 2026"
+body = '''<p>Andru Edwards returns to the show to discuss Apple's big September event and their new products: the iPhones 18 Pro and Duo, AirPods 5, and Apple Watch Series 12/Ultra 4.</p>
+<p><strong>Sponsored by:</strong></p>
+<ul>
+<li><a href="https://example.org/factor">Factor</a>: Healthy eating, made easy. Get 50% off and one free breakfast item per box for one year, while supplies last, with code <strong>talkshow50off</strong>.</li>
+<li><a href="https://example.org/notion">Notion</a>: The collaborative AI workspace where teams and agents work side by side, with a developer platform teams can build on.</li>
+</ul>'''

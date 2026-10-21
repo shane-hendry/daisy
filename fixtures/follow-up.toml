@@ -1,0 +1,11 @@
+title = "From the archive: should a CEO be a nerd about their company's products?"
+feed_link_title = "Daring Fireball"
+feed_link = "https://daringfireball.net/"
+preferred_link = "https://daringfireball.net/linked/2026/10/20/ceo-archive"
+byline = "John Gruber"
+external_link = "https://www.daringfireball.net/2022/10/ceos-and-product-nerds-a-long-address"
+external_link_label = "Link:"
+external_link_stripped = "www.daringfireball.net/2022/10/ceos-and-product-nerds-a-long-address"
+date_medium = "Oct 20, 2026"
+body = '''<p>Back in 2022 I wrote about whether a chief executive should be a nerd about the products the company makes, and the question has aged well.</p>
+<p>A second paragraph so the readability check treats this fixture as a real article, with enough words to count as one.</p>'''
