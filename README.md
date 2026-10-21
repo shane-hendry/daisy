@@ -22,10 +22,9 @@ Both themes share one stylesheet and differ only in typeface. They're typeset an
 Favorite writers and bloggers also get extra special treatment in both:
 
 - Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts
-- Reformats podcast and sponsor labels from [Daring Fireball](https://daringfireball.net), [Six Colors](https://sixcolors.com), and more
-- Reformats "issue" numbers for feeds like [Snake](https://snake.substack.com)
+- Simplifies sponsor, podcast, and issue-number prefixes in titles from [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more
 - Treats [Daring Fireball's](https://daringfireball.net) linking conventions uniquely, forgive me John
-- Cleans up funky Squarespace and wordpress stuff
+- Cleans up funky Squarespace and Wordpress stuff
 
 ## Install
 
