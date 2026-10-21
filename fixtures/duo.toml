@@ -1,0 +1,20 @@
+title = "How We Got Duo Support in NetNewsWire"
+feed_link_title = "NetNewsWire"
+feed_link = "https://netnewswire.blog/"
+preferred_link = "https://netnewswire.blog/2026/10/16/how-we-got-duo-support.html"
+byline = ""
+date_medium = "5 days ago"
+body = '''<p>The <a href="https://netnewswire.blog/2026/10/16/netnewswire-for-ios-unread-count.html">latest version</a> of NetNewsWire for iOS supports iPhone Duo, which is very much a novel iPhone with toolbars running up the side and all kinds of behavior.</p>
+
+<p>How we did it: we didn’t do any work at all. We built the app using Xcode 27.1 and the default iOS SDK that comes with it, and that’s it.</p>
+
+<p>Here’s the thing, though: we were already using standard controls — toolbars, navigation controllers, split views, etc. — and we were paying attention to size classes and such (as opposed to just looking at device type).</p>
+
+<p>There is a good list of reasons to use standard controls in the standard ways, and near the top of that list is to be ready for these kinds of days, so we’re not bogged down for a month or more trying to adapt to big changes like this.</p>
+
+<p>Here’s a secret: Brent didn’t even run this in the Duo simulator before releasing it. We were ready to <em>not</em> claim Duo support and just handle Duo in the next release. But here it is.</p>
+
+<p>PS Of course there may be edge cases and issues in our Duo support we haven’t caught yet. We stand by, as always, ready to field and fix bugs.</p>
+
+<p>PPS Thank you to all the engineers, designers, and testers at Apple who made this work so easily! Again, we didn’t do anything but build with the new SDK. Their achievement is pretty remarkable.</p>
+'''
