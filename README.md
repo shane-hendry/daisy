@@ -11,7 +11,7 @@ Two NetNewsWire themes by [Shane Hendry](https://shanehendry.com), one design in
 
 ## The words to all the work
 
-Both themes share one stylesheet and differ only in typeface. They're typeset and designed with extra attention to the little things:
+The themes are typeset and designed with extra attention to the little things:
 
 - Simple, consistent attribution: "John Siracusa for Hypercritical"
 - Relative times: "2 hours ago", "Yesterday"
@@ -19,10 +19,10 @@ Both themes share one stylesheet and differ only in typeface. They're typeset an
 - Link deduplication
 - Support for 30+ languages and XXXXXL font sizes
 
-Favorite writers and bloggers also get extra special treatment in both:
+Daisy's favorite writers get special treatment:
 
-- Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts
-- Simplifies sponsor, podcast, and issue-number prefixes in titles from [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more
+- Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts from Mastodon and Bluesky
+- Simplifies sponsor, podcast, and issue-numbers in titles from [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more
 - Treats [Daring Fireball's](https://daringfireball.net) linking conventions uniquely, forgive me John
 - Cleans up funky Squarespace and Wordpress stuff
 
