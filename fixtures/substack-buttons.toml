@@ -1,0 +1,12 @@
+title = "Substack image buttons and look-alikes"
+feed_link_title = "Example Newsletter"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/post"
+byline = "Pat Writer"
+date_medium = "Oct 21, 2026"
+body = '''<p>A Substack image sits in its own wrapper. Its restack and expand buttons must not show, because nothing here can make them work.</p>
+<div class="captioned-image-container"><figure><a class="image-link image2 is-viewable-img" target="_blank" href="https://example.org/image.png"><div class="image2-inset"><picture><img src="https://example.org/image.png" width="1456" height="1048" class="sizing-normal" alt=""></picture><div class="image-link-expand"><div class="pencraft pc-display-flex pc-gap-8 pc-reset"><button tabindex="0" type="button" class="pencraft pc-reset pencraft icon-container restack-image buttonBase-GK1x3M">Restack</button><button tabindex="0" type="button" class="pencraft pc-reset pencraft icon-container view-image buttonBase-GK1x3M">Expand</button></div></div></div></a></figure></div>
+<p>The next two blocks only look similar. They are not inside Substack's image box, so they must stay visible.</p>
+<div class="image-link-expand"><button type="button" class="restack-image">Look-alike outside the image box</button></div>
+<div class="image2-inset"><p>Text in a box with the same class name, which must stay visible.</p></div>
+<p>The last paragraph checks the space after the image.</p>'''
