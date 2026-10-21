@@ -898,20 +898,20 @@ a.footnote {
    A "Footnotes" heading, no indent, no list numbers, and each note headed
    "Footnote 1", which links back to its line in the article. The original return
    arrows are hidden. template.html builds the heading and the labels. Sample
-   articles: fixtures/footnotes.toml, footnotes-emoji.toml. */
+   articles: fixtures/footnotes.toml, footnotes-emoji.toml, wordpress.toml (the
+   WordPress block editor's own list, .wp-block-footnotes). */
 
-.footnotes ol,
-.footnotes ul {
+:is(.footnotes ol, .footnotes ul, ol.wp-block-footnotes, ul.wp-block-footnotes) {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.footnotes li {
+:is(.footnotes, .wp-block-footnotes) li {
   margin-block: var(--space-medium);
 }
 
-.footnotes li:first-child {
+:is(.footnotes, .wp-block-footnotes) li:first-child {
   margin-top: 0;
 }
 
@@ -941,9 +941,9 @@ hr + .footnotes-title {
   display: none;
 }
 
-.footnotes .footnoteBackLink,
-.footnotes .reversefootnote,
-.footnotes .footnote-return:not(.footnote-label) {
+:is(.footnotes, .wp-block-footnotes) .footnoteBackLink,
+:is(.footnotes, .wp-block-footnotes) .reversefootnote,
+:is(.footnotes, .wp-block-footnotes) .footnote-return:not(.footnote-label) {
   display: none;
 }
 
@@ -1126,7 +1126,9 @@ details > p {
   margin-block: calc(var(--space-medium) / 2);
 }
 
-details > summary {
+/* Closed, the bar must run the whole height of the label, so it is trimmed only once
+   there is revealed text below it to measure the gap to. */
+details[open] > summary {
   text-box-trim: trim-end;
   text-box-edge: cap alphabetic;
 }
@@ -1409,7 +1411,7 @@ details > :last-child {
     top: 0;
   }
 
-  .article .footnotes li:first-child {
+  .article :is(.footnotes, .wp-block-footnotes) li:first-child {
     margin-top: 0;
   }
 

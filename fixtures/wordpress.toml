@@ -1,0 +1,84 @@
+# nnw-theme catalog fixture: wordpress (catalog version 1)
+# Markup: WordPress 6 block and classic editor output, as sent in WordPress RSS
+# content:encoded, captured 2026-08 and 2026-09.
+# Text and links are synthetic; the structure, classes and attributes are real.
+# Exercises: wp-block-image with an inline pixel width wider than the image,
+#   alignwide / alignfull, wp-element-caption, a gallery, pullquote, table, and embed
+#   figures; classic wp-caption with an inline width, alignleft / alignright floats, and
+#   an inline-styled float beside a paragraph; a <picture> ad; footnotes from WordPress
+#   core, Jetpack and Modern Footnotes; the "appeared first on" feed footer.
+# NetNewsWire's own scripts turn only the Jetpack markers into popovers; a theme script
+# can handle the others, and check then tests each popover.
+# Refresh: npx nnw-theme@2 fixture add wordpress --force
+
+byline = 'Priya Castellanos'
+date_long = 'September 22, 2026'
+date_medium = 'Sep 22, 2026'
+date_short = '9/22/26'
+dateline_style = 'articleDateline'
+datetime_long = 'September 22, 2026 at 6:45:00 AM'
+datetime_medium = 'Sep 22, 2026 at 6:45 AM'
+datetime_short = '9/22/26, 6:45 AM'
+feed_link = 'https://example.org/'
+feed_link_title = 'Gulf Coast Weather Desk'
+preferred_link = 'https://example.org/2026/09/22/one-more-hot-week-then-a-front/'
+time_long = '6:45:00 AM CDT'
+time_medium = '6:45:00 AM'
+time_short = '6:45 AM'
+title = 'One more hot week, then a front with some modest hope behind it'
+body = '''
+<p>Good morning. We are in the last stretch of the hot season, and the week ahead looks like it knows it. Expect highs in the middle 90s through Thursday before a weak front offers some relief this weekend.<sup data-fn="5f2c1a7e-3b4d-4e8f-9a60-1c2d3e4f5a6b" class="fn"><a href="#5f2c1a7e-3b4d-4e8f-9a60-1c2d3e4f5a6b" id="5f2c1a7e-3b4d-4e8f-9a60-1c2d3e4f5a6b-link">1</a></sup></p>
+
+<figure class="wp-block-image size-full is-resized"><img fetchpriority="high" decoding="async" width="830" height="342" src="https://example.org/wp-content/uploads/2026/09/forecast-week.png" alt="" class="wp-image-59086" style="width:869px;height:auto" srcset="https://example.org/wp-content/uploads/2026/09/forecast-week.png 830w, https://example.org/wp-content/uploads/2026/09/forecast-week-300x124.png 300w, https://example.org/wp-content/uploads/2026/09/forecast-week-767x316.png 767w" sizes="(max-width: 830px) 100vw, 830px" /><figcaption class="wp-element-caption">The middle of this week will be hot and mostly dry. (Forecast model)</figcaption></figure>
+
+<h2 class="wp-block-heading">Monday</h2>
+
+<p>Another hot and mostly sunny day, with highs of 94 to 97 degrees. Rain chances are near zero, and winds will be light out of the southwest.<sup id="fnref-59090-1"><a href="#fn-59090-1" class="jetpack-footnote" title="Southwest winds keep the sea breeze from reaching inland neighborhoods.">2</a></sup></p>
+
+<figure class="wp-block-image alignwide size-large"><img decoding="async" width="1024" height="576" src="https://example.org/wp-content/uploads/2026/09/radar-1024x576.png" alt="Radar loop over the coast" class="wp-image-59085" srcset="https://example.org/wp-content/uploads/2026/09/radar-1024x576.png 1024w, https://example.org/wp-content/uploads/2026/09/radar-300x169.png 300w, https://example.org/wp-content/uploads/2026/09/radar-1536x864.png 1536w, https://example.org/wp-content/uploads/2026/09/radar.png 1920w" sizes="(max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption">A wide image: the radar is quiet, for now.</figcaption></figure>
+
+<figure class="wp-block-image alignfull size-full"><img decoding="async" width="2560" height="720" src="https://example.org/wp-content/uploads/2026/09/skyline-scaled.jpg" alt="" class="wp-image-59084" srcset="https://example.org/wp-content/uploads/2026/09/skyline-scaled.jpg 2560w, https://example.org/wp-content/uploads/2026/09/skyline-300x84.jpg 300w, https://example.org/wp-content/uploads/2026/09/skyline-1024x288.jpg 1024w" sizes="(max-width: 2560px) 100vw, 2560px" /></figure>
+
+<h2 class="wp-block-heading">Tuesday through Thursday</h2>
+
+<p>More of the same. The overnight lows are the real story: they will barely drop below 80 near the coast, which gives the air conditioning no break.<sup class="modern-footnotes-footnote " data-mfn="3" data-mfn-post-scope="000000000000059090_3"><a href="javascript:void(0)" role="button" aria-pressed="false" aria-describedby="mfn-content-000000000000059090_3-3">3</a></sup><span id="mfn-content-000000000000059090_3-3" role="tooltip" class="modern-footnotes-footnote__note" tabindex="0" data-mfn="3">Lows in the 80s are about ten degrees above the long-term normal for late September.</span></p>
+
+<figure class="wp-block-table"><table class="has-fixed-layout"><thead><tr><th>Day</th><th>High</th><th>Low</th><th>Rain chance</th></tr></thead><tbody><tr><td>Tuesday</td><td>96°</td><td>80°</td><td>0%</td></tr><tr><td>Wednesday</td><td>97°</td><td>81°</td><td>10%</td></tr><tr><td>Thursday</td><td>95°</td><td>79°</td><td>20%</td></tr></tbody></table><figcaption class="wp-element-caption">The week ahead, at the airport station.</figcaption></figure>
+
+<figure class="wp-block-pullquote"><blockquote><p>The front will not be dramatic. It will simply be the first one of the season that makes it all the way here.</p><cite>Forecast discussion, Monday morning</cite></blockquote></figure>
+
+<figure class="wp-block-gallery has-nested-images columns-default is-cropped wp-block-gallery-1 is-layout-flex wp-block-gallery-is-layout-flex">
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" data-id="59081" src="https://example.org/wp-content/uploads/2026/09/clouds-1-1024x768.jpg" alt="" class="wp-image-59081" srcset="https://example.org/wp-content/uploads/2026/09/clouds-1-1024x768.jpg 1024w, https://example.org/wp-content/uploads/2026/09/clouds-1-300x225.jpg 300w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="768" height="1024" data-id="59082" src="https://example.org/wp-content/uploads/2026/09/clouds-2-768x1024.jpg" alt="" class="wp-image-59082" srcset="https://example.org/wp-content/uploads/2026/09/clouds-2-768x1024.jpg 768w, https://example.org/wp-content/uploads/2026/09/clouds-2-225x300.jpg 225w" sizes="auto, (max-width: 768px) 100vw, 768px" /></figure>
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="683" data-id="59083" src="https://example.org/wp-content/uploads/2026/09/clouds-3-1024x683.jpg" alt="" class="wp-image-59083" srcset="https://example.org/wp-content/uploads/2026/09/clouds-3-1024x683.jpg 1024w, https://example.org/wp-content/uploads/2026/09/clouds-3-300x200.jpg 300w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<figcaption class="blocks-gallery-caption wp-element-caption">Reader photos of last week’s afternoon clouds.</figcaption></figure>
+
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+<iframe loading="lazy" title="How a cold front forms" width="640" height="360" src="https://example.org/embed/cold-front?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div></figure>
+
+<h2 class="wp-block-heading">The weekend</h2>
+
+<div id="attachment_59070" style="width: 1034px" class="wp-caption aligncenter"><img aria-describedby="caption-attachment-59070" decoding="async" loading="lazy" class="size-large wp-image-59070" src="https://example.org/wp-content/uploads/2026/09/rain-chances-1024x696.png" alt="" width="1024" height="696" srcset="https://example.org/wp-content/uploads/2026/09/rain-chances-1024x696.png 1024w, https://example.org/wp-content/uploads/2026/09/rain-chances-300x204.png 300w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><p id="caption-attachment-59070" class="wp-caption-text">A classic-editor caption: its inline width is 10 pixels wider than the image.</p></div>
+
+<p><img loading="lazy" decoding="async" class="alignright size-medium wp-image-59071" src="https://example.org/wp-content/uploads/2026/09/thermometer-300x200.jpg" alt="" width="300" height="200" />The front should arrive Saturday evening and bring rain chances up to about 30 percent. Behind it, lows fall into the upper 60s for the first time since May. This paragraph wraps beside an image floated right by the classic editor, and it goes on long enough to run past the bottom of the image on a wide window.</p>
+
+<p><img loading="lazy" decoding="async" class="alignleft size-thumbnail wp-image-59072" src="https://example.org/wp-content/uploads/2026/09/umbrella-150x150.jpg" alt="" width="150" height="150" />A shorter paragraph beside a left-floated thumbnail.</p>
+
+<figure style="float:left; margin: 0 1.5em 1em 0;"><img width="96" height="96" src="https://example.org/wp-content/uploads/2026/03/station-icon-128x128.png" class="type:primaryImage wp-post-image" alt="Station icon" decoding="async" /></figure><p>A feed that floats a small icon in an inline-styled figure, followed by a real paragraph, which must wrap under the icon rather than run down beside it as a narrow column. After the front, the forecast settles into dry, mild days with highs near 85 and clear nights. It is the kind of weather this region waits all summer for, and it should last at least through the middle of next week.</p>
+
+<p style="margin-top: 3em"><a href="https://example.org/sponsor/"><picture><source srcset="https://example.org/wp-content/uploads/2026/05/sponsor-640x200.png" media="(max-width: 600px)" type="image/png"><img src="https://example.org/wp-content/uploads/2026/05/sponsor-1456x180.png" srcset="https://example.org/wp-content/uploads/2026/05/sponsor-1456x180.png 1456w, https://example.org/wp-content/uploads/2026/05/sponsor-1456x180-640x79.png 640w" alt="Sponsored by a local generator installer"></picture></a></p>
+
+<ol class="wp-block-footnotes"><li id="5f2c1a7e-3b4d-4e8f-9a60-1c2d3e4f5a6b">The front is the first of the season to reach the coast; earlier ones stalled well inland. <a href="#5f2c1a7e-3b4d-4e8f-9a60-1c2d3e4f5a6b-link" aria-label="Jump to footnote reference 1">↩︎</a></li></ol>
+
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn-59090-1">
+Southwest winds keep the sea breeze from reaching inland neighborhoods.&#160;<a href="#fnref-59090-1">&#8617;</a>
+</li>
+</ol>
+</div>
+<p>The post <a href="https://example.org/2026/09/22/one-more-hot-week-then-a-front/">One more hot week, then a front with some modest hope behind it</a> appeared first on <a href="https://example.org">Gulf Coast Weather Desk</a>.</p>'''

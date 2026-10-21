@@ -146,12 +146,12 @@ Presentation:
         var links = document.querySelectorAll("a[href*='#']");
         for (var i = 0; i < links.length; i++) {
           var a = links[i];
-          if (a.closest(".footnotes") || !a.hash) continue;
+          if (a.closest(".footnotes, .wp-block-footnotes") || !a.hash) continue;
           if (decodeURIComponent(a.hash.slice(1)) === id) return a;
         }
         return null;
       }
-      document.querySelectorAll(".footnotes li[id]").forEach(function (li, index) {
+      document.querySelectorAll(".footnotes li[id], .wp-block-footnotes li[id]").forEach(function (li, index) {
         var marker = referenceFor(li.id);
         if (!marker) return;
         var anchor = marker.closest("sup") || marker;
@@ -160,7 +160,7 @@ Presentation:
         if (!anchor.id && !marker.id) anchor.id = "daisy-fnref-" + (index + 1);
         var refId = anchor.id || marker.id;
         var guess = li.id.replace(/^fn/, "fnref");
-        var holder = li.closest(".footnotes");
+        var holder = li.closest(".footnotes, .wp-block-footnotes");
         if (headed.indexOf(holder) < 0) {
           headed.push(holder);
           var list = li.closest("ol, ul");
@@ -199,7 +199,7 @@ Presentation:
     // emoji glyph alone, or a link to a spot that isn't in the article. The "Footnote 1"
     // header does that job, so they're hidden.
     (function () {
-      document.querySelectorAll(".footnotes li a[href*='#']").forEach(function (a) {
+      document.querySelectorAll(".footnotes li a[href*='#'], .wp-block-footnotes li a[href*='#']").forEach(function (a) {
         if (a.classList.contains("footnote-label") || !a.hash) return;
         var glyph = /^[\s\u2190-\u21ff\u2934\u2935\u2b05-\u2b07\u23ce\ufe0e\ufe0f\u{1f519}\u{1f51d}]+$/u.test(a.textContent);
         var title = /return|back/i.test(a.getAttribute("title") || "");
