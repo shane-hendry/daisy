@@ -1,12 +1,15 @@
 <!-- nnw-theme-identity:start -->
-# Daisy
+# Daisy and Daisy Sans
 
-A NetNewsWire theme by [Shane Hendry](https://shanehendry.com). Also try [Daisy Sans](https://github.com/shane-hendry/daisy-sans).
+Two NetNewsWire themes by [Shane Hendry](https://shanehendry.com), one design in two typefaces:
+
+- **Daisy** is set in New York, Apple's serif, like a fine leather-bound book.
+- **Daisy Sans** is the same theme in the system sans-serif, SF Pro.
 <!-- nnw-theme-identity:end -->
 
 ## The words to all the work
 
-Typeset and designed like a fine leather-bound book, with extra attention to the little things:
+Both themes share one stylesheet and differ only in typeface. They are typeset and designed with extra attention to the little things:
 
 - Simple, consistent attribution: "John Siracusa for Hypercritical"
 - Relative times: "2 hours ago", "Yesterday"
@@ -14,7 +17,7 @@ Typeset and designed like a fine leather-bound book, with extra attention to the
 - Link deduplication
 - Support for 30+ languages and XXXXXL font sizes
 
-Daisy's favorite writers and bloggers also get extra special treatment:
+Favorite writers and bloggers also get extra special treatment in both:
 
 - Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts
 - Formats podcast and sponsor posts cleanly from [Daring Fireball](https://daringfireball.net), [Six Colors](https://sixcolors.com), and more
@@ -23,14 +26,14 @@ Daisy's favorite writers and bloggers also get extra special treatment:
 
 ## Install
 
-1. Download `Daisy.nnwtheme.zip` from the
-   [latest release](https://github.com/shane-hendry/daisy/releases/latest), then open it.
-2. On your mac, drag Daisy.nnwtheme onto NetNewsWire. On iPhone and iPad, save the file to Files, then open NNW, go to **Settings → Theme → +**, and select Daisy.nnwtheme.   
-3. Select **Daisy** in the list of themes.
+1. Download `Daisy.nnwtheme.zip`, `Daisy Sans.nnwtheme.zip`, or both from the
+   [latest release](https://github.com/shane-hendry/daisy/releases/latest), then open each one.
+2. On your Mac, drag the `.nnwtheme` file onto NetNewsWire. On iPhone and iPad, save the file to Files, then open NNW, go to **Settings → Theme → +**, and select it.
+3. Select **Daisy** or **Daisy Sans** in the list of themes.
 
-Themes don't sync between devices, so import it on everything you've got.
+Themes don't sync between devices, so import them on everything you've got.
 
-Huge thanks to [dave-atx](https://github.com/dave-atx). I built Daisy using [`dave-atx/netnewswire-theme-template`](https://github.com/dave-atx/netnewswire-theme-template)
+Huge thanks to [dave-atx](https://github.com/dave-atx). I built these themes using [`dave-atx/netnewswire-theme-template`](https://github.com/dave-atx/netnewswire-theme-template)
 with [`nnw-theme`](https://github.com/dave-atx/nnw-theme). This is an independent
 project and isn't affiliated with or endorsed by NetNewsWire. The theme format is
 documented in NetNewsWire's
@@ -38,6 +41,7 @@ documented in NetNewsWire's
 
 ## License
 
-The theme is released under the [Zero-Clause BSD license](Daisy.nnwtheme/LICENSE).
+Both themes are released under the Zero-Clause BSD license
+([Daisy](Daisy.nnwtheme/LICENSE), [Daisy Sans](Daisy-Sans/Daisy%20Sans.nnwtheme/LICENSE)).
 The repository's template files and tooling configuration are Apache-2.0
 ([LICENSE](LICENSE)).
