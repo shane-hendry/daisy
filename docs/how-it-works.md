@@ -75,7 +75,7 @@ The spacing and type styles are defined once, at the top of `stylesheet.css`, an
 **Spacing**
 - **`--space-small`**: the tight gap between a label and what it labels, measured from the letters like `--space-large`: the sponsor label and the title, the title and the link below it, and an expandable block's label and its text.
 - **`--space-medium`**: the gap between paragraphs. Also the space above and below the rule before the footnotes.
-- **`--space-large`**: the title gap. Above and below the title (or the credit row of an untitled post), and above the "View original" link.
+- **`--space-large`**: the title gap. Below the title block (or the credit row of an untitled post), and above the "View original" link. Above the title block it is 8% less, because space above a heading looks bigger than the same space below it.
 - **`--indent`**: the space between the left bar and the text of a block quote or a footnote.
 
 **Type**
