@@ -66,3 +66,24 @@ quote bar and the position of the date.
   calendar the normal date is shown instead. The language follows your device, not
   the article.
 - **Screen readers.** Daisy hasn't been tested with VoiceOver yet.
+
+## Style names
+
+The spacing and type styles are defined once, at the top of `stylesheet.css`, and reused everywhere. Change a value in one place and every area that uses it moves together.
+
+**Spacing**
+- **`--space-small`**: the tight gap between a label and what it labels: the sponsor label and the title, the title and the link below it, and a footnote's "Footnote 1" label and its text.
+- **`--space-medium`**: the gap between paragraphs. Also the space above and below the rule before the footnotes.
+- **`--space-large`**: the title gap. Above and below the title (or the credit row of an untitled post), and above the "View original" link.
+- **`--indent`**: the space between the left bar and the text of a block quote or a footnote.
+
+**Type**
+- **Size**: `--text-small` (captions, code, tables, small print, h5 and h6) and `--text-medium` (body text and everything else). The title and headings keep their own sizes: `--text-h1`, `--text-h2`, `--text-h3`.
+- **Weight**: `--weight-regular`, `--weight-medium` (headings, labels, buttons), `--weight-bold`.
+- **Line height**: `--leading-body`, `--leading-tight` (headings), `--leading-compact` (tables, code, footnote popovers).
+- **Letter spacing**: `--tracking-body`, `--tracking-heading`.
+- **Lines**: `--line-thin` is the thickness of underlines and thin borders, and `--link-offset` is how far an underline sits below its text.
+
+Links come in two kinds. A link inside the article is underlined and turns orange on hover. A quiet link (the credit, the link line under the title, the sponsor label, "View original") has no underline.
+
+At accessibility text sizes the medium and large gaps, the indent and the body line height shrink.
