@@ -25,7 +25,7 @@ Favorite writers and bloggers also get extra special treatment in both:
 - Reformats podcast and sponsor labels from [Daring Fireball](https://daringfireball.net), [Six Colors](https://sixcolors.com), and more
 - Reformats "issue" numbers for feeds like [Snake](https://snake.substack.com)
 - Treats [Daring Fireball's](https://daringfireball.net) self-linking posts uniquely, forgive me John
-- Cleans up funky Squarespace stuff
+- Cleans up funky Squarespace and wordpress stuff
 
 ## Install
 
