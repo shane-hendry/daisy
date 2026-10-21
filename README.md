@@ -24,7 +24,7 @@ Favorite writers and bloggers also get extra special treatment in both:
 - Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts
 - Reformats podcast and sponsor labels from [Daring Fireball](https://daringfireball.net), [Six Colors](https://sixcolors.com), and more
 - Reformats "issue" numbers for feeds like [Snake](https://snake.substack.com)
-- Treats [Daring Fireball's](https://daringfireball.net) self-linking posts uniquely, forgive me John
+- Treats [Daring Fireball's](https://daringfireball.net) linking conventions uniquely, forgive me John
 - Cleans up funky Squarespace and wordpress stuff
 
 ## Install
