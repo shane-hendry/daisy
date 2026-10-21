@@ -614,9 +614,10 @@ Presentation:
         row.classList.add("same-page");
       }
     })();
-    // Show the link's domain without a leading "www.".
+    // Show the link without a leading "www." or a trailing slash. Only the display
+    // changes; the link itself is untouched.
     document.querySelectorAll(".external-link-url").forEach(function (span) {
-      span.textContent = span.textContent.replace(/^www\./i, "");
+      span.textContent = span.textContent.replace(/^www\./i, "").replace(/\/$/, "");
     });
     // Category tags in headlines move to a small line above the title (the eyebrow):
     // "(Podcast) Title", "[Update] Title", and the known series and sponsor forms
