@@ -305,14 +305,14 @@ Presentation:
       }
     });
     // A leading non-breaking space (an editor's way of indenting) would shift the first line.
-    document.querySelectorAll(".articleBody p").forEach(function (p) {
+    document.querySelectorAll(".articleBody p, .articleBody div").forEach(function (p) {
       var first = p.firstChild;
       if (first && first.nodeType === 3) first.nodeValue = first.nodeValue.replace(/^[\s\u00a0]+/, "");
     });
-    // A paragraph holding an image and text (a caption written into the same paragraph)
+    // A paragraph or div holding an image and text (a caption written into the same block)
     // is tagged for the stylesheet. Non-breaking spaces and blanks around the image are
     // removed first, since they would indent the first line.
-    document.querySelectorAll(".articleBody p").forEach(function (p) {
+    document.querySelectorAll(".articleBody p, .articleBody div").forEach(function (p) {
       var kids = Array.prototype.slice.call(p.childNodes);
       var isMedia = function (n) {
         return n && n.nodeType === 1 &&
@@ -329,6 +329,9 @@ Presentation:
       rest.querySelectorAll("img").forEach(function (img) { img.remove(); });
       if (!rest.textContent.replace(/[\s\u00a0]+/g, "")) return;
       p.classList.add("image-text");
+      Array.prototype.forEach.call(p.childNodes, function (n) {
+        if (isMedia(n) && n.previousSibling && !isMedia(n.previousSibling)) n.classList.add("after-text");
+      });
       if (isMedia(p.firstChild)) p.classList.add("media-first");
       if (isMedia(p.lastChild)) p.classList.add("media-last");
     });
@@ -740,7 +743,7 @@ Presentation:
       }
     })();
     // Progressive enhancement: un-italicize paragraphs that are one big <em>/<i>.
-    document.querySelectorAll(".articleBody p").forEach(function (p) {
+    document.querySelectorAll(".articleBody p, .articleBody div").forEach(function (p) {
       var kids = p.children;
       if (kids.length === 1 && /^(EM|I)$/.test(kids[0].tagName) &&
           kids[0].textContent.trim() === p.textContent.trim()) {

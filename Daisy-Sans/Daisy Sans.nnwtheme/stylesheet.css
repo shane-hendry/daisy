@@ -1173,7 +1173,7 @@ details > :last-child {
 /* --- 3.4 Images and text in one block ------------------------------------
    Blogger and similar editors put an image and its caption in the same paragraph, as
    <p><a style="margin: 0 1em"><img></a>caption</p>, and often centre it and pad it with
-   non-breaking spaces. template.html tags such paragraphs .image-text (plus
+   non-breaking spaces. template.html tags such paragraphs and divs .image-text (plus
    .media-first / .media-last when the image is at that end) and trims the padding.
    Here the image fills the column like any other, its link's own margins are dropped,
    the caption sits under it like a figcaption, and the paragraph keeps the same
@@ -1181,32 +1181,45 @@ details > :last-child {
    (Blogger's .separator) get the paragraph gap, or the caption gap when short and under
    an image-only div. Sample: fixtures/image-text.toml. */
 
-.articleBody p.image-text > :is(img, a:has(> img)) {
+.articleBody :is(p, div).image-text > :is(img, a:has(> img)) {
   display: block;
   margin: 0 0 0.5rem !important;
 }
 
-.articleBody p.image-text > :is(img, a:has(> img)) ~ :is(img, a:has(> img)) {
+.articleBody :is(p, div).image-text > :is(img, a:has(> img)) ~ :is(img, a:has(> img)) {
   margin-top: 2em !important;
 }
 
-.articleBody p.media-first {
+.articleBody :is(p, div).image-text > .after-text {
+  margin-top: 2em !important;
+}
+
+.articleBody :is(p, div).media-first {
   margin-top: 2em;
 }
 
-.articleBody p.media-last {
+.articleBody :is(p, div).media-last {
   margin-bottom: 2em;
 }
 
-.articleBody p.media-last > :is(img, a:has(> img)):last-child {
+/* A div that starts or ends with text is spaced like a paragraph there. */
+.articleBody > div.image-text:not(.media-first) {
+  margin-top: var(--space-medium);
+}
+
+.articleBody > div.image-text:not(.media-last) {
+  margin-bottom: var(--space-medium);
+}
+
+.articleBody :is(p, div).media-last > :is(img, a:has(> img)):last-child {
   margin-bottom: 0 !important;
 }
 
-.articleBody > p.media-first:first-child {
+.articleBody > :is(p, div).media-first:first-child {
   margin-top: calc(var(--space-large) + var(--lead-image-extra));
 }
 
-.untitled .articleBody > p.media-first:first-child {
+.untitled .articleBody > :is(p, div).media-first:first-child {
   margin-top: 2.95rem;
 }
 
@@ -1308,15 +1321,15 @@ details > :last-child {
     margin-bottom: 0.5rem;
   }
 
-  .article p.media-first {
+  .article :is(p, div).media-first {
     margin-top: 1.25em;
   }
 
-  .article p.media-last {
+  .article :is(p, div).media-last {
     margin-bottom: 1.25em;
   }
 
-  .article .articleBody > p.media-first:first-child {
+  .article .articleBody > :is(p, div).media-first:first-child {
     margin-top: 1.25em;
   }
 
