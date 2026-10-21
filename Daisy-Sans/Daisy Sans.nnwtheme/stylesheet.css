@@ -76,7 +76,7 @@
        --space-large   The "title gap": below the title block (the sponsor label,
                        title and link line) and below the credit row of an
                        untitled post, and above "View original". Above the title
-                       block it is 8% less (the space above a heading looks
+                       block it is 6% less (the space above a heading looks
                        bigger than the same space below it). Always
                        measured from the letters (see 2.1), so it looks the
                        same whatever starts the article.
@@ -699,14 +699,14 @@ caption {
 
 
 /* --- 2.2 The title ----------------------------------------------------
-   The big heading. It has 92% of --space-large above it; the link line below it has
+   The big heading. It has 94% of --space-large above it; the link line below it has
    the same gap (--space-small) as the sponsor label above it. */
 
 h1 {
   font-size: var(--text-h1);
   letter-spacing: -0.02em;
   line-height: 1.1;
-  margin: calc(var(--space-large) * 0.92) 0 0;
+  margin: calc(var(--space-large) * 0.94) 0 0;
   text-box: trim-both cap alphabetic;
   text-wrap: pretty;
 }
@@ -791,7 +791,7 @@ h1 a {
   align-items: baseline;
   display: flex;
   gap: 0 0.4em;
-  margin-top: calc(var(--space-large) * 0.92);
+  margin-top: calc(var(--space-large) * 0.94);
 }
 
 .eyebrow-label {
