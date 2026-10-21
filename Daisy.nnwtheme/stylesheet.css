@@ -680,7 +680,8 @@ a:focus-visible {
 
 /* Untitled posts (the title is only the start of the body): no title, and a
    "View original" line at the bottom replaces the title's link to the original. The
-   header margin keeps the same gap, measured from the letters, as titled posts. Like
+   header margin keeps the same gap, measured from the letters, as titled posts, and
+   the "View original" line sits the same distance below the article. Like
    the titled gaps it is deliberately larger than the gap between paragraphs, so the
    credit row reads as a header and not as another paragraph break. */
 .view-post {
@@ -689,7 +690,7 @@ a:focus-visible {
 
 .untitled .view-post {
   display: block;
-  margin-top: 1.5em;
+  margin-top: 3.11rem;
 }
 
 .view-post a {
@@ -982,7 +983,7 @@ body > .systemMessage {
   }
 
   .article.untitled .view-post {
-    margin-top: 1em;
+    margin-top: 1.75em;
   }
 
   /* Line spacing matches the title's, and the quote indent tightens to roughly the
