@@ -567,7 +567,10 @@ Presentation:
     // Category tags in headlines move to a small line above the title (the eyebrow):
     // "(Podcast) Title", "[Update] Title", and the known series and sponsor forms
     // "App Report: Title", "The Talk Show: Title" and "Sponsor: Title". A sponsor's name moves up with it:
-    // "(Sponsor) Name: Headline" becomes "Sponsor: Name" over "Headline".
+    // "(Sponsor) Name: Headline" becomes "Sponsor: Name" over "Headline". Numbered series
+    // move too, along with any words before the number: "OS 34: Headline", "Obs 149.5: Headline"
+    // and "Mostly free OS 32: Headline" become "OS 34", "Obs 149.5" and "Mostly free OS 32"
+    // over "Headline". Only the numbered series named in the list below move.
     document.querySelectorAll(".article-header h1 a").forEach(function (a) {
       var node = a.firstChild;
       if (!node || node.nodeType !== 3) return;
@@ -576,7 +579,20 @@ Presentation:
       var series = "app report|podcast|the talk show";
       var tagged = text.match(/^\s*[\[(]\s*([^\[\]()]{1,24}?)\s*[\])]\s*/);
       var plain = text.match(new RegExp("^\\s*(" + sponsorWords + "|" + series + ")\\s*[:\\u2014\\u2013-]\\s+", "i"));
-      var found = tagged || plain;
+      // A numbered series: a short label that ends in one of the series names below, a number
+      // and a colon: "OS 34: ...", "Obs 149.5: ...", "Mostly free OS 32: ...". Any words
+      // before the series name come along (at most six words in all). Only the names listed
+      // here count, so "iOS 17:", "Part 2:" and "Windows 11:" are left alone. Add a name to
+      // follow another numbered series.
+      var numberedSeries = "os|obs|observer";
+      var numbered = text.match(/^\s*([^:\uff1a]{1,48}?\s\d+(?:\.\d+)?)\s*[:\uff1a]\s+/);
+      if (numbered) {
+        var parts = numbered[1].trim().split(/\s+/);
+        parts.pop();
+        var word = parts[parts.length - 1] || "";
+        if (parts.length > 5 || !new RegExp("^(" + numberedSeries + ")\\.?$", "i").test(word)) numbered = null;
+      }
+      var found = tagged || plain || numbered;
       if (!found || text.length <= found[0].length) return;
       var label = found[1].trim();
       if (!/\p{L}/u.test(label)) return;
