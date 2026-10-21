@@ -13,7 +13,7 @@ Two [NetNewsWire](https://netnewswire.com/) themes by [Shane Hendry](https://sha
 
 The themes are typeset and designed with extra attention to the little things:
 
-- Simple, consistent attribution: "John Siracusa for Hypercritical"
+- Simple, consistent bylines: "Matilda Jeffries for Time"
 - Relative times: "2 hours ago", "Yesterday"
 - Nice, interactive footnote design
 - Link deduplication
