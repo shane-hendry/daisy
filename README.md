@@ -12,9 +12,9 @@ Extra attention to the little things:
 
 - Simple, consistent attribution: "John Siracusa for Hypercritical"
 - Relative times: "2 hours ago", "Yesterday"
-- Interactive footnotes with a clear footnote design
+- Interactive footnotes and a nice footnote design
 - Link deduplication
-- Localization into 30+ languages
+- Support for 30+ languages and XXXXXL font sizes
 
 Daisy's favorite writers and bloggers also get extra special treatment:
 
@@ -22,10 +22,6 @@ Daisy's favorite writers and bloggers also get extra special treatment:
 - Formats podcast and sponsor posts cleanly from [Daring Fireball](https://daringfireball.net), [Six Colors](https://sixcolors.com), and more
 - Treats [Daring Fireball's](https://daringfireball.net) self-linking posts uniquely, forgive me John
 - Cleans up funky Squarespace stuff
-
-## Language and accessibility
-
-Supports 30+ languages and XXXXXL font sizes.
 
 ## Install
 
