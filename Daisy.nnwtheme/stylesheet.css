@@ -696,10 +696,6 @@ a:focus-visible {
   text-decoration: none;
 }
 
-.view-post a::after {
-  content: "\00a0\2192";
-}
-
 .view-post a:hover {
   text-decoration: underline;
 }
