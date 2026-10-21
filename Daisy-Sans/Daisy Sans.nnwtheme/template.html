@@ -304,6 +304,12 @@ Presentation:
         el.classList.add("blank");
       }
     });
+    // The first block that is left is .lead: the stylesheet spaces it from the title.
+    Array.prototype.some.call(document.querySelectorAll(".articleBody > *"), function (el) {
+      if (el.classList.contains("blank")) return false;
+      el.classList.add("lead");
+      return true;
+    });
     // A leading non-breaking space (an editor's way of indenting) would shift the first line.
     document.querySelectorAll(".articleBody p, .articleBody div").forEach(function (p) {
       var first = p.firstChild;

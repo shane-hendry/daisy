@@ -72,22 +72,24 @@
                        it, and a footnote's "Footnote 1" label and its text.
        --space-medium  The gap between paragraphs. Also the space above and below
                        the rule before the footnotes.
-       --space-large   The "title gap": above and below the title (or the credit
-                       row of an untitled post) and above "View original".
+       --space-large   The "title gap": above and below the title block (the sponsor
+                       label, title and link line), or below the credit row of
+                       an untitled post, and above "View original". Always
+                       measured from the letters (see 2.1), so it looks the
+                       same whatever starts the article.
        --indent        The space between the left bar and the text of a block
                        quote or a footnote.
      In the largest accessibility text sizes, --space-medium, --space-large,
      --indent and --leading-body shrink (see part 4). */
   --space-small: 0.35rem;
   --space-medium: 1.5em;
-  --space-large: 3.11rem;
+  --space-large: 4.04rem;
   --indent: 1.25rem;
-  /* Extra space under the title before a lead image. An image has no half-leading
-     like text does, so it needs a little more than --space-large for the gap from
-     the title's baseline to the image to match the gap from the credit row's
-     baseline to the title's cap height. Depends on the typeface's metrics, so
-     Daisy Sans sets its own value (see scripts/build-sans.sh). */
-  --lead-image-extra: 0.16rem;
+  /* The gaps inside the title block, measured from the letters like --space-large:
+     from the sponsor label down to the title, and from the title down to the link
+     line. */
+  --space-label: 1.3rem;
+  --space-link: 1.6rem;
 
   /* The type styles the whole design is built from. Most text (the credit row, the
      date, footnotes, captions, tables, code) uses only these. Always use these names
@@ -644,7 +646,16 @@ caption {
 
 /* --- 2.1 The header: credit row and date ------------------------------
    The top of every article: "Author for Blog" at the start of the row and the date
-   at the end. Below it come the title and the link to the original. */
+   at the end. Below it come the title and the link to the original.
+
+   Spacing is measured from the letters, not from the text boxes. A text box carries
+   half-leading above and below its letters, and how much depends on the typeface,
+   size and line height, so margins between boxes never look even. text-box trims
+   that space: the top of a trimmed box is the height of the capital letters and the
+   bottom is the baseline. A margin next to a trimmed box is then exactly the visible
+   gap, whatever the article starts with (an image has no half-leading, so it needs
+   no trimming). Every --space-large gap above and below the title block depends on
+   this. */
 
 .article-header {
   display: grid;
@@ -682,16 +693,23 @@ caption {
   flex: none;
 }
 
+/* The credit row: only its baseline matters, because it is the top of the page. */
+.attribution,
+.dateline {
+  text-box: trim-end cap alphabetic;
+}
+
 
 /* --- 2.2 The title ----------------------------------------------------
-   The big heading. It has --space-large above it and a tight --space-small
-   between it and the link line below. */
+   The big heading. It has --space-large above it; the link line below it has its
+   own gap (--space-link). */
 
 h1 {
   font-size: var(--text-h1);
   letter-spacing: -0.02em;
   line-height: 1.1;
-  margin: var(--space-large) 0 var(--space-small);
+  margin: var(--space-large) 0 0;
+  text-box: trim-both cap alphabetic;
   text-wrap: pretty;
 }
 
@@ -706,25 +724,18 @@ h1 a {
   color: inherit;
 }
 
-/* With no link line below (hidden, moved to the eyebrow, or no address), the title's
-   --space-small margin would add to the header's --space-large; drop it so the gap
-   below the title equals the gap above. */
-h1:has(+ .external-link.same-page),
-h1:has(+ .external-link.moved),
-h1:has(+ .external-link .external-link-url:empty) {
-  margin-bottom: 0;
+/* The gap below the title block. The header's margin is the gap from the block's last
+   baseline to whatever starts the article. The first block of the article (.lead is the
+   first one that isn't a blank spacer; see template.html) drops its own top margin and, if it is text, trims its half-leading (see 2.1); its first
+   letters, or its first image, then sit exactly --space-large below the title. */
+.articleBody > :is(:first-child, .lead) {
+  margin-top: 0;
+  text-box: trim-start cap alphabetic;
 }
 
-/* Title spacing, measured from letters: the gap from the meta row's baseline to
-   the title's cap height equals the gap from the title's baseline to whatever
-   follows. Text gets it from the header margin; a lead image needs a little more
-   (--lead-image-extra). The image's margin and the header's margin overlap, so the
-   larger of the two is the gap. */
-.articleBody > figure:first-child,
-.articleBody > p:first-child:has(> img:only-child),
-.articleBody > p:first-child:has(> a:only-child > img:only-child),
-.articleBody > div:first-child:has(img, video, iframe):not(:has(p)) {
-  margin-top: calc(var(--space-large) + var(--lead-image-extra));
+/* A table or other wide block arrives in a scroll wrapper; its own margin goes too. */
+.articleBody > :is(:first-child, .lead):is(.nnw-overflow, .scroll-x) > :first-child {
+  margin-top: 0;
 }
 
 
@@ -733,7 +744,7 @@ h1:has(+ .external-link .external-link-url:empty) {
    ellipsis. Long social-post URLs and tracking strings are the target. */
 
 .external-link {
-  margin-top: var(--space-small);
+  margin-top: var(--space-link);
 }
 
 /* The link line never wraps: a label, then the address cut with an ellipsis after 32
@@ -746,13 +757,20 @@ h1:has(+ .external-link .external-link-url:empty) {
 
 .external-link-label {
   flex: none;
+  text-box: trim-both cap alphabetic;
   white-space: nowrap;
 }
 
+/* The address clips its overflow, which would cut off the ascenders and descenders
+   that trimming leaves outside the box, so the padding gives them room back and the
+   negative margin takes the room away again. */
 .external-link-url {
+  margin-block: -0.3em;
   max-width: 32ch;
   min-width: 0;
   overflow: hidden;
+  padding-block: 0.3em;
+  text-box: trim-both cap alphabetic;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -780,12 +798,13 @@ h1:has(+ .external-link .external-link-url:empty) {
 
 .eyebrow-label {
   min-width: 0;
+  text-box: trim-both cap alphabetic;
 }
 
 /* Set so the visible gap from the eyebrow to the title equals the gap from the title
    to the link line below it, both measured from the letters. */
 .eyebrow + h1 {
-  margin-top: var(--space-small);
+  margin-top: var(--space-label);
 }
 
 /* The eyebrow takes over the title's link line, so the original is hidden. */
@@ -811,19 +830,22 @@ h1:has(+ .external-link .external-link-url:empty) {
 .untitled .view-post {
   display: block;
   margin-top: var(--space-large);
+  text-box: trim-start cap alphabetic;
+}
+
+/* The end of the article gives up its own bottom margin and half-leading, so the gap
+   to "View original" is --space-large from the last baseline (or image). */
+.untitled .articleBody > :last-child {
+  margin-bottom: 0;
+  text-box: trim-end cap alphabetic;
+}
+
+.untitled .articleBody > :is(:first-child, .lead):last-child {
+  text-box-trim: trim-both;
 }
 
 .untitled .article-header > h1 {
   display: none;
-}
-
-/* Same as the lead-image rule in 2.2, but measured from the credit row because
-   there is no title. */
-.untitled .articleBody > figure:first-child,
-.untitled .articleBody > p:first-child:has(> img:only-child),
-.untitled .articleBody > p:first-child:has(> a:only-child > img:only-child),
-.untitled .articleBody > div:first-child:has(img, video, iframe):not(:has(p)) {
-  margin-top: 2.95rem;
 }
 
 
@@ -1224,14 +1246,6 @@ details > :last-child {
   margin-bottom: 0 !important;
 }
 
-.articleBody > :is(p, div).media-first:first-child {
-  margin-top: calc(var(--space-large) + var(--lead-image-extra));
-}
-
-.untitled .articleBody > :is(p, div).media-first:first-child {
-  margin-top: 2.95rem;
-}
-
 .articleBody > div:not(:has(img, video, iframe, p, div, ul, ol, blockquote, table, pre, figure, hr, h1, h2, h3, h4, h5, h6)) {
   margin-block: var(--space-medium);
 }
@@ -1336,21 +1350,6 @@ details > :last-child {
 
   .article :is(p, div).media-last {
     margin-bottom: 1.25em;
-  }
-
-  .article .articleBody > :is(p, div).media-first:first-child {
-    margin-top: 1.25em;
-  }
-
-  .article .articleBody > figure:first-child,
-  .article .articleBody > p:first-child:has(> img:only-child),
-  .article .articleBody > p:first-child:has(> a:only-child > img:only-child),
-  .article .articleBody > div:first-child:has(img, video, iframe):not(:has(p)) {
-    margin-top: 1.25em;
-  }
-
-  .article .article-header .eyebrow {
-    margin-top: 1.5em;
   }
 
   .article h2 {
