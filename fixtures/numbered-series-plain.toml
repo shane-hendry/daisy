@@ -1,0 +1,11 @@
+title = "Top 10: The best chairs of the year"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/top-10"
+byline = "Pat Writer"
+external_link = "https://example.org/top-10"
+external_link_label = "Link:"
+external_link_stripped = "example.org/top-10"
+date_medium = "Oct 19, 2026"
+body = '''<p>A list headline that starts with a number and a colon. It is not a numbered series, so the whole headline stays as the title.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

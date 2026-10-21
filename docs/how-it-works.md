@@ -16,6 +16,7 @@ how it handles text size and languages.
 | Blank spacer paragraphs and spacer blocks (WordPress, Blogger, Tumblr) | Hidden, so gaps between paragraphs, images and the title look even. |
 | Centered intro blurbs, and paragraphs set entirely in italics | Left-aligned and upright. Emphasis inside normal sentences is kept. |
 | Small-print caption paragraphs | Set smaller, like a caption. |
+| A numbered series at the start of a headline: `OS 34: …`, `Obs 149.5: …`, `Mostly free OS 32: …` | The series name and number, and any words before them, move to the small line above the title (**Mostly free OS 32**) and the title keeps just the headline. Only the series named in the list in `template.html` (OS, Obs, Observer) are recognized, so `iOS 17: …`, `Part 2: …` and `Top 10: …` stay as they are. To follow another numbered series, add its name to that list. |
 | A short paragraph right before a list ("Sponsored by:") | Treated as the list's label: it sits close to the list. |
 | Footnotes (Daring Fireball and other Markdown-style footnotes) | Tap the number and the note opens under the paragraph, with a **Footnote 1** header and a close button. At the end of the article, a **Footnotes** heading and a **Footnote 1** label above each note; tap a label to jump back to that line. Return arrows and emoji that publishers add to their notes are hidden. |
 | Images, galleries and video players | Full width of the column, with video at 16:9. |

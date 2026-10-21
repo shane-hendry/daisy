@@ -1,0 +1,11 @@
+title = "Part 2: The return"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/part-2"
+byline = "Pat Writer"
+external_link = "https://example.org/part-2"
+external_link_label = "Link:"
+external_link_stripped = "example.org/part-2"
+date_medium = "Oct 19, 2026"
+body = '''<p>A headline that starts with a counter word and a number, which is not a numbered series. The whole headline stays as the title, with no line above it.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

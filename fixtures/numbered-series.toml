@@ -1,0 +1,11 @@
+title = "FREE Auction Observer 149.5: Lamps, chairs, and a surprising auction"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/digest"
+byline = "Pat Writer"
+external_link = "https://example.org/digest"
+external_link_label = "Link:"
+external_link_stripped = "example.org/digest"
+date_medium = "Oct 19, 2026"
+body = '''<p>A weekly newsletter whose series name and issue number lead the headline, here with a word before the name and a decimal number. The number and the words before it move to the line above the title, and the headline is left to stand alone.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''
