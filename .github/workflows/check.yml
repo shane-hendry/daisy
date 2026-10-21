@@ -1,0 +1,14 @@
+# nnw-theme-stub: check v2
+# Runs the nnw-theme release gate: https://github.com/dave-atx/nnw-theme
+name: Theme checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    uses: dave-atx/nnw-theme/.github/workflows/theme-check.yml@v2

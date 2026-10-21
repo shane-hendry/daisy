@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ThemeIdentifier</key>
+	<string>com.shanehendry.daisy</string>
+	<key>Name</key>
+	<string>Daisy</string>
+	<key>CreatorHomePage</key>
+	<string>https://shanehendry.com</string>
+	<key>CreatorName</key>
+	<string>Shane Hendry</string>
+	<key>Version</key>
+	<integer>1</integer>
+</dict>
+</plist>
