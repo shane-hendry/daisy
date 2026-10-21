@@ -85,11 +85,10 @@
   --space-medium: 1.5em;
   --space-large: 4.04rem;
   --indent: 1.25rem;
-  /* The gaps inside the title block, measured from the letters like --space-large:
+  /* The one gap inside the title block, measured from the letters like --space-large:
      from the sponsor label down to the title, and from the title down to the link
      line. */
   --space-label: 1.3rem;
-  --space-link: 1.6rem;
 
   /* The type styles the whole design is built from. Most text (the credit row, the
      date, footnotes, captions, tables, code) uses only these. Always use these names
@@ -702,7 +701,7 @@ caption {
 
 /* --- 2.2 The title ----------------------------------------------------
    The big heading. It has --space-large above it; the link line below it has its
-   own gap (--space-link). */
+   the same gap (--space-label) as the sponsor label above it. */
 
 h1 {
   font-size: var(--text-h1);
@@ -744,7 +743,7 @@ h1 a {
    ellipsis. Long social-post URLs and tracking strings are the target. */
 
 .external-link {
-  margin-top: var(--space-link);
+  margin-top: var(--space-label);
 }
 
 /* The link line never wraps: a label, then the address cut with an ellipsis after 32
