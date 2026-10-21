@@ -67,9 +67,10 @@
 
   /* The vertical gaps the whole design is measured by. Always use these names when
      talking about spacing.
-       --space-small   A tight gap between a label and the thing it labels: the
-                       sponsor label and the title, the title and the link below
-                       it, and a footnote's "Footnote 1" label and its text.
+       --space-small   A tight gap between a label and the thing it labels, measured
+                       from the letters like --space-large: the sponsor label and
+                       the title, the title and the link below it, and an
+                       expandable block's label and its text.
        --space-medium  The gap between paragraphs. Also the space above and below
                        the rule before the footnotes.
        --space-large   The "title gap": above and below the title block (the sponsor
@@ -81,14 +82,10 @@
                        quote or a footnote.
      In the largest accessibility text sizes, --space-medium, --space-large,
      --indent and --leading-body shrink (see part 4). */
-  --space-small: 0.35rem;
+  --space-small: 1.3rem;
   --space-medium: 1.5em;
   --space-large: 4.04rem;
   --indent: 1.25rem;
-  /* The one gap inside the title block, measured from the letters like --space-large:
-     from the sponsor label down to the title, and from the title down to the link
-     line. */
-  --space-label: 1.3rem;
 
   /* The type styles the whole design is built from. Most text (the credit row, the
      date, footnotes, captions, tables, code) uses only these. Always use these names
@@ -701,7 +698,7 @@ caption {
 
 /* --- 2.2 The title ----------------------------------------------------
    The big heading. It has --space-large above it; the link line below it has its
-   the same gap (--space-label) as the sponsor label above it. */
+   the same gap (--space-small) as the sponsor label above it. */
 
 h1 {
   font-size: var(--text-h1);
@@ -743,7 +740,7 @@ h1 a {
    ellipsis. Long social-post URLs and tracking strings are the target. */
 
 .external-link {
-  margin-top: var(--space-label);
+  margin-top: var(--space-small);
 }
 
 /* The link line never wraps: a label, then the address cut with an ellipsis after 32
@@ -803,7 +800,7 @@ h1 a {
 /* Set so the visible gap from the eyebrow to the title equals the gap from the title
    to the link line below it, both measured from the letters. */
 .eyebrow + h1 {
-  margin-top: var(--space-label);
+  margin-top: var(--space-small);
 }
 
 /* The eyebrow takes over the title's link line, so the original is hidden. */
@@ -1016,7 +1013,8 @@ hr + .footnotes-title {
 }
 
 /* The note text: undo the popover's floating position and box so it flows inline,
-   with --space-small between the "Footnote 1" header and the text. */
+   with 0.35rem between the "Footnote 1" header and the text. The header's 44px tap
+   area sets its height, so this gap is measured from the header's box. */
 .footnote-panel .footnote-panel-body.newsfoot-footnote-popover,
 .footnote-panel .footnote-panel-body {
   background: none;
@@ -1025,7 +1023,7 @@ hr + .footnotes-title {
   font-size: var(--text-medium);
   left: auto;
   line-height: inherit;
-  margin: var(--space-small) 0 0;
+  margin: 0.35rem 0 0;
   max-width: none;
   padding: 0;
   position: static;
@@ -1120,14 +1118,20 @@ summary:focus-visible {
   outline-offset: 2px;
 }
 
-/* The revealed text starts --space-small below the label, paragraphs inside it sit
-   half a paragraph gap apart, and the last one ends flush with the bar. */
+/* The revealed text starts --space-small below the label's letters, paragraphs inside
+   it sit half a paragraph gap apart, and the last one ends flush with the bar. */
 details > p {
   margin-block: calc(var(--space-medium) / 2);
 }
 
+details > summary {
+  text-box-trim: trim-end;
+  text-box-edge: cap alphabetic;
+}
+
 details > summary + * {
   margin-top: var(--space-small);
+  text-box: trim-start cap alphabetic;
 }
 
 details > :last-child {
