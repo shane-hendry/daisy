@@ -17,8 +17,8 @@ Daisy and Daisy Sans bring content design to your RSS feed. They clean up unusua
 * Relative times: **2 hours ago**, **Yesterday**, with the exact time on tap  
 * Smart **eyebrow** and **secondary link** fields for nicer, more consistent titles  
 * Clear, interactive footnotes  
-* Deduplicated of links and content  
-* Hidden of platform-injected content blocks, so you only see what the author intended  
+* Deduplicates links and content  
+* Hides platform-injected content blocks, so you only see what the author intended  
 * Support for 30+ languages, right-to-left languages, and XXXXXL font sizes  
   
 Daisy's favorite writers get special treatment:  
