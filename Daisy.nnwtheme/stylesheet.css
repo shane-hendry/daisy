@@ -700,7 +700,6 @@ caption {
    the date's own line and is pushed down one line (1lh), so its baseline falls exactly
    where a wrapped second line would, level with a second line of the credit. */
 .dateline-full {
-  animation: dateline-in 0.15s ease-out;
   background: var(--canvas);
   background-clip: content-box;
   max-width: calc(100vw - 2 * var(--gutter));
@@ -728,17 +727,6 @@ caption {
   display: block;
 }
 
-@keyframes dateline-in {
-  from {
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dateline-full {
-    animation: none;
-  }
-}
 
 /* The credit row: only its baseline matters, because it is the top of the page. */
 .attribution,
