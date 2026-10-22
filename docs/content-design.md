@@ -199,10 +199,9 @@ Footnote numbers work the same way.
 
 ### Quiet links
 
-Quiet links name a person or a place. They have no underline until you hover, and
+Quiet links name a place. They have no underline until you hover, and
 then they show an underline and change color.
 
-- The publication name and author links in the [byline](#bylines).
 - The footer link, **View original** or **View post**, at the bottom of the article.
 
 ### Even quieter links
@@ -210,14 +209,15 @@ then they show an underline and change color.
 These only change color on hover and never show an underline. They're headings
 and controls, so their role is clear from where they sit.
 
+- The author and publication links in the [byline](#bylines).
 - The [title](#titles), the [eyebrow](#the-eyebrow) when it's a link, and the [secondary link](#the-secondary-link).
 - The [timestamp](#timestamp), which reveals the exact time.
 - Footnote controls: **Close**, **Go to footnotes**, and the **Footnote N** labels.
 - Expandable blocks.
 
-**Why:** the hero block is the first thing you see, so its steady state is as
-clean as possible. Elsewhere, controls that show or reveal something stay quiet
-too, since the layout already tells you what they do.
+**Why:** the hero block is the first thing you see, so everything in it,
+including the byline, is as clean as possible. Elsewhere, controls that show or
+reveal something stay quiet too, since the layout already tells you what they do.
 
 ## Interactivity
 
