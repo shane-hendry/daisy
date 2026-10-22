@@ -115,7 +115,12 @@ Split in two, the label and the headline each read quickly.
 - **Newsletters.** Any name that ends in "newsletter", like **The War Room newsletter**. [↗](content-rules.md#newsletters)
 - **Opinion.** An **Opinion |** or **Opinion:** label at the start of a headline. [↗](content-rules.md#opinion-before-a-pipe)
 - **Show names after a pipe.** A show at the end of a headline, like **The Vergecast Livestream**. A name that is the post's author is dropped instead, since the byline shows it. [↗](content-rules.md#show-names-after-a-pipe)
+- **Community posts.** A **Show HN**, **Ask HN**, or **Tell HN** at the start of a headline. [↗](content-rules.md#community-posts)
+- **Live labels.** A label like **En direct** at the start of a headline. [↗](content-rules.md#live-labels)
 - **Dash tags at the end.** A **– video** or **– live** that closes a headline. [↗](content-rules.md#dash-tags-at-the-end)
+
+An author's name before a colon, like **Bengt Ohlsson: …** by Bengt Ohlsson, is dropped
+instead of moved, since the byline already shows it. [↗](content-rules.md#author-names-before-a-colon)
 
 Numbered series, editorial labels, and recurring sections are deliberately short
 lists. "iOS 17: …", "Top 10: …", and "Breaking: …" are headlines, not labels, so
