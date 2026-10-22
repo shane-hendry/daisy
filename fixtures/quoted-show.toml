@@ -1,0 +1,8 @@
+title = "‘The Interview’: Lena Dunham Is Still Trying to Figure Out Why People Hated Her So Much"
+feed_link_title = "The New York Times"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/quoted-show"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>A listed show name in quotes before a colon. It moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

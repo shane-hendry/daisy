@@ -108,7 +108,7 @@ Split in two, the label and the headline each read quickly.
 - **Podcast episodes.** A show name and episode number, like **Clockwise 679**. [↗](content-rules.md#numbered-series)
 - **Bracketed tags.** Short tags in square brackets, like **Comment**, and a few known words in parentheses, like **Update**. [↗](content-rules.md#bracketed-tags)
 - **Tags at the end.** A **[Gallery]**, **[Video]**, **[Poll]**, **(Updated)**, or **(Rebroadcast)** that closes a headline. [↗](content-rules.md#tags-at-the-end)
-- **Editorial labels.** What kind of piece it is, like **Cartoon**, **Commentary**, **Review**, or **Hands-on**. [↗](content-rules.md#editorial-labels)
+- **Editorial labels.** What kind of piece it is, like **Cartoon**, **Commentary**, **Review**, **Book Review**, **Watch**, or **Hands-on**. [↗](content-rules.md#editorial-labels)
 - **Recurring sections.** A column or show a post belongs to, like **The Sunday Read** or **Hello Developer**. [↗](content-rules.md#recurring-sections)
 - **The feed's own name.** A label that is exactly the feed's name, like **Nature** in the Nature feed. [↗](content-rules.md#the-feeds-own-name)
 - **Paywall markers.** A marker like **heise+**. [↗](content-rules.md#paywall-markers)

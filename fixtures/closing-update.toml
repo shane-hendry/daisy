@@ -1,0 +1,8 @@
+title = "Are Private Equity Firms Plundering the U.S. Economy? (Update)"
+feed_link_title = "Freakonomics Radio"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/closing-update"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>An update tag in parentheses that closes the headline. It moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''
