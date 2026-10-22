@@ -328,11 +328,12 @@ hr {
      Link        Inside the article's text. The same color as the text with a thin
                  underline (--line-thin, sitting --link-offset below the text). Turns
                  orange on hover. Footnote markers are links too.
-     Quiet link  A labeled link that names a person or place: the byline and
-                 "View original". No underline until hover (see below).
-     Control     A heading or a control: the title, the eyebrow and link line, the
-                 timestamp, footnote labels and buttons, expandable blocks. Turns
-                 orange on hover and never underlines. */
+     Quiet link  A labeled link that names a place: "View original". No underline
+                 until hover (see below).
+     Control     Everything in the hero block and the controls: the byline, the
+                 title, the eyebrow and link line, the timestamp, footnote labels
+                 and buttons, expandable blocks. Turns orange on hover and never
+                 underlines. */
 
 a {
   color: var(--text);
@@ -351,8 +352,8 @@ a:focus-visible {
 
 /* Quiet links and controls in the layout: the credit and the feed name, the link
    line under the title, the sponsor label when it links, the title itself, and "View
-   original". They have no underline. The credit, feed name and "View original"
-   underline on hover, and the rest turn orange like any link. */
+   original". They have no underline. "View original" underlines on hover, and the
+   rest turn orange like any link. */
 .feed,
 .byline a,
 .external-link a,
@@ -362,8 +363,6 @@ h1 a {
   text-decoration: none;
 }
 
-.feed:hover,
-.byline a:hover,
 .view-post a:hover {
   text-decoration: underline;
 }
