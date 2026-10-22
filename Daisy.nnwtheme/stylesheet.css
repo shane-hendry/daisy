@@ -400,17 +400,8 @@ sup {
   vertical-align: baseline;
 }
 
-sup,
-a.footnote-anchor {
+sup {
   top: -0.5em;
-}
-
-/* Substack's marker is a bare link, not inside a <sup>, so it is raised the same way. */
-a.footnote-anchor {
-  font-size: 0.75em;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
 }
 
 sub {
@@ -954,6 +945,18 @@ a.footnote {
   top: 0;
 }
 
+/* Substack's marker is a bare link, not inside a <sup>, so it is raised like a
+   superscript itself. It comes after a.footnote so it wins when NetNewsWire adds that
+   class to it too. Sample: fixtures/substack-footnotes.toml. */
+a.footnote-anchor,
+a.footnote.footnote-anchor {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  top: -0.5em;
+  vertical-align: baseline;
+}
+
 .newsfoot-footnote-popover,
 .newsfoot-footnote-popover-arrow {
   background: var(--canvas);
@@ -1295,6 +1298,20 @@ details > :last-child {
 .articleBody p:has(> a[href*="google.com/preferences/source"]:only-child),
 .articleBody p:has(> a[href*="google.com/preferences/publisher"]:only-child),
 .articleBody p:has(> img[alt*="preferred source" i]:only-child) {
+  display: none;
+}
+
+
+/* --- 3.2b WordPress embeds and the feed footer ------------------------
+   A WordPress embed (a post that quotes another post, as on zeldman.com) arrives as a
+   block quote holding a plain link, then the embed's preview card in an iframe. On
+   the original site the card is the content and the plain link is only what shows when
+   the card can't load. Here the card is shown, so the link would say the same thing
+   twice and is hidden. WordPress also ends every feed item with a "The post X appeared
+   first on Y" line, which the blog itself never shows; template.html tags it .feed-credit.
+   Sample: fixtures/wordpress-embed.toml. */
+blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
+.feed-credit {
   display: none;
 }
 
