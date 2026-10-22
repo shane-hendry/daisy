@@ -1,0 +1,8 @@
+title = "[Comment] Making every vial count: fractional dosing of yellow fever vaccine"
+feed_link_title = "The Lancet"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/bracket-section"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>Any short tag in square brackets moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

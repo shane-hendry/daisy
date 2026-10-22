@@ -150,11 +150,14 @@ When a title is hidden:
 ##### Bracketed tags
 
 - **(Tag) Title** and **[Tag] Title** move the tag to the eyebrow. (v0.1.0)
+- Tags in square brackets can be any short tag. **[Comment] Headline** becomes **Comment** over **Headline**. (v0.3.0)
+- A tag in square brackets followed by a lowercase word stays in the title: **[Part of] the problem** is left as it is. (v0.3.0)
+- Tags in parentheses only count if they are one of these words: Podcast, Update, Updated, Video, Gallery, Poll, Live, Exclusive, Review, Interview, Opinion, Breaking, Bonus, or a sponsor word. (v0.3.0)
+- **(Almost) Everything You Need to Know** and **(not) solitaire** stay in the title, since parentheses are how people write asides. (v0.3.0)
 - Tags can be up to 24 characters. (v0.1.0)
 - A tag must contain at least one letter. (v0.1.0)
 - A tag with nothing after it is left alone. (v0.1.0)
 - **(Tag)Title**, with no space after the closing bracket, is left alone, like **(Re)introducing**. (v0.2.0)
-- A tag in parentheses that begins with "not" or "yet" is part of the sentence and stays in the title. **(not) solitaire** is left as it is. (v0.3.0)
 
 ##### Tags at the end
 
@@ -233,12 +236,15 @@ When a title is hidden:
 ##### Show names after a pipe
 
 - **Headline | The Vergecast Livestream** becomes **The Vergecast Livestream** over **Headline**. (v0.2.0)
-- The name after the pipe can be up to four words. (v0.2.0)
-- A name with a number in it stays in the title, so a date like **| October 2026** is left alone. (v0.2.0)
+- Only known names count: The Vergecast Livestream, The Vergecast, Vergecast Hotline, Livestream, Better in Person, On With Kara Swisher, The Global Story, Mac & i-Podcast, Editorial, Letters, Letter, Brief letters, Leading questions, A kitchen in Rome, Ask Annalisa Barbieri, Full album, Foto, and Video. (v0.3.0)
+- Any name that starts with "With" counts too, like **Headline | With Zach Lowe**. (v0.3.0)
+- Every other name stays in the title: **Radiohead | OK Computer**, **Taylor Swift | The Eras Tour**, and a date like **| October 2026** are left alone. (v0.3.0)
+- To follow another show, add its name to the list in `template.html`. (v0.3.0)
+- A name that is exactly the feed's name is dropped, since the byline shows it. **Headline | BBC Sport** in the BBC Sport feed becomes **Headline**. (v0.3.0)
 - A name that is the post's author is dropped instead. **Headline | Margaret Sullivan** with the author Margaret Sullivan becomes **Headline**, since the byline already shows the name. (v0.3.0)
 - The name counts as the author only when it is the author's whole name. When a post lists several authors, any one of them counts. (v0.3.0)
-- **Ask Annalisa Barbieri** does not match the author **Annalisa Barbieri**, so it moves to the eyebrow. (v0.3.0)
-- **Andrew Lawrence** does not match the author **Andrew Lawrence at State Farm Arena**, so it moves to the eyebrow. (v0.3.0)
+- **Ask Annalisa Barbieri** does not match the author **Annalisa Barbieri**, so it moves to the eyebrow, since it is a known name. (v0.3.0)
+- **Andrew Lawrence** does not match the author **Andrew Lawrence at State Farm Arena**, and is not a known name, so it stays in the title. (v0.3.0)
 - **| Editorial** moves to the eyebrow even when the author is also Editorial. (v0.3.0)
 
 ##### Author names before a colon

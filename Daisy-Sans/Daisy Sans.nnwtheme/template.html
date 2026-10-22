@@ -776,12 +776,13 @@ Presentation:
     // Also moved: a known editorial or section label before a colon ("Cartoon: Headline",
     // "The Sunday Read: Headline"), a label that is exactly the feed's own name ("Nature: Headline" in the Nature feed),
     // a paywall marker ("heise+ | Headline"), a bracketed tag at the end ("Headline [Gallery]"),
-    // and a short show name after a pipe ("Headline | The Vergecast Livestream"). Also moved:
+    // and a known show name after a pipe ("Headline | The Vergecast Livestream"). Also moved:
     // "Opinion | Headline", any newsletter name before a colon ("The War Room newsletter: Headline")
     // and a closing "- video" or "- live" after a dash. A name after a pipe that is the post's
     // author ("Headline | Margaret Sullivan") is dropped instead, since the byline shows it. The
     // same goes for an author's name before a colon ("Bengt Ohlsson: Headline"). Also moved:
-    // "EN DIRECT - Headline". A "(not)" or "(yet)" in parentheses at the start stays in the title.
+    // "EN DIRECT - Headline". Tags at the start: any short tag in square brackets, but in parentheses
+    // only a known word, so "(Almost) Everything" stays in the title.
     // Left in the title: a prefix that is a single symbol ("★ Headline", "🔴 Live: Headline")
     // and a prefix that is only an acronym ("CISA: Headline").
     document.querySelectorAll(".article-header h1 a").forEach(function (a) {
@@ -797,6 +798,17 @@ Presentation:
       var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive";
       var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
       var tagged = text.match(/^\s*[\[(]\s*([^\[\]()]{1,24}?)\s*[\])]\s+/);
+      // Square brackets take any short tag, unless a lowercase word follows ("[Part of] the
+      // problem"). Parentheses are how people write asides, so only these tag words count:
+      // "(Podcast) Title" moves, "(Almost) Everything" stays.
+      if (tagged) {
+        var parenTags = "podcast|update|updated|video|gallery|poll|live|exclusive|review|interview|opinion|breaking|bonus|" + sponsorWords;
+        if (/^\s*\(/.test(tagged[0])) {
+          if (!new RegExp("^(" + parenTags + ")$", "i").test(tagged[1].trim())) tagged = null;
+        } else if (/\p{Ll}/u.test(text.charAt(tagged[0].length))) {
+          tagged = null;
+        }
+      }
       var plain = text.match(new RegExp("^\\s*(" + sponsorWords + "|" + series + ")\\s*[:\\u2014\\u2013-]\\s+", "i"));
       var named = text.match(new RegExp("^\\s*(" + labels + ")\\s*[:\\uff1a]\\s+", "i"));
       // A label that is exactly the feed's own name ("Nature: ..." in the Nature feed), so a
@@ -847,8 +859,6 @@ Presentation:
         label = found[1].trim();
         rest = text.slice(found[0].length);
         // A prefix that is only an acronym ("CISA:", "EU:", "PSA:") stays in the title.
-        // A tag in parentheses that begins "(not)" or "(yet)" is part of the sentence: "(not) solitaire".
-        if (found === tagged && /^\s*\(/.test(tagged[0]) && /^(not|yet)\b/i.test(label)) return;
         if (found !== numbered && found !== dated && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
       } else {
         // A name before a colon that is the post's author is already in the byline, so it is
@@ -860,22 +870,24 @@ Presentation:
         var trailing = text.match(new RegExp("^(.*\\S)\\s*[\\[(]\\s*(" + trailingTags + ")\\s*[\\])]\\s*$", "i"));
         // A closing tag after a dash: "Headline \u2013 video".
         var dashed = text.match(/^(.*\S)\s+[\u2014\u2013-]\s+(video|live|cartoon|ranked!)\s*$/i);
-        // A short show name after a pipe: "Headline | The Vergecast Livestream". Dates
-        // ("| October 2026") and anything with a number stay.
-        var piped = text.match(/^(.*\S)\s+\|\s+([^|\d]{2,40}?)\s*$/);
-        if (piped && piped[2].trim().split(/\s+/).length > 4) piped = null;
+        // A name after a pipe: "Headline | The Vergecast Livestream". The author's name and the
+        // feed's own name are dropped, since the byline shows them ("Editorial" stays, as the
+        // kind of piece). Any other name moves only if it is a known show or section, or starts
+        // with "With" ("| With Zach Lowe"). Everything else stays: "Radiohead | OK Computer".
+        var pipedShows = "the vergecast livestream|vergecast hotline|livestream|better in person|on with kara swisher|the global story|editorial|letters|letter|brief letters|leading questions|a kitchen in rome|ask annalisa barbieri|full album|foto|video|mac & i-podcast|the vergecast";
+        var piped = text.match(/^(.*\S)\s+\|\s+([^|]{2,40}?)\s*$/);
+        if (piped) {
+          var pipeName = piped[2].trim();
+          if (simple(pipeName) !== "editorial" && (isAuthor(pipeName) || (feedName && simple(pipeName) === feedName))) {
+            node.data = piped[1];
+            return;
+          }
+          if (!new RegExp("^(" + pipedShows + ")$", "i").test(pipeName) && !/^with\s+\S/i.test(pipeName)) piped = null;
+        }
         var tail = trailing || dashed || piped;
         if (!tail) return;
         label = tail[2].trim();
         rest = tail[1];
-        // A name after a pipe that is the post's author is already in the byline, so it is
-        // dropped. "Editorial" stays, since it is the kind of piece and not a person.
-        if (tail === piped) {
-          if (simple(label) !== "editorial" && isAuthor(label)) {
-            node.data = rest;
-            return;
-          }
-        }
         // A closing tag shouted in capitals ("(EXCLUSIVE)") is shown in lowercase.
         if (tail === trailing && new RegExp("^(" + closingWords + ")$", "i").test(label)) label = label.toLowerCase();
       }
