@@ -221,7 +221,7 @@ Presentation:
     // Footnotes open as a note panel under the paragraph, in the style of a block
     // quote, with a "Footnote 1" header and a close button. It shows and hides
     // instantly, and stays open until the reader closes it (its marker or its Close
-    // button), so any number can be open at once. This replaces NetNewsWire's floating popover; the note text lives in
+    // button) or opens another footnote; tapping elsewhere or following a link leaves it open. This replaces NetNewsWire's floating popover; the note text lives in
     // .newsfoot-footnote-popover so NetNewsWire's own checks still find it.
     (function () {
       var words = daisy.words || ["", "", "", "Footnote", "Close", "Footnotes", "", "", "", "", "Go to footnotes"];
@@ -310,8 +310,8 @@ Presentation:
             ev.preventDefault();
             ev.stopImmediatePropagation();
             var shown = opened.filter(function (entry) { return entry.marker === anchor; })[0];
-            if (shown) close(shown);
-            else open(anchor, html);
+            opened.slice().forEach(close);
+            if (!shown) open(anchor, html);
           }
         }
       }, true);
