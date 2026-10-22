@@ -1,5 +1,5 @@
 <!-- nnw-theme-identity:start -->
-# Daisy and Daisy Sans
+# Daisy & Daisy Sans
 
 ![Daisy in NetNewsWire](screenshots/Daisy%20Hero.png)
 
