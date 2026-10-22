@@ -11,24 +11,24 @@ Two [NetNewsWire](https://netnewswire.com/) themes by [Shane Hendry](https://sha
 
 ## Let the words do the work
 
-The themes are typeset and designed with extra attention to the little things:
+Daisy and Daisy Sans bring content design to your RSS feed. They clean up unusual RSS data for a more polished and consistent reading experience.  
+  
+* Simple, consistent bylines: **Matilda Jeffries for Time,** or just **FOR SCALE**  
+* Relative times: **2 hours ago**, **Yesterday**, with the exact time on tap  
+* Smart **eyebrow** and **secondary link fields** for nicer, more consistent titles  
+* Clear, interactive footnotes  
+* Deduplicated of links and content  
+* Hidden of platform-injected content blocks, so you only see what the author intended  
+* Support for 30+ languages, right-to-left languages, and XXXXXL font sizes  
+  
+Daisy's favorite writers get special treatment:  
+  
+* Hides titles on untitled posts, like ++[Kottke's](https://kottke.org/)++ quick links, ++[Manton Reece's](https://manton.org/)++ posts, and social media posts from Mastodon and Bluesky  
+* Moves sponsor, podcast, and issue-numbers to the eyebrow from ++[Daring Fireball](https://daringfireball.net/)++, ++[Six Colors](https://sixcolors.com/)++, ++[Snake](https://snake.substack.com/)++, and more  
+* Treats ++[Daring Fireball's](https://daringfireball.net/)++ linking conventions uniquely (forgive me, John)  
+  
+All this requires javascript to reshape the post, and it's worth it.  
 
-- Simple, consistent bylines: "Matilda Jeffries for Time"
-- Relative times: "2 hours ago", "Yesterday"
-- Nice, interactive footnote design
-- Link deduplication
-- Support for 30+ languages and XXXXXL font sizes
-
-Daisy's favorite writers get special treatment:
-
-- Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts from Mastodon and Bluesky
-- Simplifies sponsor, podcast, and issue-numbers in titles from [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more
-- Moves editorial labels, recurring sections and show names out of titles and into a small line above them: [The New York Times'](https://www.nytimes.com) The Sunday Read, [Apple Developer's](https://developer.apple.com/news/) Hello Developer, [Pluralistic](https://pluralistic.net), [The Verge's](https://www.theverge.com) Vergecast, [heise online](https://www.heise.de), [9to5Mac](https://9to5mac.com), [9to5Google](https://9to5google.com), and more
-- Leaves [Daring Fireball's](https://daringfireball.net/) ★ and any other single-symbol or acronym-only prefix in the title
-- Treats [Daring Fireball's](https://daringfireball.net) linking conventions uniquely, forgive me John
-- Cleans up funky Squarespace and Wordpress stuff
-
-All this requires javascript, and it's worth it.
 
 ## Install
 
