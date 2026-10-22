@@ -1,0 +1,8 @@
+title = "The Sunday Read: ‘My Miserable Week in the Happiest Country on Earth’"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/section-label"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>A recurring section name before a colon. The section moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

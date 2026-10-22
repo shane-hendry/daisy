@@ -1,0 +1,8 @@
+title = "Pluralistic: Adversarial interoperability is a team sport (21 Oct 2026)"
+feed_link_title = "Pluralistic: Daily links from Cory Doctorow"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/feed-name-label"
+byline = "Cory Doctorow"
+date_medium = "Oct 20, 2026"
+body = '''<p>A label that repeats the feed's own name. It moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

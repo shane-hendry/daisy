@@ -1,0 +1,8 @@
+title = "CISA: Hackers chain Plex flaws in Plex2Shell attacks to breach servers"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/acronym-prefix"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>A prefix that is only an acronym stays in the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''
