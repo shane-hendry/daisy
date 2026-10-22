@@ -688,7 +688,56 @@ caption {
 }
 
 .dateline {
+  cursor: pointer;
   flex: none;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* The full timestamp is laid over the page, so nothing moves. It starts at the top of
+   the date's own line and is pushed down one line (1lh), so its baseline falls exactly
+   where a wrapped second line would, level with a second line of the credit. */
+.dateline-full {
+  animation: dateline-in 0.15s ease-out;
+  background: var(--canvas);
+  background-clip: content-box;
+  max-width: calc(100vw - 2 * var(--gutter));
+  padding-top: 1lh;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0;
+  white-space: nowrap;
+  width: max-content;
+  z-index: 1;
+}
+
+.dateline-full[hidden] {
+  display: none;
+}
+
+/* The date and the time each stay in one piece; when the credit needs the room, the
+   time drops to its own line. */
+.dateline-full span {
+  white-space: nowrap;
+}
+
+.dateline-full.stacked span {
+  display: block;
+}
+
+@keyframes dateline-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dateline-full {
+    animation: none;
+  }
 }
 
 /* The credit row: only its baseline matters, because it is the top of the page. */
@@ -1005,11 +1054,28 @@ hr + .footnotes-title {
   padding: 0 12px;
 }
 
-.footnote-panel-close:hover {
+.footnote-panel-close:hover,
+.footnote-panel-goto:hover {
   color: var(--accent);
 }
 
-.footnote-panel-close:focus-visible {
+/* "Go to footnotes" mirrors the header: the same type, a 44px tap area, and the same
+   0.35rem gap from the note text, with the word lined up on the text edge. */
+.footnote-panel-goto {
+  -webkit-tap-highlight-color: transparent;
+  align-items: center;
+  color: inherit;
+  display: flex;
+  font-weight: var(--weight-medium);
+  margin: 0.35rem 0 0 -12px;
+  min-height: 44px;
+  padding: 0 12px;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.footnote-panel-close:focus-visible,
+.footnote-panel-goto:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -2px;
 }

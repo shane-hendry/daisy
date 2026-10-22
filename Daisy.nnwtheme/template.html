@@ -223,7 +223,7 @@ Presentation:
     // instantly. This replaces NetNewsWire's floating popover; the note text lives in
     // .newsfoot-footnote-popover so NetNewsWire's own checks still find it.
     (function () {
-      var words = daisy.words || ["", "", "", "Footnote", "Close"];
+      var words = daisy.words || ["", "", "", "Footnote", "Close", "Footnotes", "", "", "", "", "Go to footnotes"];
       var current = null;
       var MARKER = "a.footnote, sup > a[href*='#fn'], sup > div > a[href*='#fn'], a[id^='footnote-anchor-']";
 
@@ -273,13 +273,30 @@ Presentation:
         panel.innerHTML = '<div class="footnote-panel-header">' +
           '<span class="footnote-panel-title"></span>' +
           '<button type="button" class="footnote-panel-close"></button></div>' +
-          '<div class="footnote-panel-body newsfoot-footnote-popover"></div>';
+          '<div class="footnote-panel-body newsfoot-footnote-popover"></div>' +
+          '<a class="footnote-panel-goto" href="#"></a>';
         panel.querySelector(".footnote-panel-title").textContent = label;
         var button = panel.querySelector(".footnote-panel-close");
         button.textContent = words[4];
         button.addEventListener("click", function (ev) { ev.stopPropagation(); close(); });
         var body = panel.querySelector(".footnote-panel-body");
         body.innerHTML = html;
+        // "Go to footnotes" takes the reader down to the footnotes section, leaving its
+        // heading a third of the way down the screen like the "Footnote 1" links do.
+        var goto = panel.querySelector(".footnote-panel-goto");
+        var note = marker.hash && document.getElementById(decodeURIComponent(marker.hash.slice(1)));
+        var holder = note && note.closest(".footnotes, .wp-block-footnotes");
+        var destination = holder ? (holder.querySelector(".footnotes-title") || holder) : note;
+        if (destination) {
+          goto.textContent = words[10] || "Go to footnotes";
+          goto.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            window.scrollTo({ top: Math.max(0, destination.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3) });
+          });
+        } else {
+          goto.remove();
+        }
         place(panel, marker);
         marker.setAttribute("aria-expanded", "true");
         current = { marker: marker, panel: panel, body: body };
@@ -408,42 +425,42 @@ Presentation:
     // follow the reader's system language. NetNewsWire already localizes the date
     // and the "Link:" label. Languages not listed here fall back to English.
     (function () {
-      // [joins "Author" and "Blog", "View original", "just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", "on", "View post"]
+      // [joins "Author" and "Blog", "View original", "just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", "on", "View post", "Go to footnotes"]
       var STRINGS = {
-        en: [" for ", "View original", "Just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", " on ", "View post"],
-        es: [" para ", "Ver original", "Ahora mismo", "Nota al pie", "Cerrar", "Notas al pie", "Fuente:", "En seguimiento de", " en ", "Ver publicación"],
-        fr: [" pour ", "Voir l’original", "À l’instant", "Note", "Fermer", "Notes", "Source :", "Suite à", " sur ", "Voir la publication"],
-        de: [" für ", "Original ansehen", "Gerade eben", "Fußnote", "Schließen", "Fußnoten", "Quelle:", "Weiterführend zu", " auf ", "Beitrag ansehen"],
-        it: [" per ", "Vedi originale", "Adesso", "Nota", "Chiudi", "Note", "Fonte:", "Seguito di", " su ", "Vedi post"],
-        pt: [" para ", "Ver original", "Agora mesmo", "Nota de rodapé", "Fechar", "Notas de rodapé", "Fonte:", "Em seguimento a", " no ", "Ver publicação"],
-        nl: [" voor ", "Origineel bekijken", "Zojuist", "Voetnoot", "Sluiten", "Voetnoten", "Bron:", "Vervolg op", " op ", "Bericht bekijken"],
-        sv: [" för ", "Visa originalet", "Nyss", "Fotnot", "Stäng", "Fotnoter", "Källa:", "Uppföljning av", " på ", "Visa inlägg"],
-        da: [" for ", "Se originalen", "Lige nu", "Fodnote", "Luk", "Fodnoter", "Kilde:", "Opfølgning på", " på ", "Se indlæg"],
-        nb: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg"],
-        no: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg"],
-        nn: [" for ", "Sjå originalen", "Akkurat no", "Fotnote", "Lat att", "Fotnotar", "Kjelde:", "Oppfølging av", " på ", "Sjå innlegg"],
-        fi: [" · ", "Näytä alkuperäinen", "Juuri nyt", "Alaviite", "Sulje", "Alaviitteet", "Lähde:", "Jatkoa aiheelle", " · ", "Näytä julkaisu"],
-        pl: [" dla ", "Zobacz oryginał", "Przed chwilą", "Przypis", "Zamknij", "Przypisy", "Źródło:", "W nawiązaniu do", " na ", "Zobacz wpis"],
-        cs: [" pro ", "Zobrazit originál", "Právě teď", "Poznámka", "Zavřít", "Poznámky", "Zdroj:", "Navazuje na", " na ", "Zobrazit příspěvek"],
-        sk: [" pre ", "Zobraziť originál", "Práve teraz", "Poznámka", "Zavrieť", "Poznámky", "Zdroj:", "Nadväzuje na", " na ", "Zobraziť príspevok"],
-        hu: [" · ", "Eredeti megtekintése", "Az imént", "Lábjegyzet", "Bezárás", "Lábjegyzetek", "Forrás:", "Folytatás:", " · ", "Bejegyzés megtekintése"],
-        ro: [" pentru ", "Vezi originalul", "Chiar acum", "Notă", "Închide", "Note", "Sursa:", "În continuarea", " pe ", "Vezi postarea"],
-        ru: [" для ", "Открыть оригинал", "Только что", "Сноска", "Закрыть", "Сноски", "Источник:", "В продолжение", " в ", "Открыть запись"],
-        uk: [" для ", "Переглянути оригінал", "Щойно", "Виноска", "Закрити", "Виноски", "Джерело:", "У продовження", " у ", "Переглянути допис"],
-        tr: [" · ", "Orijinali görüntüle", "Az önce", "Dipnot", "Kapat", "Dipnotlar", "Kaynak:", "Devamı:", " · ", "Gönderiyi görüntüle"],
-        el: [" για ", "Προβολή πρωτοτύπου", "Μόλις τώρα", "Υποσημείωση", "Κλείσιμο", "Υποσημειώσεις", "Πηγή:", "Συνέχεια του", " στο ", "Προβολή ανάρτησης"],
-        he: [" עבור ", "הצג את המקור", "ממש עכשיו", "הערת שוליים", "סגור", "הערות שוליים", "מקור:", "המשך:", " · ", "הצג פוסט"],
-        ar: [" · ", "عرض الأصل", "الآن", "حاشية", "إغلاق", "الحواشي", "المصدر:", "متابعة:", " على ", "عرض المنشور"],
-        fa: [" · ", "مشاهده نسخه اصلی", "همین الان", "پانویس", "بستن", "پانویس‌ها", "منبع:", "پیگیری:", " در ", "مشاهده نوشته"],
-        hi: [" · ", "मूल देखें", "अभी अभी", "पाद-टिप्पणी", "बंद करें", "पाद-टिप्पणियाँ", "स्रोत:", "अनुवर्ती:", " पर ", "पोस्ट देखें"],
-        th: [" · ", "ดูต้นฉบับ", "เมื่อสักครู่นี้", "เชิงอรรถ", "ปิด", "เชิงอรรถ", "แหล่งที่มา:", "ต่อจาก", " บน ", "ดูโพสต์"],
-        vi: [" cho ", "Xem bản gốc", "Vừa xong", "Chú thích", "Đóng", "Chú thích", "Nguồn:", "Tiếp nối", " trên ", "Xem bài viết"],
-        id: [" untuk ", "Lihat aslinya", "Baru saja", "Catatan kaki", "Tutup", "Catatan kaki", "Sumber:", "Menindaklanjuti", " di ", "Lihat postingan"],
-        ms: [" untuk ", "Lihat asal", "Baru sahaja", "Nota kaki", "Tutup", "Nota kaki", "Sumber:", "Susulan kepada", " di ", "Lihat hantaran"],
-        ja: [" · ", "元のページを表示", "たった今", "脚注", "閉じる", "脚注", "出典:", "続報:", " · ", "投稿を表示"],
-        ko: [" · ", "원문 보기", "방금", "각주", "닫기", "각주", "출처:", "후속:", " · ", "게시물 보기"],
-        "zh-Hans": [" · ", "查看原文", "刚刚", "脚注", "关闭", "脚注", "来源:", "跟进:", " · ", "查看帖子"],
-        "zh-Hant": [" · ", "查看原文", "剛剛", "註腳", "關閉", "註腳", "來源:", "後續:", " · ", "查看貼文"]
+        en: [" for ", "View original", "Just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", " on ", "View post", "Go to footnotes"],
+        es: [" para ", "Ver original", "Ahora mismo", "Nota al pie", "Cerrar", "Notas al pie", "Fuente:", "En seguimiento de", " en ", "Ver publicación", "Ir a las notas al pie"],
+        fr: [" pour ", "Voir l’original", "À l’instant", "Note", "Fermer", "Notes", "Source :", "Suite à", " sur ", "Voir la publication", "Aller aux notes"],
+        de: [" für ", "Original ansehen", "Gerade eben", "Fußnote", "Schließen", "Fußnoten", "Quelle:", "Weiterführend zu", " auf ", "Beitrag ansehen", "Zu den Fußnoten"],
+        it: [" per ", "Vedi originale", "Adesso", "Nota", "Chiudi", "Note", "Fonte:", "Seguito di", " su ", "Vedi post", "Vai alle note"],
+        pt: [" para ", "Ver original", "Agora mesmo", "Nota de rodapé", "Fechar", "Notas de rodapé", "Fonte:", "Em seguimento a", " no ", "Ver publicação", "Ir para as notas de rodapé"],
+        nl: [" voor ", "Origineel bekijken", "Zojuist", "Voetnoot", "Sluiten", "Voetnoten", "Bron:", "Vervolg op", " op ", "Bericht bekijken", "Naar de voetnoten"],
+        sv: [" för ", "Visa originalet", "Nyss", "Fotnot", "Stäng", "Fotnoter", "Källa:", "Uppföljning av", " på ", "Visa inlägg", "Gå till fotnoter"],
+        da: [" for ", "Se originalen", "Lige nu", "Fodnote", "Luk", "Fodnoter", "Kilde:", "Opfølgning på", " på ", "Se indlæg", "Gå til fodnoter"],
+        nb: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg", "Gå til fotnoter"],
+        no: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg", "Gå til fotnoter"],
+        nn: [" for ", "Sjå originalen", "Akkurat no", "Fotnote", "Lat att", "Fotnotar", "Kjelde:", "Oppfølging av", " på ", "Sjå innlegg", "Gå til fotnotar"],
+        fi: [" · ", "Näytä alkuperäinen", "Juuri nyt", "Alaviite", "Sulje", "Alaviitteet", "Lähde:", "Jatkoa aiheelle", " · ", "Näytä julkaisu", "Siirry alaviitteisiin"],
+        pl: [" dla ", "Zobacz oryginał", "Przed chwilą", "Przypis", "Zamknij", "Przypisy", "Źródło:", "W nawiązaniu do", " na ", "Zobacz wpis", "Przejdź do przypisów"],
+        cs: [" pro ", "Zobrazit originál", "Právě teď", "Poznámka", "Zavřít", "Poznámky", "Zdroj:", "Navazuje na", " na ", "Zobrazit příspěvek", "Přejít na poznámky"],
+        sk: [" pre ", "Zobraziť originál", "Práve teraz", "Poznámka", "Zavrieť", "Poznámky", "Zdroj:", "Nadväzuje na", " na ", "Zobraziť príspevok", "Prejsť na poznámky"],
+        hu: [" · ", "Eredeti megtekintése", "Az imént", "Lábjegyzet", "Bezárás", "Lábjegyzetek", "Forrás:", "Folytatás:", " · ", "Bejegyzés megtekintése", "Ugrás a lábjegyzetekhez"],
+        ro: [" pentru ", "Vezi originalul", "Chiar acum", "Notă", "Închide", "Note", "Sursa:", "În continuarea", " pe ", "Vezi postarea", "Mergi la note"],
+        ru: [" для ", "Открыть оригинал", "Только что", "Сноска", "Закрыть", "Сноски", "Источник:", "В продолжение", " в ", "Открыть запись", "К сноскам"],
+        uk: [" для ", "Переглянути оригінал", "Щойно", "Виноска", "Закрити", "Виноски", "Джерело:", "У продовження", " у ", "Переглянути допис", "До виносок"],
+        tr: [" · ", "Orijinali görüntüle", "Az önce", "Dipnot", "Kapat", "Dipnotlar", "Kaynak:", "Devamı:", " · ", "Gönderiyi görüntüle", "Dipnotlara git"],
+        el: [" για ", "Προβολή πρωτοτύπου", "Μόλις τώρα", "Υποσημείωση", "Κλείσιμο", "Υποσημειώσεις", "Πηγή:", "Συνέχεια του", " στο ", "Προβολή ανάρτησης", "Μετάβαση στις υποσημειώσεις"],
+        he: [" עבור ", "הצג את המקור", "ממש עכשיו", "הערת שוליים", "סגור", "הערות שוליים", "מקור:", "המשך:", " · ", "הצג פוסט", "עבור להערות השוליים"],
+        ar: [" · ", "عرض الأصل", "الآن", "حاشية", "إغلاق", "الحواشي", "المصدر:", "متابعة:", " على ", "عرض المنشور", "انتقل إلى الحواشي"],
+        fa: [" · ", "مشاهده نسخه اصلی", "همین الان", "پانویس", "بستن", "پانویس‌ها", "منبع:", "پیگیری:", " در ", "مشاهده نوشته", "رفتن به پانویس‌ها"],
+        hi: [" · ", "मूल देखें", "अभी अभी", "पाद-टिप्पणी", "बंद करें", "पाद-टिप्पणियाँ", "स्रोत:", "अनुवर्ती:", " पर ", "पोस्ट देखें", "पाद-टिप्पणियों पर जाएँ"],
+        th: [" · ", "ดูต้นฉบับ", "เมื่อสักครู่นี้", "เชิงอรรถ", "ปิด", "เชิงอรรถ", "แหล่งที่มา:", "ต่อจาก", " บน ", "ดูโพสต์", "ไปที่เชิงอรรถ"],
+        vi: [" cho ", "Xem bản gốc", "Vừa xong", "Chú thích", "Đóng", "Chú thích", "Nguồn:", "Tiếp nối", " trên ", "Xem bài viết", "Đến phần chú thích"],
+        id: [" untuk ", "Lihat aslinya", "Baru saja", "Catatan kaki", "Tutup", "Catatan kaki", "Sumber:", "Menindaklanjuti", " di ", "Lihat postingan", "Buka catatan kaki"],
+        ms: [" untuk ", "Lihat asal", "Baru sahaja", "Nota kaki", "Tutup", "Nota kaki", "Sumber:", "Susulan kepada", " di ", "Lihat hantaran", "Pergi ke nota kaki"],
+        ja: [" · ", "元のページを表示", "たった今", "脚注", "閉じる", "脚注", "出典:", "続報:", " · ", "投稿を表示", "脚注へ移動"],
+        ko: [" · ", "원문 보기", "방금", "각주", "닫기", "각주", "출처:", "후속:", " · ", "게시물 보기", "각주로 이동"],
+        "zh-Hans": [" · ", "查看原文", "刚刚", "脚注", "关闭", "脚注", "来源:", "跟进:", " · ", "查看帖子", "前往脚注"],
+        "zh-Hant": [" · ", "查看原文", "剛剛", "註腳", "關閉", "註腳", "來源:", "後續:", " · ", "查看貼文", "前往註腳"]
       };
       var lang = String(navigator.language || "en").replace("_", "-");
       var base = lang.toLowerCase().split("-")[0];
@@ -538,6 +555,7 @@ Presentation:
         return;
       }
       if (isNaN(then)) return;
+      daisy.published = then;
       var now = new Date();
       var ms = now - then;
       if (ms < -5 * 60000) return;
@@ -578,8 +596,92 @@ Presentation:
           (/^(nb|nn|no)$/.test(base) ? finish(norwegianDays(days)) : finish(rtf.format(-days, "day")));
         else return;
       }
+      daisy.relative = true;
       time.title = time.textContent;
       time.textContent = label;
+    })();
+    // Tapping the date shows the timestamp just below it, laid over the page so nothing
+    // moves. When the date reads relative ("3 hours ago") it is the full date and time;
+    // when the date is already shown it is only "at 10:47 PM". If a long blog name on
+    // the second line would run into it, the time drops to a third line. Tapping
+    // anywhere else (or pressing Escape) hides it again.
+    (function () {
+      var time = document.querySelector(".dateline");
+      if (!time) return;
+      var day = "", rest = "";
+      if (daisy.published) {
+        try {
+          var dateOnly = new Intl.DateTimeFormat(daisy.lang, { dateStyle: "long" }).format(daisy.published);
+          var both = new Intl.DateTimeFormat(daisy.lang, { dateStyle: "long", timeStyle: "short" }).format(daisy.published);
+          var timeOnly = new Intl.DateTimeFormat(daisy.lang, { timeStyle: "short" }).format(daisy.published);
+          day = dateOnly;
+          rest = both.indexOf(dateOnly) === -1 ? "" : both.replace(dateOnly, "").replace(/\s+/g, " ").trim();
+          if (!rest) rest = timeOnly;
+        } catch (error) {
+          day = rest = "";
+        }
+      }
+      if (!rest) {
+        day = "";
+        rest = (time.getAttribute("datetime") || "").replace(/[  ]/g, " ").trim();
+      }
+      if (!rest) return;
+      if (!daisy.relative && daisy.published) day = "";
+      time.removeAttribute("title");
+      time.setAttribute("role", "button");
+      time.setAttribute("tabindex", "0");
+      time.setAttribute("aria-expanded", "false");
+      var full = document.createElement("span");
+      full.className = "dateline-full";
+      var dayEl = null;
+      if (day) {
+        dayEl = document.createElement("span");
+        dayEl.textContent = day;
+        full.appendChild(dayEl);
+        full.appendChild(document.createTextNode(" "));
+      }
+      var restEl = document.createElement("span");
+      restEl.textContent = rest;
+      full.appendChild(restEl);
+      full.hidden = true;
+      time.appendChild(full);
+      // Does the timestamp, laid out as it is now, touch the credit text?
+      function collides() {
+        var credit = document.querySelector(".attribution");
+        if (!credit) return false;
+        var a = document.createRange();
+        a.selectNodeContents(credit);
+        var b = document.createRange();
+        b.selectNodeContents(full);
+        var theirs = Array.prototype.filter.call(a.getClientRects(), function (r) { return r.width > 0; });
+        return Array.prototype.some.call(b.getClientRects(), function (mine) {
+          return mine.width > 0 && theirs.some(function (other) {
+            return mine.left < other.right + 12 && mine.right > other.left - 12 &&
+                   mine.top < other.bottom && mine.bottom > other.top;
+          });
+        });
+      }
+      function show(open) {
+        full.classList.remove("stacked");
+        full.hidden = !open;
+        time.setAttribute("aria-expanded", open ? "true" : "false");
+        if (open && dayEl && collides()) full.classList.add("stacked");
+      }
+      time.addEventListener("click", function (event) {
+        event.stopPropagation();
+        show(full.hidden);
+      });
+      time.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          show(full.hidden);
+        }
+      });
+      document.addEventListener("click", function () { show(false); });
+      window.addEventListener("resize", function () { show(false); });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") show(false);
+      });
     })();
     // Hide the "Link:" row when it points at the same page as the title.
     (function () {
