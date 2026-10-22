@@ -1,0 +1,15 @@
+title = "An open letter on footnotes"
+feed_link_title = "Astral Codex Ten"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/letter"
+byline = "Scott Alexander"
+date_medium = "Oct 20, 2026"
+body = '''<p>But rather than leave you puzzled, I hope you will forgive me if I dwell on the issues that made me make these accusations<a class="footnote-anchor" data-component-name="FootnoteAnchorToDOM" id="footnote-anchor-1" href="#footnote-1" target="_self">1</a>. The more wonderful you are, the greater your responsibility.</p>
+<p>Elsewhere they say people are told AI is inevitable<a class="footnote-anchor" data-component-name="FootnoteAnchorToDOM" id="footnote-anchor-2" href="#footnote-2" target="_self">2</a>, which I read as a claim about others.</p>
+<p>I have the honor to be your obedient servant,</p>
+<div class="footnote" data-component-name="FootnoteToDOM"><a id="footnote-1" href="#footnote-anchor-1" class="footnote-number" contenteditable="false" target="_self">1</a><div class="footnote-content"><p>Some people are getting hung up on the fact that I'm not justifying every accusation in order. See <a href="https://example.org/comment">here</a>.</p></div></div>
+<div class="footnote" data-component-name="FootnoteToDOM"><a id="footnote-2" href="#footnote-anchor-2" class="footnote-number" contenteditable="false" target="_self">2</a><div class="footnote-content"><p>Elsewhere on their homepage, they do say that people are getting told that "AI is inevitable".</p></div></div>'''
+
+[expect.footnotes.notes]
+"1" = "Some people are getting hung up on the fact that I'm not justifying every accusation in order. See here."
+"2" = "Elsewhere on their homepage, they do say that people are getting told that \"AI is inevitable\"."

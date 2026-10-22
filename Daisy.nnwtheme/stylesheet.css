@@ -73,6 +73,11 @@
                        expandable block's label and its text.
        --space-medium  The gap between paragraphs. Also the space above and below
                        the rule before the footnotes.
+       --space-heading The gap above every heading inside an article (h2 to h6),
+                       the same for all levels. Measured from the last baseline of
+                       the block above to the top of the heading's capital
+                       letters, so it looks the same under a paragraph, a list or
+                       a quote. About 1.4 times the visible gap between paragraphs.
        --space-large   The "title gap": below the title block (the sponsor label,
                        title and link line) and below the credit row of an
                        untitled post, and above "View original". Above the title
@@ -82,10 +87,11 @@
                        same whatever starts the article.
        --indent        The space between the left bar and the text of a block
                        quote or a footnote.
-     In the largest accessibility text sizes, --space-medium, --space-large,
-     --indent and --leading-body shrink (see part 4). */
+     In the largest accessibility text sizes, --space-medium, --space-heading,
+     --space-large, --indent and --leading-body shrink (see part 4). */
   --space-small: 1.3rem;
   --space-medium: 1.5em;
+  --space-heading: 3.4em;
   --space-large: 4.04rem;
   --indent: 1.25rem;
 
@@ -247,35 +253,47 @@ h6 {
 
 h2 {
   font-size: var(--text-h2);
-  margin-top: 2.2em;
 }
 
 h3 {
   font-size: var(--text-h3);
-  margin-top: 1.8em;
 }
 
 h4 {
   font-size: var(--text-medium);
-  margin-top: 1.6em;
 }
 
-h5 {
-  font-size: var(--text-small);
-  margin-top: 1.6em;
-}
-
+h5,
 h6 {
   font-size: var(--text-small);
-  margin-top: 1.6em;
 }
 
+/* The gap above a heading is --space-heading for every level, measured from the
+   heading's capital letters (text-box trims the half-leading above them, see 2.1) to
+   the last baseline of the block above. That block gives up its own half-leading below
+   the baseline too, so a paragraph, list or quote above all leave the same visible gap.
+   An image or other media has no half-leading and needs no trimming. Two headings in a
+   row sit close, at --space-small. */
 h2,
 h3,
 h4,
 h5,
 h6 {
   margin-bottom: 0.6em;
+  margin-top: var(--space-heading);
+  text-box: trim-start cap alphabetic;
+}
+
+:is(h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) {
+  margin-top: var(--space-small);
+}
+
+:is(p, blockquote):has(+ :is(h2, h3, h4, h5, h6)),
+:is(ul, ol):has(+ :is(h2, h3, h4, h5, h6)) > li:last-child,
+:is(li, blockquote):has(+ :is(h2, h3, h4, h5, h6)) > p:last-child,
+blockquote:has(+ :is(h2, h3, h4, h5, h6)) > p:last-child,
+:is(ul, ol):has(+ :is(h2, h3, h4, h5, h6)) > li:last-child > p:last-child {
+  text-box: trim-end cap alphabetic;
 }
 
 
@@ -305,12 +323,16 @@ hr {
 
 
 /* --- 1.6 Links and inline text ----------------------------------------
-   Two kinds of link:
-     Link        Inside the article. The same color as the text with a thin underline
-                 (--line-thin, sitting --link-offset below the text). Turns orange on
-                 hover.
-     Quiet link  In the header and footer, where a link is part of the layout and not
-                 a word in a sentence. No underline until hover (see below). */
+   Three kinds of link, and the hero block (byline, timestamp, title block) never
+   shows an underline at rest:
+     Link        Inside the article's text. The same color as the text with a thin
+                 underline (--line-thin, sitting --link-offset below the text). Turns
+                 orange on hover. Footnote markers are links too.
+     Quiet link  A labeled link that names a person or place: the byline and
+                 "View original". No underline until hover (see below).
+     Control     A heading or a control: the title, the eyebrow and link line, the
+                 timestamp, footnote labels and buttons, expandable blocks. Turns
+                 orange on hover and never underlines. */
 
 a {
   color: var(--text);
@@ -327,10 +349,10 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
-/* Quiet links: the credit and the feed name, the link line under the title, the
-   sponsor label when it links, the title itself, and "View original". They have no
-   underline. The credit, feed name and "View original" underline on hover, and the
-   rest turn orange like any link. */
+/* Quiet links and controls in the layout: the credit and the feed name, the link
+   line under the title, the sponsor label when it links, the title itself, and "View
+   original". They have no underline. The credit, feed name and "View original"
+   underline on hover, and the rest turn orange like any link. */
 .feed,
 .byline a,
 .external-link a,
@@ -682,13 +704,50 @@ caption {
   display: none;
 }
 
-/* If "Author for Blog" has to wrap, the blog name moves down as one piece. */
+/* If "Author for Blog" has to wrap, the blog name moves down as one piece, and wraps
+   so that no single word is left alone on a line. */
 .feed {
   display: inline-block;
+  text-wrap: pretty;
 }
 
 .dateline {
+  cursor: pointer;
   flex: none;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* The date turns orange under the pointer, like the links. The timestamp keeps the
+   text color. */
+@media (hover: hover) {
+  .dateline:hover {
+    color: var(--accent);
+  }
+}
+
+/* The time is laid over the page, so nothing moves. It starts at the top of
+   the date's own line and is pushed down one line (1lh), so its baseline falls exactly
+   where a wrapped second line would, level with a second line of the credit. */
+.dateline-full {
+  background: var(--canvas);
+  background-clip: content-box;
+  color: var(--text);
+  max-width: calc(100vw - 2 * var(--gutter));
+  padding-top: 1lh;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0;
+  white-space: nowrap;
+  width: max-content;
+  z-index: 1;
+}
+
+.dateline-full[hidden] {
+  display: none;
 }
 
 /* The credit row: only its baseline matters, because it is the top of the page. */
@@ -886,6 +945,23 @@ a.footnote {
   top: 0;
 }
 
+/* Substack's marker is a bare link, not inside a <sup>, so it is raised like a
+   superscript itself. It comes after a.footnote so it wins when NetNewsWire adds that
+   class to it too. The marker is smaller than a regular one, and NetNewsWire's tap
+   padding and minimum width are in the marker's own em, so the side margin is pulled
+   back further to keep the number close to the words around it. The tap area stays.
+   Sample: fixtures/substack-footnotes.toml. */
+a.footnote-anchor,
+a.footnote.footnote-anchor {
+  font-size: 0.75em;
+  line-height: 0;
+  margin-inline: -0.7em;
+  min-width: 0;
+  position: relative;
+  top: -0.5em;
+  vertical-align: baseline;
+}
+
 .newsfoot-footnote-popover,
 .newsfoot-footnote-popover-arrow {
   background: var(--canvas);
@@ -915,6 +991,26 @@ a.footnote {
   margin-top: 0;
 }
 
+/* Substack's notes are divs, each with its "Footnote 1" label just before it. The label
+   carries the gap between notes. */
+.articleBody div.footnote {
+  margin-block: 0;
+}
+
+/* The note's text sits as close to its label as a list note does (see li > p in 1.7),
+   not a full paragraph gap away. */
+.articleBody div.footnote .footnote-content > p {
+  margin-block: 0.6em;
+}
+
+.articleBody .footnote-label {
+  margin-top: var(--space-medium);
+}
+
+.footnotes-title + .footnote-label {
+  margin-top: 0;
+}
+
 .footnotes-title {
   margin-bottom: 1em;
 }
@@ -934,6 +1030,7 @@ hr + .footnotes-title {
 .footnote-label {
   display: block;
   font-weight: var(--weight-medium);
+  text-decoration: none;
 }
 
 /* Return links the publisher put in the note (arrows, emoji): the label replaces them. */
@@ -1005,11 +1102,28 @@ hr + .footnotes-title {
   padding: 0 12px;
 }
 
-.footnote-panel-close:hover {
+.footnote-panel-close:hover,
+.footnote-panel-goto:hover {
   color: var(--accent);
 }
 
-.footnote-panel-close:focus-visible {
+/* "Go to footnotes" mirrors the header: the same type, a 44px tap area, and the same
+   0.35rem gap from the note text, with the word lined up on the text edge. */
+.footnote-panel-goto {
+  -webkit-tap-highlight-color: transparent;
+  align-items: center;
+  color: inherit;
+  display: flex;
+  font-weight: var(--weight-medium);
+  margin: 0.35rem 0 0 -12px;
+  min-height: 44px;
+  padding: 0 12px;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.footnote-panel-close:focus-visible,
+.footnote-panel-goto:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
@@ -1182,6 +1296,37 @@ details > :last-child {
 }
 
 
+/* Google's "Add as a preferred source" buttons: promotional badges that link to
+   Google's source-preferences page. Hidden wherever they appear. The paragraph that
+   holds one is hidden too when the badge is all it contains. Sample:
+   fixtures/preferred-source.toml. */
+.articleBody a[href*="google.com/preferences/source"],
+.articleBody a[href*="google.com/preferences/publisher"],
+.articleBody img[alt*="preferred source" i] {
+  display: none;
+}
+
+.articleBody p:has(> a[href*="google.com/preferences/source"]:only-child),
+.articleBody p:has(> a[href*="google.com/preferences/publisher"]:only-child),
+.articleBody p:has(> img[alt*="preferred source" i]:only-child) {
+  display: none;
+}
+
+
+/* --- 3.2b WordPress embeds and the feed footer ------------------------
+   A WordPress embed (a post that quotes another post, as on zeldman.com) arrives as a
+   block quote holding a plain link, then the embed's preview card in an iframe. On
+   the original site the card is the content and the plain link is only what shows when
+   the card can't load. Here the card is shown, so the link would say the same thing
+   twice and is hidden. WordPress also ends every feed item with a "The post X appeared
+   first on Y" line, which the blog itself never shows; template.html tags it .feed-credit.
+   Sample: fixtures/wordpress-embed.toml. */
+blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
+.feed-credit {
+  display: none;
+}
+
+
 /* --- 3.3 Blank blocks and built-in alignment ---------------------------- */
 
 /* Blank paragraphs and divs some publishers use as spacers. template.html tags
@@ -1313,6 +1458,7 @@ details > :last-child {
   /* The three shared gaps shrink. Every rule that uses them follows automatically. */
   .article > * {
     --space-medium: 1em;
+    --space-heading: 2.2em;
     --space-large: 1.75em;
     --indent: 0.75em;
     --leading-body: 1.25;
@@ -1357,17 +1503,6 @@ details > :last-child {
 
   .article :is(p, div).media-last {
     margin-bottom: 1.25em;
-  }
-
-  .article h2 {
-    margin-top: 1.4em;
-  }
-
-  .article h3,
-  .article h4,
-  .article h5,
-  .article h6 {
-    margin-top: 1.2em;
   }
 
   .article hr {

@@ -204,6 +204,43 @@ Presentation:
         });
       });
     })();
+    // Substack's footnotes: each note is a <div class="footnote"> at the end holding a
+    // numbered link (a.footnote-number) and its text (.footnote-content). They get the same
+    // "Footnotes" heading, rule and "Footnote 1" labels as a list, and the number link is hidden.
+    (function () {
+      var words = daisy.words || ["", "", "", "Footnote", "Close", "Footnotes"];
+      var joiner = /^(ja|zh)/i.test(daisy.lang) ? "" : " ";
+      var notes = document.querySelectorAll(".articleBody div.footnote");
+      var first = null;
+      Array.prototype.forEach.call(notes, function (note) {
+        var number = note.querySelector(":scope > a.footnote-number[id]");
+        var content = note.querySelector(":scope > .footnote-content");
+        if (!number || !content) return;
+        var marker = document.getElementById(decodeURIComponent((number.hash || "").slice(1)));
+        if (!marker) return;
+        if (!first) {
+          first = note;
+          var rule = document.createElement("hr");
+          var title = document.createElement("h2");
+          title.className = "footnotes-title";
+          title.textContent = words[5];
+          note.parentNode.insertBefore(rule, note);
+          note.parentNode.insertBefore(title, note);
+        }
+        var label = document.createElement("a");
+        label.className = "footnote-label footnote-return";
+        label.href = "#" + marker.id;
+        label.textContent = words[3] + joiner + number.textContent.trim();
+        label.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          ev.stopImmediatePropagation();
+          window.scrollTo({ top: Math.max(0, marker.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3) });
+        });
+        number.classList.add("footnote-backlink");
+        // The label sits just before the note, not inside it, so the note's own text stays clean.
+        note.parentNode.insertBefore(label, note);
+      });
+    })();
     // Return links left in a note, whatever the publisher built them from: an arrow or
     // emoji glyph alone, or a link to a spot that isn't in the article. The "Footnote 1"
     // header does that job, so they're hidden.
@@ -220,17 +257,22 @@ Presentation:
     })();
     // Footnotes open as a note panel under the paragraph, in the style of a block
     // quote, with a "Footnote 1" header and a close button. It shows and hides
-    // instantly. This replaces NetNewsWire's floating popover; the note text lives in
+    // instantly, and stays open until the reader closes it (its marker or its Close
+    // button) or opens another footnote; tapping elsewhere or following a link leaves it open. This replaces NetNewsWire's floating popover; the note text lives in
     // .newsfoot-footnote-popover so NetNewsWire's own checks still find it.
     (function () {
-      var words = daisy.words || ["", "", "", "Footnote", "Close"];
-      var current = null;
+      var words = daisy.words || ["", "", "", "Footnote", "Close", "Footnotes", "", "", "", "", "Go to footnotes"];
+      var opened = [];
       var MARKER = "a.footnote, sup > a[href*='#fn'], sup > div > a[href*='#fn'], a[id^='footnote-anchor-']";
 
       function noteFor(marker) {
         if (!marker.hash) return null;
         var target = document.getElementById(decodeURIComponent(marker.hash.slice(1)));
         if (!target) return null;
+        if (target.matches("a.footnote-number")) {
+          var text = target.parentNode.querySelector(".footnote-content");
+          return text ? text.innerHTML : null;
+        }
         if (marker.matches("a[id^='footnote-anchor-']")) {
           var html = "";
           for (var node = target.nextElementSibling; node && !node.matches("a[id^='footnote-']"); node = node.nextElementSibling) {
@@ -255,12 +297,10 @@ Presentation:
         }
       }
 
-      function close() {
-        if (!current) return;
-        var closing = current;
-        current = null;
-        closing.marker.setAttribute("aria-expanded", "false");
-        closing.panel.remove();
+      function close(entry) {
+        opened.splice(opened.indexOf(entry), 1);
+        entry.marker.setAttribute("aria-expanded", "false");
+        entry.panel.remove();
       }
 
       function open(marker, html) {
@@ -273,16 +313,35 @@ Presentation:
         panel.innerHTML = '<div class="footnote-panel-header">' +
           '<span class="footnote-panel-title"></span>' +
           '<button type="button" class="footnote-panel-close"></button></div>' +
-          '<div class="footnote-panel-body newsfoot-footnote-popover"></div>';
+          '<div class="footnote-panel-body newsfoot-footnote-popover"></div>' +
+          '<a class="footnote-panel-goto" href="#"></a>';
         panel.querySelector(".footnote-panel-title").textContent = label;
         var button = panel.querySelector(".footnote-panel-close");
         button.textContent = words[4];
-        button.addEventListener("click", function (ev) { ev.stopPropagation(); close(); });
+        var entry = { marker: marker, panel: panel };
+        button.addEventListener("click", function (ev) { ev.stopPropagation(); close(entry); });
         var body = panel.querySelector(".footnote-panel-body");
         body.innerHTML = html;
+        // "Go to footnotes" takes the reader down to the footnotes section, leaving its
+        // heading a third of the way down the screen like the "Footnote 1" links do.
+        var goto = panel.querySelector(".footnote-panel-goto");
+        var note = marker.hash && document.getElementById(decodeURIComponent(marker.hash.slice(1)));
+        var holder = note && note.closest(".footnotes, .wp-block-footnotes");
+        var destination = holder ? (holder.querySelector(".footnotes-title") || holder) :
+          note && note.matches("a.footnote-number") ? document.querySelector(".footnotes-title") || note : note;
+        if (destination) {
+          goto.textContent = words[10] || "Go to footnotes";
+          goto.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            window.scrollTo({ top: Math.max(0, destination.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3) });
+          });
+        } else {
+          goto.remove();
+        }
         place(panel, marker);
         marker.setAttribute("aria-expanded", "true");
-        current = { marker: marker, panel: panel, body: body };
+        opened.push(entry);
       }
 
       document.addEventListener("click", function (ev) {
@@ -292,18 +351,57 @@ Presentation:
           if (html !== null) {
             ev.preventDefault();
             ev.stopImmediatePropagation();
-            var same = current && current.marker === anchor;
-            close();
-            if (!same) open(anchor, html);
-            return;
+            var shown = opened.filter(function (entry) { return entry.marker === anchor; })[0];
+            opened.slice().forEach(close);
+            if (!shown) open(anchor, html);
           }
         }
-        if (current && !current.panel.contains(ev.target)) close();
       }, true);
 
       document.addEventListener("keydown", function (ev) {
-        if (ev.key === "Escape") close();
+        if (ev.key === "Escape" && opened.length) close(opened[opened.length - 1]);
       });
+    })();
+    // Stray spacing publishers leave in the markup. A line break at the very start or end of a
+    // block ("<p><br><a>See Plans</a></p>") would add an empty line, so it is removed. A
+    // non-breaking space or other invisible text loose between blocks ("</p> &nbsp; <p>")
+    // would add a blank line of its own, so it is removed too. Three or more line breaks in a
+    // row are cut back to two. Only invisible leftovers go: text and media are never touched.
+    (function () {
+      var blocks = "p, div, li, blockquote, h1, h2, h3, h4, h5, h6, dt, dd, figcaption, td, th, summary";
+      var invisible = /^[\s\u00a0\u200b\u200c\u200d\u2060\ufeff]*$/;
+      var isBlank = function (n) { return n.nodeType === 3 && invisible.test(n.data); };
+      document.querySelectorAll(".articleBody").forEach(function (body) {
+        body.querySelectorAll(blocks).forEach(function (el) {
+          var kids = function (fromEnd) {
+            var n = fromEnd ? el.lastChild : el.firstChild;
+            while (n && (isBlank(n) || (n.nodeType === 8))) n = fromEnd ? n.previousSibling : n.nextSibling;
+            return n;
+          };
+          var edge;
+          while ((edge = kids(false)) && edge.nodeType === 1 && edge.tagName === "BR") edge.remove();
+          while ((edge = kids(true)) && edge.nodeType === 1 && edge.tagName === "BR") edge.remove();
+        });
+        body.querySelectorAll("br + br + br").forEach(function (br) { br.remove(); });
+        body.querySelectorAll("*").forEach(function (el) {
+          if (!el.querySelector(":scope > :is(p, div, ul, ol, blockquote, h1, h2, h3, h4, h5, h6, table, figure, pre, hr, section, nav)")) return;
+          Array.prototype.slice.call(el.childNodes).forEach(function (n) {
+            if (n.nodeType === 3 && /[\u00a0\u200b\u200c\u200d\u2060\ufeff]/.test(n.data) && invisible.test(n.data)) n.remove();
+          });
+        });
+      });
+    })();
+    // WordPress ends each feed item with "The post <title> appeared first on <blog>.", a
+    // line the blog never shows and the author didn't write. The last paragraph is tagged so
+    // the stylesheet can hide it. The wording differs by site language, so the common
+    // translations are matched too. It needs two links (the post and the blog).
+    (function () {
+      var last = document.querySelector(".articleBody > p:last-of-type");
+      if (!last || last.nextElementSibling && last.nextElementSibling.textContent.trim()) return;
+      var credit = /^\s*(The post|Der Beitrag|L[\u2019']article|La entrada|Il post|O post|Het bericht|Inl\u00e4gget|Indl\u00e6gget)\b[\s\S]{1,300}\b(appeared first on|erschien zuerst auf|est apparu en premier sur|apareci\u00f3 primero en|\u00e8 apparso per primo su|apareceu primeiro em|verscheen eerst op|dök upp först på|dukkede op f\u00f8rst p\u00e5)\b[\s\S]{1,200}$/i;
+      if (credit.test(last.textContent) && last.querySelectorAll("a").length >= 2) {
+        last.classList.add("feed-credit");
+      }
     })();
     // Blank paragraphs and divs (publishers' spacers) are hidden; anything with text
     // or media stays.
@@ -408,42 +506,42 @@ Presentation:
     // follow the reader's system language. NetNewsWire already localizes the date
     // and the "Link:" label. Languages not listed here fall back to English.
     (function () {
-      // [joins "Author" and "Blog", "View original", "just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", "on", "View post"]
+      // [joins "Author" and "Blog", "View original", "just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", "on", "View post", "Go to footnotes"]
       var STRINGS = {
-        en: [" for ", "View original", "Just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", " on ", "View post"],
-        es: [" para ", "Ver original", "Ahora mismo", "Nota al pie", "Cerrar", "Notas al pie", "Fuente:", "En seguimiento de", " en ", "Ver publicación"],
-        fr: [" pour ", "Voir l’original", "À l’instant", "Note", "Fermer", "Notes", "Source :", "Suite à", " sur ", "Voir la publication"],
-        de: [" für ", "Original ansehen", "Gerade eben", "Fußnote", "Schließen", "Fußnoten", "Quelle:", "Weiterführend zu", " auf ", "Beitrag ansehen"],
-        it: [" per ", "Vedi originale", "Adesso", "Nota", "Chiudi", "Note", "Fonte:", "Seguito di", " su ", "Vedi post"],
-        pt: [" para ", "Ver original", "Agora mesmo", "Nota de rodapé", "Fechar", "Notas de rodapé", "Fonte:", "Em seguimento a", " no ", "Ver publicação"],
-        nl: [" voor ", "Origineel bekijken", "Zojuist", "Voetnoot", "Sluiten", "Voetnoten", "Bron:", "Vervolg op", " op ", "Bericht bekijken"],
-        sv: [" för ", "Visa originalet", "Nyss", "Fotnot", "Stäng", "Fotnoter", "Källa:", "Uppföljning av", " på ", "Visa inlägg"],
-        da: [" for ", "Se originalen", "Lige nu", "Fodnote", "Luk", "Fodnoter", "Kilde:", "Opfølgning på", " på ", "Se indlæg"],
-        nb: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg"],
-        no: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg"],
-        nn: [" for ", "Sjå originalen", "Akkurat no", "Fotnote", "Lat att", "Fotnotar", "Kjelde:", "Oppfølging av", " på ", "Sjå innlegg"],
-        fi: [" · ", "Näytä alkuperäinen", "Juuri nyt", "Alaviite", "Sulje", "Alaviitteet", "Lähde:", "Jatkoa aiheelle", " · ", "Näytä julkaisu"],
-        pl: [" dla ", "Zobacz oryginał", "Przed chwilą", "Przypis", "Zamknij", "Przypisy", "Źródło:", "W nawiązaniu do", " na ", "Zobacz wpis"],
-        cs: [" pro ", "Zobrazit originál", "Právě teď", "Poznámka", "Zavřít", "Poznámky", "Zdroj:", "Navazuje na", " na ", "Zobrazit příspěvek"],
-        sk: [" pre ", "Zobraziť originál", "Práve teraz", "Poznámka", "Zavrieť", "Poznámky", "Zdroj:", "Nadväzuje na", " na ", "Zobraziť príspevok"],
-        hu: [" · ", "Eredeti megtekintése", "Az imént", "Lábjegyzet", "Bezárás", "Lábjegyzetek", "Forrás:", "Folytatás:", " · ", "Bejegyzés megtekintése"],
-        ro: [" pentru ", "Vezi originalul", "Chiar acum", "Notă", "Închide", "Note", "Sursa:", "În continuarea", " pe ", "Vezi postarea"],
-        ru: [" для ", "Открыть оригинал", "Только что", "Сноска", "Закрыть", "Сноски", "Источник:", "В продолжение", " в ", "Открыть запись"],
-        uk: [" для ", "Переглянути оригінал", "Щойно", "Виноска", "Закрити", "Виноски", "Джерело:", "У продовження", " у ", "Переглянути допис"],
-        tr: [" · ", "Orijinali görüntüle", "Az önce", "Dipnot", "Kapat", "Dipnotlar", "Kaynak:", "Devamı:", " · ", "Gönderiyi görüntüle"],
-        el: [" για ", "Προβολή πρωτοτύπου", "Μόλις τώρα", "Υποσημείωση", "Κλείσιμο", "Υποσημειώσεις", "Πηγή:", "Συνέχεια του", " στο ", "Προβολή ανάρτησης"],
-        he: [" עבור ", "הצג את המקור", "ממש עכשיו", "הערת שוליים", "סגור", "הערות שוליים", "מקור:", "המשך:", " · ", "הצג פוסט"],
-        ar: [" · ", "عرض الأصل", "الآن", "حاشية", "إغلاق", "الحواشي", "المصدر:", "متابعة:", " على ", "عرض المنشور"],
-        fa: [" · ", "مشاهده نسخه اصلی", "همین الان", "پانویس", "بستن", "پانویس‌ها", "منبع:", "پیگیری:", " در ", "مشاهده نوشته"],
-        hi: [" · ", "मूल देखें", "अभी अभी", "पाद-टिप्पणी", "बंद करें", "पाद-टिप्पणियाँ", "स्रोत:", "अनुवर्ती:", " पर ", "पोस्ट देखें"],
-        th: [" · ", "ดูต้นฉบับ", "เมื่อสักครู่นี้", "เชิงอรรถ", "ปิด", "เชิงอรรถ", "แหล่งที่มา:", "ต่อจาก", " บน ", "ดูโพสต์"],
-        vi: [" cho ", "Xem bản gốc", "Vừa xong", "Chú thích", "Đóng", "Chú thích", "Nguồn:", "Tiếp nối", " trên ", "Xem bài viết"],
-        id: [" untuk ", "Lihat aslinya", "Baru saja", "Catatan kaki", "Tutup", "Catatan kaki", "Sumber:", "Menindaklanjuti", " di ", "Lihat postingan"],
-        ms: [" untuk ", "Lihat asal", "Baru sahaja", "Nota kaki", "Tutup", "Nota kaki", "Sumber:", "Susulan kepada", " di ", "Lihat hantaran"],
-        ja: [" · ", "元のページを表示", "たった今", "脚注", "閉じる", "脚注", "出典:", "続報:", " · ", "投稿を表示"],
-        ko: [" · ", "원문 보기", "방금", "각주", "닫기", "각주", "출처:", "후속:", " · ", "게시물 보기"],
-        "zh-Hans": [" · ", "查看原文", "刚刚", "脚注", "关闭", "脚注", "来源:", "跟进:", " · ", "查看帖子"],
-        "zh-Hant": [" · ", "查看原文", "剛剛", "註腳", "關閉", "註腳", "來源:", "後續:", " · ", "查看貼文"]
+        en: [" for ", "View original", "Just now", "Footnote", "Close", "Footnotes", "Source:", "A follow-up to", " on ", "View post", "Go to footnotes"],
+        es: [" para ", "Ver original", "Ahora mismo", "Nota al pie", "Cerrar", "Notas al pie", "Fuente:", "En seguimiento de", " en ", "Ver publicación", "Ir a las notas al pie"],
+        fr: [" pour ", "Voir l’original", "À l’instant", "Note", "Fermer", "Notes", "Source :", "Suite à", " sur ", "Voir la publication", "Aller aux notes"],
+        de: [" für ", "Original ansehen", "Gerade eben", "Fußnote", "Schließen", "Fußnoten", "Quelle:", "Weiterführend zu", " auf ", "Beitrag ansehen", "Zu den Fußnoten"],
+        it: [" per ", "Vedi originale", "Adesso", "Nota", "Chiudi", "Note", "Fonte:", "Seguito di", " su ", "Vedi post", "Vai alle note"],
+        pt: [" para ", "Ver original", "Agora mesmo", "Nota de rodapé", "Fechar", "Notas de rodapé", "Fonte:", "Em seguimento a", " no ", "Ver publicação", "Ir para as notas de rodapé"],
+        nl: [" voor ", "Origineel bekijken", "Zojuist", "Voetnoot", "Sluiten", "Voetnoten", "Bron:", "Vervolg op", " op ", "Bericht bekijken", "Naar de voetnoten"],
+        sv: [" för ", "Visa originalet", "Nyss", "Fotnot", "Stäng", "Fotnoter", "Källa:", "Uppföljning av", " på ", "Visa inlägg", "Gå till fotnoter"],
+        da: [" for ", "Se originalen", "Lige nu", "Fodnote", "Luk", "Fodnoter", "Kilde:", "Opfølgning på", " på ", "Se indlæg", "Gå til fodnoter"],
+        nb: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg", "Gå til fotnoter"],
+        no: [" for ", "Se originalen", "Akkurat nå", "Fotnote", "Lukk", "Fotnoter", "Kilde:", "Oppfølging av", " på ", "Se innlegg", "Gå til fotnoter"],
+        nn: [" for ", "Sjå originalen", "Akkurat no", "Fotnote", "Lat att", "Fotnotar", "Kjelde:", "Oppfølging av", " på ", "Sjå innlegg", "Gå til fotnotar"],
+        fi: [" · ", "Näytä alkuperäinen", "Juuri nyt", "Alaviite", "Sulje", "Alaviitteet", "Lähde:", "Jatkoa aiheelle", " · ", "Näytä julkaisu", "Siirry alaviitteisiin"],
+        pl: [" dla ", "Zobacz oryginał", "Przed chwilą", "Przypis", "Zamknij", "Przypisy", "Źródło:", "W nawiązaniu do", " na ", "Zobacz wpis", "Przejdź do przypisów"],
+        cs: [" pro ", "Zobrazit originál", "Právě teď", "Poznámka", "Zavřít", "Poznámky", "Zdroj:", "Navazuje na", " na ", "Zobrazit příspěvek", "Přejít na poznámky"],
+        sk: [" pre ", "Zobraziť originál", "Práve teraz", "Poznámka", "Zavrieť", "Poznámky", "Zdroj:", "Nadväzuje na", " na ", "Zobraziť príspevok", "Prejsť na poznámky"],
+        hu: [" · ", "Eredeti megtekintése", "Az imént", "Lábjegyzet", "Bezárás", "Lábjegyzetek", "Forrás:", "Folytatás:", " · ", "Bejegyzés megtekintése", "Ugrás a lábjegyzetekhez"],
+        ro: [" pentru ", "Vezi originalul", "Chiar acum", "Notă", "Închide", "Note", "Sursa:", "În continuarea", " pe ", "Vezi postarea", "Mergi la note"],
+        ru: [" для ", "Открыть оригинал", "Только что", "Сноска", "Закрыть", "Сноски", "Источник:", "В продолжение", " в ", "Открыть запись", "К сноскам"],
+        uk: [" для ", "Переглянути оригінал", "Щойно", "Виноска", "Закрити", "Виноски", "Джерело:", "У продовження", " у ", "Переглянути допис", "До виносок"],
+        tr: [" · ", "Orijinali görüntüle", "Az önce", "Dipnot", "Kapat", "Dipnotlar", "Kaynak:", "Devamı:", " · ", "Gönderiyi görüntüle", "Dipnotlara git"],
+        el: [" για ", "Προβολή πρωτοτύπου", "Μόλις τώρα", "Υποσημείωση", "Κλείσιμο", "Υποσημειώσεις", "Πηγή:", "Συνέχεια του", " στο ", "Προβολή ανάρτησης", "Μετάβαση στις υποσημειώσεις"],
+        he: [" עבור ", "הצג את המקור", "ממש עכשיו", "הערת שוליים", "סגור", "הערות שוליים", "מקור:", "המשך:", " · ", "הצג פוסט", "עבור להערות השוליים"],
+        ar: [" · ", "عرض الأصل", "الآن", "حاشية", "إغلاق", "الحواشي", "المصدر:", "متابعة:", " على ", "عرض المنشور", "انتقل إلى الحواشي"],
+        fa: [" · ", "مشاهده نسخه اصلی", "همین الان", "پانویس", "بستن", "پانویس‌ها", "منبع:", "پیگیری:", " در ", "مشاهده نوشته", "رفتن به پانویس‌ها"],
+        hi: [" · ", "मूल देखें", "अभी अभी", "पाद-टिप्पणी", "बंद करें", "पाद-टिप्पणियाँ", "स्रोत:", "अनुवर्ती:", " पर ", "पोस्ट देखें", "पाद-टिप्पणियों पर जाएँ"],
+        th: [" · ", "ดูต้นฉบับ", "เมื่อสักครู่นี้", "เชิงอรรถ", "ปิด", "เชิงอรรถ", "แหล่งที่มา:", "ต่อจาก", " บน ", "ดูโพสต์", "ไปที่เชิงอรรถ"],
+        vi: [" cho ", "Xem bản gốc", "Vừa xong", "Chú thích", "Đóng", "Chú thích", "Nguồn:", "Tiếp nối", " trên ", "Xem bài viết", "Đến phần chú thích"],
+        id: [" untuk ", "Lihat aslinya", "Baru saja", "Catatan kaki", "Tutup", "Catatan kaki", "Sumber:", "Menindaklanjuti", " di ", "Lihat postingan", "Buka catatan kaki"],
+        ms: [" untuk ", "Lihat asal", "Baru sahaja", "Nota kaki", "Tutup", "Nota kaki", "Sumber:", "Susulan kepada", " di ", "Lihat hantaran", "Pergi ke nota kaki"],
+        ja: [" · ", "元のページを表示", "たった今", "脚注", "閉じる", "脚注", "出典:", "続報:", " · ", "投稿を表示", "脚注へ移動"],
+        ko: [" · ", "원문 보기", "방금", "각주", "닫기", "각주", "출처:", "후속:", " · ", "게시물 보기", "각주로 이동"],
+        "zh-Hans": [" · ", "查看原文", "刚刚", "脚注", "关闭", "脚注", "来源:", "跟进:", " · ", "查看帖子", "前往脚注"],
+        "zh-Hant": [" · ", "查看原文", "剛剛", "註腳", "關閉", "註腳", "來源:", "後續:", " · ", "查看貼文", "前往註腳"]
       };
       var lang = String(navigator.language || "en").replace("_", "-");
       var base = lang.toLowerCase().split("-")[0];
@@ -538,6 +636,7 @@ Presentation:
         return;
       }
       if (isNaN(then)) return;
+      daisy.published = then;
       var now = new Date();
       var ms = now - then;
       if (ms < -5 * 60000) return;
@@ -580,6 +679,54 @@ Presentation:
       }
       time.title = time.textContent;
       time.textContent = label;
+    })();
+    // Tapping the date shows the time ("at 10:47 PM") just below it, laid over the page
+    // so nothing moves. Tapping anywhere else (or pressing Escape) hides it again.
+    (function () {
+      var time = document.querySelector(".dateline");
+      if (!time) return;
+      var text = "";
+      if (daisy.published) {
+        // The localized "at 10:47 PM": the date and time together, less the date.
+        try {
+          var dateOnly = new Intl.DateTimeFormat(daisy.lang, { dateStyle: "long" }).format(daisy.published);
+          var both = new Intl.DateTimeFormat(daisy.lang, { dateStyle: "long", timeStyle: "short" }).format(daisy.published);
+          if (both.indexOf(dateOnly) !== -1) text = both.replace(dateOnly, "").replace(/\s+/g, " ").trim();
+          if (!text) text = new Intl.DateTimeFormat(daisy.lang, { timeStyle: "short" }).format(daisy.published);
+        } catch (error) {
+          text = "";
+        }
+      }
+      if (!text) text = (time.getAttribute("datetime") || "").replace(/[  ]/g, " ").trim();
+      if (!text) return;
+      time.removeAttribute("title");
+      time.setAttribute("role", "button");
+      time.setAttribute("tabindex", "0");
+      time.setAttribute("aria-expanded", "false");
+      var full = document.createElement("span");
+      full.className = "dateline-full";
+      full.textContent = text;
+      full.hidden = true;
+      time.appendChild(full);
+      function show(open) {
+        full.hidden = !open;
+        time.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      time.addEventListener("click", function (event) {
+        event.stopPropagation();
+        show(full.hidden);
+      });
+      time.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          show(full.hidden);
+        }
+      });
+      document.addEventListener("click", function () { show(false); });
+      window.addEventListener("resize", function () { show(false); });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") show(false);
+      });
     })();
     // Hide the "Link:" row when it points at the same page as the title.
     (function () {
@@ -671,14 +818,17 @@ Presentation:
         parts.pop();
         if (parts.length > 5 || !new RegExp("(^|\\s)(" + numberedSeries + ")\\.?$", "i").test(parts.join(" "))) numbered = null;
       }
-      var found = tagged || plain || named || echo || numbered || paywall;
+      // A dated edition: "9to5Mac Daily: October 21, 2026 \u2013 Headline". The name and date
+      // move up together, so the title starts after the dash.
+      var dated = text.match(/^\s*([^:\uff1a]{1,40}?:\s+\p{Lu}\p{L}+\.?\s+\d{1,2},?\s+\d{4})\s*[\u2014\u2013-]\s+/u);
+      var found = tagged || plain || named || echo || numbered || dated || paywall;
       var label, rest;
       if (found) {
         if (text.length <= found[0].length) return;
         label = found[1].trim();
         rest = text.slice(found[0].length);
         // A prefix that is only an acronym ("CISA:", "EU:", "PSA:") stays in the title.
-        if (found !== numbered && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
+        if (found !== numbered && found !== dated && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
       } else {
         var trailing = text.match(new RegExp("^(.*\\S)\\s*[\\[(]\\s*(" + trailingTags + ")\\s*[\\])]\\s*$", "i"));
         // A short show name after a pipe: "Headline | The Vergecast Livestream". Dates
