@@ -1,0 +1,24 @@
+title = "Gaps above headings"
+feed_link_title = "Example"
+feed_link = "https://example.org/"
+byline = "Pat Writer"
+date_medium = "Oct 22, 2026"
+body = '''<p>A first paragraph that leads the article and runs long enough to wrap onto a second line so the gap below it is easy to judge.</p>
+<h2>An h2 after a paragraph</h2>
+<p>A paragraph of text under the heading, which also runs long enough to wrap onto a second line when read on a phone.</p>
+<h3>An h3 after a paragraph</h3>
+<p>Another paragraph of text under the heading, long enough to wrap onto a second line on a narrow screen.</p>
+<h4>An h4 after a paragraph</h4>
+<p>More text.</p>
+<h5>An h5 after a paragraph</h5>
+<p>More text.</p>
+<h6>An h6 after a paragraph</h6>
+<ul><li>A list item</li><li>The last list item, long enough to wrap onto a second line on a narrow phone screen.</li></ul>
+<h2>An h2 after a list</h2>
+<blockquote><p>A quote that ends the section.</p></blockquote>
+<h3>An h3 after a quote</h3>
+<h4>An h4 right after a heading</h4>
+<p>Text before an image.</p>
+<p><img src="https://example.org/image.jpg" width="600" height="200" alt=""></p>
+<h2>An h2 after an image</h2>
+<p>The end.</p>'''

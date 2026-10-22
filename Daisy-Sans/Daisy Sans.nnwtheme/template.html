@@ -204,6 +204,43 @@ Presentation:
         });
       });
     })();
+    // Substack's footnotes: each note is a <div class="footnote"> at the end holding a
+    // numbered link (a.footnote-number) and its text (.footnote-content). They get the same
+    // "Footnotes" heading, rule and "Footnote 1" labels as a list, and the number link is hidden.
+    (function () {
+      var words = daisy.words || ["", "", "", "Footnote", "Close", "Footnotes"];
+      var joiner = /^(ja|zh)/i.test(daisy.lang) ? "" : " ";
+      var notes = document.querySelectorAll(".articleBody div.footnote");
+      var first = null;
+      Array.prototype.forEach.call(notes, function (note) {
+        var number = note.querySelector(":scope > a.footnote-number[id]");
+        var content = note.querySelector(":scope > .footnote-content");
+        if (!number || !content) return;
+        var marker = document.getElementById(decodeURIComponent((number.hash || "").slice(1)));
+        if (!marker) return;
+        if (!first) {
+          first = note;
+          var rule = document.createElement("hr");
+          var title = document.createElement("h2");
+          title.className = "footnotes-title";
+          title.textContent = words[5];
+          note.parentNode.insertBefore(rule, note);
+          note.parentNode.insertBefore(title, note);
+        }
+        var label = document.createElement("a");
+        label.className = "footnote-label footnote-return";
+        label.href = "#" + marker.id;
+        label.textContent = words[3] + joiner + number.textContent.trim();
+        label.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          ev.stopImmediatePropagation();
+          window.scrollTo({ top: Math.max(0, marker.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3) });
+        });
+        number.classList.add("footnote-backlink");
+        // The label sits just before the note, not inside it, so the note's own text stays clean.
+        note.parentNode.insertBefore(label, note);
+      });
+    })();
     // Return links left in a note, whatever the publisher built them from: an arrow or
     // emoji glyph alone, or a link to a spot that isn't in the article. The "Footnote 1"
     // header does that job, so they're hidden.
@@ -232,6 +269,10 @@ Presentation:
         if (!marker.hash) return null;
         var target = document.getElementById(decodeURIComponent(marker.hash.slice(1)));
         if (!target) return null;
+        if (target.matches("a.footnote-number")) {
+          var text = target.parentNode.querySelector(".footnote-content");
+          return text ? text.innerHTML : null;
+        }
         if (marker.matches("a[id^='footnote-anchor-']")) {
           var html = "";
           for (var node = target.nextElementSibling; node && !node.matches("a[id^='footnote-']"); node = node.nextElementSibling) {
@@ -286,7 +327,8 @@ Presentation:
         var goto = panel.querySelector(".footnote-panel-goto");
         var note = marker.hash && document.getElementById(decodeURIComponent(marker.hash.slice(1)));
         var holder = note && note.closest(".footnotes, .wp-block-footnotes");
-        var destination = holder ? (holder.querySelector(".footnotes-title") || holder) : note;
+        var destination = holder ? (holder.querySelector(".footnotes-title") || holder) :
+          note && note.matches("a.footnote-number") ? document.querySelector(".footnotes-title") || note : note;
         if (destination) {
           goto.textContent = words[10] || "Go to footnotes";
           goto.addEventListener("click", function (ev) {
@@ -711,12 +753,17 @@ Presentation:
         var word = parts[parts.length - 1] || "";
         if (parts.length > 5 || !new RegExp("^(" + numberedSeries + ")\\.?$", "i").test(word)) numbered = null;
       }
-      var found = tagged || plain || numbered;
+      // A dated edition: "9to5Mac Daily: October 21, 2026 \u2013 Headline". The name and date
+      // move up together, so the title starts after the dash.
+      var dated = text.match(/^\s*([^:\uff1a]{1,40}?:\s+\p{Lu}\p{L}+\.?\s+\d{1,2},?\s+\d{4})\s*[\u2014\u2013-]\s+/u);
+      // A sponsor tag at the end: "Headline [Sponsor]" or "Headline (Ad)".
+      var trailing = text.match(new RegExp("\\s*[\\[(]\\s*(" + sponsorWords + ")\\s*[\\])]\\s*$", "i"));
+      var found = tagged || plain || numbered || dated || trailing;
       if (!found || text.length <= found[0].length) return;
       var label = found[1].trim();
       if (!/\p{L}/u.test(label)) return;
-      var rest = text.slice(found[0].length);
-      if (new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
+      var rest = trailing && found === trailing ? text.slice(0, text.length - found[0].length) : text.slice(found[0].length);
+      if (found !== trailing && new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
         var split = rest.match(/^(.{1,60}?):\s+(.+)$/);
         if (split) {
           label = label + ": " + split[1];
