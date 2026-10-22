@@ -776,7 +776,10 @@ Presentation:
     // Also moved: a known editorial or section label before a colon ("Cartoon: Headline",
     // "The Sunday Read: Headline"), a label that matches the feed's own name ("Pluralistic: Headline"),
     // a paywall marker ("heise+ | Headline"), a bracketed tag at the end ("Headline [Gallery]"),
-    // and a short show name after a pipe ("Headline | The Vergecast Livestream").
+    // and a short show name after a pipe ("Headline | The Vergecast Livestream"). Also moved:
+    // "Opinion | Headline", any newsletter name before a colon ("The War Room newsletter: Headline")
+    // and a closing "- video" or "- live" after a dash. A name after a pipe that is the post's
+    // author ("Headline | Margaret Sullivan") is dropped instead, since the byline shows it.
     // Left in the title: a prefix that is a single symbol ("★ Headline", "🔴 Live: Headline")
     // and a prefix that is only an acronym ("CISA: Headline").
     document.querySelectorAll(".article-header h1 a").forEach(function (a) {
@@ -787,9 +790,10 @@ Presentation:
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|cover story newsletter|solo acts|the headlines";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
-      var trailingTags = "gallery|video|poll|updated|live|" + sponsorWords;
+      var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive";
+      var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
       var tagged = text.match(/^\s*[\[(]\s*([^\[\]()]{1,24}?)\s*[\])]\s+/);
       var plain = text.match(new RegExp("^\\s*(" + sponsorWords + "|" + series + ")\\s*[:\\u2014\\u2013-]\\s+", "i"));
       var named = text.match(new RegExp("^\\s*(" + labels + ")\\s*[:\\uff1a]\\s+", "i"));
@@ -804,8 +808,13 @@ Presentation:
         var echoName = simple(colon[1]);
         if (echoName.length > 3 && (echoName.indexOf(feedName) === 0 || feedName.indexOf(echoName) === 0)) echo = colon;
       }
-      // A paywall marker before a pipe: "heise+ | ...".
-      var paywall = text.match(/^\s*([\p{L}\p{N}.\-]{2,20}\+)\s*\|\s+/u);
+      // A paywall marker before a pipe or a colon: "heise+ | ...", "STAT+: ...".
+      var paywall = text.match(/^\s*([\p{L}\p{N}.\-]{2,20}\+)\s*[|:]\s+/u);
+      // "Opinion | Headline": the label comes first, before the pipe.
+      var opinion = text.match(/^\s*(opinion)\s*\|\s+/i);
+      // A newsletter name before a colon, up to four words: "The War Room newsletter: ...".
+      var newsletter = text.match(/^\s*([^:\uff1a|]{1,40}?\snewsletter)\s*[:\uff1a]\s+/i);
+      if (newsletter && newsletter[1].trim().split(/\s+/).length > 4) newsletter = null;
       // A numbered series: a short label that ends in one of the series names below, a number
       // and a colon: "OS 34: ...", "Obs 149.5: ...", "Mostly free OS 32: ...",
       // "Clockwise 679: ...". Any words before the series name come along (at most six words
@@ -821,7 +830,7 @@ Presentation:
       // A dated edition: "9to5Mac Daily: October 21, 2026 \u2013 Headline". The name and date
       // move up together, so the title starts after the dash.
       var dated = text.match(/^\s*([^:\uff1a]{1,40}?:\s+\p{Lu}\p{L}+\.?\s+\d{1,2},?\s+\d{4})\s*[\u2014\u2013-]\s+/u);
-      var found = tagged || plain || named || echo || numbered || dated || paywall;
+      var found = tagged || plain || named || echo || numbered || dated || paywall || opinion || newsletter;
       var label, rest;
       if (found) {
         if (text.length <= found[0].length) return;
@@ -831,14 +840,29 @@ Presentation:
         if (found !== numbered && found !== dated && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
       } else {
         var trailing = text.match(new RegExp("^(.*\\S)\\s*[\\[(]\\s*(" + trailingTags + ")\\s*[\\])]\\s*$", "i"));
+        // A closing tag after a dash: "Headline \u2013 video".
+        var dashed = text.match(/^(.*\S)\s+[\u2014\u2013-]\s+(video|live|cartoon|ranked!)\s*$/i);
         // A short show name after a pipe: "Headline | The Vergecast Livestream". Dates
         // ("| October 2026") and anything with a number stay.
         var piped = text.match(/^(.*\S)\s+\|\s+([^|\d]{2,40}?)\s*$/);
         if (piped && piped[2].trim().split(/\s+/).length > 4) piped = null;
-        var tail = trailing || piped;
+        var tail = trailing || dashed || piped;
         if (!tail) return;
         label = tail[2].trim();
         rest = tail[1];
+        // A name after a pipe that is the post's author is already in the byline, so it is
+        // dropped. "Editorial" stays, since it is the kind of piece and not a person.
+        if (tail === piped) {
+          var words = function (s) { return " " + s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim() + " "; };
+          var byline = document.querySelector(".attribution .byline");
+          if (byline && words(label).trim() && words(label).trim() !== "editorial" &&
+              words(byline.textContent).indexOf(words(label)) >= 0) {
+            node.data = rest;
+            return;
+          }
+        }
+        // A closing tag shouted in capitals ("(EXCLUSIVE)") is shown in lowercase.
+        if (tail === trailing && new RegExp("^(" + closingWords + ")$", "i").test(label)) label = label.toLowerCase();
       }
       if (!/\p{L}/u.test(label)) return;
       if (found && new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
