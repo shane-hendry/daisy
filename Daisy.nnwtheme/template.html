@@ -779,7 +779,9 @@ Presentation:
     // and a short show name after a pipe ("Headline | The Vergecast Livestream"). Also moved:
     // "Opinion | Headline", any newsletter name before a colon ("The War Room newsletter: Headline")
     // and a closing "- video" or "- live" after a dash. A name after a pipe that is the post's
-    // author ("Headline | Margaret Sullivan") is dropped instead, since the byline shows it.
+    // author ("Headline | Margaret Sullivan") is dropped instead, since the byline shows it. The
+    // same goes for an author's name before a colon ("Bengt Ohlsson: Headline"). Also moved:
+    // "EN DIRECT - Headline". A "(not)" or "(yet)" in parentheses at the start stays in the title.
     // Left in the title: a prefix that is a single symbol ("★ Headline", "🔴 Live: Headline")
     // and a prefix that is only an acronym ("CISA: Headline").
     document.querySelectorAll(".article-header h1 a").forEach(function (a) {
@@ -790,7 +792,7 @@ Presentation:
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|show hn|ask hn|tell hn|launch hn|today in apple history|price cut|price drop|poll|livestream";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
       var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive";
       var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
@@ -801,6 +803,8 @@ Presentation:
       // so every feed that repeats its name in its titles is covered without a list.
       var echo = null;
       var feedEl = document.querySelector(".attribution .feed");
+      // Lowercase words with single spaces around them, so a name can be looked for in the byline.
+      var wordsOf = function (s) { return " " + s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim() + " "; };
       var simple = function (s) { return s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); };
       var feedName = feedEl ? simple(feedEl.textContent) : "";
       var colon = text.match(/^\s*([^:：]{1,40}?)\s*[:：]\s+/);
@@ -830,15 +834,27 @@ Presentation:
       // A dated edition: "9to5Mac Daily: October 21, 2026 \u2013 Headline". The name and date
       // move up together, so the title starts after the dash.
       var dated = text.match(/^\s*([^:\uff1a]{1,40}?:\s+\p{Lu}\p{L}+\.?\s+\d{1,2},?\s+\d{4})\s*[\u2014\u2013-]\s+/u);
-      var found = tagged || plain || named || echo || numbered || dated || paywall || opinion || newsletter;
+      // A live label that stands first: "EN DIRECT - Headline", "EN DIRECT, topic : Headline".
+      var live = text.match(/^\s*(en direct)\s*[,:\uff1a\u2014\u2013-]\s+/i);
+      var found = tagged || plain || named || echo || numbered || dated || paywall || opinion || newsletter || live;
       var label, rest;
       if (found) {
         if (text.length <= found[0].length) return;
         label = found[1].trim();
         rest = text.slice(found[0].length);
         // A prefix that is only an acronym ("CISA:", "EU:", "PSA:") stays in the title.
+        // A tag in parentheses that begins "(not)" or "(yet)" is part of the sentence: "(not) solitaire".
+        if (found === tagged && /^\s*\(/.test(tagged[0]) && /^(not|yet)\b/i.test(label)) return;
         if (found !== numbered && found !== dated && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
       } else {
+        // A name before a colon that is the post's author is already in the byline, so it is
+        // dropped: "Bengt Ohlsson: Headline" by Bengt Ohlsson. Anyone else's name stays.
+        var authorEl = document.querySelector(".attribution .byline");
+        if (colon && authorEl && text.length > colon[0].length && wordsOf(colon[1]).trim().length > 2 &&
+            wordsOf(authorEl.textContent).indexOf(wordsOf(colon[1])) >= 0) {
+          node.data = text.slice(colon[0].length);
+          return;
+        }
         var trailing = text.match(new RegExp("^(.*\\S)\\s*[\\[(]\\s*(" + trailingTags + ")\\s*[\\])]\\s*$", "i"));
         // A closing tag after a dash: "Headline \u2013 video".
         var dashed = text.match(/^(.*\S)\s+[\u2014\u2013-]\s+(video|live|cartoon|ranked!)\s*$/i);
@@ -853,10 +869,9 @@ Presentation:
         // A name after a pipe that is the post's author is already in the byline, so it is
         // dropped. "Editorial" stays, since it is the kind of piece and not a person.
         if (tail === piped) {
-          var words = function (s) { return " " + s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim() + " "; };
           var byline = document.querySelector(".attribution .byline");
-          if (byline && words(label).trim() && words(label).trim() !== "editorial" &&
-              words(byline.textContent).indexOf(words(label)) >= 0) {
+          if (byline && wordsOf(label).trim() && wordsOf(label).trim() !== "editorial" &&
+              wordsOf(byline.textContent).indexOf(wordsOf(label)) >= 0) {
             node.data = rest;
             return;
           }
@@ -865,6 +880,8 @@ Presentation:
         if (tail === trailing && new RegExp("^(" + closingWords + ")$", "i").test(label)) label = label.toLowerCase();
       }
       if (!/\p{L}/u.test(label)) return;
+      // A live label shouted in capitals ("EN DIRECT") is shown in lowercase.
+      if (found && found === live) label = label.toLowerCase();
       if (found && new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
         var split = rest.match(/^(.{1,60}?):\s+(.+)$/);
         if (split) {

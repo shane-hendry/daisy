@@ -1,0 +1,8 @@
+title = "Show HN: Run full iOS 16.5 firmware on Android Devices"
+feed_link_title = "Hacker News"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/community-post"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>A community label before a colon. It moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

@@ -154,6 +154,7 @@ When a title is hidden:
 - A tag must contain at least one letter. (v0.1.0)
 - A tag with nothing after it is left alone. (v0.1.0)
 - **(Tag)Title**, with no space after the closing bracket, is left alone, like **(Re)introducing**. (v0.2.0)
+- A tag in parentheses that begins with "not" or "yet" is part of the sentence and stays in the title. **(not) solitaire** is left as it is. (v0.3.0)
 
 ##### Tags at the end
 
@@ -188,6 +189,15 @@ When a title is hidden:
 - **The Sunday Read: Headline** becomes **The Sunday Read** over **Headline**. (v0.2.0)
 - Only these sections count: The Sunday Read, Sunday Special, The Latest, The Field, The Headlines, Hello Developer, Version History, Fragments, and Solo Acts. (v0.2.0)
 - Also: The Download, The Pulse, PopInfo Weekly, Brickbat, Today in Supreme Court History, Following, Best Of, Extra, and Pivot Extra. (v0.3.0)
+- Also: Today in Apple history, Price cut, Price drop, Poll, and Livestream. (v0.3.0)
+- **Today in Apple history: iPad sales overtake Macs** becomes **Today in Apple history** over **iPad sales overtake Macs**. (v0.3.0)
+- **Livestream: Die Nachrichten auf tagesschau24** becomes **Livestream** over **Die Nachrichten auf tagesschau24**. (v0.3.0)
+
+##### Community posts
+
+- **Show HN: Headline** becomes **Show HN** over **Headline**. (v0.3.0)
+- **Ask HN:**, **Tell HN:**, and **Launch HN:** work the same way. (v0.3.0)
+- The acronym rule does not stop these, since each label is more than one word. (v0.3.0)
 - The section must be followed by a colon. (v0.2.0)
 - To follow another section, add its name to the list in `template.html`. (v0.2.0)
 
@@ -227,6 +237,20 @@ When a title is hidden:
 - The name counts as the author when all its words appear in the author field, so **Andrew Lawrence** matches the author **Andrew Lawrence at State Farm Arena**. (v0.3.0)
 - **Ask Annalisa Barbieri** does not match the author **Annalisa Barbieri**, so it moves to the eyebrow. (v0.3.0)
 - **| Editorial** moves to the eyebrow even when the author is also Editorial. (v0.3.0)
+
+##### Author names before a colon
+
+- **Bengt Ohlsson: Headline** by Bengt Ohlsson becomes **Headline**, since the byline already shows the name. (v0.3.0)
+- The name counts as the author when all its words appear in the author field, so **Wetzel: Headline** by Dan Wetzel matches. (v0.3.0)
+- A name that is not the author stays in the title, like someone being interviewed: **Sara Carbonero: “Lo que viví…”**. (v0.3.0)
+- Nothing moves to the eyebrow. Labels that are on a list, like **Review:**, are handled first. (v0.3.0)
+
+##### Live labels
+
+- **EN DIRECT - Headline** becomes **En direct** over **Headline**. (v0.3.0)
+- **EN DIRECT, topic : Headline** becomes **En direct** over **topic : Headline**. (v0.3.0)
+- The separator can be a comma, a colon, an en dash, an em dash, or a hyphen. (v0.3.0)
+- A label in capitals is shown in lowercase with a capital first letter. (v0.3.0)
 
 ##### Prefixes that stay in the title
 
@@ -362,6 +386,11 @@ New site-specific rules get a row here.
 | [STAT](https://www.statnews.com) | Moves the "STAT+" paywall marker and "Opinion:" to the eyebrow | [Paywall markers](#paywall-markers), [Editorial labels](#editorial-labels) | v0.3.0 |
 | [The Guardian](https://www.theguardian.com) | Drops a columnist's name after a pipe when it matches the author, moves labels like "Editorial" and "Letters" to the eyebrow, and moves "– video" and "– live" endings | [Show names after a pipe](#show-names-after-a-pipe), [Dash tags at the end](#dash-tags-at-the-end) | v0.3.0 |
 | [The New Yorker](https://www.newyorker.com) | Moves "Daily Cartoon:" to the eyebrow | [Editorial labels](#editorial-labels) | v0.3.0 |
+| [Hacker News](https://news.ycombinator.com) | Moves "Show HN:", "Ask HN:", and "Tell HN:" to the eyebrow | [Community posts](#community-posts) | v0.3.0 |
+| [Cult of Mac](https://www.cultofmac.com) | Moves "Today in Apple history:", "Price cut:", and "Price drop:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
+| [Dagens Nyheter](https://www.dn.se) | Drops a columnist's name before the colon when it is the author | [Author names before a colon](#author-names-before-a-colon) | v0.3.0 |
+| [Le Monde](https://www.lemonde.fr) | Moves "EN DIRECT" to the eyebrow, the same for Le Figaro and Libération | [Live labels](#live-labels) | v0.3.0 |
+| [Tagesschau](https://www.tagesschau.de) | Moves "Livestream:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
 | [The Pragmatic Engineer](https://newsletter.pragmaticengineer.com) | Moves "The Pulse:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
 
 ### Platforms and tools
