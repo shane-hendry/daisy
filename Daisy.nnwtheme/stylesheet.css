@@ -704,7 +704,7 @@ caption {
   }
 }
 
-/* The full timestamp is laid over the page, so nothing moves. It starts at the top of
+/* The time is laid over the page, so nothing moves. It starts at the top of
    the date's own line and is pushed down one line (1lh), so its baseline falls exactly
    where a wrapped second line would, level with a second line of the credit. */
 .dateline-full {
@@ -725,17 +725,6 @@ caption {
 .dateline-full[hidden] {
   display: none;
 }
-
-/* The date and the time each stay in one piece; when the credit needs the room, the
-   time drops to its own line. */
-.dateline-full span {
-  white-space: nowrap;
-}
-
-.dateline-full.stacked span {
-  display: block;
-}
-
 
 /* The credit row: only its baseline matters, because it is the top of the page. */
 .attribution,
