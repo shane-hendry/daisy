@@ -362,6 +362,47 @@ Presentation:
         if (ev.key === "Escape" && opened.length) close(opened[opened.length - 1]);
       });
     })();
+    // Stray spacing publishers leave in the markup. A line break at the very start or end of a
+    // block ("<p><br><a>See Plans</a></p>") would add an empty line, so it is removed. A
+    // non-breaking space or other invisible text loose between blocks ("</p> &nbsp; <p>")
+    // would add a blank line of its own, so it is removed too. Three or more line breaks in a
+    // row are cut back to two. Only invisible leftovers go: text and media are never touched.
+    (function () {
+      var blocks = "p, div, li, blockquote, h1, h2, h3, h4, h5, h6, dt, dd, figcaption, td, th, summary";
+      var invisible = /^[\s\u00a0\u200b\u200c\u200d\u2060\ufeff]*$/;
+      var isBlank = function (n) { return n.nodeType === 3 && invisible.test(n.data); };
+      document.querySelectorAll(".articleBody").forEach(function (body) {
+        body.querySelectorAll(blocks).forEach(function (el) {
+          var kids = function (fromEnd) {
+            var n = fromEnd ? el.lastChild : el.firstChild;
+            while (n && (isBlank(n) || (n.nodeType === 8))) n = fromEnd ? n.previousSibling : n.nextSibling;
+            return n;
+          };
+          var edge;
+          while ((edge = kids(false)) && edge.nodeType === 1 && edge.tagName === "BR") edge.remove();
+          while ((edge = kids(true)) && edge.nodeType === 1 && edge.tagName === "BR") edge.remove();
+        });
+        body.querySelectorAll("br + br + br").forEach(function (br) { br.remove(); });
+        body.querySelectorAll("*").forEach(function (el) {
+          if (!el.querySelector(":scope > :is(p, div, ul, ol, blockquote, h1, h2, h3, h4, h5, h6, table, figure, pre, hr, section, nav)")) return;
+          Array.prototype.slice.call(el.childNodes).forEach(function (n) {
+            if (n.nodeType === 3 && /[\u00a0\u200b\u200c\u200d\u2060\ufeff]/.test(n.data) && invisible.test(n.data)) n.remove();
+          });
+        });
+      });
+    })();
+    // WordPress ends each feed item with "The post <title> appeared first on <blog>.", a
+    // line the blog never shows and the author didn't write. The last paragraph is tagged so
+    // the stylesheet can hide it. The wording differs by site language, so the common
+    // translations are matched too. It needs two links (the post and the blog).
+    (function () {
+      var last = document.querySelector(".articleBody > p:last-of-type");
+      if (!last || last.nextElementSibling && last.nextElementSibling.textContent.trim()) return;
+      var credit = /^\s*(The post|Der Beitrag|L[\u2019']article|La entrada|Il post|O post|Het bericht|Inl\u00e4gget|Indl\u00e6gget)\b[\s\S]{1,300}\b(appeared first on|erschien zuerst auf|est apparu en premier sur|apareci\u00f3 primero en|\u00e8 apparso per primo su|apareceu primeiro em|verscheen eerst op|dök upp först på|dukkede op f\u00f8rst p\u00e5)\b[\s\S]{1,200}$/i;
+      if (credit.test(last.textContent) && last.querySelectorAll("a").length >= 2) {
+        last.classList.add("feed-credit");
+      }
+    })();
     // Blank paragraphs and divs (publishers' spacers) are hidden; anything with text
     // or media stays.
     document.querySelectorAll(".articleBody p, .articleBody div").forEach(function (el) {

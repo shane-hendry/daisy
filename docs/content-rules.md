@@ -1,4 +1,4 @@
-# Rules
+# Content rules
 
 Every content rule in [Daisy](../README.md), in plain language. Each one covers
 a case where the RSS data looks a certain way, and Daisy changes how it's
@@ -23,6 +23,7 @@ thinking behind them, see [content-design.md](content-design.md).
 - [Footnotes](#footnotes)
 - [Publisher clean-up](#publisher-clean-up)
 - [Languages](#languages)
+- [Publications and platforms](#publications-and-platforms)
 
 ## Hero block
 
@@ -223,6 +224,9 @@ Things publishing tools add that the reader doesn't need.
 
 ### WordPress
 
+- A WordPress embed (a post quoting another post) shows its preview card. The plain link above it, which says the same thing, is hidden. (v0.2.0)
+- The plain link stays if there is no card after it. (v0.2.0)
+- The "The post X appeared first on Y" line WordPress adds at the very end is hidden. It needs two links and must be the last paragraph. (v0.2.0)
 - Spacer blocks are hidden. (v0.1.0)
 
 ### Substack
@@ -243,3 +247,36 @@ Things publishing tools add that the reader doesn't need.
 - Japanese and Chinese drop the space after a number, and labels start with a capital letter where the language has them. (v0.1.0)
 - Timestamps written in the system language are read correctly, including native digits, 12- and 24-hour clocks, and the Buddhist calendar. (v0.1.0)
 - Languages without a translation fall back to English. (v0.1.0)
+
+## Publications and platforms
+
+Every site Daisy has been reviewed against and has a rule for. Publications are
+individual feeds. Platforms are the services and tools many feeds are built on.
+New site-specific rules get a row here.
+
+### Publications
+
+| Publication | What Daisy does | Rules | Since |
+| --- | --- | --- | --- |
+| [Daring Fireball](https://daringfireball.net) | Moves sponsor and show labels to the eyebrow, and shows link posts and follow-ups in the secondary link | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Secondary link](#secondary-link) | v0.1.0 |
+| [Kottke](https://kottke.org) | Hides titles that are the start of the post, cut off with "…" | [Hidden titles](#hidden-titles) | v0.1.0 |
+| [Manton Reece](https://manton.org) | Hides empty titles, and shows the name once when author and publication match | [Hidden titles](#hidden-titles), [Author and publication](#author-and-publication) | v0.1.0 |
+| [Six Colors](https://sixcolors.com) | Simplifies sponsor, podcast, and issue-number titles | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
+| [Snake](https://snake.substack.com/) | Simplifies sponsor, podcast, and issue-number titles | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
+| [MacStories](https://www.macstories.net) | Moves a "[Sponsor]" tag at the end of a title to the eyebrow | [Sponsors](#sponsors) | v0.2.0 |
+| [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Google](#google) | v0.2.0 |
+| [Jeffrey Zeldman Presents](https://zeldman.com) | Shows embedded posts as a preview card without the repeated link, and hides the "appeared first on" line | [WordPress](#wordpress) | v0.2.0 |
+
+### Platforms and tools
+
+| Platform | What Daisy does | Rules | Since |
+| --- | --- | --- | --- |
+| [Mastodon](https://joinmastodon.org) | Writes the byline as "Name on Mastodon" and hides the title | [Mastodon and Bluesky](#mastodon-and-bluesky), [Hidden titles](#hidden-titles) | v0.1.0 |
+| [Bluesky](https://bsky.app) | Writes the byline as "Name on Bluesky" and hides the title | [Mastodon and Bluesky](#mastodon-and-bluesky), [Hidden titles](#hidden-titles) | v0.1.0 |
+| [Micro.blog](https://micro.blog) | Hides empty titles | [Hidden titles](#hidden-titles) | v0.1.0 |
+| [WordPress](https://wordpress.org) | Hides spacer blocks, and recognizes its footnote lists | [WordPress](#wordpress), [The list at the end](#the-list-at-the-end) | v0.1.0 |
+| [Substack](https://substack.com) | Hides image buttons, and handles its footnotes | [Substack](#substack), [Substack footnotes](#substack-footnotes) | v0.1.0 |
+| [Blogger](https://www.blogger.com) | Hides blank spacer blocks | [Blank blocks](#blank-blocks) | v0.1.0 |
+| [Tumblr](https://www.tumblr.com) | Hides blank spacer blocks | [Blank blocks](#blank-blocks) | v0.1.0 |
+| [Squarespace](https://www.squarespace.com) | Hides blank spacer blocks | [Blank blocks](#blank-blocks) | v0.1.0 |
+| [Google](https://google.com) | Hides "Add as a preferred source" buttons | [Google](#google) | v0.2.0 |
