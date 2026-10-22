@@ -596,76 +596,40 @@ Presentation:
           (/^(nb|nn|no)$/.test(base) ? finish(norwegianDays(days)) : finish(rtf.format(-days, "day")));
         else return;
       }
-      daisy.relative = true;
       time.title = time.textContent;
       time.textContent = label;
     })();
-    // Tapping the date shows the timestamp just below it, laid over the page so nothing
-    // moves. When the date reads relative ("3 hours ago") it is the full date and time;
-    // when the date is already shown it is only "at 10:47 PM". If a long blog name on
-    // the second line would run into it, the time drops to a third line. Tapping
-    // anywhere else (or pressing Escape) hides it again.
+    // Tapping the date shows the time ("at 10:47 PM") just below it, laid over the page
+    // so nothing moves. Tapping anywhere else (or pressing Escape) hides it again.
     (function () {
       var time = document.querySelector(".dateline");
       if (!time) return;
-      var day = "", rest = "";
+      var text = "";
       if (daisy.published) {
+        // The localized "at 10:47 PM": the date and time together, less the date.
         try {
           var dateOnly = new Intl.DateTimeFormat(daisy.lang, { dateStyle: "long" }).format(daisy.published);
           var both = new Intl.DateTimeFormat(daisy.lang, { dateStyle: "long", timeStyle: "short" }).format(daisy.published);
-          var timeOnly = new Intl.DateTimeFormat(daisy.lang, { timeStyle: "short" }).format(daisy.published);
-          day = dateOnly;
-          rest = both.indexOf(dateOnly) === -1 ? "" : both.replace(dateOnly, "").replace(/\s+/g, " ").trim();
-          if (!rest) rest = timeOnly;
+          if (both.indexOf(dateOnly) !== -1) text = both.replace(dateOnly, "").replace(/\s+/g, " ").trim();
+          if (!text) text = new Intl.DateTimeFormat(daisy.lang, { timeStyle: "short" }).format(daisy.published);
         } catch (error) {
-          day = rest = "";
+          text = "";
         }
       }
-      if (!rest) {
-        day = "";
-        rest = (time.getAttribute("datetime") || "").replace(/[  ]/g, " ").trim();
-      }
-      if (!rest) return;
-      if (!daisy.relative && daisy.published) day = "";
+      if (!text) text = (time.getAttribute("datetime") || "").replace(/[  ]/g, " ").trim();
+      if (!text) return;
       time.removeAttribute("title");
       time.setAttribute("role", "button");
       time.setAttribute("tabindex", "0");
       time.setAttribute("aria-expanded", "false");
       var full = document.createElement("span");
       full.className = "dateline-full";
-      var dayEl = null;
-      if (day) {
-        dayEl = document.createElement("span");
-        dayEl.textContent = day;
-        full.appendChild(dayEl);
-        full.appendChild(document.createTextNode(" "));
-      }
-      var restEl = document.createElement("span");
-      restEl.textContent = rest;
-      full.appendChild(restEl);
+      full.textContent = text;
       full.hidden = true;
       time.appendChild(full);
-      // Does the timestamp, laid out as it is now, touch the credit text?
-      function collides() {
-        var credit = document.querySelector(".attribution");
-        if (!credit) return false;
-        var a = document.createRange();
-        a.selectNodeContents(credit);
-        var b = document.createRange();
-        b.selectNodeContents(full);
-        var theirs = Array.prototype.filter.call(a.getClientRects(), function (r) { return r.width > 0; });
-        return Array.prototype.some.call(b.getClientRects(), function (mine) {
-          return mine.width > 0 && theirs.some(function (other) {
-            return mine.left < other.right + 12 && mine.right > other.left - 12 &&
-                   mine.top < other.bottom && mine.bottom > other.top;
-          });
-        });
-      }
       function show(open) {
-        full.classList.remove("stacked");
         full.hidden = !open;
         time.setAttribute("aria-expanded", open ? "true" : "false");
-        if (open && dayEl && collides()) full.classList.add("stacked");
       }
       time.addEventListener("click", function (event) {
         event.stopPropagation();
