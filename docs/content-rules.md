@@ -10,7 +10,7 @@ thinking behind them, see [content-design.md](content-design.md).
 - Each bullet is one rule: when something is detected, and what Daisy does.
 - The version at the end of each rule is the release it first shipped in.
 - v0.1.0 is the first beta, so everything up to it says v0.1.0.
-- New rules go in the next release. That's v0.3.0.
+- New rules go in the next release. That's v0.2.0.
 
 ## Contents
 
@@ -142,10 +142,10 @@ When a title is hidden:
 - Words before the series name come along: **Mostly free OS 32**. (v0.1.0)
 - The label can be up to six words and 48 characters. (v0.1.0)
 - Only OS, Obs, and Observer count as series. (v0.1.0)
-- Podcast shows count too: Clockwise, Upgrade, The Rebound, The Sideload, Pixelated, Overtime, and Designed in California. (v0.3.0)
-- **Clockwise 679: Headline** becomes **Clockwise 679** over **Headline**. (v0.3.0)
-- **9to5Mac Overtime 086: Headline** becomes **9to5Mac Overtime 086** over **Headline**. (v0.3.0)
-- A show name can be several words, like **Designed in California 14**. (v0.3.0)
+- Podcast shows count too: Clockwise, Upgrade, The Rebound, The Sideload, Pixelated, Overtime, and Designed in California. (v0.2.0)
+- **Clockwise 679: Headline** becomes **Clockwise 679** over **Headline**. (v0.2.0)
+- **9to5Mac Overtime 086: Headline** becomes **9to5Mac Overtime 086** over **Headline**. (v0.2.0)
+- A show name can be several words, like **Designed in California 14**. (v0.2.0)
 - **iOS 17:**, **Part 2:**, **Top 10:**, and **Windows 11:** stay as they are. (v0.1.0)
 
 ##### Bracketed tags
@@ -154,56 +154,56 @@ When a title is hidden:
 - Tags can be up to 24 characters. (v0.1.0)
 - A tag must contain at least one letter. (v0.1.0)
 - A tag with nothing after it is left alone. (v0.1.0)
-- **(Tag)Title**, with no space after the closing bracket, is left alone, like **(Re)introducing**. (v0.3.0)
+- **(Tag)Title**, with no space after the closing bracket, is left alone, like **(Re)introducing**. (v0.2.0)
 
 ##### Tags at the end
 
-- **Headline [Gallery]** becomes **Gallery** over **Headline**. (v0.3.0)
-- The tag can be in square brackets or parentheses. (v0.3.0)
-- Only Gallery, Video, Poll, Updated, Live, and the sponsor words count. (v0.3.0)
-- **Headline (Updated)** becomes **Updated** over **Headline**. (v0.3.0)
-- **(Again)**, **(So Far)**, **(2026)**, and **(Part 2)** stay in the headline. (v0.3.0)
+- **Headline [Gallery]** becomes **Gallery** over **Headline**. (v0.2.0)
+- The tag can be in square brackets or parentheses. (v0.2.0)
+- Only Gallery, Video, Poll, Updated, Live, and the sponsor words count. (v0.2.0)
+- **Headline (Updated)** becomes **Updated** over **Headline**. (v0.2.0)
+- **(Again)**, **(So Far)**, **(2026)**, and **(Part 2)** stay in the headline. (v0.2.0)
 
 ##### Editorial labels
 
-- **Cartoon: Headline** becomes **Cartoon** over **Headline**. (v0.3.0)
-- **Commentary: Bass vs. Raman: Who won** keeps everything after the first colon in the title. (v0.3.0)
-- Only these labels count: Cartoon, Commentary, Review, Hands-on, Exclusive, Interview, Deals, Bonus, Special Edition, Special Episode, and Report. (v0.3.0)
-- The label must be followed by a colon. (v0.3.0)
-- **Breaking:** and **Top 10:** stay as they are. (v0.3.0)
+- **Cartoon: Headline** becomes **Cartoon** over **Headline**. (v0.2.0)
+- **Commentary: Bass vs. Raman: Who won** keeps everything after the first colon in the title. (v0.2.0)
+- Only these labels count: Cartoon, Commentary, Review, Hands-on, Exclusive, Interview, Deals, Bonus, Special Edition, Special Episode, and Report. (v0.2.0)
+- The label must be followed by a colon. (v0.2.0)
+- **Breaking:** and **Top 10:** stay as they are. (v0.2.0)
 
 ##### Recurring sections
 
-- **The Sunday Read: Headline** becomes **The Sunday Read** over **Headline**. (v0.3.0)
-- Only these sections count: The Sunday Read, Sunday Special, The Latest, The Field, The Headlines, Hello Developer, Version History, Fragments, Cover Story newsletter, and Solo Acts. (v0.3.0)
-- The section must be followed by a colon. (v0.3.0)
-- To follow another section, add its name to the list in `template.html`. (v0.3.0)
+- **The Sunday Read: Headline** becomes **The Sunday Read** over **Headline**. (v0.2.0)
+- Only these sections count: The Sunday Read, Sunday Special, The Latest, The Field, The Headlines, Hello Developer, Version History, Fragments, Cover Story newsletter, and Solo Acts. (v0.2.0)
+- The section must be followed by a colon. (v0.2.0)
+- To follow another section, add its name to the list in `template.html`. (v0.2.0)
 
 ##### The feed's own name
 
-- A label before a colon that matches the feed's name moves to the eyebrow. **Pluralistic: Headline** in the Pluralistic feed becomes **Pluralistic** over **Headline**. (v0.3.0)
-- A label that starts with the feed's name, or that the feed's name starts with, counts too: **MacStories Weekly: Issue 533** in the MacStories feed becomes **MacStories Weekly** over **Issue 533**. (v0.3.0)
-- The label can be up to four words and must be longer than three letters. (v0.3.0)
-- The same label in another feed stays in the title. (v0.3.0)
+- A label before a colon that matches the feed's name moves to the eyebrow. **Pluralistic: Headline** in the Pluralistic feed becomes **Pluralistic** over **Headline**. (v0.2.0)
+- A label that starts with the feed's name, or that the feed's name starts with, counts too: **MacStories Weekly: Issue 533** in the MacStories feed becomes **MacStories Weekly** over **Issue 533**. (v0.2.0)
+- The label can be up to four words and must be longer than three letters. (v0.2.0)
+- The same label in another feed stays in the title. (v0.2.0)
 
 ##### Paywall markers
 
-- **heise+ | Headline** becomes **heise+** over **Headline**. (v0.3.0)
-- The marker is a short word that ends in "+", followed by a pipe. (v0.3.0)
-- The marker keeps its own lowercase instead of starting with a capital letter. (v0.3.0)
+- **heise+ | Headline** becomes **heise+** over **Headline**. (v0.2.0)
+- The marker is a short word that ends in "+", followed by a pipe. (v0.2.0)
+- The marker keeps its own lowercase instead of starting with a capital letter. (v0.2.0)
 
 ##### Show names after a pipe
 
-- **Headline | The Vergecast Livestream** becomes **The Vergecast Livestream** over **Headline**. (v0.3.0)
-- The name after the pipe can be up to four words. (v0.3.0)
-- A name with a number in it stays in the title, so a date like **| October 2026** is left alone. (v0.3.0)
+- **Headline | The Vergecast Livestream** becomes **The Vergecast Livestream** over **Headline**. (v0.2.0)
+- The name after the pipe can be up to four words. (v0.2.0)
+- A name with a number in it stays in the title, so a date like **| October 2026** is left alone. (v0.2.0)
 
 ##### Prefixes that stay in the title
 
-- A single symbol at the start of a title stays in the title, in every feed. **★ The iPhone Duo** is left as it is. (v0.3.0)
-- An emoji counts as a symbol. **🔴 Live: Headline** is left as it is. (v0.3.0)
-- A prefix that is only an acronym stays in the title, even before a colon. **CISA:**, **EU:**, **PSA:**, and **NFL:** are left as they are. (v0.3.0)
-- Sponsor words are the exception, so **AD: Headline** still moves. (v0.3.0)
+- A single symbol at the start of a title stays in the title, in every feed. **★ The iPhone Duo** is left as it is. (v0.2.0)
+- An emoji counts as a symbol. **🔴 Live: Headline** is left as it is. (v0.2.0)
+- A prefix that is only an acronym stays in the title, even before a colon. **CISA:**, **EU:**, **PSA:**, and **NFL:** are left as they are. (v0.2.0)
+- Sponsor words are the exception, so **AD: Headline** still moves. (v0.2.0)
 
 ##### Where the title goes
 
@@ -320,14 +320,14 @@ New site-specific rules get a row here.
 | [MacStories](https://www.macstories.net) | Moves a "[Sponsor]" tag at the end of a title to the eyebrow, and the "MacStories Weekly" label | [Sponsors](#sponsors), [The feed's own name](#the-feeds-own-name) | v0.2.0 |
 | [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition and the Overtime episode number to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Numbered series](#numbered-series), [Google](#google) | v0.2.0 |
 | [Jeffrey Zeldman Presents](https://zeldman.com) | Shows embedded posts as a preview card without the repeated link, and hides the "appeared first on" line | [WordPress](#wordpress) | v0.2.0 |
-| [9to5Google](https://9to5google.com) | Moves "[Gallery]" and "[Video]" tags and the Sideload and Pixelated episode numbers to the eyebrow | [Tags at the end](#tags-at-the-end), [Numbered series](#numbered-series) | v0.3.0 |
-| [The Economist](https://www.economist.com) | Moves "Cartoon:" and "Cover Story newsletter:" to the eyebrow | [Editorial labels](#editorial-labels), [Recurring sections](#recurring-sections) | v0.3.0 |
-| [The New York Times](https://www.nytimes.com) | Moves podcast sections like "The Sunday Read:", "The Headlines:", and "The Latest:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
-| [Apple Developer](https://developer.apple.com/news/) | Moves "Hello Developer:" and "Version History:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
-| [Pluralistic](https://pluralistic.net) | Moves the repeated "Pluralistic:" label to the eyebrow | [The feed's own name](#the-feeds-own-name) | v0.3.0 |
-| [heise online](https://www.heise.de) | Moves the "heise+" paywall marker and the "Mac & i-Podcast" show name to the eyebrow | [Paywall markers](#paywall-markers), [Show names after a pipe](#show-names-after-a-pipe) | v0.3.0 |
-| [The Verge](https://www.theverge.com) | Moves Vergecast show names at the end of a title to the eyebrow | [Show names after a pipe](#show-names-after-a-pipe) | v0.3.0 |
-| [Martin Fowler](https://martinfowler.com) | Moves the "Fragments:" label to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
+| [9to5Google](https://9to5google.com) | Moves "[Gallery]" and "[Video]" tags and the Sideload and Pixelated episode numbers to the eyebrow | [Tags at the end](#tags-at-the-end), [Numbered series](#numbered-series) | v0.2.0 |
+| [The Economist](https://www.economist.com) | Moves "Cartoon:" and "Cover Story newsletter:" to the eyebrow | [Editorial labels](#editorial-labels), [Recurring sections](#recurring-sections) | v0.2.0 |
+| [The New York Times](https://www.nytimes.com) | Moves podcast sections like "The Sunday Read:", "The Headlines:", and "The Latest:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
+| [Apple Developer](https://developer.apple.com/news/) | Moves "Hello Developer:" and "Version History:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
+| [Pluralistic](https://pluralistic.net) | Moves the repeated "Pluralistic:" label to the eyebrow | [The feed's own name](#the-feeds-own-name) | v0.2.0 |
+| [heise online](https://www.heise.de) | Moves the "heise+" paywall marker and the "Mac & i-Podcast" show name to the eyebrow | [Paywall markers](#paywall-markers), [Show names after a pipe](#show-names-after-a-pipe) | v0.2.0 |
+| [The Verge](https://www.theverge.com) | Moves Vergecast show names at the end of a title to the eyebrow | [Show names after a pipe](#show-names-after-a-pipe) | v0.2.0 |
+| [Martin Fowler](https://martinfowler.com) | Moves the "Fragments:" label to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
 
 ### Platforms and tools
 
