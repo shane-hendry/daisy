@@ -793,9 +793,9 @@ Presentation:
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|show hn|ask hn|tell hn|launch hn|today in apple history|price cut|price drop|poll|livestream";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
-      var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive";
+      var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive|update|throwback|repost";
       var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
       var tagged = text.match(/^\s*[\[(]\s*([^\[\]()]{1,24}?)\s*[\])]\s+/);
       // Square brackets take any short tag, unless a lowercase word follows ("[Part of] the
@@ -810,7 +810,8 @@ Presentation:
         }
       }
       var plain = text.match(new RegExp("^\\s*(" + sponsorWords + "|" + series + ")\\s*[:\\u2014\\u2013-]\\s+", "i"));
-      var named = text.match(new RegExp("^\\s*(" + labels + ")\\s*[:\\uff1a]\\s+", "i"));
+      // A show name may sit in quotes, as in the NYT's "‘The Interview’: ...".
+      var named = text.match(new RegExp("^\\s*[\\u2018\\u201c'\"]?(" + labels + ")[\\u2019\\u201d'\"]?\\s*[:\\uff1a]\\s+", "i"));
       // A label that is exactly the feed's own name ("Nature: ..." in the Nature feed), so a
       // feed that repeats its name in its titles is covered without a list. A partial match
       // does not count, so "Science: ..." stays in the title of the Science Magazine feed.
@@ -859,7 +860,8 @@ Presentation:
         label = found[1].trim();
         rest = text.slice(found[0].length);
         // A prefix that is only an acronym ("CISA:", "EU:", "PSA:") stays in the title.
-        if (found !== numbered && found !== dated && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
+        // A label on the lists above is a word, not an acronym, even in capitals ("WATCH:").
+        if (found !== named && found !== numbered && found !== dated && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
       } else {
         // A name before a colon that is the post's author is already in the byline, so it is
         // dropped: "Bengt Ohlsson: Headline" by Bengt Ohlsson. Anyone else's name stays.
@@ -869,12 +871,12 @@ Presentation:
         }
         var trailing = text.match(new RegExp("^(.*\\S)\\s*[\\[(]\\s*(" + trailingTags + ")\\s*[\\])]\\s*$", "i"));
         // A closing tag after a dash: "Headline \u2013 video".
-        var dashed = text.match(/^(.*\S)\s+[\u2014\u2013-]\s+(video|live|cartoon|ranked!)\s*$/i);
+        var dashed = text.match(/^(.*\S)\s+[\u2014\u2013-]\s+(video|live|cartoon|ranked!|in pictures|podcast|as it happened|trailer)\s*$/i);
         // A name after a pipe: "Headline | The Vergecast Livestream". The author's name and the
         // feed's own name are dropped, since the byline shows them ("Editorial" stays, as the
         // kind of piece). Any other name moves only if it is a known show or section, or starts
         // with "With" ("| With Zach Lowe"). Everything else stays: "Radiohead | OK Computer".
-        var pipedShows = "the vergecast livestream|vergecast hotline|livestream|better in person|on with kara swisher|the global story|editorial|letters|letter|brief letters|leading questions|a kitchen in rome|ask annalisa barbieri|full album|foto|video|mac & i-podcast|the vergecast";
+        var pipedShows = "the vergecast livestream|vergecast hotline|livestream|better in person|on with kara swisher|the global story|editorial|letters|letter|brief letters|leading questions|a kitchen in rome|ask annalisa barbieri|full album|foto|video|mac & i-podcast|the vergecast|npr[\u2019']s newsmakers|sources & methods|america in pursuit|the new vegan|waste not|quick and easy";
         var piped = text.match(/^(.*\S)\s+\|\s+([^|]{2,40}?)\s*$/);
         if (piped) {
           var pipeName = piped[2].trim();
@@ -892,8 +894,8 @@ Presentation:
         if (tail === trailing && new RegExp("^(" + closingWords + ")$", "i").test(label)) label = label.toLowerCase();
       }
       if (!/\p{L}/u.test(label)) return;
-      // A live label shouted in capitals ("EN DIRECT") is shown in lowercase.
-      if (found && found === live) label = label.toLowerCase();
+      // A live label or a listed label shouted in capitals ("EN DIRECT", "WATCH") is shown in lowercase.
+      if (found && (found === live || found === named) && label === label.toUpperCase()) label = label.toLowerCase();
       if (found && new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
         var split = rest.match(/^(.{1,60}?):\s+(.+)$/);
         if (split) {

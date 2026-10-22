@@ -166,13 +166,14 @@ When a title is hidden:
 - Only Gallery, Video, Poll, Updated, Live, and the sponsor words count. (v0.2.0)
 - **Headline (Updated)** becomes **Updated** over **Headline**. (v0.2.0)
 - **(Again)**, **(So Far)**, **(2026)**, and **(Part 2)** stay in the headline. (v0.2.0)
-- Rebroadcast, Repeat, Replay, From the Archive, Bonus, and Exclusive count too. **The Containment Plan (rebroadcast)** becomes **Rebroadcast** over **The Containment Plan**. (v0.3.0)
+- Rebroadcast, Repeat, Replay, From the Archive, Bonus, Exclusive, Update, Throwback, and Repost count too. **The Containment Plan (rebroadcast)** becomes **Rebroadcast** over **The Containment Plan**. (v0.3.0)
 - A tag in capitals is shown in lowercase with a capital first letter, so **(EXCLUSIVE)** becomes **Exclusive**. (v0.3.0)
 
 ##### Dash tags at the end
 
 - **Headline – video** becomes **Video** over **Headline**. (v0.3.0)
-- Only Video, Live, Cartoon, and Ranked! count, and the tag must be the last thing after the dash. (v0.3.0)
+- Only Video, Live, Cartoon, Ranked!, In pictures, Podcast, As it happened, and Trailer count, and the tag must be the last thing after the dash. (v0.3.0)
+- **Take a stroll between Japan’s past and present – in pictures** becomes **In pictures** over **Take a stroll between Japan’s past and present**. (v0.3.0)
 - The separator can be an en dash, an em dash, or a hyphen with spaces around it. (v0.3.0)
 - **Headline – US politics live** stays as it is. (v0.3.0)
 
@@ -184,6 +185,10 @@ When a title is hidden:
 - **Opinion: Headline** becomes **Opinion** over **Headline**. (v0.3.0)
 - **Daily Cartoon: Thursday, October 22nd** becomes **Daily Cartoon** over **Thursday, October 22nd**. (v0.3.0)
 - **Transcript: Headline** becomes **Transcript** over **Headline**. (v0.3.0)
+- Also: Watch, Book Review, Restaurant Review, Roundup, Feature, Revealed, Special, Live, Tested, and Archive. (v0.3.0)
+- **Book Review: ‘The Late Americans,’ by Brandon Taylor** becomes **Book Review** over **‘The Late Americans,’ by Brandon Taylor**. (v0.3.0)
+- **WATCH: Inside the State Fair** becomes **Watch** over **Inside the State Fair**. (v0.3.0)
+- A label in capitals is shown in lowercase with a capital first letter. (v0.3.0)
 - The label must be followed by a colon. (v0.2.0)
 - **Breaking:** and **Top 10:** stay as they are. (v0.2.0)
 
@@ -193,6 +198,7 @@ When a title is hidden:
 - Only these sections count: The Sunday Read, Sunday Special, The Latest, The Field, The Headlines, Hello Developer, Version History, Fragments, and Solo Acts. (v0.2.0)
 - Also: The Download, The Pulse, PopInfo Weekly, Brickbat, Today in Supreme Court History, Following, Best Of, Extra, and Pivot Extra. (v0.3.0)
 - Also: Today in Apple history, Price cut, Price drop, Poll, and Livestream. (v0.3.0)
+- Also: The Interview, Modern Love, The Run-Up, The Argument, and Interesting Times. A show name may sit in quotes, so **‘The Interview’: Headline** becomes **The Interview** over **Headline**. (v0.3.0)
 - Also: Pluralistic and MacStories Weekly, which used to be found by the feed's name. **MacStories Weekly: Issue 533** becomes **MacStories Weekly** over **Issue 533**. (v0.3.0)
 - **Today in Apple history: iPad sales overtake Macs** becomes **Today in Apple history** over **iPad sales overtake Macs**. (v0.3.0)
 - **Livestream: Die Nachrichten auf tagesschau24** becomes **Livestream** over **Die Nachrichten auf tagesschau24**. (v0.3.0)
@@ -236,7 +242,7 @@ When a title is hidden:
 ##### Show names after a pipe
 
 - **Headline | The Vergecast Livestream** becomes **The Vergecast Livestream** over **Headline**. (v0.2.0)
-- Only known names count: The Vergecast Livestream, The Vergecast, Vergecast Hotline, Livestream, Better in Person, On With Kara Swisher, The Global Story, Mac & i-Podcast, Editorial, Letters, Letter, Brief letters, Leading questions, A kitchen in Rome, Ask Annalisa Barbieri, Full album, Foto, and Video. (v0.3.0)
+- Only known names count: The Vergecast Livestream, The Vergecast, Vergecast Hotline, Livestream, Better in Person, On With Kara Swisher, The Global Story, Mac & i-Podcast, Editorial, Letters, Letter, Brief letters, Leading questions, A kitchen in Rome, Ask Annalisa Barbieri, Full album, Foto, Video, NPR's Newsmakers, Sources & Methods, America in Pursuit, The new vegan, Waste not, and Quick and easy. (v0.3.0)
 - Any name that starts with "With" counts too, like **Headline | With Zach Lowe**. (v0.3.0)
 - Every other name stays in the title: **Radiohead | OK Computer**, **Taylor Swift | The Eras Tour**, and a date like **| October 2026** are left alone. (v0.3.0)
 - To follow another show, add its name to the list in `template.html`. (v0.3.0)
@@ -266,6 +272,7 @@ When a title is hidden:
 - A single symbol at the start of a title stays in the title, in every feed. **★ The iPhone Duo** is left as it is. (v0.2.0)
 - An emoji counts as a symbol. **🔴 Live: Headline** is left as it is. (v0.2.0)
 - A prefix that is only an acronym stays in the title, even before a colon. **CISA:**, **EU:**, **PSA:**, and **NFL:** are left as they are. (v0.2.0)
+- A word from the lists of labels and sections is not an acronym, even in capitals. **WATCH:**, **EXTRA:**, and **BONUS:** still move. (v0.3.0)
 - Sponsor words are the exception, so **AD: Headline** still moves. (v0.2.0)
 
 ##### Where the title goes
@@ -385,7 +392,7 @@ New site-specific rules get a row here.
 | [Jeffrey Zeldman Presents](https://zeldman.com) | Shows embedded posts as a preview card without the repeated link, and hides the "appeared first on" line | [WordPress](#wordpress) | v0.2.0 |
 | [9to5Google](https://9to5google.com) | Moves "[Gallery]" and "[Video]" tags and the Sideload and Pixelated episode numbers to the eyebrow | [Tags at the end](#tags-at-the-end), [Numbered series](#numbered-series) | v0.2.0 |
 | [The Economist](https://www.economist.com) | Moves "Cartoon:" and newsletter names like "Cover Story newsletter:" and "The War Room newsletter:" to the eyebrow | [Editorial labels](#editorial-labels), [Newsletters](#newsletters) | v0.2.0 |
-| [The New York Times](https://www.nytimes.com) | Moves podcast sections like "The Sunday Read:", "The Headlines:", and "The Latest:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
+| [The New York Times](https://www.nytimes.com) | Moves podcast sections like "The Sunday Read:", "The Headlines:", and "The Latest:" to the eyebrow, along with "Book Review:", "Restaurant Review:", and quoted show names like "‘The Interview’:" | [Recurring sections](#recurring-sections), [Editorial labels](#editorial-labels) | v0.2.0 |
 | [Apple Developer](https://developer.apple.com/news/) | Moves "Hello Developer:" and "Version History:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
 | [Pluralistic](https://pluralistic.net) | Moves the repeated "Pluralistic:" label to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
 | [heise online](https://www.heise.de) | Moves the "heise+" paywall marker and the "Mac & i-Podcast" show name to the eyebrow | [Paywall markers](#paywall-markers), [Show names after a pipe](#show-names-after-a-pipe) | v0.2.0 |
@@ -395,6 +402,9 @@ New site-specific rules get a row here.
 | [STAT](https://www.statnews.com) | Moves the "STAT+" paywall marker and "Opinion:" to the eyebrow | [Paywall markers](#paywall-markers), [Editorial labels](#editorial-labels) | v0.3.0 |
 | [The Guardian](https://www.theguardian.com) | Drops a columnist's name after a pipe when it matches the author, moves labels like "Editorial" and "Letters" to the eyebrow, and moves "– video" and "– live" endings | [Show names after a pipe](#show-names-after-a-pipe), [Dash tags at the end](#dash-tags-at-the-end) | v0.3.0 |
 | [The New Yorker](https://www.newyorker.com) | Moves "Daily Cartoon:" to the eyebrow | [Editorial labels](#editorial-labels) | v0.3.0 |
+| [ABC News](https://abcnews.go.com) | Moves "WATCH:" to the eyebrow | [Editorial labels](#editorial-labels) | v0.3.0 |
+| [BBC Radio 4](https://www.bbc.co.uk/radio4) | Moves "Archive:" to the eyebrow | [Editorial labels](#editorial-labels) | v0.3.0 |
+| [NPR](https://www.npr.org) | Moves "Roundup:" and "Bonus:" to the eyebrow, and the shows "NPR's Newsmakers", "Sources & Methods", and "America in Pursuit" after a pipe | [Editorial labels](#editorial-labels), [Show names after a pipe](#show-names-after-a-pipe) | v0.3.0 |
 | [Hacker News](https://news.ycombinator.com) | Moves "Show HN:", "Ask HN:", and "Tell HN:" to the eyebrow | [Community posts](#community-posts) | v0.3.0 |
 | [Cult of Mac](https://www.cultofmac.com) | Moves "Today in Apple history:", "Price cut:", and "Price drop:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
 | [Dagens Nyheter](https://www.dn.se) | Drops a columnist's name before the colon when it is the author | [Author names before a colon](#author-names-before-a-colon) | v0.3.0 |
