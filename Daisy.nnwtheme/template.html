@@ -868,8 +868,8 @@ Presentation:
       heading.parentNode.insertBefore(eyebrow, heading);
       node.data = rest;
     });
-    // An untitled post's link line moves to the bottom: "View original" links to it, so
-    // the address isn't shown at the top.
+    // An untitled post's link line moves to the bottom, under "View original", which keeps
+    // linking to the post itself.
     (function () {
       var article = document.querySelector(".article");
       if (!article || !article.classList.contains("untitled")) return;
@@ -878,15 +878,14 @@ Presentation:
       var domain = row && row.querySelector(".external-link-url");
       var view = document.querySelector(".view-post a");
       if (row && from && view && domain && domain.textContent.trim() && !row.classList.contains("same-page")) {
-        view.href = from.getAttribute("href");
-        row.classList.add("moved");
+        view.parentNode.appendChild(row);
       }
     })();
     // The link line's label: "Source: example.com", or "A follow-up to example.com" when
     // the post links to another page on its own site. The words follow the reader's
     // language; they replace NetNewsWire's generic "Link:".
     (function () {
-      var row = document.querySelector(".article-header .external-link");
+      var row = document.querySelector(".external-link");
       var from = row && row.querySelector("a");
       var label = row && row.querySelector(".external-link-label");
       var own = document.querySelector(".article-header h1 a");
