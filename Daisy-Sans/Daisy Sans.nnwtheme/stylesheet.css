@@ -892,6 +892,19 @@ h1 a {
 
 /* The end of the article gives up its own bottom margin and half-leading, so the gap
    to "View original" is --space-large from the last baseline (or image). */
+/* The source link, moved under "View original", reads as the next line of the same
+   block, as if after a soft return: no gap, and the line box is left untrimmed. */
+.view-post .external-link {
+  margin-top: 0;
+}
+
+.view-post .external-link-label,
+.view-post .external-link-url {
+  margin-block: 0;
+  padding-block: 0;
+  text-box: normal;
+}
+
 .untitled .articleBody > :last-child {
   margin-bottom: 0;
   text-box: trim-end cap alphabetic;

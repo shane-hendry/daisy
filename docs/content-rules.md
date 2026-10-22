@@ -10,7 +10,7 @@ thinking behind them, see [content-design.md](content-design.md).
 - Each bullet is one rule: when something is detected, and what Daisy does.
 - The version at the end of each rule is the release it first shipped in.
 - v0.1.0 is the first beta, so everything up to it says v0.1.0.
-- New rules go in the next release. That's v0.2.0.
+- New rules go in the next release. That's v0.3.0.
 
 ## Contents
 
@@ -162,21 +162,41 @@ When a title is hidden:
 - Only Gallery, Video, Poll, Updated, Live, and the sponsor words count. (v0.2.0)
 - **Headline (Updated)** becomes **Updated** over **Headline**. (v0.2.0)
 - **(Again)**, **(So Far)**, **(2026)**, and **(Part 2)** stay in the headline. (v0.2.0)
+- Rebroadcast, Repeat, Replay, From the Archive, Bonus, and Exclusive count too. **The Containment Plan (rebroadcast)** becomes **Rebroadcast** over **The Containment Plan**. (v0.3.0)
+- A tag in capitals is shown in lowercase with a capital first letter, so **(EXCLUSIVE)** becomes **Exclusive**. (v0.3.0)
+
+##### Dash tags at the end
+
+- **Headline – video** becomes **Video** over **Headline**. (v0.3.0)
+- Only Video, Live, Cartoon, and Ranked! count, and the tag must be the last thing after the dash. (v0.3.0)
+- The separator can be an en dash, an em dash, or a hyphen with spaces around it. (v0.3.0)
+- **Headline – US politics live** stays as it is. (v0.3.0)
 
 ##### Editorial labels
 
 - **Cartoon: Headline** becomes **Cartoon** over **Headline**. (v0.2.0)
 - **Commentary: Bass vs. Raman: Who won** keeps everything after the first colon in the title. (v0.2.0)
-- Only these labels count: Cartoon, Commentary, Review, Hands-on, Exclusive, Interview, Deals, Bonus, Special Edition, Special Episode, and Report. (v0.2.0)
+- Only these labels count: Cartoon, Daily Cartoon, Commentary, Review, Hands-on, Exclusive, Interview, Deals, Bonus, Special Edition, Special Episode, Report, Opinion, and Transcript. (v0.2.0)
+- **Opinion: Headline** becomes **Opinion** over **Headline**. (v0.3.0)
+- **Daily Cartoon: Thursday, October 22nd** becomes **Daily Cartoon** over **Thursday, October 22nd**. (v0.3.0)
+- **Transcript: Headline** becomes **Transcript** over **Headline**. (v0.3.0)
 - The label must be followed by a colon. (v0.2.0)
 - **Breaking:** and **Top 10:** stay as they are. (v0.2.0)
 
 ##### Recurring sections
 
 - **The Sunday Read: Headline** becomes **The Sunday Read** over **Headline**. (v0.2.0)
-- Only these sections count: The Sunday Read, Sunday Special, The Latest, The Field, The Headlines, Hello Developer, Version History, Fragments, Cover Story newsletter, and Solo Acts. (v0.2.0)
+- Only these sections count: The Sunday Read, Sunday Special, The Latest, The Field, The Headlines, Hello Developer, Version History, Fragments, and Solo Acts. (v0.2.0)
+- Also: The Download, The Pulse, PopInfo Weekly, Brickbat, Today in Supreme Court History, Following, Best Of, Extra, and Pivot Extra. (v0.3.0)
 - The section must be followed by a colon. (v0.2.0)
 - To follow another section, add its name to the list in `template.html`. (v0.2.0)
+
+##### Newsletters
+
+- **The War Room newsletter: Headline** becomes **The War Room newsletter** over **Headline**. (v0.3.0)
+- Any name that ends in "newsletter" counts, so no list is needed. (v0.3.0)
+- The name can be up to four words. A longer line, like **Sign up for the First Edition newsletter: …**, stays in the title. (v0.3.0)
+- This replaces the single "Cover Story newsletter" entry in the list of recurring sections. (v0.3.0)
 
 ##### The feed's own name
 
@@ -189,13 +209,24 @@ When a title is hidden:
 
 - **heise+ | Headline** becomes **heise+** over **Headline**. (v0.2.0)
 - The marker is a short word that ends in "+", followed by a pipe. (v0.2.0)
+- **STAT+: Headline** works the same way, with a colon instead of a pipe. (v0.3.0)
+- A marker followed by a colon moves in every feed, not only when it matches the feed's name. (v0.3.0)
 - The marker keeps its own lowercase instead of starting with a capital letter. (v0.2.0)
+
+##### Opinion before a pipe
+
+- **Opinion | Headline** becomes **Opinion** over **Headline**. (v0.3.0)
+- It applies to short headlines too, like **Opinion | Have Some Manners, People**. (v0.3.0)
 
 ##### Show names after a pipe
 
 - **Headline | The Vergecast Livestream** becomes **The Vergecast Livestream** over **Headline**. (v0.2.0)
 - The name after the pipe can be up to four words. (v0.2.0)
 - A name with a number in it stays in the title, so a date like **| October 2026** is left alone. (v0.2.0)
+- A name that is the post's author is dropped instead. **Headline | Margaret Sullivan** with the author Margaret Sullivan becomes **Headline**, since the byline already shows the name. (v0.3.0)
+- The name counts as the author when all its words appear in the author field, so **Andrew Lawrence** matches the author **Andrew Lawrence at State Farm Arena**. (v0.3.0)
+- **Ask Annalisa Barbieri** does not match the author **Annalisa Barbieri**, so it moves to the eyebrow. (v0.3.0)
+- **| Editorial** moves to the eyebrow even when the author is also Editorial. (v0.3.0)
 
 ##### Prefixes that stay in the title
 
@@ -320,13 +351,18 @@ New site-specific rules get a row here.
 | [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition and the Overtime episode number to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Numbered series](#numbered-series), [Google](#google) | v0.2.0 |
 | [Jeffrey Zeldman Presents](https://zeldman.com) | Shows embedded posts as a preview card without the repeated link, and hides the "appeared first on" line | [WordPress](#wordpress) | v0.2.0 |
 | [9to5Google](https://9to5google.com) | Moves "[Gallery]" and "[Video]" tags and the Sideload and Pixelated episode numbers to the eyebrow | [Tags at the end](#tags-at-the-end), [Numbered series](#numbered-series) | v0.2.0 |
-| [The Economist](https://www.economist.com) | Moves "Cartoon:" and "Cover Story newsletter:" to the eyebrow | [Editorial labels](#editorial-labels), [Recurring sections](#recurring-sections) | v0.2.0 |
+| [The Economist](https://www.economist.com) | Moves "Cartoon:" and newsletter names like "Cover Story newsletter:" and "The War Room newsletter:" to the eyebrow | [Editorial labels](#editorial-labels), [Newsletters](#newsletters) | v0.2.0 |
 | [The New York Times](https://www.nytimes.com) | Moves podcast sections like "The Sunday Read:", "The Headlines:", and "The Latest:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
 | [Apple Developer](https://developer.apple.com/news/) | Moves "Hello Developer:" and "Version History:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
 | [Pluralistic](https://pluralistic.net) | Moves the repeated "Pluralistic:" label to the eyebrow | [The feed's own name](#the-feeds-own-name) | v0.2.0 |
 | [heise online](https://www.heise.de) | Moves the "heise+" paywall marker and the "Mac & i-Podcast" show name to the eyebrow | [Paywall markers](#paywall-markers), [Show names after a pipe](#show-names-after-a-pipe) | v0.2.0 |
 | [The Verge](https://www.theverge.com) | Moves Vergecast show names at the end of a title to the eyebrow | [Show names after a pipe](#show-names-after-a-pipe) | v0.2.0 |
 | [Martin Fowler](https://martinfowler.com) | Moves the "Fragments:" label to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
+| [The Wall Street Journal](https://www.wsj.com) | Moves "Opinion |" to the eyebrow, including on short headlines | [Opinion before a pipe](#opinion-before-a-pipe) | v0.3.0 |
+| [STAT](https://www.statnews.com) | Moves the "STAT+" paywall marker and "Opinion:" to the eyebrow | [Paywall markers](#paywall-markers), [Editorial labels](#editorial-labels) | v0.3.0 |
+| [The Guardian](https://www.theguardian.com) | Drops a columnist's name after a pipe when it matches the author, moves labels like "Editorial" and "Letters" to the eyebrow, and moves "– video" and "– live" endings | [Show names after a pipe](#show-names-after-a-pipe), [Dash tags at the end](#dash-tags-at-the-end) | v0.3.0 |
+| [The New Yorker](https://www.newyorker.com) | Moves "Daily Cartoon:" to the eyebrow | [Editorial labels](#editorial-labels) | v0.3.0 |
+| [The Pragmatic Engineer](https://newsletter.pragmaticengineer.com) | Moves "The Pulse:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
 
 ### Platforms and tools
 
