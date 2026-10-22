@@ -5,7 +5,7 @@ and why. For more on these ideas, visit [content-rules.md](content-rules.md), or
 
 ## The idea
 
-Daisy lets the words do the work. When authors and feeds use RSS data in
+When authors and feeds use RSS data in
 different ways, Daisy does its best to represent what they intended while giving
 you a consistent experience across your mixed feed.
 
