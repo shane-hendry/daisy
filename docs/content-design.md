@@ -78,7 +78,7 @@ the post itself. That's a core principle of the design.
 
 - Many feeds point the title somewhere else, like the article a post links to. Daisy moves that link to the [secondary link](#the-secondary-link), so the title only ever goes to the post. [↗](content-rules.md#secondary-link)
 - You always know where selecting the title will take you.
-- Posts with no title still need a clear way to reach the original post. **View original** appears at the bottom of articles with no title, and **View post** appears at the bottom of social media posts. [↗](content-rules.md#hidden-titles)
+- Posts with no title still need a clear way to reach the original post. The footer link at the bottom of the article is **View original** on articles with no title and **View post** on social media posts. [↗](content-rules.md#hidden-titles)
 
 ##### Who this helps
 
@@ -147,7 +147,7 @@ The secondary link tells you where the post points before you select it.
 ##### Where the link goes instead
 
 - On sponsor posts, the [eyebrow](#the-eyebrow) becomes the link. **Sponsor: Mux** opens the sponsor's page, and the secondary link is dropped. [↗](content-rules.md#eyebrow)
-- On posts with a hidden title, the secondary link is dropped and **View original** at the bottom opens it. [↗](content-rules.md#hidden-titles)
+- On posts with a hidden title, the secondary link is dropped and the footer link, **View original**, opens it. [↗](content-rules.md#hidden-titles)
 
 ## Daring Fireball
 
@@ -203,7 +203,7 @@ Quiet links name a person or a place. They have no underline until you hover, an
 then they show an underline and change color.
 
 - The publication name and author links in the [byline](#bylines).
-- **View original** and **View post** at the bottom of the article.
+- The footer link, **View original** or **View post**, at the bottom of the article.
 
 ### Even quieter links
 
@@ -240,7 +240,7 @@ same way it came.
 
 - The [byline](#bylines) is written as **Name on Mastodon** or **Name on Bluesky**, and the name links to the profile. [↗](content-rules.md#mastodon-and-bluesky)
 - A Bluesky name of "@handle - Real Name" shows the real name. [↗](content-rules.md#mastodon-and-bluesky)
-- The bottom line is written as **View post**. [↗](content-rules.md#mastodon-and-bluesky)
+- The footer link is written as **View post**. [↗](content-rules.md#mastodon-and-bluesky)
 - There's no title, since the post is the title.
 
 ## Cleaning up publishing tools
