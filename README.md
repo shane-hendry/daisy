@@ -27,7 +27,7 @@ Daisy's favorite writers get special treatment:
 * Moves sponsor, podcast, and issue-numbers to the eyebrow from [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more  
 * Treats [Daring Fireball's](https://daringfireball.net/) linking conventions uniquely (forgive me, John)  
   
-All this requires javascript to reshape the post, and it's worth it.  
+This is all detailed in the [content design](docs/content-design.md) and [content rules](docs/content-rules.md) docs, and it requires JavaScript. And trust me, it's worth it.
 
 
 ## Install
