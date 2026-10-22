@@ -947,11 +947,16 @@ a.footnote {
 
 /* Substack's marker is a bare link, not inside a <sup>, so it is raised like a
    superscript itself. It comes after a.footnote so it wins when NetNewsWire adds that
-   class to it too. Sample: fixtures/substack-footnotes.toml. */
+   class to it too. The marker is smaller than a regular one, and NetNewsWire's tap
+   padding and minimum width are in the marker's own em, so the side margin is pulled
+   back further to keep the number close to the words around it. The tap area stays.
+   Sample: fixtures/substack-footnotes.toml. */
 a.footnote-anchor,
 a.footnote.footnote-anchor {
   font-size: 0.75em;
   line-height: 0;
+  margin-inline: -0.7em;
+  min-width: 0;
   position: relative;
   top: -0.5em;
   vertical-align: baseline;
@@ -990,6 +995,12 @@ a.footnote.footnote-anchor {
    carries the gap between notes. */
 .articleBody div.footnote {
   margin-block: 0;
+}
+
+/* The note's text sits as close to its label as a list note does (see li > p in 1.7),
+   not a full paragraph gap away. */
+.articleBody div.footnote .footnote-content > p {
+  margin-block: 0.6em;
 }
 
 .articleBody .footnote-label {
