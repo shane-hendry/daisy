@@ -9,7 +9,7 @@ Two [NetNewsWire](https://netnewswire.com/) themes by [Shane Hendry](https://sha
 - **Daisy Sans** is set in SF Pro
 <!-- nnw-theme-identity:end -->
 
-## The words do all the work
+## Let the words do the work
 
 The themes are typeset and designed with extra attention to the little things:
 
