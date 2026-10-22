@@ -220,11 +220,12 @@ Presentation:
     })();
     // Footnotes open as a note panel under the paragraph, in the style of a block
     // quote, with a "Footnote 1" header and a close button. It shows and hides
-    // instantly. This replaces NetNewsWire's floating popover; the note text lives in
+    // instantly, and stays open until the reader closes it (its marker or its Close
+    // button) or opens another footnote; tapping elsewhere or following a link leaves it open. This replaces NetNewsWire's floating popover; the note text lives in
     // .newsfoot-footnote-popover so NetNewsWire's own checks still find it.
     (function () {
       var words = daisy.words || ["", "", "", "Footnote", "Close", "Footnotes", "", "", "", "", "Go to footnotes"];
-      var current = null;
+      var opened = [];
       var MARKER = "a.footnote, sup > a[href*='#fn'], sup > div > a[href*='#fn'], a[id^='footnote-anchor-']";
 
       function noteFor(marker) {
@@ -255,12 +256,10 @@ Presentation:
         }
       }
 
-      function close() {
-        if (!current) return;
-        var closing = current;
-        current = null;
-        closing.marker.setAttribute("aria-expanded", "false");
-        closing.panel.remove();
+      function close(entry) {
+        opened.splice(opened.indexOf(entry), 1);
+        entry.marker.setAttribute("aria-expanded", "false");
+        entry.panel.remove();
       }
 
       function open(marker, html) {
@@ -278,7 +277,8 @@ Presentation:
         panel.querySelector(".footnote-panel-title").textContent = label;
         var button = panel.querySelector(".footnote-panel-close");
         button.textContent = words[4];
-        button.addEventListener("click", function (ev) { ev.stopPropagation(); close(); });
+        var entry = { marker: marker, panel: panel };
+        button.addEventListener("click", function (ev) { ev.stopPropagation(); close(entry); });
         var body = panel.querySelector(".footnote-panel-body");
         body.innerHTML = html;
         // "Go to footnotes" takes the reader down to the footnotes section, leaving its
@@ -299,7 +299,7 @@ Presentation:
         }
         place(panel, marker);
         marker.setAttribute("aria-expanded", "true");
-        current = { marker: marker, panel: panel, body: body };
+        opened.push(entry);
       }
 
       document.addEventListener("click", function (ev) {
@@ -309,17 +309,15 @@ Presentation:
           if (html !== null) {
             ev.preventDefault();
             ev.stopImmediatePropagation();
-            var same = current && current.marker === anchor;
-            close();
-            if (!same) open(anchor, html);
-            return;
+            var shown = opened.filter(function (entry) { return entry.marker === anchor; })[0];
+            opened.slice().forEach(close);
+            if (!shown) open(anchor, html);
           }
         }
-        if (current && !current.panel.contains(ev.target)) close();
       }, true);
 
       document.addEventListener("keydown", function (ev) {
-        if (ev.key === "Escape") close();
+        if (ev.key === "Escape" && opened.length) close(opened[opened.length - 1]);
       });
     })();
     // Blank paragraphs and divs (publishers' spacers) are hidden; anything with text
