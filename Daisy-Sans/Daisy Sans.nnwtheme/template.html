@@ -774,9 +774,15 @@ Presentation:
     // and "Mostly free OS 32: Headline" become "OS 34", "Obs 149.5" and "Mostly free OS 32"
     // over "Headline". Only the numbered series named in the list below move.
     // Also moved: a known editorial or section label before a colon ("Cartoon: Headline",
-    // "The Sunday Read: Headline"), a label that matches the feed's own name ("Pluralistic: Headline"),
+    // "The Sunday Read: Headline"), a label that is exactly the feed's own name ("Nature: Headline" in the Nature feed),
     // a paywall marker ("heise+ | Headline"), a bracketed tag at the end ("Headline [Gallery]"),
-    // and a short show name after a pipe ("Headline | The Vergecast Livestream").
+    // and a known show name after a pipe ("Headline | The Vergecast Livestream"). Also moved:
+    // "Opinion | Headline", any newsletter name before a colon ("The War Room newsletter: Headline")
+    // and a closing "- video" or "- live" after a dash. A name after a pipe that is the post's
+    // author ("Headline | Margaret Sullivan") is dropped instead, since the byline shows it. The
+    // same goes for an author's name before a colon ("Bengt Ohlsson: Headline"). Also moved:
+    // "EN DIRECT - Headline". Tags at the start: any short tag in square brackets, but in parentheses
+    // only a known word, so "(Almost) Everything" stays in the title.
     // Left in the title: a prefix that is a single symbol ("★ Headline", "🔴 Live: Headline")
     // and a prefix that is only an acronym ("CISA: Headline").
     document.querySelectorAll(".article-header h1 a").forEach(function (a) {
@@ -787,25 +793,48 @@ Presentation:
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|cover story newsletter|solo acts|the headlines";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|show hn|ask hn|tell hn|launch hn|today in apple history|price cut|price drop|poll|livestream";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
-      var trailingTags = "gallery|video|poll|updated|live|" + sponsorWords;
+      var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive";
+      var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
       var tagged = text.match(/^\s*[\[(]\s*([^\[\]()]{1,24}?)\s*[\])]\s+/);
+      // Square brackets take any short tag, unless a lowercase word follows ("[Part of] the
+      // problem"). Parentheses are how people write asides, so only these tag words count:
+      // "(Podcast) Title" moves, "(Almost) Everything" stays.
+      if (tagged) {
+        var parenTags = "podcast|update|updated|video|gallery|poll|live|exclusive|review|interview|opinion|breaking|bonus|" + sponsorWords;
+        if (/^\s*\(/.test(tagged[0])) {
+          if (!new RegExp("^(" + parenTags + ")$", "i").test(tagged[1].trim())) tagged = null;
+        } else if (/\p{Ll}/u.test(text.charAt(tagged[0].length))) {
+          tagged = null;
+        }
+      }
       var plain = text.match(new RegExp("^\\s*(" + sponsorWords + "|" + series + ")\\s*[:\\u2014\\u2013-]\\s+", "i"));
       var named = text.match(new RegExp("^\\s*(" + labels + ")\\s*[:\\uff1a]\\s+", "i"));
-      // A label that matches the feed's own name ("Pluralistic: ...", "MacStories Weekly: ..."),
-      // so every feed that repeats its name in its titles is covered without a list.
+      // A label that is exactly the feed's own name ("Nature: ..." in the Nature feed), so a
+      // feed that repeats its name in its titles is covered without a list. A partial match
+      // does not count, so "Science: ..." stays in the title of the Science Magazine feed.
       var echo = null;
       var feedEl = document.querySelector(".attribution .feed");
       var simple = function (s) { return s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); };
+      // The post's author, for names that repeat it. Only a whole name counts: the byline as
+      // a whole, or any one author when it lists several ("A, B", "A and B").
+      var authorEl = document.querySelector(".attribution .byline");
+      var authors = authorEl ? [authorEl.textContent].concat(authorEl.textContent.split(/\s*(?:[,;&]|\band\b)\s*/i)).map(simple) : [];
+      var isAuthor = function (name) { var n = simple(name); return n.length > 2 && authors.indexOf(n) >= 0; };
       var feedName = feedEl ? simple(feedEl.textContent) : "";
       var colon = text.match(/^\s*([^:：]{1,40}?)\s*[:：]\s+/);
       if (colon && feedName.length > 3 && colon[1].trim().split(/\s+/).length <= 4) {
         var echoName = simple(colon[1]);
-        if (echoName.length > 3 && (echoName.indexOf(feedName) === 0 || feedName.indexOf(echoName) === 0)) echo = colon;
+        if (echoName.length > 3 && echoName === feedName) echo = colon;
       }
-      // A paywall marker before a pipe: "heise+ | ...".
-      var paywall = text.match(/^\s*([\p{L}\p{N}.\-]{2,20}\+)\s*\|\s+/u);
+      // A paywall marker before a pipe or a colon: "heise+ | ...", "STAT+: ...".
+      var paywall = text.match(/^\s*([\p{L}\p{N}.\-]{2,20}\+)\s*[|:]\s+/u);
+      // "Opinion | Headline": the label comes first, before the pipe.
+      var opinion = text.match(/^\s*(opinion)\s*\|\s+/i);
+      // A newsletter name before a colon, up to four words: "The War Room newsletter: ...".
+      var newsletter = text.match(/^\s*([^:\uff1a|]{1,40}?\snewsletter)\s*[:\uff1a]\s+/i);
+      if (newsletter && newsletter[1].trim().split(/\s+/).length > 4) newsletter = null;
       // A numbered series: a short label that ends in one of the series names below, a number
       // and a colon: "OS 34: ...", "Obs 149.5: ...", "Mostly free OS 32: ...",
       // "Clockwise 679: ...". Any words before the series name come along (at most six words
@@ -821,7 +850,9 @@ Presentation:
       // A dated edition: "9to5Mac Daily: October 21, 2026 \u2013 Headline". The name and date
       // move up together, so the title starts after the dash.
       var dated = text.match(/^\s*([^:\uff1a]{1,40}?:\s+\p{Lu}\p{L}+\.?\s+\d{1,2},?\s+\d{4})\s*[\u2014\u2013-]\s+/u);
-      var found = tagged || plain || named || echo || numbered || dated || paywall;
+      // A live label that stands first: "EN DIRECT - Headline", "EN DIRECT, topic : Headline".
+      var live = text.match(/^\s*(en direct)\s*[,:\uff1a\u2014\u2013-]\s+/i);
+      var found = tagged || plain || named || echo || numbered || dated || paywall || opinion || newsletter || live;
       var label, rest;
       if (found) {
         if (text.length <= found[0].length) return;
@@ -830,17 +861,39 @@ Presentation:
         // A prefix that is only an acronym ("CISA:", "EU:", "PSA:") stays in the title.
         if (found !== numbered && found !== dated && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
       } else {
+        // A name before a colon that is the post's author is already in the byline, so it is
+        // dropped: "Bengt Ohlsson: Headline" by Bengt Ohlsson. Anyone else's name stays.
+        if (colon && text.length > colon[0].length && isAuthor(colon[1])) {
+          node.data = text.slice(colon[0].length);
+          return;
+        }
         var trailing = text.match(new RegExp("^(.*\\S)\\s*[\\[(]\\s*(" + trailingTags + ")\\s*[\\])]\\s*$", "i"));
-        // A short show name after a pipe: "Headline | The Vergecast Livestream". Dates
-        // ("| October 2026") and anything with a number stay.
-        var piped = text.match(/^(.*\S)\s+\|\s+([^|\d]{2,40}?)\s*$/);
-        if (piped && piped[2].trim().split(/\s+/).length > 4) piped = null;
-        var tail = trailing || piped;
+        // A closing tag after a dash: "Headline \u2013 video".
+        var dashed = text.match(/^(.*\S)\s+[\u2014\u2013-]\s+(video|live|cartoon|ranked!)\s*$/i);
+        // A name after a pipe: "Headline | The Vergecast Livestream". The author's name and the
+        // feed's own name are dropped, since the byline shows them ("Editorial" stays, as the
+        // kind of piece). Any other name moves only if it is a known show or section, or starts
+        // with "With" ("| With Zach Lowe"). Everything else stays: "Radiohead | OK Computer".
+        var pipedShows = "the vergecast livestream|vergecast hotline|livestream|better in person|on with kara swisher|the global story|editorial|letters|letter|brief letters|leading questions|a kitchen in rome|ask annalisa barbieri|full album|foto|video|mac & i-podcast|the vergecast";
+        var piped = text.match(/^(.*\S)\s+\|\s+([^|]{2,40}?)\s*$/);
+        if (piped) {
+          var pipeName = piped[2].trim();
+          if (simple(pipeName) !== "editorial" && (isAuthor(pipeName) || (feedName && simple(pipeName) === feedName))) {
+            node.data = piped[1];
+            return;
+          }
+          if (!new RegExp("^(" + pipedShows + ")$", "i").test(pipeName) && !/^with\s+\S/i.test(pipeName)) piped = null;
+        }
+        var tail = trailing || dashed || piped;
         if (!tail) return;
         label = tail[2].trim();
         rest = tail[1];
+        // A closing tag shouted in capitals ("(EXCLUSIVE)") is shown in lowercase.
+        if (tail === trailing && new RegExp("^(" + closingWords + ")$", "i").test(label)) label = label.toLowerCase();
       }
       if (!/\p{L}/u.test(label)) return;
+      // A live label shouted in capitals ("EN DIRECT") is shown in lowercase.
+      if (found && found === live) label = label.toLowerCase();
       if (found && new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
         var split = rest.match(/^(.{1,60}?):\s+(.+)$/);
         if (split) {
@@ -868,8 +921,8 @@ Presentation:
       heading.parentNode.insertBefore(eyebrow, heading);
       node.data = rest;
     });
-    // An untitled post's link line moves to the bottom: "View original" links to it, so
-    // the address isn't shown at the top.
+    // An untitled post's link line moves to the bottom, under "View original", which keeps
+    // linking to the post itself.
     (function () {
       var article = document.querySelector(".article");
       if (!article || !article.classList.contains("untitled")) return;
@@ -878,15 +931,14 @@ Presentation:
       var domain = row && row.querySelector(".external-link-url");
       var view = document.querySelector(".view-post a");
       if (row && from && view && domain && domain.textContent.trim() && !row.classList.contains("same-page")) {
-        view.href = from.getAttribute("href");
-        row.classList.add("moved");
+        view.parentNode.appendChild(row);
       }
     })();
     // The link line's label: "Source: example.com", or "A follow-up to example.com" when
     // the post links to another page on its own site. The words follow the reader's
     // language; they replace NetNewsWire's generic "Link:".
     (function () {
-      var row = document.querySelector(".article-header .external-link");
+      var row = document.querySelector(".external-link");
       var from = row && row.querySelector("a");
       var label = row && row.querySelector(".external-link-label");
       var own = document.querySelector(".article-header h1 a");

@@ -106,13 +106,21 @@ Split in two, the label and the headline each read quickly.
 - **Series.** Named series, like **App Report**. [↗](content-rules.md#podcasts-and-series)
 - **Numbered issues.** A series name and number, like **OS 34** or **Obs 149.5**, plus any words before it. [↗](content-rules.md#numbered-series)
 - **Podcast episodes.** A show name and episode number, like **Clockwise 679**. [↗](content-rules.md#numbered-series)
-- **Bracketed tags.** Short tags in brackets or parentheses, like **Update**. [↗](content-rules.md#bracketed-tags)
-- **Tags at the end.** A **[Gallery]**, **[Video]**, **[Poll]**, or **(Updated)** that closes a headline. [↗](content-rules.md#tags-at-the-end)
+- **Bracketed tags.** Short tags in square brackets, like **Comment**, and a few known words in parentheses, like **Update**. [↗](content-rules.md#bracketed-tags)
+- **Tags at the end.** A **[Gallery]**, **[Video]**, **[Poll]**, **(Updated)**, or **(Rebroadcast)** that closes a headline. [↗](content-rules.md#tags-at-the-end)
 - **Editorial labels.** What kind of piece it is, like **Cartoon**, **Commentary**, **Review**, or **Hands-on**. [↗](content-rules.md#editorial-labels)
 - **Recurring sections.** A column or show a post belongs to, like **The Sunday Read** or **Hello Developer**. [↗](content-rules.md#recurring-sections)
-- **The feed's own name.** A label that repeats the feed's name, like **Pluralistic**. [↗](content-rules.md#the-feeds-own-name)
+- **The feed's own name.** A label that is exactly the feed's name, like **Nature** in the Nature feed. [↗](content-rules.md#the-feeds-own-name)
 - **Paywall markers.** A marker like **heise+**. [↗](content-rules.md#paywall-markers)
-- **Show names after a pipe.** A show at the end of a headline, like **The Vergecast Livestream**. [↗](content-rules.md#show-names-after-a-pipe)
+- **Newsletters.** Any name that ends in "newsletter", like **The War Room newsletter**. [↗](content-rules.md#newsletters)
+- **Opinion.** An **Opinion |** or **Opinion:** label at the start of a headline. [↗](content-rules.md#opinion-before-a-pipe)
+- **Show names after a pipe.** A known show or section at the end of a headline, like **The Vergecast Livestream**. A name that is the post's author or the feed's name is dropped instead, since the byline shows it. [↗](content-rules.md#show-names-after-a-pipe)
+- **Community posts.** A **Show HN**, **Ask HN**, or **Tell HN** at the start of a headline. [↗](content-rules.md#community-posts)
+- **Live labels.** A label like **En direct** at the start of a headline. [↗](content-rules.md#live-labels)
+- **Dash tags at the end.** A **– video** or **– live** that closes a headline. [↗](content-rules.md#dash-tags-at-the-end)
+
+An author's name before a colon, like **Bengt Ohlsson: …** by Bengt Ohlsson, is dropped
+instead of moved, since the byline already shows it. [↗](content-rules.md#author-names-before-a-colon)
 
 Numbered series, editorial labels, and recurring sections are deliberately short
 lists. "iOS 17: …", "Top 10: …", and "Breaking: …" are headlines, not labels, so
