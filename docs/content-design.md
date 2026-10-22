@@ -110,7 +110,7 @@ Split in two, the label and the headline each read quickly.
 - **Tags at the end.** A **[Gallery]**, **[Video]**, **[Poll]**, **(Updated)**, or **(Rebroadcast)** that closes a headline. [↗](content-rules.md#tags-at-the-end)
 - **Editorial labels.** What kind of piece it is, like **Cartoon**, **Commentary**, **Review**, or **Hands-on**. [↗](content-rules.md#editorial-labels)
 - **Recurring sections.** A column or show a post belongs to, like **The Sunday Read** or **Hello Developer**. [↗](content-rules.md#recurring-sections)
-- **The feed's own name.** A label that repeats the feed's name, like **Pluralistic**. [↗](content-rules.md#the-feeds-own-name)
+- **The feed's own name.** A label that is exactly the feed's name, like **Nature** in the Nature feed. [↗](content-rules.md#the-feeds-own-name)
 - **Paywall markers.** A marker like **heise+**. [↗](content-rules.md#paywall-markers)
 - **Newsletters.** Any name that ends in "newsletter", like **The War Room newsletter**. [↗](content-rules.md#newsletters)
 - **Opinion.** An **Opinion |** or **Opinion:** label at the start of a headline. [↗](content-rules.md#opinion-before-a-pipe)

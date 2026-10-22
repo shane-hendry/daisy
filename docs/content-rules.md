@@ -190,6 +190,7 @@ When a title is hidden:
 - Only these sections count: The Sunday Read, Sunday Special, The Latest, The Field, The Headlines, Hello Developer, Version History, Fragments, and Solo Acts. (v0.2.0)
 - Also: The Download, The Pulse, PopInfo Weekly, Brickbat, Today in Supreme Court History, Following, Best Of, Extra, and Pivot Extra. (v0.3.0)
 - Also: Today in Apple history, Price cut, Price drop, Poll, and Livestream. (v0.3.0)
+- Also: Pluralistic and MacStories Weekly, which used to be found by the feed's name. **MacStories Weekly: Issue 533** becomes **MacStories Weekly** over **Issue 533**. (v0.3.0)
 - **Today in Apple history: iPad sales overtake Macs** becomes **Today in Apple history** over **iPad sales overtake Macs**. (v0.3.0)
 - **Livestream: Die Nachrichten auf tagesschau24** becomes **Livestream** over **Die Nachrichten auf tagesschau24**. (v0.3.0)
 
@@ -210,10 +211,11 @@ When a title is hidden:
 
 ##### The feed's own name
 
-- A label before a colon that matches the feed's name moves to the eyebrow. **Pluralistic: Headline** in the Pluralistic feed becomes **Pluralistic** over **Headline**. (v0.2.0)
-- A label that starts with the feed's name, or that the feed's name starts with, counts too: **MacStories Weekly: Issue 533** in the MacStories feed becomes **MacStories Weekly** over **Issue 533**. (v0.2.0)
+- A label before a colon that is exactly the feed's name moves to the eyebrow. **Nature: Headline** in the Nature feed becomes **Nature** over **Headline**. (v0.2.0)
+- Only the whole name counts. **Science: Headline** in the Science Magazine feed stays in the title. (v0.3.0)
 - The label can be up to four words and must be longer than three letters. (v0.2.0)
 - The same label in another feed stays in the title. (v0.2.0)
+- Feeds whose name carries a tagline, like Pluralistic, are covered by the list of recurring sections instead. (v0.3.0)
 
 ##### Paywall markers
 
@@ -234,14 +236,15 @@ When a title is hidden:
 - The name after the pipe can be up to four words. (v0.2.0)
 - A name with a number in it stays in the title, so a date like **| October 2026** is left alone. (v0.2.0)
 - A name that is the post's author is dropped instead. **Headline | Margaret Sullivan** with the author Margaret Sullivan becomes **Headline**, since the byline already shows the name. (v0.3.0)
-- The name counts as the author when all its words appear in the author field, so **Andrew Lawrence** matches the author **Andrew Lawrence at State Farm Arena**. (v0.3.0)
+- The name counts as the author only when it is the author's whole name. When a post lists several authors, any one of them counts. (v0.3.0)
 - **Ask Annalisa Barbieri** does not match the author **Annalisa Barbieri**, so it moves to the eyebrow. (v0.3.0)
+- **Andrew Lawrence** does not match the author **Andrew Lawrence at State Farm Arena**, so it moves to the eyebrow. (v0.3.0)
 - **| Editorial** moves to the eyebrow even when the author is also Editorial. (v0.3.0)
 
 ##### Author names before a colon
 
 - **Bengt Ohlsson: Headline** by Bengt Ohlsson becomes **Headline**, since the byline already shows the name. (v0.3.0)
-- The name counts as the author when all its words appear in the author field, so **Wetzel: Headline** by Dan Wetzel matches. (v0.3.0)
+- The name counts as the author only when it is the author's whole name. **Wetzel: Headline** by Dan Wetzel stays as it is. (v0.3.0)
 - A name that is not the author stays in the title, like someone being interviewed: **Sara Carbonero: “Lo que viví…”**. (v0.3.0)
 - Nothing moves to the eyebrow. Labels that are on a list, like **Review:**, are handled first. (v0.3.0)
 
@@ -371,14 +374,14 @@ New site-specific rules get a row here.
 | [Manton Reece](https://manton.org) | Hides empty titles, and shows the name once when author and publication match | [Hidden titles](#hidden-titles), [Author and publication](#author-and-publication) | v0.1.0 |
 | [Six Colors](https://sixcolors.com) | Simplifies sponsor, podcast, and issue-number titles, including Clockwise, Upgrade, The Rebound, and Designed in California episodes | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
 | [Snake](https://snake.substack.com/) | Simplifies sponsor, podcast, and issue-number titles | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
-| [MacStories](https://www.macstories.net) | Moves a "[Sponsor]" tag at the end of a title to the eyebrow, and the "MacStories Weekly" label | [Sponsors](#sponsors), [The feed's own name](#the-feeds-own-name) | v0.2.0 |
+| [MacStories](https://www.macstories.net) | Moves a "[Sponsor]" tag at the end of a title to the eyebrow, and the "MacStories Weekly" label | [Sponsors](#sponsors), [Recurring sections](#recurring-sections) | v0.2.0 |
 | [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition and the Overtime episode number to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Numbered series](#numbered-series), [Google](#google) | v0.2.0 |
 | [Jeffrey Zeldman Presents](https://zeldman.com) | Shows embedded posts as a preview card without the repeated link, and hides the "appeared first on" line | [WordPress](#wordpress) | v0.2.0 |
 | [9to5Google](https://9to5google.com) | Moves "[Gallery]" and "[Video]" tags and the Sideload and Pixelated episode numbers to the eyebrow | [Tags at the end](#tags-at-the-end), [Numbered series](#numbered-series) | v0.2.0 |
 | [The Economist](https://www.economist.com) | Moves "Cartoon:" and newsletter names like "Cover Story newsletter:" and "The War Room newsletter:" to the eyebrow | [Editorial labels](#editorial-labels), [Newsletters](#newsletters) | v0.2.0 |
 | [The New York Times](https://www.nytimes.com) | Moves podcast sections like "The Sunday Read:", "The Headlines:", and "The Latest:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
 | [Apple Developer](https://developer.apple.com/news/) | Moves "Hello Developer:" and "Version History:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
-| [Pluralistic](https://pluralistic.net) | Moves the repeated "Pluralistic:" label to the eyebrow | [The feed's own name](#the-feeds-own-name) | v0.2.0 |
+| [Pluralistic](https://pluralistic.net) | Moves the repeated "Pluralistic:" label to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
 | [heise online](https://www.heise.de) | Moves the "heise+" paywall marker and the "Mac & i-Podcast" show name to the eyebrow | [Paywall markers](#paywall-markers), [Show names after a pipe](#show-names-after-a-pipe) | v0.2.0 |
 | [The Verge](https://www.theverge.com) | Moves Vergecast show names at the end of a title to the eyebrow | [Show names after a pipe](#show-names-after-a-pipe) | v0.2.0 |
 | [Martin Fowler](https://martinfowler.com) | Moves the "Fragments:" label to the eyebrow | [Recurring sections](#recurring-sections) | v0.2.0 |
