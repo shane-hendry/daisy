@@ -34,9 +34,9 @@ they should.
 - **Byline**: who wrote the post, and for which publication.
 - **Timestamp**: when it was published.
 - **[Title block](#title-block)**: the group under them.
-  - **[Eyebrow](#eyebrow)** (conditional): a small label above the title.
+  - **[Eyebrow](#eyebrow)**: a small label above the title, only shown when a rule requires it.
   - **Title**: the headline.
-  - **[Secondary link](#secondary-link)** (conditional): where the post points.
+  - **[Secondary link](#secondary-link)**: where the post points, only shown when a rule requires it.
 
 ### Byline
 
@@ -55,7 +55,7 @@ Part of the [hero block](#hero-block): who wrote the post, and for which publica
 - A Bluesky name of "@handle - Real Name" shows the real name. (v0.1.0)
 - A Bluesky name ending in " - Bluesky" drops that ending. (v0.1.0)
 - A Bluesky handle with no real name after it stays as the handle. (v0.1.0)
-- The bottom line is written as **View post**. (v0.1.0)
+- The footer link is written as **View post**. (v0.1.0)
 
 ### Timestamp
 
@@ -74,7 +74,6 @@ Part of the [hero block](#hero-block). It sits at the end of the same row as the
 #### Reading the exact time
 
 - Selecting the timestamp shows the time, like "at 10:47 PM". (v0.2.0)
-- The time replaces the full date that used to show on hover. (v0.2.0)
 
 ### Title block
 
@@ -100,7 +99,7 @@ A title is hidden when it is:
 When a title is hidden:
 
 - The title block and its secondary link are removed from the top. (v0.1.0)
-- A **View original** line goes at the bottom. (v0.1.0)
+- The footer link, **View original**, goes at the bottom. (v0.1.0)
 - If the post has a secondary link, **View original** opens that link instead. (v0.1.0)
 - Mastodon and Bluesky posts say **View post** instead. (v0.1.0)
 - Posts with titles never show **View original** or **View post**. (v0.1.0)
