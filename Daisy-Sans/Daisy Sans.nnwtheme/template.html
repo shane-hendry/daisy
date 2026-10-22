@@ -626,33 +626,72 @@ Presentation:
     // move too, along with any words before the number: "OS 34: Headline", "Obs 149.5: Headline"
     // and "Mostly free OS 32: Headline" become "OS 34", "Obs 149.5" and "Mostly free OS 32"
     // over "Headline". Only the numbered series named in the list below move.
+    // Also moved: a known editorial or section label before a colon ("Cartoon: Headline",
+    // "The Sunday Read: Headline"), a label that matches the feed's own name ("Pluralistic: Headline"),
+    // a paywall marker ("heise+ | Headline"), a bracketed tag at the end ("Headline [Gallery]"),
+    // and a short show name after a pipe ("Headline | The Vergecast Livestream").
+    // Left in the title: a prefix that is a single symbol ("★ Headline", "🔴 Live: Headline")
+    // and a prefix that is only an acronym ("CISA: Headline").
     document.querySelectorAll(".article-header h1 a").forEach(function (a) {
       var node = a.firstChild;
       if (!node || node.nodeType !== 3) return;
       var text = node.data;
       var sponsorWords = "sponsor|sponsored|advertisement|advert|ad|promoted|promotion|anzeige|werbung|gesponsert|sponsorisée?|publicité|patrocinado|patrocinador|publicidad|sponsorizzato|pubblicità|реклама|广告|廣告|広告|광고|إعلان";
       var series = "app report|podcast|the talk show";
-      var tagged = text.match(/^\s*[\[(]\s*([^\[\]()]{1,24}?)\s*[\])]\s*/);
+      // Editorial formats and recurring sections. Only a label before a colon counts, and only
+      // the names listed here. Add a name to follow another section.
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|cover story newsletter|solo acts|the headlines";
+      // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
+      var trailingTags = "gallery|video|poll|updated|live|" + sponsorWords;
+      var tagged = text.match(/^\s*[\[(]\s*([^\[\]()]{1,24}?)\s*[\])]\s+/);
       var plain = text.match(new RegExp("^\\s*(" + sponsorWords + "|" + series + ")\\s*[:\\u2014\\u2013-]\\s+", "i"));
+      var named = text.match(new RegExp("^\\s*(" + labels + ")\\s*[:\\uff1a]\\s+", "i"));
+      // A label that matches the feed's own name ("Pluralistic: ...", "MacStories Weekly: ..."),
+      // so every feed that repeats its name in its titles is covered without a list.
+      var echo = null;
+      var feedEl = document.querySelector(".attribution .feed");
+      var simple = function (s) { return s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); };
+      var feedName = feedEl ? simple(feedEl.textContent) : "";
+      var colon = text.match(/^\s*([^:：]{1,40}?)\s*[:：]\s+/);
+      if (colon && feedName.length > 3 && colon[1].trim().split(/\s+/).length <= 4) {
+        var echoName = simple(colon[1]);
+        if (echoName.length > 3 && (echoName.indexOf(feedName) === 0 || feedName.indexOf(echoName) === 0)) echo = colon;
+      }
+      // A paywall marker before a pipe: "heise+ | ...".
+      var paywall = text.match(/^\s*([\p{L}\p{N}.\-]{2,20}\+)\s*\|\s+/u);
       // A numbered series: a short label that ends in one of the series names below, a number
-      // and a colon: "OS 34: ...", "Obs 149.5: ...", "Mostly free OS 32: ...". Any words
-      // before the series name come along (at most six words in all). Only the names listed
-      // here count, so "iOS 17:", "Part 2:" and "Windows 11:" are left alone. Add a name to
-      // follow another numbered series.
-      var numberedSeries = "os|obs|observer";
-      var numbered = text.match(/^\s*([^:\uff1a]{1,48}?\s\d+(?:\.\d+)?)\s*[:\uff1a]\s+/);
+      // and a colon: "OS 34: ...", "Obs 149.5: ...", "Mostly free OS 32: ...",
+      // "Clockwise 679: ...". Any words before the series name come along (at most six words
+      // in all). Only the names listed here count, so "iOS 17:", "Part 2:" and "Windows 11:"
+      // are left alone. Add a name to follow another numbered series.
+      var numberedSeries = "os|obs|observer|clockwise|upgrade|the rebound|the sideload|pixelated|overtime|designed in california";
+      var numbered = text.match(/^\s*([^:：]{1,48}?\s\d+(?:\.\d+)?)\s*[:：]\s+/);
       if (numbered) {
         var parts = numbered[1].trim().split(/\s+/);
         parts.pop();
-        var word = parts[parts.length - 1] || "";
-        if (parts.length > 5 || !new RegExp("^(" + numberedSeries + ")\\.?$", "i").test(word)) numbered = null;
+        if (parts.length > 5 || !new RegExp("(^|\\s)(" + numberedSeries + ")\\.?$", "i").test(parts.join(" "))) numbered = null;
       }
-      var found = tagged || plain || numbered;
-      if (!found || text.length <= found[0].length) return;
-      var label = found[1].trim();
+      var found = tagged || plain || named || echo || numbered || paywall;
+      var label, rest;
+      if (found) {
+        if (text.length <= found[0].length) return;
+        label = found[1].trim();
+        rest = text.slice(found[0].length);
+        // A prefix that is only an acronym ("CISA:", "EU:", "PSA:") stays in the title.
+        if (found !== numbered && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
+      } else {
+        var trailing = text.match(new RegExp("^(.*\\S)\\s*[\\[(]\\s*(" + trailingTags + ")\\s*[\\])]\\s*$", "i"));
+        // A short show name after a pipe: "Headline | The Vergecast Livestream". Dates
+        // ("| October 2026") and anything with a number stay.
+        var piped = text.match(/^(.*\S)\s+\|\s+([^|\d]{2,40}?)\s*$/);
+        if (piped && piped[2].trim().split(/\s+/).length > 4) piped = null;
+        var tail = trailing || piped;
+        if (!tail) return;
+        label = tail[2].trim();
+        rest = tail[1];
+      }
       if (!/\p{L}/u.test(label)) return;
-      var rest = text.slice(found[0].length);
-      if (new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
+      if (found && new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
         var split = rest.match(/^(.{1,60}?):\s+(.+)$/);
         if (split) {
           label = label + ": " + split[1];
@@ -669,7 +708,7 @@ Presentation:
       var linked = row && from && domain && !row.classList.contains("same-page") && domain.textContent.trim();
       var name = document.createElement(linked ? "a" : "span");
       name.className = "eyebrow-label";
-      name.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+      name.textContent = /\+$/.test(label) ? label : label.charAt(0).toUpperCase() + label.slice(1);
       if (linked) {
         name.href = from.getAttribute("href");
         row.classList.add("moved");

@@ -23,6 +23,8 @@ Daisy's favorite writers get special treatment:
 
 - Hides titles on untitled posts, like [Kottke's](https://kottke.org) quick links, [Manton Reece's](https://manton.org) posts, and social posts from Mastodon and Bluesky
 - Simplifies sponsor, podcast, and issue-numbers in titles from [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more
+- Moves editorial labels, recurring sections and show names out of titles and into a small line above them: [The New York Times'](https://www.nytimes.com) The Sunday Read, [Apple Developer's](https://developer.apple.com/news/) Hello Developer, [Pluralistic](https://pluralistic.net), [The Verge's](https://www.theverge.com) Vergecast, [heise online](https://www.heise.de), [9to5Mac](https://9to5mac.com), [9to5Google](https://9to5google.com), and more
+- Leaves [Daring Fireball's](https://daringfireball.net/) ★ and any other single-symbol or acronym-only prefix in the title
 - Treats [Daring Fireball's](https://daringfireball.net) linking conventions uniquely, forgive me John
 - Cleans up funky Squarespace and Wordpress stuff
 
