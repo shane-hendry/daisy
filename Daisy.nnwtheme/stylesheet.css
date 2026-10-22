@@ -696,12 +696,21 @@ caption {
   user-select: none;
 }
 
+/* The date turns orange under the pointer, like the links. The timestamp keeps the
+   text color. */
+@media (hover: hover) {
+  .dateline:hover {
+    color: var(--accent);
+  }
+}
+
 /* The full timestamp is laid over the page, so nothing moves. It starts at the top of
    the date's own line and is pushed down one line (1lh), so its baseline falls exactly
    where a wrapped second line would, level with a second line of the credit. */
 .dateline-full {
   background: var(--canvas);
   background-clip: content-box;
+  color: var(--text);
   max-width: calc(100vw - 2 * var(--gutter));
   padding-top: 1lh;
   position: absolute;
