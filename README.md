@@ -29,7 +29,7 @@ A few feeds get special treatment:
 * Titles are deduplicated from [Kottke's](https://kottke.org/) quick links 
 * [Daring Fireball's](https://daringfireball.net/) back-links are styled as "A follow-up to..." (forgive me, John)
   
-This is all detailed in [content design](docs/content-design.md) and [content rules](docs/content-rules.md). It requires JavaScript and trust me, it's worth it.
+See my post about [how these themes work,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md). The good parts all require JavaScript.
 
 
 ## Install
