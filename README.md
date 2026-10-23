@@ -42,9 +42,15 @@ Daisy and Daisy Sans are in beta. [Version 0.2.0](https://github.com/shane-hendr
 
 See [all releases](https://github.com/shane-hendry/daisy/releases) for notes and older versions.
 
-Huge thanks to [dave-atx](https://github.com/dave-atx). I built these themes using [`dave-atx/netnewswire-theme-template`](https://github.com/dave-atx/netnewswire-theme-template)
-with [`nnw-theme`](https://github.com/dave-atx/nnw-theme).
+## Credits
 
-This is an independent project, not affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes adjust.
+Daisy and Daisy Sans were built with dave-atx‘s netnewswire-theme-template. It was a collaborative effort by the whole team here at SH Enterprises Worldwide.
+* **CEO** Shane
+* **Product** Shane
+* **Design** Shane
+* **Marketing** Shane
+* **Engineering** Claude 🤖
+
+Daisy and Daisy Sans aren't affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes adjust.
 The theme format is documented in NetNewsWire's
 [themes technote](https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md).
