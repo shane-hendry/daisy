@@ -19,16 +19,15 @@ Daisy and Daisy Sans bring content design to your RSS feed. They clean up RSS da
 * Simple, consistent bylines
 * Smart title blocks with conditional eyebrows and secondary links
 * Timestamps are relative and reveal the exact time on tap
-* Clear, interactive footnotes  
-* Deduplicates links and content  
-* Hides platform-injected content blocks, so you only see what the author intended  
-* Support for 30+ languages, right-to-left languages, and XXXXXL font sizes  
+* Clear, interactive footnotes
+* Deduplicates links and content
+* Hides platform-injected content blocks, so you only see what the author intended
+* Support for 30+ languages, right-to-left languages, and XXXXXL font sizes
   
-Daisy's favorite writers get special treatment:  
+A few feeds get special treatment:  
   
-* Titles are deduplicated on untitled posts like [Kottke's](https://kottke.org/) quick links  
-* Sponsor, podcast, and issue numbers move to the eyebrow for [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more
-* [Daring Fireball's](https://daringfireball.net/) linking conventions get special treatment (forgive me, John)  
+* Titles are deduplicated from [Kottke's](https://kottke.org/) quick links 
+* [Daring Fireball's](https://daringfireball.net/) back-links are styled as "A follow-up to..." (forgive me, John)
   
 This is all detailed in [content design](docs/content-design.md) and [content rules](docs/content-rules.md). It requires JavaScript and trust me, it's worth it.
 
