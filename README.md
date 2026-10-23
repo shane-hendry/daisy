@@ -3,10 +3,13 @@
 
 ![Daisy in NetNewsWire](screenshots/Daisy%20Hero.png)
 
-Two [NetNewsWire](https://netnewswire.com/) themes by [Shane Hendry](https://shanehendry.com), one design in two typefaces:
+Two [NetNewsWire](https://netnewswire.com/) themes that clean up the content of your RSS feed. One design, two appearances:
 
 - **Daisy** is set in New York
 - **Daisy Sans** is set in SF Pro
+
+Learn more about [Daisy and Daisy Sans](https://shanehendry.com/daisy).
+
 <!-- nnw-theme-identity:end -->
 
 ## An editor in chief for your feed
