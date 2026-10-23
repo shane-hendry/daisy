@@ -9,13 +9,13 @@ Two [NetNewsWire](https://netnewswire.com/) themes by [Shane Hendry](https://sha
 - **Daisy Sans** is set in SF Pro
 <!-- nnw-theme-identity:end -->
 
-## Let the words do the work
+## An editor in chief for your feed
 
-Daisy and Daisy Sans bring content design to your RSS feed. They clean up unusual RSS data for a more polished and consistent reading experience.  
+Daisy and Daisy Sans bring content design to your RSS feed. They clean up RSS data for a cohesive reading experience.  
   
-* Simple, consistent bylines: **Matilda Jeffries for Time,** or just **FOR SCALE**  
-* Relative times: **2 hours ago**, **Yesterday**, with the exact time on tap  
-* Smart **eyebrow** and **secondary link** fields for nicer, more consistent titles  
+* Simple, consistent bylines
+* Smart title blocks with conditional eyebrows and secondary links
+* Timestamps are relative and reveal the exact time on tap
 * Clear, interactive footnotes  
 * Deduplicates links and content  
 * Hides platform-injected content blocks, so you only see what the author intended  
