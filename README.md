@@ -46,11 +46,11 @@ See [all releases](https://github.com/shane-hendry/daisy/releases) for notes and
 
 ## Credits
 
-Daisy and Daisy Sans were built with [Dave Marquard's](https://github.com/dave-atx) [NetNewsWire Theme Template](https://github.com/dave-atx/netnewswire-theme-template). It was a collaborative effort by the whole team here at SH Enterprises Worldwide.
-* **CEO** Shane
-* **Product** Shane
-* **Design** Shane
-* **Marketing** Shane
+Daisy and Daisy Sans were built with [Dave Marquard's](https://github.com/dave-atx) [NetNewsWire theme template](https://github.com/dave-atx/netnewswire-theme-template). It was a collaborative effort by the whole team here at SH Enterprises Worldwide.
+* **CEO** Me
+* **Product** Yours truly
+* **Design** Moi
+* **Marketing** Ya boi
 * **Engineering** Claude 🤖
 
 Daisy and Daisy Sans aren't affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes adjust.
