@@ -458,7 +458,7 @@ dd {
    from the cap height of the first line to the baseline of the last. Its offsets
    are New York's metrics inside a 1.7 line box: the line top to the cap top is
    0.500em, the baseline to the line bottom is 0.495em. The bar overshoots both
-   ends by its own thickness (2px, growing with the text). */
+   ends by its own thickness (0.09em, the stroke weight of the letters). */
 
 blockquote {
   margin-inline: 0;
@@ -468,12 +468,12 @@ blockquote {
 
 blockquote::before {
   background: var(--text);
-  bottom: calc(0.495em - max(2px, 0.11em));
+  bottom: calc(0.495em - 0.09em);
   content: "";
   inset-inline-start: 0;
   position: absolute;
-  top: calc(0.500em - max(2px, 0.11em));
-  width: max(2px, 0.11em);
+  top: calc(0.500em - 0.09em);
+  width: 0.09em;
 }
 
 
@@ -1078,12 +1078,12 @@ hr + .footnotes-title {
    the last, overshooting by its own thickness (offsets for a 1.7 line box). */
 .footnote-panel::before {
   background: var(--text);
-  bottom: calc(0.495em - max(2px, 0.11em));
+  bottom: calc(0.495em - 0.09em);
   content: "";
   inset-inline-start: 0;
   position: absolute;
-  top: calc(0.500em - max(2px, 0.11em));
-  width: max(2px, 0.11em);
+  top: calc(0.500em - 0.09em);
+  width: 0.09em;
 }
 
 .footnote-panel-header {
@@ -1196,12 +1196,12 @@ details {
 /* The bar matches a block quote's (see 1.8). */
 details::before {
   background: var(--text);
-  bottom: calc(0.495em - max(2px, 0.11em));
+  bottom: calc(0.495em - 0.09em);
   content: "";
   inset-inline-start: 0;
   position: absolute;
-  top: calc(0.500em - max(2px, 0.11em));
-  width: max(2px, 0.11em);
+  top: calc(0.500em - 0.09em);
+  width: 0.09em;
 }
 
 /* The label. The browser's own triangle is replaced by the chevron below. */
@@ -1547,8 +1547,8 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   .article blockquote::before,
   .article .footnote-panel::before,
   .article details::before {
-    bottom: calc(0.270em - max(2px, 0.11em));
-    top: calc(0.275em - max(2px, 0.11em));
+    bottom: calc(0.270em - 0.09em);
+    top: calc(0.275em - 0.09em);
   }
 
   .article.no-tracking blockquote::before,
