@@ -23,9 +23,9 @@ Daisy and Daisy Sans bring content design to your RSS feed. They clean up RSS da
   
 Daisy's favorite writers get special treatment:  
   
-* Hides titles on untitled posts, like [Kottke's](https://kottke.org/) quick links, [Manton Reece's](https://manton.org/) posts, and social media posts from Mastodon and Bluesky  
-* Moves sponsor, podcast, and issue-numbers to the eyebrow from [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more  
-* Treats [Daring Fireball's](https://daringfireball.net/) linking conventions uniquely (forgive me, John)  
+* Titles are hidden on untitled posts, like [Kottke's](https://kottke.org/) quick links, [Manton Reece's](https://manton.org/) posts, and social media posts from Mastodon and Bluesky  
+* Sponsor, podcast, and issue numbers move to the eyebrow for [Daring Fireball](https://daringfireball.net/), [Six Colors](https://sixcolors.com/), [Snake](https://snake.substack.com/), and more
+* [Daring Fireball's](https://daringfireball.net/)'s linking conventions get special treatment (forgive me, John)  
   
 This is all detailed in [content design](docs/content-design.md) and [content rules](docs/content-rules.md). It requires JavaScript and trust me, it's worth it.
 
