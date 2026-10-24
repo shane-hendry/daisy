@@ -237,6 +237,7 @@ When a title is hidden:
 - Also: Pluralistic and MacStories Weekly, which used to be found by the feed's name. **MacStories Weekly: Issue 533** becomes **MacStories Weekly** over **Issue 533**. (v0.3.0)
 - Also: HomeKit Weekly. **HomeKit Weekly: SwitchBot's new light bars bring 12-zone color to Apple Home** becomes **HomeKit Weekly** over **SwitchBot's new light bars bring 12-zone color to Apple Home**. (v0.3.0)
 - Also: Apple @ Work, a 9to5Mac series. **Apple @ Work: The browser is the biggest gap in your AI governance strategy** becomes **Apple @ Work** over **The browser is the biggest gap in your AI governance strategy**. (v0.3.0)
+- Also: Indie App Spotlight, another 9to5Mac series. **Indie App Spotlight: ‘Flipcorder’ lets you shoot retro footage on your iPhone Duo** becomes **Indie App Spotlight** over **‘Flipcorder’ lets you shoot retro footage on your iPhone Duo**. (v0.4.0)
 - **Today in Apple history: iPad sales overtake Macs** becomes **Today in Apple history** over **iPad sales overtake Macs**. (v0.3.0)
 - **Livestream: Die Nachrichten auf tagesschau24** becomes **Livestream** over **Die Nachrichten auf tagesschau24**. (v0.3.0)
 
@@ -430,7 +431,7 @@ New site-specific rules get a row here.
 | [Six Colors](https://sixcolors.com) | Simplifies sponsor, podcast, and issue-number titles, including Clockwise, Upgrade, The Rebound, and Designed in California episodes | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
 | [Snake](https://snake.substack.com/) | Simplifies sponsor, podcast, and issue-number titles | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
 | [MacStories](https://www.macstories.net) | Moves a "[Sponsor]" tag at the end of a title to the eyebrow, and the "MacStories Weekly" label | [Sponsors](#sponsors), [Recurring sections](#recurring-sections) | v0.2.0 |
-| [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition, the Overtime episode number, and "HomeKit Weekly:" and "Apple @ Work:" to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Numbered series](#numbered-series), [Recurring sections](#recurring-sections), [Google](#google) | v0.2.0 |
+| [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition, the Overtime episode number, and "HomeKit Weekly:" "Apple @ Work:" and "Indie App Spotlight:" to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Numbered series](#numbered-series), [Recurring sections](#recurring-sections), [Google](#google) | v0.2.0 |
 | [Jeffrey Zeldman Presents](https://zeldman.com) | Shows embedded posts as a preview card without the repeated link, and hides the "appeared first on" line | [WordPress](#wordpress) | v0.2.0 |
 | [9to5Google](https://9to5google.com) | Moves "[Gallery]" and "[Video]" tags and the Sideload and Pixelated episode numbers to the eyebrow | [Tags at the end](#tags-at-the-end), [Numbered series](#numbered-series) | v0.2.0 |
 | [The Economist](https://www.economist.com) | Moves "Cartoon:" and newsletter names like "Cover Story newsletter:" and "The War Room newsletter:" to the eyebrow | [Editorial labels](#editorial-labels), [Newsletters](#newsletters) | v0.2.0 |
