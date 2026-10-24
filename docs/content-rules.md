@@ -57,6 +57,30 @@ Part of the [hero block](#hero-block): who wrote the post, and for which publica
 - A Bluesky handle with no real name after it stays as the handle. (v0.1.0)
 - The footer link is written as **View post**. (v0.1.0)
 
+#### Reddit
+
+- A Reddit post's user name has no slash before it: **u/name**. (v0.3.0)
+- The community name is read from the post's address (the part after **/r/**), so a post in r/apple reads **r/apple**, without the feed's "Unofficial Apple Community" description. (v0.3.0)
+- The "submitted by … [link] [comments]" block is hidden, and the footer says **Join the conversation**, linking to the comments. (v0.3.0)
+
+#### Email and staff credits
+
+- An author written as "email (Name)" shows only the name. (v0.4.0)
+- An RSS label in a feed name is dropped: "CNN.com - RSS Channel - App International Edition" shows as **CNN.com - App International Edition**. (v0.4.0)
+- The label is RSS or Atom, alone or followed by Feed or Channel. It must sit between separators (a dash, pipe, bullet or colon) or in brackets, or come after one at the end: **Site | RSS** shows as **Site**. (v0.4.0)
+- A name that starts with RSS, like **RSS Club**, and any other name that merely contains the word stay as they are. (v0.4.0)
+- The Smashing Magazine feed name "Articles on Smashing Magazine — For Web Designers And Developers" is shortened to **Smashing Magazine**. (v0.3.0)
+- A feed name that starts with "Le Monde.fr - ", such as "Le Monde.fr - Actualités et Infos en France et dans le monde", is shortened to **Le Monde**. (v0.4.0)
+- A feed name that starts with "Engadget", such as "Engadget - Technology News & Expert Reviews", is shortened to **Engadget**. (v0.4.0)
+- An author of "Redazione" plus the feed's own name, the Italian staff credit, is not a person: the byline shows the publication once, as **Repubblica.it** rather than "Redazione Repubblica.it for Repubblica.it". (v0.4.0)
+- "Redazione" followed by anything else, such as **Redazione Esteri**, stays. (v0.4.0)
+- A publication that ends in "by" and the author's own name drops that ending, so "Name for Site by Name" shows as **Name for Site**. A different name after "by" stays. (v0.4.0)
+- Two or more full names separated by commas are rebuilt in the reader's language, so **John Smith, Jane Doe** reads **John Smith and Jane Doe**, and three names read **A, B, and C** in English. Author links are kept. (v0.4.0)
+- The credit may use two lines, and stops short of the date by a little over two letters' width. If the names do not fit, the first stays and the rest are counted: **Fadhil Suleiman Kamounah and 12 others for Nature**. The count words are English only. (v0.4.0)
+- A list that did not fit opens on a tap and shows every name, joined the same way (**A, B, and C for Nature**), while the content below slides down. A tap on the author part, on the date, or Escape closes it, and opening the time closes the list. While it is open, a linked name opens its link, and the publication always does. Nothing marks it as tappable except the pointer on a Mac and its button role for VoiceOver. (v0.4.0)
+- Linked authors keep their links in a rebuilt list. (v0.4.0)
+- Only a list where every piece has two or more words and no suffix (Jr., PhD, Inc.) is rebuilt, so **Smith, John** and **Jane Doe, PhD** are left as written. A list of four or more that fails this check still reads **N authors**. (v0.4.0)
+
 ### Timestamp
 
 Part of the [hero block](#hero-block). It sits at the end of the same row as the byline.
@@ -169,6 +193,17 @@ When a title is hidden:
 - Rebroadcast, Repeat, Replay, From the Archive, Bonus, Exclusive, Update, Throwback, and Repost count too. **The Containment Plan (rebroadcast)** becomes **Rebroadcast** over **The Containment Plan**. (v0.3.0)
 - A tag in capitals is shown in lowercase with a capital first letter, so **(EXCLUSIVE)** becomes **Exclusive**. (v0.3.0)
 
+##### Source credits at the end
+
+- **Headline (Minsoo Kang/Counterpoint Research)** becomes **Minsoo Kang for Counterpoint Research** over **Headline**. (v0.4.0)
+- Both sides of the slash must start with a capital letter, and one side must be two or more words. (v0.4.0)
+- **(Pros/Cons)**, **(and/or)**, and **(24/7)** stay in the headline. (v0.4.0)
+- In a feed named Techmeme, a single name in the last parentheses moves too, since every headline there ends with its source: **Headline (The Information)**, **Headline (OpenAI)**, and **Headline (@handle)** become **The Information**, **OpenAI**, and **@handle** over **Headline**. The name must start with a capital letter or @. (v0.4.0)
+- In a feed named Techmeme, when the body opens with the same credit before a colon ("Tom Warren / The Verge:"), the publication's link there moves to the eyebrow, so **The Verge** in **Tom Warren for The Verge** opens the publisher's site. (v0.4.0)
+- That opening, the line break after it, the bold repeat of the headline, and the dash before the summary are removed from the body, so it starts with the summary. They are removed only when the opening matches the credit exactly. (v0.4.0)
+- Earlier parentheses stay: in **Headline (max) (@handle)**, only **(@handle)** moves. (v0.4.0)
+- In any other feed, a single name in parentheses at the end, like **(X)**, is an aside and stays. (v0.4.0)
+
 ##### Dash tags at the end
 
 - **Headline – video** becomes **Video** over **Headline**. (v0.3.0)
@@ -201,6 +236,7 @@ When a title is hidden:
 - Also: The Interview, Modern Love, The Run-Up, The Argument, and Interesting Times. A show name may sit in quotes, so **‘The Interview’: Headline** becomes **The Interview** over **Headline**. (v0.3.0)
 - Also: Pluralistic and MacStories Weekly, which used to be found by the feed's name. **MacStories Weekly: Issue 533** becomes **MacStories Weekly** over **Issue 533**. (v0.3.0)
 - Also: HomeKit Weekly. **HomeKit Weekly: SwitchBot's new light bars bring 12-zone color to Apple Home** becomes **HomeKit Weekly** over **SwitchBot's new light bars bring 12-zone color to Apple Home**. (v0.3.0)
+- Also: Apple @ Work, a 9to5Mac series. **Apple @ Work: The browser is the biggest gap in your AI governance strategy** becomes **Apple @ Work** over **The browser is the biggest gap in your AI governance strategy**. (v0.3.0)
 - **Today in Apple history: iPad sales overtake Macs** becomes **Today in Apple history** over **iPad sales overtake Macs**. (v0.3.0)
 - **Livestream: Die Nachrichten auf tagesschau24** becomes **Livestream** over **Die Nachrichten auf tagesschau24**. (v0.3.0)
 
@@ -354,6 +390,11 @@ Things publishing tools add that the reader doesn't need.
 - The "The post X appeared first on Y" line WordPress adds at the very end is hidden. It needs two links and must be the last paragraph. (v0.2.0)
 - Spacer blocks are hidden. (v0.1.0)
 
+### Thumbnails beside the text
+
+- A bare image marked to sit on the right or left of the text (the old `align="right"` or `align="left"`) stays beside the text, at no more than a third of the column or 12rem, and the text wraps around it. (v0.4.0)
+- A tiny permalink icon, an image inside a link titled "permalink", is hidden. (v0.4.0)
+
 ### Substack
 
 - The restack and expand buttons on images are hidden. (v0.1.0)
@@ -389,7 +430,7 @@ New site-specific rules get a row here.
 | [Six Colors](https://sixcolors.com) | Simplifies sponsor, podcast, and issue-number titles, including Clockwise, Upgrade, The Rebound, and Designed in California episodes | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
 | [Snake](https://snake.substack.com/) | Simplifies sponsor, podcast, and issue-number titles | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
 | [MacStories](https://www.macstories.net) | Moves a "[Sponsor]" tag at the end of a title to the eyebrow, and the "MacStories Weekly" label | [Sponsors](#sponsors), [Recurring sections](#recurring-sections) | v0.2.0 |
-| [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition, the Overtime episode number, and "HomeKit Weekly:" to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Numbered series](#numbered-series), [Recurring sections](#recurring-sections), [Google](#google) | v0.2.0 |
+| [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition, the Overtime episode number, and "HomeKit Weekly:" and "Apple @ Work:" to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Numbered series](#numbered-series), [Recurring sections](#recurring-sections), [Google](#google) | v0.2.0 |
 | [Jeffrey Zeldman Presents](https://zeldman.com) | Shows embedded posts as a preview card without the repeated link, and hides the "appeared first on" line | [WordPress](#wordpress) | v0.2.0 |
 | [9to5Google](https://9to5google.com) | Moves "[Gallery]" and "[Video]" tags and the Sideload and Pixelated episode numbers to the eyebrow | [Tags at the end](#tags-at-the-end), [Numbered series](#numbered-series) | v0.2.0 |
 | [The Economist](https://www.economist.com) | Moves "Cartoon:" and newsletter names like "Cover Story newsletter:" and "The War Room newsletter:" to the eyebrow | [Editorial labels](#editorial-labels), [Newsletters](#newsletters) | v0.2.0 |
@@ -406,6 +447,8 @@ New site-specific rules get a row here.
 | [ABC News](https://abcnews.go.com) | Moves "WATCH:" to the eyebrow | [Editorial labels](#editorial-labels) | v0.3.0 |
 | [BBC Radio 4](https://www.bbc.co.uk/radio4) | Moves "Archive:" to the eyebrow | [Editorial labels](#editorial-labels) | v0.3.0 |
 | [NPR](https://www.npr.org) | Moves "Roundup:" and "Bonus:" to the eyebrow, and the shows "NPR's Newsmakers", "Sources & Methods", and "America in Pursuit" after a pipe | [Editorial labels](#editorial-labels), [Show names after a pipe](#show-names-after-a-pipe) | v0.3.0 |
+| [Engadget](https://www.engadget.com) | Shortens the feed name to "Engadget" | [Email and staff credits](#email-and-staff-credits) | v0.4.0 |
+| [Techmeme](https://techmeme.com) | Moves the source credit at the end of a headline, like "(Minsoo Kang/Counterpoint Research)", "(OpenAI)" or "(@handle)", to the eyebrow as a link to the publisher, removes the repeated credit and headline from the body, keeps the thumbnail beside the text, and hides the permalink icon | [Source credits at the end](#source-credits-at-the-end), [Thumbnails beside the text](#thumbnails-beside-the-text) | v0.4.0 |
 | [Hacker News](https://news.ycombinator.com) | Moves "Show HN:", "Ask HN:", and "Tell HN:" to the eyebrow | [Community posts](#community-posts) | v0.3.0 |
 | [Cult of Mac](https://www.cultofmac.com) | Moves "Today in Apple history:", "Price cut:", and "Price drop:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
 | [Dagens Nyheter](https://www.dn.se) | Drops a columnist's name before the colon when it is the author | [Author names before a colon](#author-names-before-a-colon) | v0.3.0 |
@@ -417,6 +460,8 @@ New site-specific rules get a row here.
 
 | Platform | What Daisy does | Rules | Since |
 | --- | --- | --- | --- |
+| [Reddit](https://www.reddit.com) | Shortens the byline to "u/name for r/Community", hides the "submitted by … [link] [comments]" block, and ends the post with a "Join the conversation" link to the comments | [Reddit](#reddit) | v0.3.0 |
+| [Smashing Magazine](https://www.smashingmagazine.com) | Shortens the byline to "Name for Smashing Magazine" | [Smashing Magazine](#smashing-magazine) | v0.3.0 |
 | [Mastodon](https://joinmastodon.org) | Writes the byline as "Name on Mastodon" and hides the title | [Mastodon and Bluesky](#mastodon-and-bluesky), [Hidden titles](#hidden-titles) | v0.1.0 |
 | [Bluesky](https://bsky.app) | Writes the byline as "Name on Bluesky" and hides the title | [Mastodon and Bluesky](#mastodon-and-bluesky), [Hidden titles](#hidden-titles) | v0.1.0 |
 | [Micro.blog](https://micro.blog) | Hides empty titles | [Hidden titles](#hidden-titles) | v0.1.0 |

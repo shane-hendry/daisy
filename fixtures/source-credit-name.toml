@@ -1,0 +1,8 @@
+title = "Sources: Instacart, currently valued at $12B, is in talks to sell itself and held preliminary conversations with DoorDash and Uber; CART jumps 9%+ (The Information)"
+feed_link_title = "Techmeme"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/source-credit-name"
+byline = ""
+date_medium = "Oct 23, 2026"
+body = '''<p>A headline that ends with a single publication name in parentheses. In a Techmeme feed it moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

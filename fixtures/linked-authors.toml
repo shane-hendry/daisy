@@ -1,0 +1,8 @@
+title = "Linked authors"
+byline = '<a href="https://example.org/author/0">Fadhil Suleiman Kamounah</a>, <a href="https://example.org/author/1">Michael Pittelkow</a>, <a href="https://example.org/author/2">Jing-Tao Lü</a>, <a href="https://example.org/author/3">Per Hedegård</a>, <a href="https://example.org/author/4">Stephan Korsgaard Pedersen</a>, <a href="https://example.org/author/5">Anil Kumar Singh</a>, <a href="https://example.org/author/6">León Martin</a>, <a href="https://example.org/author/7">Matea Sršen</a>, <a href="https://example.org/author/8">Fabian Pauly</a>, <a href="https://example.org/author/9">Yuta Ito</a>, <a href="https://example.org/author/10">Oren Tal</a>, <a href="https://example.org/author/11">Bing-Zhong Hu</a>, <a href="https://example.org/author/12">Freja Schou Guttesen</a>'
+feed_link_title = "Nature"
+feed_link = "https://www.nature.com/"
+preferred_link = "https://example.org/linked-authors"
+date_medium = "Oct 22, 2026"
+body = '''<p>The author field has linked names, so the credit keeps each link when the list opens. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

@@ -1,0 +1,8 @@
+title = "Artificial Analysis says Kimi K3.1 Pro lands 4th on its Intelligence Index, behind only Opus 5.5 (max), Sonnet 5.5 (max), and Muse Wonder Full (max) (@artificialanlys)"
+feed_link_title = "Techmeme"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/source-credit-handle"
+byline = ""
+date_medium = "Oct 23, 2026"
+body = '''<p>A headline that ends with a social handle in parentheses. The handle moves to the line above the title, and the "(max)" before it stays. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

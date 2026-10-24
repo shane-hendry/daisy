@@ -1,0 +1,8 @@
+title = "A headline for the byline suffix"
+byline = "Alex Morgan"
+feed_link_title = "Example Weekly by Alex Morgan"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/by-author-suffix"
+date_medium = "Oct 14, 2026"
+body = '''<p>The publication name ends in "by" and the author's own name, so the credit drops that ending and reads as the author for the publication. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

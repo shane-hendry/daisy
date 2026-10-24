@@ -1,0 +1,8 @@
+title = "A headline for the author count"
+byline = "Fadhil Suleiman Kamounah, Michael Pittelkow, Jing-Tao Lü, Per Hedegård, Stephan Korsgaard Pedersen, Anil Kumar Singh, León Martin, Matea Sršen, Fabian Pauly, Yuta Ito, Oren Tal, Bing-Zhong Hu, Freja Schou Guttesen"
+feed_link_title = "Nature"
+feed_link = "https://www.nature.com/"
+preferred_link = "https://example.org/many-authors"
+date_medium = "Oct 22, 2026"
+body = '''<p>The author field lists thirteen names separated by commas, so the credit counts them instead of printing every name. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

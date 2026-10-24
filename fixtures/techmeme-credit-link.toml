@@ -1,0 +1,9 @@
+title = "Memo: Helen Chiang, Xbox's first COO, is leaving Microsoft on October 23, just months after the role was created; she spent 21 years at the company (Tom Warren/The Verge)"
+feed_link_title = "Techmeme"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/techmeme-credit-link"
+byline = ""
+date_medium = "Oct 24, 2026"
+body = '''<A HREF="https://example.org/story"><IMG VSPACE="4" HSPACE="4" BORDER="0" ALIGN="RIGHT" SRC="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect width='100%25' height='100%25' fill='%2352a050'/%3E%3C/svg%3E"></A>
+<P><A HREF="https://example.org/techmeme" TITLE="Techmeme permalink"><IMG WIDTH=11 HEIGHT=12 SRC="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='12'%3E%3Crect width='100%25' height='100%25' fill='%234a90c0'/%3E%3C/svg%3E" STYLE="border:none;padding:0;margin:0;"></A> Tom Warren / <A HREF="http://www.theverge.com/">The Verge</A>:<BR>
+<SPAN STYLE="font-size:1.3em;"><B><A HREF="https://example.org/story">Memo: Helen Chiang, Xbox's first COO, is leaving Microsoft on October 23, just months after the role was created; she spent 21 years at the company</A></B></SPAN>&nbsp; &mdash;&nbsp; Helen Chiang is leaving Microsoft after 21 years. &hellip; Xbox is losing its first chief operating officer (COO) after creating the new role just a few months ago.</P>'''

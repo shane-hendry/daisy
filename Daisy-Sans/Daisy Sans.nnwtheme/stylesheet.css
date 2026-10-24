@@ -204,6 +204,14 @@ body {
   padding: clamp(28px, 6vw, 92px) var(--gutter);
 }
 
+/* Touch devices: the app's floating controls sit above the page, so start the credit
+   row 8px higher. In px so the gap never changes with the reader's text size. */
+@media (hover: none) {
+  body {
+    padding-top: 20px;
+  }
+}
+
 /* The column. "container-type" lets rules ask how wide the column is, which is how
    large accessibility text sizes (part 4) and narrow tables are detected. */
 .article {
@@ -696,6 +704,12 @@ caption {
   min-width: 0;
 }
 
+/* A list of authors too long for the credit opens on a tap (set in template.html). */
+.byline.expandable {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .byline:empty,
 .byline:empty + .byline-for,
 .same-name .byline,
@@ -883,7 +897,8 @@ h1 a {
   display: none;
 }
 
-.untitled .view-post {
+.untitled .view-post,
+.reddit .view-post {
   display: block;
   margin-top: var(--space-large);
   text-box: trim-start cap alphabetic;
@@ -902,6 +917,12 @@ h1 a {
   margin-block: 0;
   padding-block: 0;
   text-box: normal;
+}
+
+/* Reddit's "submitted by ... [link] [comments]" block; "Join the conversation" below
+   replaces it. Sample article: fixtures/reddit.toml. */
+.reddit-submitted {
+  display: none;
 }
 
 .untitled .articleBody > :last-child {
@@ -1349,10 +1370,14 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   display: none;
 }
 
-/* Publishers sometimes centre blurbs with inline styles; keep text start-aligned. */
+/* Publishers sometimes centre or right-align blocks with inline styles (Wikipedia's
+   "Recently featured" list); keep text start-aligned. */
 .articleBody [style*="text-align: center"],
 .articleBody [style*="text-align:center"],
-.articleBody [align="center"] {
+.articleBody [style*="text-align: right"],
+.articleBody [style*="text-align:right"],
+.articleBody [align="center"],
+.articleBody [align="right"] {
   text-align: start !important;
 }
 
@@ -1422,6 +1447,81 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
 
 .articleBody > div.media-caption {
   margin-top: 0.5rem;
+}
+
+
+/* --- 3.4b Floated images -------------------------------------------------
+   Feeds float images so text wraps beside them (Wikipedia's lead image, WordPress
+   .alignleft / .alignright). template.html tags the floated block .unfloat, and
+   .unfloat-wide when the image file is 480 pixels wide or more. Text no longer wraps:
+   a wide image fills the column and a smaller one keeps its own size, both on a line of
+   their own. Inline widths on the wrapper are overridden, and the caption is set like a
+   figcaption (1.10). Sample: fixtures/wikipedia-featured.toml. */
+
+.articleBody .unfloat {
+  clear: both;
+  float: none !important;
+  margin: 2em 0 !important;
+  max-width: 100% !important;
+  width: auto !important;
+}
+
+.articleBody img.unfloat {
+  display: block;
+  margin: 0 0 1em !important;
+}
+
+.articleBody .unfloat :is(div, span, a, table, tbody, tr, td, figure, picture) {
+  max-width: 100% !important;
+}
+
+.articleBody .unfloat-wide :is(div, table, figure) {
+  width: 100% !important;
+}
+
+.articleBody img.unfloat-wide,
+.articleBody .unfloat-wide img {
+  width: 100%;
+}
+
+.articleBody img.unfloat:not(.unfloat-wide),
+.articleBody .unfloat:not(.unfloat-wide) img {
+  width: auto;
+}
+
+/* A bare image with align="left" or align="right" is a thumbnail meant to sit beside the
+   text: it stays floated, at a capped size, and the text wraps around it. A permalink
+   icon (a tiny image inside a link titled "permalink") is hidden, not stretched. Sample:
+   fixtures/techmeme.toml. */
+
+.articleBody img.side-thumb:not(.emoji):not(.wp-smiley) {
+  height: auto;
+  margin-block: 0.25rem 0.75rem;
+  width: min(30%, 12rem);
+}
+
+.articleBody img.side-thumb[align="right" i]:not(.emoji):not(.wp-smiley) {
+  float: right;
+  margin-inline: 1.5rem 0;
+}
+
+.articleBody img.side-thumb[align="left" i]:not(.emoji):not(.wp-smiley) {
+  float: left;
+  margin-inline: 0 1.5rem;
+}
+
+.articleBody a[title*="permalink" i]:has(> img:only-child) {
+  display: none;
+}
+
+.articleBody .unfloat .float-caption {
+  background: none !important;
+  border: 0 !important;
+  color: var(--text);
+  font-size: var(--text-small);
+  margin: 0.5rem 0 0 !important;
+  padding: 0 !important;
+  text-align: start !important;
 }
 
 

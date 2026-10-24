@@ -1,0 +1,8 @@
+title = "Global PC shipments fell 21% YoY in Q3 to 57M units, as memory and other costs pushed prices up; Lenovo retained its market leadership despite a 23% decline (Minsoo Kang/Counterpoint Research)"
+feed_link_title = "Techmeme"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/source-credit"
+byline = ""
+date_medium = "Oct 23, 2026"
+body = '''<p>A headline that ends with its source in parentheses, as a name and a publication around a slash. The credit moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

@@ -1,0 +1,17 @@
+title = "October 23 Wikipedia featured article"
+feed_link_title = "Wikipedia featured articles feed"
+feed_link = "https://en.wikipedia.org/"
+preferred_link = "https://example.org/wikipedia-featured"
+byline = ""
+date_medium = "Oct 22, 2026"
+body = '''<div id="mp-tfa-img" style="float: left; margin: 0.5em 0.9em 0.4em 0em;">
+<div class="thumbinner mp-thumb" style="background: transparent; color: inherit; border: none; padding: 0; max-width: 140px;">
+<span typeof="mw:File"><a href="https://example.org/file"><img alt="Map of the satrapy" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='780' height='540'%3E%3Crect width='100%25' height='100%25' fill='%23b8c4d0'/%3E%3C/svg%3E" width="140" height="97"/></a></span><div class="thumbcaption" style="padding: 0.25em 0; word-wrap: break-word;">The Satrapy of Cappadocia (dark red) c. 500 BC</div></div></div>
+<p><b>Thuggee</b> was a phenomenon of highway robbery in the Indian subcontinent that saw gangs of Thugs murder and rob travellers, often by strangling. Historians have since revised the 19th-century portrayal, generally viewing the Thugs as more or less ordinary criminals. This paragraph carries enough extra words that the check finds readable content in the rendered page.</p>
+<div style="text-align:right"><p>Recently featured:</p>
+<ul>
+<li><a href="https://example.org/a">1986–87 Gillingham F.C. season</a></li>
+<li><a href="https://example.org/b">Hongwu Emperor</a></li>
+<li><a href="https://example.org/c">London Monster</a></li>
+</ul></div>
+<p><img class="alignleft" style="float:left; margin:0 1em 1em 0" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='100%25' height='100%25' fill='%23b8c4d0'/%3E%3C/svg%3E" width="150" height="150" alt=""/>A small thumbnail floated beside this paragraph keeps its own size on a line of its own, with no text wrapping beside it.</p>'''

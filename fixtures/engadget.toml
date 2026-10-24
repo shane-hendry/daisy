@@ -1,0 +1,8 @@
+title = "Peak on consoles, hockey roguelites and other new indie games worth checking out"
+feed_link_title = "Engadget - Technology News & Expert Reviews"
+feed_link = "https://www.engadget.com/"
+preferred_link = "https://example.org/engadget"
+byline = "Kris Holt"
+date_medium = "Oct 24, 2026"
+body = '''<p>A feed name that continues after the publication's name. The credit shows only Engadget. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''
