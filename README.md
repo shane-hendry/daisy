@@ -3,7 +3,7 @@
 
 ![Daisy in NetNewsWire](screenshots/Daisy%20Hero.png)
 
-Two [NetNewsWire](https://netnewswire.com/) themes that clean up the content of your RSS feed. One design, two appearances:
+Two [NetNewsWire](https://netnewswire.com/) themes with an editorial design and a consistent house style. One design, two appearances:
 
 - **Daisy** is set in New York
 - **Daisy Sans** is set in SF Pro
@@ -12,9 +12,10 @@ Learn more about [Daisy and Daisy Sans](https://shanehendry.com/daisy).
 
 <!-- nnw-theme-identity:end -->
 
-## An editor in chief for your feed
+## Daisy's house style
 
-Daisy and Daisy Sans bring content design to your RSS feed. They clean up RSS data for a cohesive reading experience.  
+Daisy and Daisy Sans use JavaScript rules to display content in a more
+editorial style, making mixed feeds more consistent and scannable.
   
 * Simple, consistent bylines
 * Smart title blocks with conditional eyebrows and secondary links
@@ -29,7 +30,7 @@ A few feeds get special treatment:
 * Titles are deduplicated from [Kottke's](https://kottke.org/) quick links 
 * [Daring Fireball's](https://daringfireball.net/) back-links are styled as "A follow-up to..." (forgive me, John)
   
-See my post about [how these themes work,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md). The good parts all require JavaScript.
+Read more about [how these themes work,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md).
 
 
 ## Install
