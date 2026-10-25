@@ -20,21 +20,25 @@ opens the same way, so a mixed feed is easy to scan and predictable to swipe thr
 It’s all done with built-in [JavaScript rules.](docs/content-rules.md) No AI is involved.
 The rules mostly clean up bylines and titles, hiding duplicates and sloppy data.
 
-* Simple, consistent bylines
-* Smart title blocks with conditional eyebrows and secondary links
-* Timestamps are relative and reveal the exact time on tap
-* Clear, interactive footnotes
-* Hides platform-injected blocks, so you only see what the author intended
-* Support for 30+ languages, right-to-left languages, and XXXXXL font sizes
+* Simple, consistent bylines, even for multiple authors
+* Eyebrows and better secondary link design for consistent title blocks
+* Special formatting for social media accounts
   
 Feeds that inspired some special rules:
   
-* Titles are deduplicated when the body repeats them, like [Kottke's](https://kottke.org/) quick links
+* Titles are deduped when the body repeats them, like [Kottke's](https://kottke.org/) quick links
 * [Techmeme's](https://www.techmeme.com) titles are deduped from the body
 * [Daring Fireball](https://daringfireball.net/) inspired styling back-links as "A follow-up to..." (I hope John approves)
   
 Read more about [how these themes work,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md).
 
+### Other niceties
+
+* Clear, interactive footnotes
+* Relative datelines that reveal the exact time on tap
+* Cleaned up layouts for platforms like Wordpress and Substack
+* Minimal UI so the words do all the work
+* Support for 30+ languages, right-to-left languages, and XXXXXL font sizes
 
 ## Install
 
