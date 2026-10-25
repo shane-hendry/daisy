@@ -1108,6 +1108,85 @@ Presentation:
         view.textContent = (daisy.words && daisy.words[11]) || "Join the conversation";
       }
     })();
+    // Lemmy and PieFed: the feed's body is "submitted by user to community / N points | N comments /
+    // address". The first line repeats the credit, so it goes; the credit shows just the user
+    // name (linked to the profile) before the feed's name; and the address moves to the link
+    // line under the title as "Source: address". Sample: fixtures/lemmy.toml.
+    (function () {
+      var body = document.querySelector(".articleBody");
+      if (!body || !/^\s*submitted by\s/i.test(body.textContent)) return;
+      var tally = null;
+      Array.prototype.some.call(body.querySelectorAll("a[href]"), function (a) {
+        if (!/^\d+\s+comments?$/i.test(a.textContent.trim())) return false;
+        tally = a;
+        return true;
+      });
+      if (!tally || !/\d+\s+points?\s*\|/i.test(body.textContent)) return;
+      // Drop a line: from its first node through the next <br>, or the whole element when
+      // nothing else shares it.
+      var dropLine = function (start) {
+        var parent = start.parentNode;
+        var nodes = [];
+        for (var n = start; n; n = n.nextSibling) {
+          nodes.push(n);
+          if (n.nodeName === "BR") break;
+        }
+        var rest = Array.prototype.some.call(parent.childNodes, function (n) {
+          return nodes.indexOf(n) < 0 && (n.nodeType === 1 || n.textContent.trim());
+        });
+        if (!rest && parent !== body) { parent.parentNode.removeChild(parent); return; }
+        nodes.forEach(function (n) { parent.removeChild(n); });
+      };
+      var walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+      var first = walker.nextNode();
+      while (first && !/^\s*submitted by\s/i.test(first.data)) first = walker.nextNode();
+      if (!first) return;
+      // The address is the line with nothing but a link whose text is an address.
+      var source = null;
+      Array.prototype.some.call(body.querySelectorAll("a[href]"), function (a) {
+        if (a === tally || !/^https?:\/\/\S+$/i.test(a.textContent.trim())) return false;
+        source = a;
+        return true;
+      });
+      var address = source && source.getAttribute("href");
+      var sourceText = source && source.textContent.trim();
+      if (source) {
+        var after = source.nextSibling;
+        var line = source.previousSibling && source.previousSibling.nodeName === "BR" ? source.previousSibling : source;
+        if (line === source) { dropLine(source); }
+        else {
+          var holder = source.parentNode;
+          holder.removeChild(source);
+          holder.removeChild(line);
+        }
+      }
+      dropLine(first);
+      var credit = document.querySelector(".attribution");
+      var author = credit && credit.querySelector(".byline");
+      if (author) {
+        var profile = author.querySelector("a[href]");
+        var href = profile ? profile.getAttribute("href") : author.textContent.trim();
+        var name = null;
+        try { name = new URL(href).pathname.replace(/\/+$/, "").split("/").pop(); } catch (error) {}
+        if (name && /^https?:\/\//i.test(author.textContent.trim())) {
+          var link = document.createElement("a");
+          link.href = href;
+          link.textContent = decodeURIComponent(name);
+          author.textContent = "";
+          author.appendChild(link);
+        }
+      }
+      var row = document.querySelector(".article-header .external-link");
+      var anchor = row && row.querySelector("a");
+      var label = row && row.querySelector(".external-link-label");
+      var domain = row && row.querySelector(".external-link-url");
+      if (address && anchor && label && domain) {
+        anchor.setAttribute("href", address);
+        label.textContent = (daisy.words && daisy.words[6]) || "Source:";
+        domain.textContent = sourceText.replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "");
+        row.classList.remove("same-page");
+      }
+    })();
     // A feed that gives the author as "email (Name)" shows only the name. Smashing Magazine's
     // feed name, "Articles on Smashing Magazine — For Web Designers And Developers", also
     // shortens to "Smashing Magazine", and Le Monde's, "Le Monde.fr - Actualités et Infos en France et dans le monde",
