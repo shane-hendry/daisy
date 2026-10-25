@@ -812,7 +812,7 @@ Presentation:
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|apple @ work|indie app spotlight|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|apple @ work|indie app spotlight|monthly log|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
       var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive|update|throwback|repost";
       var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
@@ -1150,7 +1150,7 @@ Presentation:
       // credit counts them: "4 authors for Nature".
       var names = author.textContent.split(",").map(function (name) { return name.replace(/^\s*and\s+/i, "").trim(); }).filter(Boolean);
       // Several authors are rebuilt in one form for the reader's language ("A and B",
-      // "A, B, and C"), as many as fit on two lines with room left before the date. When
+      // "A, B, and C"), as many as fit on two lines (three on touch) with room left before the date. When
       // they do not all fit, the first name stays and the rest are counted: "A and 4 others".
       // Only a list where every piece looks like a full name is rebuilt, so "Smith, John",
       // "Jane Doe, PhD" and "Acme, Inc." are left as written. Author links survive.
@@ -1201,8 +1201,13 @@ Presentation:
       // The credit may not run closer than this to the date. In the largest text sizes the
       // date sits below the credit, and the credit may use the whole width.
       var PAD = 2.5 * parseFloat(getComputedStyle(credit).fontSize);
-      // A list that does not fit opens on a tap, and the content below slides down. A tap on
-      // the author part, on the date, or Escape closes it. Opening it closes the time that
+      // On a desktop it also stops at 60% of the width, so a long list wraps well short of the
+      // right edge and collapses after two lines. A touch device or narrow window is more
+      // liberal: the full width, and three lines before the list collapses.
+      var touch = window.matchMedia("(hover: none), (max-width: 34rem)");
+      // A list that does not fit opens on a tap, and the content below moves down. A tap on
+      // the author part, on the date, anywhere else on the page, or Escape closes it. It opens and
+      // closes at once, with no animation. Opening it closes the time that
       // the date shows. While it is open, a linked name opens its link instead.
       var expanded = false, overflowing = false;
       var hasLinks = items.some(function (item) { return item.node; });
@@ -1219,29 +1224,20 @@ Presentation:
       };
       var fit = function () {
         var stacked = getComputedStyle(meta).flexDirection === "column";
-        credit.style.maxWidth = stacked ? "" : Math.max(0, meta.clientWidth - date.offsetWidth - PAD) + "px";
+        var CAP = touch.matches ? 1 : 0.6, LINES = touch.matches ? 3 : 2;
+        credit.style.maxWidth = stacked ? "" : Math.max(0, Math.min(CAP * meta.clientWidth, meta.clientWidth - date.offsetWidth - PAD)) + "px";
         var style = getComputedStyle(credit);
         var line = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.3;
         render(items.length);
-        overflowing = credit.getBoundingClientRect().height > 2 * line + 1;
+        overflowing = credit.getBoundingClientRect().height > LINES * line + 1;
         if (overflowing && !expanded) render(1);
         sync();
       };
       var set = function (open) {
         if (!overflowing || open === expanded) return;
-        var before = meta.getBoundingClientRect().height;
         expanded = open;
         render(expanded ? items.length : 1);
         sync();
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        var after = meta.getBoundingClientRect().height;
-        if (after === before) return;
-        meta.style.overflow = "hidden";
-        meta.style.height = before + "px";
-        meta.getBoundingClientRect();
-        meta.style.transition = "height 0.25s ease";
-        meta.style.height = after + "px";
-        setTimeout(function () { meta.style.transition = meta.style.height = meta.style.overflow = ""; }, 280);
       };
       author.addEventListener("click", function (event) {
         if (!overflowing) return;
@@ -1257,6 +1253,7 @@ Presentation:
         }
       });
       date.addEventListener("click", function () { set(false); });
+      document.addEventListener("click", function (event) { if (expanded && !author.contains(event.target)) set(false); });
       document.addEventListener("keydown", function (event) { if (event.key === "Escape") set(false); });
       fit();
       var timer;

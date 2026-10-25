@@ -710,6 +710,13 @@ caption {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Like the date, only the author part turns orange under the pointer, not "for Blog". */
+@media (hover: hover) {
+  .byline.expandable:hover {
+    color: var(--accent);
+  }
+}
+
 .byline:empty,
 .byline:empty + .byline-for,
 .same-name .byline,
