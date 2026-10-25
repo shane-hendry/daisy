@@ -14,32 +14,35 @@ Learn more about [Daisy and Daisy Sans](https://shanehendry.com/daisy).
 
 ## Daisy's house style
 
-Daisy and Daisy Sans use JavaScript rules to display content in a more
-editorial style, making mixed feeds more consistent and scannable.
-  
+What sets Daisy apart is its house style for article headers. Every post
+opens the same way, so a mixed feed is easy to scan and predictable to swipe through.
+
+It’s all done with built-in [JavaScript rules.](docs/content-rules.md) No AI is involved.
+The rules mostly clean up bylines and titles, hiding duplicates and sloppy data.
+
 * Simple, consistent bylines
 * Smart title blocks with conditional eyebrows and secondary links
 * Timestamps are relative and reveal the exact time on tap
 * Clear, interactive footnotes
-* Deduplicates links and content
-* Hides platform-injected content blocks, so you only see what the author intended
+* Hides platform-injected blocks, so you only see what the author intended
 * Support for 30+ languages, right-to-left languages, and XXXXXL font sizes
   
-A few feeds get special treatment:  
+Feeds that inspired some special rules:
   
-* Titles are deduplicated from [Kottke's](https://kottke.org/) quick links 
-* [Daring Fireball's](https://daringfireball.net/) back-links are styled as "A follow-up to..." (forgive me, John)
+* Titles are deduplicated when the body repeats them, like [Kottke's](https://kottke.org/) quick links
+* [Techmeme's](https://www.techmeme.com) titles are deduped from the body
+* [Daring Fireball](https://daringfireball.net/) inspired styling back-links as "A follow-up to..." (I hope John approves)
   
 Read more about [how these themes work,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md).
 
 
 ## Install
 
-Daisy and Daisy Sans are in beta. [Version 0.2.0](https://github.com/shane-hendry/daisy/releases/tag/v0.2.0) is the latest release.
+Daisy and Daisy Sans are in beta. [Version 0.3.0](https://github.com/shane-hendry/daisy/releases/tag/v0.3.0) is the latest release.
 
 1. Download the theme (or both), then open the zip:
-   - [Daisy](https://github.com/shane-hendry/daisy/releases/download/v0.2.0/Daisy.nnwtheme.zip)
-   - [Daisy Sans](https://github.com/shane-hendry/daisy/releases/download/v0.2.0/Daisy.Sans.nnwtheme.zip)
+   - [Daisy](https://github.com/shane-hendry/daisy/releases/download/v0.3.0/Daisy.nnwtheme.zip)
+   - [Daisy Sans](https://github.com/shane-hendry/daisy/releases/download/v0.3.0/Daisy.Sans.nnwtheme.zip)
 2. On your Mac, drag the **.nnwtheme** file onto the NetNewsWire dock icon. On iPhone and iPad, save them to Files, then open NetNewsWire, go to **Settings → Theme → +**.
 3. Select **Daisy** or **Daisy Sans** in the list of themes in NetNewsWire
 
