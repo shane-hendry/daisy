@@ -3,7 +3,7 @@
 
 ![Daisy in NetNewsWire](screenshots/Daisy%20Hero.png)
 
-Two [NetNewsWire](https://netnewswire.com/) themes with an editorial design and a consistent house style. One design, two appearances:
+Two [NetNewsWire](https://netnewswire.com/) themes with an editorial design and cohesive house style. One design, two appearances:
 
 - **Daisy** is set in New York
 - **Daisy Sans** is set in SF Pro
