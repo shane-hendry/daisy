@@ -3,10 +3,10 @@
 
 ![Daisy in NetNewsWire](screenshots/Daisy%20Hero.png)
 
-Two [NetNewsWire](https://netnewswire.com/) themes with an editorial design and cohesive house style. One design, two appearances:
+Two [NetNewsWire](https://netnewswire.com/) themes by [Shane Hendry]([www.shanehendry.com](https://shanehendry.com/), with a cohesive house style across every feed you follow. One design, two appearances:
 
-- **Daisy** is set in New York
-- **Daisy Sans** is set in SF Pro
+- **Daisy** is set in New York, a refined serif
+- **Daisy Sans** is set in SF Pro, a modern sans serif
 
 Learn more about [Daisy and Daisy Sans](https://shanehendry.com/daisy).
 
