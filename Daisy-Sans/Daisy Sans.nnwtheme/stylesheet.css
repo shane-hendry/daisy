@@ -59,7 +59,22 @@
 
   /* Fonts. Daisy Sans is generated from this file with only --serif replaced. */
   --serif: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+  --serif-scale: 1;       /* evens out New York's smaller x-height; Sans sets 1 */
   --mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* The header block's type: the title, the eyebrow above it and the link line
+     below it. A weight, plus the variable-font settings that pick New York's optical
+     size (Daisy Sans uses weight and width instead). The title grows with the window:
+     --title-wide from a narrow window up to a large one, --title-phone under 600px,
+     where it is capped lower so longer titles still fit. Sans replaces these lines. */
+  --title-weight: 800;
+  --title-axes: "wght" 800, "wdth" 115;
+  --eyebrow-weight: 800;
+  --eyebrow-axes: "wght" 800, "wdth" 115;
+  --link-weight: 450;
+  --link-axes: "wght" 450, "wdth" 75;
+  --title-wide: clamp(2em, 1.28em + 2.02vw, 2.6em);
+  --title-phone: clamp(1.6em, 1.31em + 1.67vw, 1.9em);
 
   /* Page layout. */
   --measure: 66ch;                         /* widest the text column gets */
@@ -117,7 +132,7 @@
                                 below its text. */
   --text-small: 0.85em;
   --text-medium: 1em;
-  --text-h1: 2.2em;
+  --text-h1: var(--title-wide);
   --text-h2: 1.4em;
   --text-h3: 1.12em;
   --weight-regular: 400;
@@ -131,7 +146,7 @@
   --line-thin: max(1px, 0.055em);
   --link-offset: 0.2em;
 
-  font-size: 115%;
+  font-size: calc(115% * var(--serif-scale));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -154,7 +169,7 @@
    See `npx nnw-theme@2 guide theme-format`. */
 
 :root {
-  font-size: [[font-size]]px;
+  font-size: calc([[font-size]]px * var(--serif-scale));
   -webkit-text-size-adjust: none;
 }
 
@@ -162,25 +177,25 @@
    nothing on iOS. NetNewsWire writes the capital-L spellings, while its own themes
    select the lowercase ones, so both are listed. */
 .smallText {
-  font-size: 16.1px;
+  font-size: calc(16.1px * var(--serif-scale));
 }
 
 .mediumText {
-  font-size: 18.4px;
+  font-size: calc(18.4px * var(--serif-scale));
 }
 
 .largeText {
-  font-size: 20.7px;
+  font-size: calc(20.7px * var(--serif-scale));
 }
 
 .xlargeText,
 .xLargeText {
-  font-size: 23px;
+  font-size: calc(23px * var(--serif-scale));
 }
 
 .xxlargeText,
 .xxLargeText {
-  font-size: 25.3px;
+  font-size: calc(25.3px * var(--serif-scale));
 }
 
 
@@ -783,6 +798,8 @@ caption {
 
 h1 {
   font-size: var(--text-h1);
+  font-variation-settings: var(--title-axes);
+  font-weight: var(--title-weight);
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin: calc(var(--space-large) * 0.94) 0 0;
@@ -790,10 +807,10 @@ h1 {
   text-wrap: pretty;
 }
 
-/* A little smaller on narrow screens. */
-@media (max-width: 34rem) {
+/* Capped lower on phones. */
+@media (max-width: 600px) {
   :root {
-    --text-h1: 1.8em;
+    --text-h1: var(--title-phone);
   }
 }
 
@@ -821,6 +838,8 @@ h1 a {
    ellipsis. Long social-post URLs and tracking strings are the target. */
 
 .external-link {
+  font-variation-settings: var(--link-axes);
+  font-weight: var(--link-weight);
   margin-top: var(--space-small);
 }
 
@@ -871,6 +890,11 @@ h1 a {
   display: flex;
   gap: 0 0.4em;
   margin-top: calc(var(--space-large) * 0.94);
+}
+
+.eyebrow {
+  font-variation-settings: var(--eyebrow-axes);
+  font-weight: var(--eyebrow-weight);
 }
 
 .eyebrow-label {
@@ -1517,6 +1541,22 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   margin-inline: 0 1.5rem;
 }
 
+/* Phones: a standalone image, video or embed runs edge to edge, past the page margins.
+   Captions and all other text keep the margins, and larger windows keep the column.
+   In px, not rem, so a large text size never makes an iPad count as a phone. */
+@media (max-width: 600px) {
+  .articleBody > :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
+  .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
+  .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) > a > img:not(.emoji):not(.wp-smiley):not(.side-thumb),
+  .articleBody > p:has(> img:only-child) > img:not(.emoji):not(.wp-smiley):not(.side-thumb),
+  .articleBody > p:has(> a:only-child > img:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
+  .articleBody > div:has(img, video, iframe):not(:has(p)):not(.unfloat) :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat) {
+    margin-inline: calc(-1 * var(--gutter)) !important;
+    max-width: none !important;
+    width: calc(100% + 2 * var(--gutter)) !important;
+  }
+}
+
 .articleBody a[title*="permalink" i]:has(> img:only-child) {
   display: none;
 }
@@ -1592,6 +1632,7 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   /* The title is set at the body text size so words stay whole. */
   .article-header h1 {
     font-size: var(--text-medium);
+    font-variation-settings: normal;
     font-weight: var(--weight-bold);
     letter-spacing: var(--tracking-heading);
     line-height: var(--leading-body);

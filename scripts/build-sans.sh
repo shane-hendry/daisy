@@ -15,6 +15,15 @@ mkdir -p "$dest"
 
 cp "$SRC/template.html" "$SRC/LICENSE" "$dest/"
 sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
+    -e 's|^\(  --serif-scale: \)[0-9.]*;|\11;|' \
+    -e 's|^\(  --title-weight: \)[0-9]*;|\1800;|' \
+    -e 's|^\(  --title-axes: \).*$|\1"wght" 800, "wdth" 115;|' \
+    -e 's|^\(  --eyebrow-weight: \)[0-9]*;|\1800;|' \
+    -e 's|^\(  --eyebrow-axes: \).*$|\1"wght" 800, "wdth" 115;|' \
+    -e 's|^\(  --link-weight: \)[0-9]*;|\1450;|' \
+    -e 's|^\(  --link-axes: \).*$|\1"wght" 450, "wdth" 75;|' \
+    -e 's|^\(  --title-wide: \).*;|\1clamp(2em, 1.28em + 2.02vw, 2.6em);|' \
+    -e 's|^\(  --title-phone: \).*;|\1clamp(1.6em, 1.31em + 1.67vw, 1.9em);|' \
     -e '1s|^/\* Daisy: New York,|/* Daisy Sans: system sans,|' "$SRC/stylesheet.css" > "$dest/stylesheet.css"
 sed -e 's|com\.shanehendry\.daisy|com.shanehendry.daisy-sans|' \
     -e 's|<string>Daisy</string>|<string>Daisy Sans</string>|' "$SRC/Info.plist" > "$dest/Info.plist"

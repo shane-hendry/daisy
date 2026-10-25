@@ -1067,8 +1067,9 @@ Presentation:
     })();
     // Reddit: the feed's "submitted by /u/name [link] [comments]" block is hidden, and its
     // [comments] link moves to the bottom as "Join the conversation". The credit reads
-    // "u/name for r/Subreddit": no slash before the user name, and the community's
-    // description after the subreddit name is dropped.
+    // "u/name in r/Subreddit": no slash before the user name, and the community's
+    // description after the subreddit name is dropped. Only English changes "for" to "in";
+    // other languages keep their own joining word.
     (function () {
       var article = document.querySelector(".article");
       var body = document.querySelector(".articleBody");
@@ -1100,6 +1101,8 @@ Presentation:
         var postUrl = new URL(own.getAttribute("href"));
         if (/(^|\.)reddit\.com$/i.test(postUrl.hostname)) sub = postUrl.pathname.match(/^\/r\/([^\/]+)/i);
       } catch (error) {}
+      var joiner = credit && credit.querySelector(".byline-for");
+      if (joiner && daisy.lang && /^en\b/i.test(daisy.lang)) joiner.textContent = " in ";
       if (blog && sub) blog.textContent = "r/" + sub[1];
       else if (blog) blog.textContent = blog.textContent.replace(/^\s*(\/?r\/[^\s:]+).*$/s, "$1").replace(/^\//, "");
       var view = document.querySelector(".view-post a");
