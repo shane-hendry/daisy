@@ -48,19 +48,18 @@ Daisy and Daisy Sans are in beta. [Version 0.3.0](https://github.com/shane-hendr
    - [Daisy](https://github.com/shane-hendry/daisy/releases/download/v0.3.0/Daisy.nnwtheme.zip)
    - [Daisy Sans](https://github.com/shane-hendry/daisy/releases/download/v0.3.0/Daisy.Sans.nnwtheme.zip)
 2. On your Mac, drag the **.nnwtheme** file onto the NetNewsWire dock icon. On iPhone and iPad, save them to Files, then open NetNewsWire, go to **Settings → Theme → +**.
-3. Select **Daisy** or **Daisy Sans** in the list of themes in NetNewsWire
-
-See [all releases](https://github.com/shane-hendry/daisy/releases) for notes and older versions.
+3. Select **Daisy** or **Daisy Sans** from the list.
 
 ## Credits
 
 Daisy and Daisy Sans were built with [Dave Marquard's](https://github.com/dave-atx) [NetNewsWire theme template](https://github.com/dave-atx/netnewswire-theme-template). It was a collaborative effort by the whole team here at SH Enterprises Worldwide.
+
 * **CEO** Me
 * **Product** Yours truly
 * **Design** Moi
 * **Marketing** Ya boi
 * **Engineering** Claude 🤖
 
-Daisy and Daisy Sans aren't affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes adjust.
+Daisy and Daisy Sans aren't affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for.
 The theme format is documented in NetNewsWire's
 [themes technote](https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md).
