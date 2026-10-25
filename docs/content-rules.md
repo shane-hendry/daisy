@@ -77,7 +77,7 @@ Part of the [hero block](#hero-block): who wrote the post, and for which publica
 - A publication that ends in "by" and the author's own name drops that ending, so "Name for Site by Name" shows as **Name for Site**. A different name after "by" stays. (v0.4.0)
 - Two or more full names separated by commas are rebuilt in the reader's language, so **John Smith, Jane Doe** reads **John Smith and Jane Doe**, and three names read **A, B, and C** in English. Author links are kept. (v0.4.0)
 - The credit may use two lines, and stops short of the date by a little over two letters' width. If the names do not fit, the first stays and the rest are counted: **Fadhil Suleiman Kamounah and 12 others for Nature**. The count words are English only. (v0.4.0)
-- A list that did not fit opens on a tap and shows every name, joined the same way (**A, B, and C for Nature**), while the content below slides down. A tap on the author part, on the date, or Escape closes it, and opening the time closes the list. While it is open, a linked name opens its link, and the publication always does. Nothing marks it as tappable except the pointer on a Mac and its button role for VoiceOver. (v0.4.0)
+- A list that did not fit opens on a tap and shows every name, joined the same way (**A, B, and C for Nature**), while the content below moves down at once, with no animation. A tap on the author part, on the date, anywhere else on the page, or Escape closes it, and opening the time closes the list. While it is open, a linked name opens its link, and the publication always does. Nothing marks it as tappable except the pointer on a Mac and its button role for VoiceOver. (v0.4.0)
 - Linked authors keep their links in a rebuilt list. (v0.4.0)
 - Only a list where every piece has two or more words and no suffix (Jr., PhD, Inc.) is rebuilt, so **Smith, John** and **Jane Doe, PhD** are left as written. A list of four or more that fails this check still reads **N authors**. (v0.4.0)
 
@@ -238,6 +238,7 @@ When a title is hidden:
 - Also: HomeKit Weekly. **HomeKit Weekly: SwitchBot's new light bars bring 12-zone color to Apple Home** becomes **HomeKit Weekly** over **SwitchBot's new light bars bring 12-zone color to Apple Home**. (v0.3.0)
 - Also: Apple @ Work, a 9to5Mac series. **Apple @ Work: The browser is the biggest gap in your AI governance strategy** becomes **Apple @ Work** over **The browser is the biggest gap in your AI governance strategy**. (v0.3.0)
 - Also: Indie App Spotlight, another 9to5Mac series. **Indie App Spotlight: ‘Flipcorder’ lets you shoot retro footage on your iPhone Duo** becomes **Indie App Spotlight** over **‘Flipcorder’ lets you shoot retro footage on your iPhone Duo**. (v0.4.0)
+- Also: Monthly Log, a MacStories series. **Monthly Log: September 2026** becomes **Monthly Log** over **September 2026**. (v0.4.0)
 - **Today in Apple history: iPad sales overtake Macs** becomes **Today in Apple history** over **iPad sales overtake Macs**. (v0.3.0)
 - **Livestream: Die Nachrichten auf tagesschau24** becomes **Livestream** over **Die Nachrichten auf tagesschau24**. (v0.3.0)
 
@@ -430,7 +431,7 @@ New site-specific rules get a row here.
 | [Manton Reece](https://manton.org) | Hides empty titles, and shows the name once when author and publication match | [Hidden titles](#hidden-titles), [Author and publication](#author-and-publication) | v0.1.0 |
 | [Six Colors](https://sixcolors.com) | Simplifies sponsor, podcast, and issue-number titles, including Clockwise, Upgrade, The Rebound, and Designed in California episodes | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
 | [Snake](https://snake.substack.com/) | Simplifies sponsor, podcast, and issue-number titles | [Sponsors](#sponsors), [Podcasts and series](#podcasts-and-series), [Numbered series](#numbered-series) | v0.1.0 |
-| [MacStories](https://www.macstories.net) | Moves a "[Sponsor]" tag at the end of a title to the eyebrow, and the "MacStories Weekly" label | [Sponsors](#sponsors), [Recurring sections](#recurring-sections) | v0.2.0 |
+| [MacStories](https://www.macstories.net) | Moves a "[Sponsor]" tag at the end of a title to the eyebrow, and the "MacStories Weekly" and "Monthly Log" labels | [Sponsors](#sponsors), [Recurring sections](#recurring-sections) | v0.2.0 |
 | [9to5Mac](https://9to5mac.com) | Moves the name and date of a daily edition, the Overtime episode number, and "HomeKit Weekly:" "Apple @ Work:" and "Indie App Spotlight:" to the eyebrow, and hides the "Add as a preferred source on Google" button | [Dated editions](#dated-editions), [Numbered series](#numbered-series), [Recurring sections](#recurring-sections), [Google](#google) | v0.2.0 |
 | [Jeffrey Zeldman Presents](https://zeldman.com) | Shows embedded posts as a preview card without the repeated link, and hides the "appeared first on" line | [WordPress](#wordpress) | v0.2.0 |
 | [9to5Google](https://9to5google.com) | Moves "[Gallery]" and "[Video]" tags and the Sideload and Pixelated episode numbers to the eyebrow | [Tags at the end](#tags-at-the-end), [Numbered series](#numbered-series) | v0.2.0 |
