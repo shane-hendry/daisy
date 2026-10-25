@@ -21,22 +21,22 @@ It’s all done with built-in [JavaScript rules.](docs/content-rules.md) No AI i
 The rules mostly clean up bylines and titles, hiding duplicates and sloppy data.
 
 * Simple, consistent bylines, even for multiple authors
-* Eyebrows and better secondary link design for consistent title blocks
-* Special formatting for social media accounts
+* Consistent title blocks with conditional eyebrows and secondary links
+* Better layouts for social media accounts
   
 Feeds that inspired some special rules:
   
-* Titles are deduped when the body repeats them, like [Kottke's](https://kottke.org/) quick links
+* Titles are deduped when the body begins with them, like [Kottke's](https://kottke.org/) quick links
 * [Techmeme's](https://www.techmeme.com) titles are deduped from the body
 * [Daring Fireball](https://daringfireball.net/) inspired styling back-links as "A follow-up to..." (I hope John approves)
   
-Read more about [how these themes work,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md).
+Read more about [the themes,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md).
 
 ### Other niceties
 
 * Clear, interactive footnotes
 * Relative datelines that reveal the exact time on tap
-* Cleaned up layouts for platforms like Wordpress and Substack
+* Cleaner Wordpress, Substack, and Lemmy layouts
 * Minimal UI so the words do all the work
 * Support for 30+ languages, right-to-left languages, and XXXXXL font sizes
 
