@@ -267,6 +267,8 @@ body {
   margin: 0;
   /* Page margins are in px so they never change with the reader's text size. */
   padding: clamp(28px, 6vw, 92px) var(--gutter);
+  /* The credit row sits closer to the app's toolbar than the side margins suggest. */
+  padding-top: clamp(20px, 3vw, 44px);
   /* The end of a post clears the app's floating bottom controls by at least one
      large space. */
   padding-bottom: max(clamp(28px, 6vw, 92px), var(--space-large));
@@ -591,6 +593,13 @@ blockquote::before {
   width: 0.09em;
 }
 
+/* A one-line quote's bar runs the height of the line (set in template.html), because at
+   the height of the letters it reads as a typed pipe character. */
+blockquote.single-line::before {
+  bottom: 0.15em;
+  top: 0.15em;
+}
+
 
 /* --- 1.9 Code ---------------------------------------------------------- */
 
@@ -800,6 +809,49 @@ iframe {
   width: 1em;
 }
 
+/* NASA Photojournal's feed carries its page chrome inside every article. Only the
+   hero picture, the credit line and the caption are the post: the hero's duplicate
+   title and read-time label, the site navigation, the Downloads list (the same picture
+   again, with a download button) and the "Keep Exploring" card grid are hidden. The
+   selectors are NASA's own block classes, so no other feed is touched. */
+.articleBody .hds-article-hero-header :is(.label, h1, .skrim-overlay),
+.articleBody .wp-block-nasa-blocks-secondary-navigation,
+.articleBody .hds-featured-file-list,
+.articleBody .wp-block-nasa-blocks-topic-cards {
+  display: none;
+}
+
+/* What is left of that header is the picture and its caption: the PIA catalogue ID
+   and the credit. They sit as one small line directly under the picture, the way a
+   figcaption does, instead of two lines floating below a figure's full margin. */
+.articleBody .hds-article-hero-header figure {
+  margin-bottom: 0;
+}
+
+.articleBody .hds-article-hero-header .hds-caption {
+  align-items: baseline;
+  column-gap: 0.6em;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--text-small);
+  margin-top: 0.5rem;
+}
+
+.articleBody .hds-article-hero-header .hds-caption figcaption {
+  font-size: inherit;
+  margin: 0;
+}
+
+.articleBody .hds-article-hero-header .hds-credits::before {
+  content: "·";
+  margin-right: 0.6em;
+}
+
+.articleBody .hds-article-hero-header .hds-caption :is(.hds-caption-text, .hds-credits) {
+  margin: 0;
+  padding: 0;
+}
+
 /* Only video players are forced to 16:9; other embeds keep their own height. */
 .articleBody iframe[src*="youtube"],
 .articleBody iframe[src*="youtu.be"],
@@ -857,14 +909,19 @@ figcaption {
 
 /* --- 1.11 Tables ------------------------------------------------------
    Tables have no lines: spacing and the bold header row do the separating. Rows sit
-   close together, the outer cells sit flush with the text column, and digits line
-   up in columns. */
+   close together, the outer cells sit flush with the table's own edges, and digits
+   line up in columns. A table is only as wide as its content and sits centred in the
+   column; one that needs the full width takes it. Text alignment is the author's
+   (an align attribute or inline style on a cell is respected). Header cells and
+   columns of numbers with no alignment of their own are aligned by template.html,
+   which adds .col-end to them. */
 
 table {
   border-collapse: collapse;
   font-size: var(--text-small);
   line-height: var(--leading-compact);
-  width: 100%;
+  margin-inline: auto;
+  width: auto;
 }
 
 th,
@@ -872,12 +929,21 @@ td {
   border: 0;
   font-variant-numeric: tabular-nums;
   padding: 0.2em 0.75rem;
-  text-align: start;
   vertical-align: top;
 }
 
 th {
   font-weight: var(--weight-bold);
+}
+
+/* Browsers centre header cells; here they start at the edge unless the author said
+   otherwise (an align attribute or inline style still wins over this). */
+th:not([align]) {
+  text-align: start;
+}
+
+:is(th, td).col-end {
+  text-align: end;
 }
 
 th:first-child,
@@ -1401,9 +1467,9 @@ hr + .footnotes-title {
 
 /* The circle that marks the footnote's spot in the article after "Footnote 1" is
    tapped (made in template.html): the highlight orange at 40%, shown at once, held
-   1.5s, then faded out over 0.45s. */
+   0.9s, then faded out over 0.4s. */
 .footnote-locator {
-  animation: footnote-locator 1.95s ease-out forwards;
+  animation: footnote-locator 1.3s ease-out forwards;
   background: color-mix(in srgb, var(--mark) 40%, transparent);
   border-radius: 50%;
   pointer-events: none;
@@ -1412,7 +1478,7 @@ hr + .footnotes-title {
 }
 
 @keyframes footnote-locator {
-  0%, 77% {
+  0%, 69% {
     opacity: 1;
   }
   100% {
@@ -1450,10 +1516,12 @@ hr + .footnotes-title {
 }
 
 /* The bar matches a block quote's: cap height of the first line to the baseline of
-   the last, overshooting by its own thickness (offsets for a 1.7 line box). */
+   the last, overshooting by its own thickness. The last line is "Go to footnotes", centred
+   in a 44px tap area, so its baseline is 22px - 0.355em above the panel's bottom edge,
+   whatever the line height. */
 .footnote-panel::before {
   background: var(--text);
-  bottom: calc(0.495em - 0.09em);
+  bottom: calc(22px - 0.355em - 0.09em);
   content: "";
   inset-inline-start: 0;
   position: absolute;
@@ -1727,13 +1795,14 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
 }
 
 /* Publishers sometimes centre or right-align blocks with inline styles (Wikipedia's
-   "Recently featured" list); keep text start-aligned. */
-.articleBody [style*="text-align: center"],
-.articleBody [style*="text-align:center"],
-.articleBody [style*="text-align: right"],
-.articleBody [style*="text-align:right"],
-.articleBody [align="center"],
-.articleBody [align="right"] {
+   "Recently featured" list); keep text start-aligned. Table cells are left alone: there
+   the alignment is the author's, to line up a column. */
+.articleBody [style*="text-align: center"]:not(th, td),
+.articleBody [style*="text-align:center"]:not(th, td),
+.articleBody [style*="text-align: right"]:not(th, td),
+.articleBody [style*="text-align:right"]:not(th, td),
+.articleBody [align="center"]:not(th, td),
+.articleBody [align="right"]:not(th, td) {
   text-align: start !important;
 }
 
@@ -1870,20 +1939,22 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
    Captions and all other text keep the margins, and larger windows keep the column.
    In px, not rem, so a large text size never makes an iPad count as a phone. The image
    is exactly one viewport wide and centred on its column, so it reaches both edges
-   whatever the page padding is and never overflows: no overshoot, nothing to clip. */
+   whatever the page padding is and never overflows: no overshoot, nothing to clip.
+   Embeds that are cards in their own right (podcast, music and social players, code
+   embeds) have rounded corners and their own chrome, so they stay inset in the column. */
 @media (max-width: 600px) {
   :root {
     --media-max-h: 70vh;
   }
 
-  .articleBody > :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
-  .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
+  .articleBody > :is(img, video, iframe):not(:is([src*="embed.podcasts.apple.com"], [src*="embed.music.apple.com"], [src*="open.spotify.com"], [src*="w.soundcloud.com"], [src*="bandcamp.com/EmbeddedPlayer"], [src*="pca.st"], [src*="overcast.fm"], [src*="share.transistor.fm"], [src*="player.simplecast.com"], [src*="html5-player.libsyn.com"], [src*="player.megaphone.fm"], [src*="podbean.com"], [src*="embed.acast.com"], [src*="buzzsprout.com"], [src*="mixcloud.com/widget"], [src*="widget.deezer.com"], [src*="embed.tidal.com"], [src*="embed.bsky.app"], [src*="platform.twitter.com"], [src*="platform.x.com"], [src*="instagram.com"], [src*="threads.net"], [src*="redditmedia.com"], [src*="codepen.io"], [src*="gist.github.com"])):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
+  .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) :is(img, video, iframe):not(:is([src*="embed.podcasts.apple.com"], [src*="embed.music.apple.com"], [src*="open.spotify.com"], [src*="w.soundcloud.com"], [src*="bandcamp.com/EmbeddedPlayer"], [src*="pca.st"], [src*="overcast.fm"], [src*="share.transistor.fm"], [src*="player.simplecast.com"], [src*="html5-player.libsyn.com"], [src*="player.megaphone.fm"], [src*="podbean.com"], [src*="embed.acast.com"], [src*="buzzsprout.com"], [src*="mixcloud.com/widget"], [src*="widget.deezer.com"], [src*="embed.tidal.com"], [src*="embed.bsky.app"], [src*="platform.twitter.com"], [src*="platform.x.com"], [src*="instagram.com"], [src*="threads.net"], [src*="redditmedia.com"], [src*="codepen.io"], [src*="gist.github.com"])):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
   .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) > a > img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > p:has(> img:only-child) > img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > p:has(> a:only-child > img:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > p:has(> a:only-child > picture:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > p:has(> picture:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
-  .articleBody > div:has(img, video, iframe):not(:has(p)):not(.unfloat) :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat) {
+  .articleBody > div:has(img, video, iframe):not(:has(p)):not(.unfloat) :is(img, video, iframe):not(:is([src*="embed.podcasts.apple.com"], [src*="embed.music.apple.com"], [src*="open.spotify.com"], [src*="w.soundcloud.com"], [src*="bandcamp.com/EmbeddedPlayer"], [src*="pca.st"], [src*="overcast.fm"], [src*="share.transistor.fm"], [src*="player.simplecast.com"], [src*="html5-player.libsyn.com"], [src*="player.megaphone.fm"], [src*="podbean.com"], [src*="embed.acast.com"], [src*="buzzsprout.com"], [src*="mixcloud.com/widget"], [src*="widget.deezer.com"], [src*="embed.tidal.com"], [src*="embed.bsky.app"], [src*="platform.twitter.com"], [src*="platform.x.com"], [src*="instagram.com"], [src*="threads.net"], [src*="redditmedia.com"], [src*="codepen.io"], [src*="gist.github.com"])):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat) {
     /* Unless that would make it taller than the window: then it shrinks, centred
        (see 1.10). */
     --media-w: min(100vw, calc(var(--media-max-h) * var(--ar, 1000)));

@@ -70,6 +70,46 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       if (!text || text.length > 90 || p.querySelector("img, video, audio, iframe, br")) return;
       p.classList.add("list-label");
     });
+    // Table alignment. A cell the author aligned (align attribute or inline style) keeps
+    // that alignment, and the header cell above it follows its column. A column of numbers
+    // the author left alone is aligned to the right, header included, so digits line up.
+    (function () {
+      var numeric = /^[\s$€£¥+\-−–~]*\d[\d.,]*\s*(%|[a-zA-Z]{1,3})?$/;
+      function explicit(cell) {
+        return cell.hasAttribute("align") || !!cell.style.textAlign;
+      }
+      function aligned(cell) {
+        return cell.getAttribute("align") || cell.style.textAlign;
+      }
+      document.querySelectorAll(".articleBody table").forEach(function (table) {
+        if (table.querySelector("[colspan], [rowspan]")) return;
+        var cols = 0;
+        for (var r = 0; r < table.rows.length; r++) cols = Math.max(cols, table.rows[r].cells.length);
+        for (var c = 0; c < cols; c++) {
+          var cells = [], body = [];
+          for (var i = 0; i < table.rows.length; i++) {
+            var cell = table.rows[i].cells[c];
+            if (!cell) continue;
+            cells.push(cell);
+            if (cell.tagName === "TD" && cell.parentNode.parentNode.tagName === "TBODY") body.push(cell);
+          }
+          if (!body.length) continue;
+          var given = null;
+          body.forEach(function (cell) { if (!given && explicit(cell)) given = aligned(cell); });
+          var side = given;
+          if (!side) {
+            var filled = body.filter(function (cell) { return cell.textContent.trim() !== ""; });
+            if (filled.length && filled.every(function (cell) { return numeric.test(cell.textContent.trim()); })) side = "right";
+          }
+          if (!side || /^(left|start)$/.test(side)) continue;
+          cells.forEach(function (cell) {
+            if (explicit(cell)) return;
+            if (/^(right|end)$/.test(side)) cell.classList.add("col-end");
+            else cell.style.textAlign = side;
+          });
+        }
+      });
+    })();
     // Wide content scrolls on its own, never the page. Tables that need to scroll are
     // sized so a column is cut off by the screen edge, which shows there is more.
     // Anything else wider than the screen is wrapped so it scrolls by itself.
@@ -295,6 +335,24 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         if (!before.data) return;
         unit.parentNode.insertBefore(document.createTextNode("⁠"), unit);
       });
+    })();
+    // A block quote that fits on one line gets the class "single-line", so its bar can run
+    // the full height of the line (a bar only as tall as the letters looks like a typed
+    // pipe). CSS can't tell how many lines a block quote has. It is measured again when
+    // the column changes width or the text size changes.
+    (function () {
+      var quotes = document.querySelectorAll(".articleBody blockquote");
+      if (!quotes.length) return;
+      function measure() {
+        quotes.forEach(function (q) {
+          var line = parseFloat(getComputedStyle(q).lineHeight);
+          if (!line) return;
+          q.classList.toggle("single-line", q.getBoundingClientRect().height < line * 1.5);
+        });
+      }
+      measure();
+      window.addEventListener("resize", measure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
     })();
     // Footnotes open as a note panel under the paragraph, in the style of a block
     // quote, with a "Footnote 1" header and a close button. It shows and hides
