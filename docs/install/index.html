@@ -76,17 +76,61 @@
           if (!entry) return;
           var when = Date.parse(entry.published);
           if (when) {
-            // "4 hours ago", worked out when the page opens, in the reader's language.
-            var seconds = Math.round((when - Date.now()) / 1000);
-            var steps = [["year", 31536000], ["month", 2592000], ["week", 604800], ["day", 86400], ["hour", 3600], ["minute", 60]];
-            var unit = "second", amount = seconds;
-            for (var i = 0; i < steps.length; i++) {
-              if (Math.abs(seconds) >= steps[i][1]) { unit = steps[i][0]; amount = Math.round(seconds / steps[i][1]); break; }
-            }
+            var published = new Date(when);
+            var lang = navigator.language;
             var dateline = document.getElementById("dateline");
-            dateline.textContent = new Intl.RelativeTimeFormat(navigator.language, { numeric: "auto" }).format(amount, unit);
+            // Like the theme: recent dates read relative ("3 hours ago", "Yesterday"), a week or older keeps the date.
+            var seconds = Math.round((when - Date.now()) / 1000);
+            var startOfDay = function (d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); };
+            var days = Math.round((startOfDay(new Date()) - startOfDay(published)) / 86400000);
+            var label;
+            if (days >= 7) {
+              label = new Intl.DateTimeFormat(lang, { dateStyle: "medium" }).format(published);
+            } else {
+              var steps = [["day", 86400], ["hour", 3600], ["minute", 60]];
+              var unit = "second", amount = seconds;
+              for (var i = 0; i < steps.length; i++) {
+                if (Math.abs(seconds) >= steps[i][1]) { unit = steps[i][0]; amount = Math.round(seconds / steps[i][1]); break; }
+              }
+              if (unit === "day") amount = -days;
+              label = new Intl.RelativeTimeFormat(lang, { numeric: "auto" }).format(amount, unit);
+              label = label.charAt(0).toLocaleUpperCase(lang) + label.slice(1);
+            }
+            dateline.textContent = label;
             dateline.dateTime = entry.published;
             dateline.hidden = false;
+            // Tapping the date shows the time ("at 10:47 PM") just below it, laid over the page so nothing
+            // moves. Tapping anywhere else, resizing or pressing Escape hides it again. Same as the theme.
+            var text = "";
+            try {
+              var dateOnly = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(published);
+              var both = new Intl.DateTimeFormat(lang, { dateStyle: "long", timeStyle: "short" }).format(published);
+              if (both.indexOf(dateOnly) !== -1) text = both.replace(dateOnly, "").replace(/\s+/g, " ").trim();
+              if (!text) text = new Intl.DateTimeFormat(lang, { timeStyle: "short" }).format(published);
+            } catch (error) {
+              text = "";
+            }
+            if (text) {
+              dateline.setAttribute("role", "button");
+              dateline.setAttribute("tabindex", "0");
+              dateline.setAttribute("aria-expanded", "false");
+              var full = document.createElement("span");
+              full.className = "dateline-full";
+              full.textContent = text;
+              full.hidden = true;
+              dateline.appendChild(full);
+              var show = function (open) {
+                full.hidden = !open;
+                dateline.setAttribute("aria-expanded", open ? "true" : "false");
+              };
+              dateline.addEventListener("click", function (event) { event.stopPropagation(); show(full.hidden); });
+              dateline.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") { event.preventDefault(); show(full.hidden); }
+              });
+              document.addEventListener("click", function () { show(false); });
+              window.addEventListener("resize", function () { show(false); });
+              document.addEventListener("keydown", function (event) { if (event.key === "Escape") show(false); });
+            }
           }
           var list = document.getElementById("notes-list");
           (entry.notes || []).forEach(function (item) {
