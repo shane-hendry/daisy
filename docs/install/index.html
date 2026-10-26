@@ -33,6 +33,9 @@
       details { margin-block: 0; padding-inline-start: 0; }
       details::before, summary::after { display: none; }
       summary, summary:hover { color: var(--text); font-weight: var(--weight-bold); -webkit-tap-highlight-color: transparent; }
+      /* A label above the steps: body size, set like an h3 (bold; wide in Sans). */
+      .lead-in { font-weight: var(--weight-bold); font-variation-settings: var(--h3-axes); margin-bottom: 0; text-box: trim-both cap alphabetic; }
+      .lead-in + ol { margin-top: var(--space-small); }
       .view-post { display: block; margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
       .view-post a { text-decoration: underline; }
       /* The end of the notes gives up its margin and half-leading, so the gap to the footer equals the gap under the title block. */
@@ -54,6 +57,7 @@
       <div class="articleBody" id="body-web"><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
       <!-- iPhone and iPad: steps for getting out of NetNewsWire's in-app browser. -->
       <div class="articleBody" id="body-ios" hidden>
+        <p class="lead-in">To update:</p>
         <ol>
           <li>Open this page in your browser</li>
           <li>Close the in-app browser in NetNewsWire</li>
