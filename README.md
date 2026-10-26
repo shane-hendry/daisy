@@ -42,11 +42,11 @@ Read more about [the themes,](https://shanehendry.com/daisy/) and it's all docum
 
 ## Install
 
-Daisy and Daisy Sans are in beta. [Version 0.4.0](https://github.com/shane-hendry/daisy/releases/tag/v0.4.0) is the latest release.
+Daisy and Daisy Sans are in beta. [Version 0.5.0](https://github.com/shane-hendry/daisy/releases/tag/v0.5.0) is the latest release.
 
 1. Download the theme (or both), then open the zip:
-   - [Daisy](https://github.com/shane-hendry/daisy/releases/download/v0.4.0/Daisy.nnwtheme.zip)
-   - [Daisy Sans](https://github.com/shane-hendry/daisy/releases/download/v0.4.0/Daisy.Sans.nnwtheme.zip)
+   - [Daisy](https://github.com/shane-hendry/daisy/releases/download/v0.5.0/Daisy.nnwtheme.zip)
+   - [Daisy Sans](https://github.com/shane-hendry/daisy/releases/download/v0.5.0/Daisy.Sans.nnwtheme.zip)
 2. On your Mac, drag the **.nnwtheme** file onto the NetNewsWire dock icon. On iPhone and iPad, save them to Files, then open NetNewsWire, go to **Settings → Theme → +**.
 3. Select **Daisy** or **Daisy Sans** from the list.
 
