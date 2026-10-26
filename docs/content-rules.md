@@ -72,6 +72,7 @@ Part of the [hero block](#hero-block): who wrote the post, and for which publica
 - The Smashing Magazine feed name "Articles on Smashing Magazine — For Web Designers And Developers" is shortened to **Smashing Magazine**. (v0.3.0)
 - A feed name that starts with "Le Monde.fr - ", such as "Le Monde.fr - Actualités et Infos en France et dans le monde", is shortened to **Le Monde**. (v0.4.0)
 - A feed name that starts with "Engadget", such as "Engadget - Technology News & Expert Reviews", is shortened to **Engadget**. (v0.4.0)
+- A feed name that starts with "NASA's Photojournal", such as "NASA's Photojournal: Images of Photojournal and when applicable, their available satellites.", is shortened to **NASA Photojournal**.
 - An author of "Redazione" plus the feed's own name, the Italian staff credit, is not a person: the byline shows the publication once, as **Repubblica.it** rather than "Redazione Repubblica.it for Repubblica.it". (v0.4.0)
 - "Redazione" followed by anything else, such as **Redazione Esteri**, stays. (v0.4.0)
 - A publication that ends in "by" and the author's own name drops that ending, so "Name for Site by Name" shows as **Name for Site**. A different name after "by" stays. (v0.4.0)

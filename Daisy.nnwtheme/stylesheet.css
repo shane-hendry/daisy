@@ -73,6 +73,7 @@
   --eyebrow-axes: "opsz" 28;     /* New York Large */
   --link-weight: 500;
   --link-axes: normal;
+  --label-axes: normal;          /* footnote labels ("Footnote 1"); Close and Go to footnotes stay regular */
   --meta-axes: normal;           /* the credit row: byline, feed name and date */
   --title-gap: 1.05rem;             /* eyebrow to title, and title to link line */
   --title-wide: clamp(2.4em, 1.55em + 2.48vw, 3.1em);
@@ -132,6 +133,8 @@
   --space-heading: 3.2rem;
   --space-large: 3.84rem;
   --space-heading-after: 1.5rem;
+  --space-label-after: 1.1rem;
+  --space-panel: var(--space-small);
   --indent: 1.25rem;
 
   /* The type styles the whole design is built from. Most text (the credit row, the
@@ -638,6 +641,22 @@ iframe {
   border: 0;
 }
 
+/* A feed can style its own image with a transform (NASA Photojournal scales its hero
+   by 1.2 for a crop effect). Here it would enlarge the image over the text around it,
+   so images are drawn at their own size. */
+.articleBody :is(img, video) {
+  transform: none !important;
+}
+
+/* An icon that gives only a viewBox, no width or height (NASA Photojournal's arrows),
+   would otherwise fill the whole column and leave a page-high gap. It is sized like
+   a letter instead. */
+.articleBody svg:not([width]):not([height]) {
+  height: 1em;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+
 /* Only video players are forced to 16:9; other embeds keep their own height. */
 .articleBody iframe[src*="youtube"],
 .articleBody iframe[src*="youtu.be"],
@@ -780,7 +799,7 @@ caption {
    largest accessibility text sizes the date drops below the credit (see part 4). */
 .meta {
   font-variation-settings: var(--meta-axes);
-  align-items: baseline;
+  align-items: flex-start;
   display: flex;
   gap: 0 1.75rem;
   justify-content: space-between;
@@ -1122,54 +1141,87 @@ a.footnote.footnote-anchor {
   padding: 0;
 }
 
+/* Each label is spaced like an article heading so it reads as belonging to its note:
+   --space-heading above it (the gap between notes, and under "Footnotes"), then
+   --space-heading-after from its baseline to the note's first capital. The label and
+   the note's paragraphs trim their half-leading the way headings do (see 1.4). Type is
+   unchanged: the same as the panel's "Footnote N" and "Close". */
 :is(.footnotes, .wp-block-footnotes) li {
-  margin-block: var(--space-medium);
+  margin-block: 0;
 }
 
-:is(.footnotes, .wp-block-footnotes) li:first-child {
-  margin-top: 0;
-}
-
-/* Substack's notes are divs, each with its "Footnote 1" label just before it. The label
-   carries the gap between notes. */
+/* Substack's notes are divs, each with its label just before it. */
 .articleBody div.footnote {
   margin-block: 0;
 }
 
-/* The note's text sits as close to its label as a list note does (see li > p in 1.7),
-   not a full paragraph gap away. */
-.articleBody div.footnote .footnote-content > p {
-  margin-block: 0.6em;
-}
-
 .articleBody .footnote-label {
-  margin-top: var(--space-medium);
-}
-
-.footnotes-title + .footnote-label {
-  margin-top: 0;
+  margin-bottom: var(--space-label-after);
+  margin-top: var(--space-heading);
+  text-box: trim-both cap alphabetic;
 }
 
 .footnotes-title {
-  margin-bottom: 1em;
+  margin-bottom: 0;
 }
 
-/* The rule before the footnotes sits one paragraph gap (--space-medium) from the last
-   paragraph above and from the heading below. The heading's margin alone sets the space
-   below the rule, so the rule's own bottom margin is dropped. */
+.footnote-label + p,
+.footnote-label + .footnote > .footnote-content > p:first-child {
+  margin-top: 0;
+  text-box: trim-start cap alphabetic;
+}
+
+:is(.footnotes, .wp-block-footnotes) li > p:last-child,
+.articleBody div.footnote .footnote-content > p:last-child {
+  text-box: trim-end cap alphabetic;
+}
+
+/* A note that is one paragraph is both first and last: trim both ends. */
+:is(.footnotes, .wp-block-footnotes) li > .footnote-label + p:last-child,
+.articleBody .footnote-label + div.footnote > .footnote-content > p:only-child {
+  text-box: trim-both cap alphabetic;
+}
+
+/* The rule before the footnotes sits --space-large from the last paragraph above and
+   from the heading below. That is more than the gap under the heading (--space-heading
+   to the first label), so "Footnotes" reads as part of the notes, not the rule. The
+   heading's margin alone sets the space below the rule, so the rule's own bottom margin
+   is dropped. */
 hr:has(+ .footnotes-title) {
   margin-bottom: 0;
-  margin-top: var(--space-medium);
+  margin-top: var(--space-large);
 }
 
 hr + .footnotes-title {
-  margin-top: var(--space-medium);
+  margin-top: var(--space-large);
 }
 
 .footnote-label {
   display: block;
+  font-variation-settings: var(--label-axes);
   font-weight: var(--weight-medium);
   text-decoration: none;
+}
+
+/* The circle that marks the footnote's spot in the article after "Footnote 1" is
+   tapped (made in template.html): the highlight orange at 40%, shown at once, held
+   1.5s, then faded out over 0.45s. */
+.footnote-locator {
+  animation: footnote-locator 1.95s ease-out forwards;
+  background: color-mix(in srgb, var(--mark) 40%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+  position: absolute;
+  z-index: 10;
+}
+
+@keyframes footnote-locator {
+  0%, 77% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Return links the publisher put in the note (arrows, emoji): the label replaces them. */
@@ -1220,6 +1272,7 @@ hr + .footnotes-title {
 }
 
 .footnote-panel-title {
+  font-variation-settings: var(--label-axes);
   font-weight: var(--weight-medium);
 }
 
@@ -1247,14 +1300,14 @@ hr + .footnotes-title {
 }
 
 /* "Go to footnotes" mirrors the header: the same type, a 44px tap area, and the same
-   0.35rem gap from the note text, with the word lined up on the text edge. */
+   --space-panel gap from the note text, with the word lined up on the text edge. */
 .footnote-panel-goto {
   -webkit-tap-highlight-color: transparent;
   align-items: center;
   color: inherit;
   display: flex;
   font-weight: var(--weight-medium);
-  margin: 0.35rem 0 0 -12px;
+  margin: calc(var(--space-panel) - 0.55em) 0 0 -12px;
   min-height: 44px;
   padding: 0 12px;
   text-decoration: none;
@@ -1268,7 +1321,7 @@ hr + .footnotes-title {
 }
 
 /* The note text: undo the popover's floating position and box so it flows inline,
-   with 0.35rem between the "Footnote 1" header and the text. The header's 44px tap
+   with --space-panel between the "Footnote 1" header and the text. The header's 44px tap
    area sets its height, so this gap is measured from the header's box. */
 .footnote-panel .footnote-panel-body.newsfoot-footnote-popover,
 .footnote-panel .footnote-panel-body {
@@ -1278,7 +1331,7 @@ hr + .footnotes-title {
   font-size: var(--text-medium);
   left: auto;
   line-height: inherit;
-  margin: 0.35rem 0 0;
+  margin: calc(var(--space-panel) - 0.31em) 0 0;
   max-width: none;
   padding: 0;
   position: static;
@@ -1291,7 +1344,8 @@ hr + .footnotes-title {
   margin-block: 0.6em;
 }
 
-.footnote-panel-body > :first-child {
+.footnote-panel-body > :first-child,
+.footnote-panel-body > .footnote-label + * {
   margin-top: 0;
 }
 
@@ -1698,6 +1752,8 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
     --space-medium: 1em;
     --space-heading: 2.2rem;
     --space-heading-after: 1.1em;
+    --space-label-after: 0.8em;
+    --space-panel: 0.8em;
     --space-large: 1.75em;
     --indent: 0.75em;
     --leading-body: 1.25;
