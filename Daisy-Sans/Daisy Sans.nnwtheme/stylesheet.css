@@ -803,6 +803,25 @@ iframe {
   height: auto;
 }
 
+/* Media never runs taller than the window. The template script gives each image,
+   video and embed its proportions (--ar); the width is then the column or, when the
+   media would be taller than --media-max-h, the width that makes it exactly that
+   tall, centred. Media whose proportions are unknown keeps the plain column width. */
+:root {
+  --media-max-h: 85vh;
+}
+
+.articleBody :is(img, video, iframe)[data-ar] {
+  --media-w: min(100%, calc(var(--media-max-h) * var(--ar)));
+  margin-inline: calc((100% - var(--media-w)) / 2);
+  width: var(--media-w);
+}
+
+.articleBody iframe[data-ar] {
+  aspect-ratio: var(--ar);
+  height: auto;
+}
+
 figure {
   margin-inline: 0;
 }
@@ -1054,6 +1073,11 @@ h1 a {
    letters, or its first image, then sit exactly --space-large below the title. */
 .articleBody > :is(:first-child, .lead) {
   margin-top: 0;
+}
+
+.articleBody > :is(:first-child, .lead):not(:is(ul, ol)),
+.articleBody > :is(ul, ol):is(:first-child, .lead) > li:first-child,
+.articleBody > :is(ul, ol):is(:first-child, .lead) > li:first-child > p:first-child {
   text-box: trim-start cap alphabetic;
 }
 
@@ -1821,9 +1845,12 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   .articleBody > p:has(> a:only-child > picture:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > p:has(> picture:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > div:has(img, video, iframe):not(:has(p)):not(.unfloat) :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat) {
-    margin-inline: calc(50% - 50vw) !important;
+    /* Unless that would make it taller than the window: then it shrinks, centred
+       (see 1.10). */
+    --media-w: min(100vw, calc(var(--media-max-h) * var(--ar, 1000)));
+    margin-inline: calc(50% - var(--media-w) / 2) !important;
     max-width: 100vw !important;
-    width: 100vw !important;
+    width: var(--media-w) !important;
   }
 }
 
