@@ -31,7 +31,7 @@
       /* The release notes toggle is plain: bold text, no bar and no chevron. */
       details { margin-block: var(--space-medium); padding-inline-start: 0; }
       details::before, summary::after { display: none; }
-      summary { font-weight: var(--weight-bold); }
+      summary, summary:hover { color: var(--text); font-weight: var(--weight-bold); -webkit-tap-highlight-color: transparent; }
       .view-post { display: block; margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
       .view-post a { text-decoration: underline; }
       /* The end of the notes gives up its margin and half-leading, so the gap to the footer equals the gap under the title block. */
