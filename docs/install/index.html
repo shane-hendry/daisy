@@ -26,6 +26,12 @@
       [hidden] { display: none !important; }
       /* The update link is underlined (the theme's link line is not) so it reads as the thing to tap. */
       #add { text-decoration: underline; }
+      /* Wrap without leaving a word or a version number alone on a line. */
+      li, .view-post span { text-wrap: pretty; }
+      /* The release notes toggle is plain: bold text, no bar and no chevron. */
+      details { margin-block: var(--space-medium); padding-inline-start: 0; }
+      details::before, summary::after { display: none; }
+      summary { font-weight: var(--weight-bold); }
       .view-post { display: block; margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
       .view-post a { text-decoration: underline; }
       /* The end of the notes gives up its margin and half-leading, so the gap to the footer equals the gap under the title block. */
@@ -52,10 +58,10 @@
           <li>Close the in-app browser in NetNewsWire</li>
           <li>In your default browser, <a id="add-ios" href="https://github.com/shane-hendry/daisy/releases">update to Daisy</a></li>
         </ol>
-        <details><summary>View release notes</summary><ul id="notes-list-ios"></ul></details>
+        <details id="notes-toggle"><summary>View release notes</summary><ul id="notes-list-ios"></ul></details>
       </div>
       <footer class="view-post">
-        <span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com" target="_blank" rel="noopener">Shane Hendry</a>.</span>
+        <span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com" target="_blank" rel="noopener">Shane&nbsp;Hendry</a>.</span>
         <span><a href="https://shanehendry.com/daisy" target="_blank" rel="noopener">Learn more about the themes.</a></span>
       </footer>
     </main>
@@ -80,8 +86,10 @@
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
         document.querySelector("#add .external-link-label").textContent = "Update to " + theme[0] + " " + version;
         document.getElementById("add").href = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
+        var toggle = document.getElementById("notes-toggle");
+        toggle.addEventListener("toggle", function () { toggle.firstChild.textContent = toggle.open ? "Hide release notes" : "View release notes"; });
         var addIos = document.getElementById("add-ios");
-        addIos.textContent = "update to " + theme[0] + " " + version.replace(/\.0$/, "");
+        addIos.textContent = "update to " + (theme[0] + " " + version.replace(/\.0$/, "")).replace(/ /g, "\u00a0");
         addIos.href = document.getElementById("add").href;
         document.getElementById("byline").textContent = theme[0];
         // The release notes and publish date are optional: without an entry for this version the list stays empty.
