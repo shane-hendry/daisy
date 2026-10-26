@@ -268,6 +268,23 @@ Presentation:
         }
       });
     })();
+    // A footnote marker never wraps onto a line of its own: it is glued to the character
+    // before it with a word joiner (so "September." and its marker move together, and the
+    // whole last word comes with them). A space left between the text and the marker is
+    // removed first, since the line could break there. A marker that starts its block, or
+    // follows another element or a line break, is left as it is.
+    (function () {
+      var markers = document.querySelectorAll(".articleBody sup a[href*='#'], .articleBody a.footnote, .articleBody a.footnote-anchor, .articleBody a[id^='footnote-anchor-']");
+      markers.forEach(function (a) {
+        if (a.closest(".footnotes, .wp-block-footnotes, .footnote-panel") || a.matches(".footnote-label, .footnote-backlink, a.footnote-number")) return;
+        var unit = a.closest("sup") || a;
+        var before = unit.previousSibling;
+        if (!before || before.nodeType !== 3) return;
+        before.data = before.data.replace(/[ \t\r\n]+$/, "");
+        if (!before.data) return;
+        unit.parentNode.insertBefore(document.createTextNode("⁠"), unit);
+      });
+    })();
     // Footnotes open as a note panel under the paragraph, in the style of a block
     // quote, with a "Footnote 1" header and a close button. It shows and hides
     // instantly, and stays open until the reader closes it (its marker or its Close

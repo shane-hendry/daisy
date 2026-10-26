@@ -1307,7 +1307,7 @@ hr + .footnotes-title {
   color: inherit;
   display: flex;
   font-weight: var(--weight-medium);
-  margin: calc(var(--space-panel) - 0.55em) 0 0 -12px;
+  margin: calc(var(--space-panel) - 22px - 0.143em) 0 0 -12px;
   min-height: 44px;
   padding: 0 12px;
   text-decoration: none;
@@ -1331,7 +1331,7 @@ hr + .footnotes-title {
   font-size: var(--text-medium);
   left: auto;
   line-height: inherit;
-  margin: calc(var(--space-panel) - 0.31em) 0 0;
+  margin: calc(var(--space-panel) - 0.505em) 0 0;
   max-width: none;
   padding: 0;
   position: static;
