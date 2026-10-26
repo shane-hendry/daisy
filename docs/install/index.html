@@ -21,7 +21,19 @@
          width, underlined black links, orange only on hover and focus. */
       :root {
         --canvas: #fff; --text: #161616; --accent: #f05a00; --on-text: #fff;
-        --sans: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+        --font: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+        --scale: 1;
+        --title-weight: 800; --title-axes: "wght" 800, "wdth" 115; --title-stretch: 115%; --title-spacing: -0.02em;
+        --head-weight: 700; --head-axes: "wght" 700, "wdth" 115; --head-stretch: 115%;
+        --strong-weight: 700;
+      }
+      /* From Daisy (not Daisy Sans): the serif look. */
+      :root.serif {
+        --font: ui-serif, "New York", Georgia, serif;
+        --scale: 1.05;
+        --title-weight: 700; --title-axes: "opsz" 72; --title-stretch: 100%; --title-spacing: -0.02em;
+        --head-weight: 620; --head-axes: normal; --head-stretch: 100%;
+        --strong-weight: 600;
       }
       @media (prefers-color-scheme: dark) {
         :root { --canvas: #121212; --text: #ececec; --accent: #ff7a2e; --on-text: #121212; }
@@ -29,28 +41,29 @@
       body {
         margin: 0; min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 0 clamp(23px, 5vw, 55px);
         box-sizing: border-box; background: var(--canvas); color: var(--text);
-        font: 1.0625rem/1.6 var(--sans); -webkit-text-size-adjust: 100%;
+        font: calc(1.0625rem * var(--scale))/1.6 var(--font); -webkit-text-size-adjust: 100%;
       }
       main { max-width: 32rem; padding: 3rem 0; }
       h1 {
         font-size: clamp(1.7em, 1.36em + 1.92vw, 2.05em); line-height: 1.15; margin: 0 0 1.75rem;
-        font-weight: 800; font-stretch: 115%; font-variation-settings: "wght" 800, "wdth" 115;
-        letter-spacing: -0.02em; text-wrap: balance;
+        font-weight: var(--title-weight); font-stretch: var(--title-stretch);
+        font-variation-settings: var(--title-axes); letter-spacing: var(--title-spacing); text-wrap: balance;
       }
       h2 {
-        font-size: 1em; margin: 2.25rem 0 0.75rem; padding-top: 1.25rem; border-top: 2px solid var(--text);
-        font-weight: 700; font-stretch: 115%; font-variation-settings: "wght" 700, "wdth" 115;
+        font-size: 1em; margin: 2.25rem 0 0.75rem; text-align: left;
+        font-weight: var(--head-weight); font-stretch: var(--head-stretch); font-variation-settings: var(--head-axes);
       }
       p { margin: 0 0 1.5rem; }
       ul { margin: 0 0 2.25rem; padding-left: 1.25rem; }
       li { margin: 0 0 0.6rem; }
-      li strong { font-variation-settings: "wght" 700, "wdth" 115; }
+      li strong { font-weight: var(--strong-weight); }
       a { color: var(--text); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
       @media (hover: hover) { a:hover { color: var(--accent); } }
       a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       .add {
         display: inline-block; padding: 0.7em 1.6em; background: var(--text); color: var(--on-text);
-        font-weight: 700; font-variation-settings: "wght" 700, "wdth" 115; text-decoration: none;
+        font-weight: var(--head-weight); font-stretch: var(--head-stretch); font-variation-settings: var(--head-axes);
+        text-decoration: none;
         border-radius: 0.4em; -webkit-tap-highlight-color: transparent;
       }
       @media (hover: hover) { .add:hover { background: var(--accent); color: var(--canvas); } }
@@ -58,6 +71,10 @@
       .credit span { display: block; }
       #notes { text-align: left; }
     </style>
+      <script>
+      // Daisy shows the serif look; Daisy Sans (and anything else) the sans look.
+      if (new URLSearchParams(location.search).get("theme") === "daisy") document.documentElement.classList.add("serif");
+    </script>
   </head>
   <body>
     <main>
