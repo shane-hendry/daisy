@@ -44,7 +44,16 @@
         <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
         <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases"><span class="external-link-label">Update</span></a></div>
       </header>
-      <div class="articleBody"><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
+      <div class="articleBody" id="body-web"><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
+      <!-- iPhone and iPad: steps for getting out of NetNewsWire's in-app browser, then the notes, collapsed. -->
+      <div class="articleBody" id="body-ios" hidden>
+        <ol>
+          <li>Open this page in your default browser</li>
+          <li>Close the in-app browser in NetNewsWire</li>
+          <li>In your default browser, <a id="add-ios" href="https://github.com/shane-hendry/daisy/releases">update to Daisy</a></li>
+        </ol>
+        <details><summary>View release notes</summary><ul id="notes-list-ios"></ul></details>
+      </div>
       <footer class="view-post">
         <span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com" target="_blank" rel="noopener">Shane Hendry</a>.</span>
         <span><a href="https://shanehendry.com/daisy" target="_blank" rel="noopener">Learn more about the themes.</a></span>
@@ -62,13 +71,18 @@
         // Safari. So on an iPhone or iPad the page leads with the way out: open it in Safari.
         var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
         if (ios) {
-          title = "Open this page in your browser to update " + theme[0];
-          document.getElementById("intro").textContent = "Updating can\u2019t be done from NetNewsWire\u2019s in-app browser. This update includes:";
+          title = "Open in your browser to update " + theme[0];
+          document.getElementById("body-web").hidden = true;
+          document.getElementById("body-ios").hidden = false;
+          document.querySelector(".external-link").hidden = true;
         }
         document.getElementById("title").textContent = title;
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
         document.querySelector("#add .external-link-label").textContent = "Update to " + theme[0] + " " + version;
         document.getElementById("add").href = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
+        var addIos = document.getElementById("add-ios");
+        addIos.textContent = "update to " + theme[0] + " " + version.replace(/\.0$/, "");
+        addIos.href = document.getElementById("add").href;
         document.getElementById("byline").textContent = theme[0];
         // The release notes and publish date are optional: without an entry for this version the list stays empty.
         fetch("../release-notes.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (all) {
@@ -132,14 +146,16 @@
               document.addEventListener("keydown", function (event) { if (event.key === "Escape") show(false); });
             }
           }
-          var list = document.getElementById("notes-list");
-          (entry.notes || []).forEach(function (item) {
-            var li = document.createElement("li");
-            var b = document.createElement("strong");
-            b.textContent = item.title;
-            li.appendChild(b);
-            li.appendChild(document.createTextNode(" " + item.text));
-            list.appendChild(li);
+          ["notes-list", "notes-list-ios"].forEach(function (id) {
+            var list = document.getElementById(id);
+            (entry.notes || []).forEach(function (item) {
+              var li = document.createElement("li");
+              var b = document.createElement("strong");
+              b.textContent = item.title;
+              li.appendChild(b);
+              li.appendChild(document.createTextNode(" " + item.text));
+              list.appendChild(li);
+            });
           });
         }).catch(function () {});
       }
