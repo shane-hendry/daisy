@@ -268,7 +268,7 @@ body {
   /* Page margins are in px so they never change with the reader's text size. */
   padding: clamp(28px, 6vw, 92px) var(--gutter);
   /* The credit row sits closer to the app's toolbar than the side margins suggest. */
-  padding-top: clamp(20px, 3vw, 44px);
+  padding-top: clamp(24px, 4.5vw, 68px);
   /* The end of a post clears the app's floating bottom controls by at least one
      large space. */
   padding-bottom: max(clamp(28px, 6vw, 92px), var(--space-large));
