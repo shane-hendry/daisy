@@ -15,6 +15,7 @@ mkdir -p "$dest"
 
 cp "$SRC/template.html" "$SRC/LICENSE" "$dest/"
 sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
+    -e 's|^\(  font-size: calc(\[\[font-size\]\]px \* \)1\.05);|\11);|' \
     -e 's|^\(  --serif-scale: \)[0-9.]*;|\11;|' \
     -e 's|^\(  --title-weight: \)[0-9]*;|\1800;|' \
     -e 's|^\(  --title-axes: \).*$|\1"wght" 800, "wdth" 115;|' \
@@ -22,8 +23,21 @@ sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
     -e 's|^\(  --eyebrow-axes: \).*$|\1"wght" 800, "wdth" 115;|' \
     -e 's|^\(  --link-weight: \)[0-9]*;|\1450;|' \
     -e 's|^\(  --link-axes: \).*$|\1"wght" 450, "wdth" 75;|' \
-    -e 's|^\(  --title-wide: \).*;|\1clamp(2em, 1.28em + 2.02vw, 2.6em);|' \
-    -e 's|^\(  --title-phone: \).*;|\1clamp(1.6em, 1.31em + 1.67vw, 1.9em);|' \
+    -e 's|^\(  --meta-axes: \).*$|\1"wght" 400, "wdth" 75;|' \
+    -e 's|^\(  --h1-weight: \).*$|\1750;|' \
+    -e 's|^\(  --h1-axes: \).*$|\1"wght" 750, "wdth" 114;|' \
+    -e 's|^\(  --h2-weight: \).*$|\1700;|' \
+    -e 's|^\(  --h2-axes: \).*$|\1"wght" 700, "wdth" 112;|' \
+    -e 's|^\(  --h3-weight: \).*$|\1650;|' \
+    -e 's|^\(  --h3-axes: \).*$|\1"wght" 650, "wdth" 108;|' \
+    -e 's|^\(  --h4-weight: \).*$|\1600;|' \
+    -e 's|^\(  --h4-axes: \).*$|\1"wght" 600, "wdth" 104;|' \
+    -e 's|^\(  --h5-weight: \).*$|\1600;|' \
+    -e 's|^\(  --h5-axes: \).*$|\1"wght" 600, "wdth" 100;|' \
+    -e 's|^\(  --h6-weight: \).*$|\1500;|' \
+    -e 's|^\(  --h6-axes: \).*$|\1"wght" 500, "wdth" 100;|' \
+    -e 's|^\(  --title-wide: \).*;|\1clamp(2.15em, 1.37em + 2.2vw, 2.8em);|' \
+    -e 's|^\(  --title-phone: \).*;|\1clamp(1.7em, 1.36em + 1.92vw, 2.05em);|' \
     -e '1s|^/\* Daisy: New York,|/* Daisy Sans: system sans,|' "$SRC/stylesheet.css" > "$dest/stylesheet.css"
 sed -e 's|com\.shanehendry\.daisy|com.shanehendry.daisy-sans|' \
     -e 's|<string>Daisy</string>|<string>Daisy Sans</string>|' "$SRC/Info.plist" > "$dest/Info.plist"
