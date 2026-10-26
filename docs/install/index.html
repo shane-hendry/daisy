@@ -4,14 +4,18 @@
   a link to netnewswire:// is not reliable inside an article. ?theme=daisy or
   ?theme=daisy-sans picks the theme and ?v=0.5.0 the release. The release zips are
   attached to the GitHub release itself: all of them are pre-releases, so the
-  "latest" download address does not apply. Served by GitHub Pages from docs/ on main.
+  "latest" download address does not apply. The page does not open the app by itself:
+  an automatic redirect closes the in-app browser on iPhone without showing the install
+  prompt, so the person taps Install Theme. The bullets come from release-notes.json
+  (one entry per version, written by hand when a release is made). Served by GitHub
+  Pages from docs/ on main.
 -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <title>Add Daisy to NetNewsWire</title>
+    <title>Get the latest Daisy for NetNewsWire</title>
     <style>
       :root { --canvas: #fff; --text: #1d1d1f; --accent: #0066cc; --on-accent: #fff; }
       @media (prefers-color-scheme: dark) {
@@ -22,8 +26,13 @@
         box-sizing: border-box; background: var(--canvas); color: var(--text);
         font: 17px/1.5 ui-sans-serif, -apple-system, BlinkMacSystemFont, sans-serif; text-align: center;
       }
-      h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+      main { max-width: 32rem; padding: 2rem 0; }
+      h1 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 1.5rem; }
+      h2 { font-size: 1.05rem; margin: 2rem 0 0.5rem; text-align: left; }
       p { margin: 0 0 1.5rem; }
+      ul { margin: 0 0 2rem; padding-left: 1.25rem; text-align: left; }
+      li { margin: 0 0 0.5rem; }
+      .credit { font-size: 0.9rem; opacity: 0.75; margin: 0; }
       a { color: var(--accent); }
       .add {
         display: inline-block; padding: 0.6em 1.4em; border-radius: 0.6em;
@@ -33,10 +42,16 @@
   </head>
   <body>
     <main>
-      <h1 id="title">Add Daisy to NetNewsWire</h1>
-      <p>NetNewsWire opens and asks to install it.</p>
-      <p><a class="add" id="add" href="https://github.com/shane-hendry/daisy/releases">Add to NetNewsWire</a></p>
-      <p><a href="https://github.com/shane-hendry/daisy">Daisy on GitHub</a></p>
+      <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
+      <p><a class="add" id="add" href="https://github.com/shane-hendry/daisy/releases">Install Theme</a></p>
+      <section id="notes" hidden>
+        <h2 id="notes-title"></h2>
+        <ul id="notes-list"></ul>
+      </section>
+      <p class="credit">
+        Daisy and Daisy Sans are made by <a href="https://shanehendry.com">Shane Hendry</a>.
+        <a href="https://shanehendry.com/daisy">Learn more about the themes.</a>
+      </p>
     </main>
     <script>
       var params = new URLSearchParams(location.search);
@@ -45,11 +60,25 @@
       var version = params.get("v");
       if (theme && /^\d+(\.\d+){0,2}$/.test(version || "")) {
         var zip = "https://github.com/shane-hendry/daisy/releases/download/v" + version + "/" + theme[1];
-        var add = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
-        document.getElementById("title").textContent = "Add " + theme[0] + " to NetNewsWire";
-        document.title = "Add " + theme[0] + " to NetNewsWire";
-        document.getElementById("add").href = add;
-        location.href = add;
+        document.getElementById("title").textContent = "Get the latest version of " + theme[0] + " for NetNewsWire";
+        document.title = "Get the latest " + theme[0] + " for NetNewsWire";
+        document.getElementById("add").href = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
+        // The release notes are optional: without an entry for this version the list stays hidden.
+        fetch("../release-notes.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (all) {
+          var items = all && all[version];
+          if (!items || !items.length) return;
+          document.getElementById("notes-title").textContent = "Version " + version + " includes:";
+          var list = document.getElementById("notes-list");
+          items.forEach(function (item) {
+            var li = document.createElement("li");
+            var b = document.createElement("strong");
+            b.textContent = item.title;
+            li.appendChild(b);
+            li.appendChild(document.createTextNode(" " + item.text));
+            list.appendChild(li);
+          });
+          document.getElementById("notes").hidden = false;
+        }).catch(function () {});
       }
     </script>
   </body>
