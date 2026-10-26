@@ -22,19 +22,25 @@
       document.write('<link rel="stylesheet" href="' + (daisy ? "daisy.css" : "daisy-sans.css") + '">');
     </script>
     <style>
-      /* Only what the page needs beyond the theme (the styles are copied from it by scripts/build-install-css.sh): it has no credit row above the title, and
-         it shows the footer that the theme shows only for untitled posts. */
+      /* Only what the page needs beyond the theme (the styles are copied from it by scripts/build-install-css.sh): it shows the footer that the theme shows only for untitled posts. */
       [hidden] { display: none !important; }
-      .article-header h1 { margin-top: 0; }
       /* The update link is underlined (the theme's link line is not) so it reads as the thing to tap. */
       #add { text-decoration: underline; }
-      .view-post { display: block; }
+      .view-post { display: block; margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
+      .view-post a { text-decoration: underline; }
+      /* The end of the notes gives up its margin and half-leading, so the gap to the footer equals the gap under the title block. */
+      .articleBody > ul:last-child { margin-bottom: 0; }
+      .articleBody > ul:last-child > li:last-child { margin-bottom: 0; text-box: trim-end cap alphabetic; }
       .view-post span { display: block; }
     </style>
   </head>
   <body>
     <main class="article">
       <header class="article-header">
+        <div class="meta">
+          <div class="attribution"><span class="byline" id="byline">Daisy</span><span class="byline-for"> for </span><a class="feed" href="https://netnewswire.com">NetNewsWire</a></div>
+          <time class="dateline articleDateline" id="dateline" hidden></time>
+        </div>
         <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
         <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases"><span class="external-link-label">Update</span></a></div>
       </header>
@@ -62,12 +68,27 @@
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
         document.querySelector("#add .external-link-label").textContent = "Update to " + theme[0] + " " + version;
         document.getElementById("add").href = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
-        // The release notes are optional: without an entry for this version the list stays empty.
+        document.getElementById("byline").textContent = theme[0];
+        // The release notes and publish date are optional: without an entry for this version the list stays empty.
         fetch("../release-notes.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (all) {
-          var items = all && all[version];
-          if (!items || !items.length) return;
+          var entry = all && all[version];
+          if (!entry) return;
+          var when = Date.parse(entry.published);
+          if (when) {
+            // "4 hours ago", worked out when the page opens, in the reader's language.
+            var seconds = Math.round((when - Date.now()) / 1000);
+            var steps = [["year", 31536000], ["month", 2592000], ["week", 604800], ["day", 86400], ["hour", 3600], ["minute", 60]];
+            var unit = "second", amount = seconds;
+            for (var i = 0; i < steps.length; i++) {
+              if (Math.abs(seconds) >= steps[i][1]) { unit = steps[i][0]; amount = Math.round(seconds / steps[i][1]); break; }
+            }
+            var dateline = document.getElementById("dateline");
+            dateline.textContent = new Intl.RelativeTimeFormat(navigator.language, { numeric: "auto" }).format(amount, unit);
+            dateline.dateTime = entry.published;
+            dateline.hidden = false;
+          }
           var list = document.getElementById("notes-list");
-          items.forEach(function (item) {
+          (entry.notes || []).forEach(function (item) {
             var li = document.createElement("li");
             var b = document.createElement("strong");
             b.textContent = item.title;

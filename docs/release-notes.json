@@ -1,8 +1,23 @@
 {
-  "0.5.0": [
-    { "title": "Code blocks.", "text": "Code now has syntax highlighting, shows the language, and has a Copy button." },
-    { "title": "Tall media.", "text": "Images, videos and embeds stay centered and stay fully in-view." },
-    { "title": "Update notices.", "text": "When a newer release exists, a short note and link to update appears at the end of articles. Daisy and Daisy Sans check one small file on this project's GitHub Pages site at most once a day, and send nothing about you, your feeds or your articles." },
-    { "title": "Lead lists.", "text": "Links in a list at the start of a post no longer shift when you hover over them." }
-  ]
+  "0.5.0": {
+    "published": "2026-10-26T19:44:46Z",
+    "notes": [
+      {
+        "title": "Code blocks.",
+        "text": "Code now has syntax highlighting, shows the language, and has a Copy button."
+      },
+      {
+        "title": "Tall media.",
+        "text": "Images, videos and embeds stay centered and stay fully in-view."
+      },
+      {
+        "title": "Update notices.",
+        "text": "When a newer release exists, a short note and link to update appears at the end of articles. Daisy and Daisy Sans check one small file on this project's GitHub Pages site at most once a day, and send nothing about you, your feeds or your articles."
+      },
+      {
+        "title": "Lead lists.",
+        "text": "Links in a list at the start of a post no longer shift when you hover over them."
+      }
+    ]
+  }
 }
