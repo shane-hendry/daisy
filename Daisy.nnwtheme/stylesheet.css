@@ -806,9 +806,13 @@ iframe {
 /* Media never runs taller than the window. The template script gives each image,
    video and embed its proportions (--ar); the width is then the column or, when the
    media would be taller than --media-max-h, the width that makes it exactly that
-   tall, centred. Media whose proportions are unknown keeps the plain column width. */
+   tall, centred. Media whose proportions are unknown keeps the plain column width.
+   The height is also never more than the column is wide, so on a big window a
+   portrait clip is about as tall as a full-width landscape picture is wide. (100cqw
+   is the column's width; phones skip that, below, because the media is edge to edge
+   there.) */
 :root {
-  --media-max-h: 85vh;
+  --media-max-h: min(70vh, 100cqw);
 }
 
 .articleBody :is(img, video, iframe)[data-ar]:not(.emoji):not(.wp-smiley) {
@@ -1862,6 +1866,10 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
    is exactly one viewport wide and centred on its column, so it reaches both edges
    whatever the page padding is and never overflows: no overshoot, nothing to clip. */
 @media (max-width: 600px) {
+  :root {
+    --media-max-h: 70vh;
+  }
+
   .articleBody > :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
   .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
   .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) > a > img:not(.emoji):not(.wp-smiley):not(.side-thumb),
