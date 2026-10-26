@@ -667,9 +667,15 @@ pre code {
   padding: 0 12px;
 }
 
-.code-copy:hover,
 .code-copy.copied {
   color: var(--accent);
+}
+
+/* Touch screens keep :hover on the last tapped element, so only real pointers get it. */
+@media (hover: hover) {
+  .code-copy:hover {
+    color: var(--accent);
+  }
 }
 
 .code-copy:focus-visible {
