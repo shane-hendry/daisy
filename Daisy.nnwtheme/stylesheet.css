@@ -811,10 +811,11 @@ iframe {
   --media-max-h: 85vh;
 }
 
-.articleBody :is(img, video, iframe)[data-ar] {
+.articleBody :is(img, video, iframe)[data-ar]:not(.emoji):not(.wp-smiley) {
   --media-w: min(100%, calc(var(--media-max-h) * var(--ar)));
   margin-inline: calc((100% - var(--media-w)) / 2);
-  width: var(--media-w);
+  /* !important because feeds often put width: 100% on the element itself. */
+  width: var(--media-w) !important;
 }
 
 .articleBody iframe[data-ar] {
@@ -1196,6 +1197,30 @@ h1 a {
    block, as if after a soft return: no gap, and the line box is left untrimmed. */
 .view-post .external-link {
   margin-top: 0;
+}
+
+/* The update notice: shown by template.html only when a newer release of the theme exists,
+   as the last thing in the article. Its title is bold and the link is underlined, because
+   nothing else here is a link. */
+.theme-update {
+  margin-top: var(--space-large);
+}
+
+.theme-update[hidden] {
+  display: none;
+}
+
+.theme-update p {
+  margin: 0;
+}
+
+.theme-update-title {
+  font-weight: 700;
+  margin-bottom: 0.5em !important;
+}
+
+.theme-update-note a {
+  text-decoration: underline;
 }
 
 .view-post .external-link-label,
