@@ -191,6 +191,19 @@ Presentation:
           ev.preventDefault();
           ev.stopImmediatePropagation();
           window.scrollTo({ top: Math.max(0, line.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3) });
+          // A tinted circle appears on the marker at once, holds, then fades, so the
+          // reader can find it. It sits in the page (not on the marker), so it never
+          // shifts the text.
+          var r = line.getBoundingClientRect();
+          var size = Math.round((Math.max(r.width, r.height) + 14) * 0.85);
+          var dot = document.createElement("div");
+          dot.className = "footnote-locator";
+          dot.setAttribute("aria-hidden", "true");
+          dot.style.width = dot.style.height = size + "px";
+          dot.style.left = (r.left + window.scrollX + r.width / 2 - size / 2) + "px";
+          dot.style.top = (r.top + window.scrollY + r.height / 2 - size / 2) + "px";
+          dot.addEventListener("animationend", function () { dot.remove(); });
+          document.documentElement.appendChild(dot);
         });
         li.insertBefore(label, li.firstChild);
         // Any other link in the note that leads back to the reference (a return arrow
@@ -1193,7 +1206,7 @@ Presentation:
     // A feed that gives the author as "email (Name)" shows only the name. Smashing Magazine's
     // feed name, "Articles on Smashing Magazine — For Web Designers And Developers", also
     // shortens to "Smashing Magazine", and Le Monde's, "Le Monde.fr - Actualités et Infos en France et dans le monde",
-    // to "Le Monde", and Engadget's, "Engadget - Technology News & Expert Reviews", to "Engadget". An Italian staff credit, "Redazione <feed name>", is no
+    // to "Le Monde", and Engadget's, "Engadget - Technology News & Expert Reviews", to "Engadget", and NASA Photojournal's, "NASA's Photojournal: Images of Photojournal and when applicable, their available satellites.", to "NASA Photojournal". An Italian staff credit, "Redazione <feed name>", is no
     // person, so it is treated as the publication itself and the credit shows it once. A
     // publication ending in "by <the author>" drops that ending. Four or more comma-separated
     // authors show as a count, "4 authors". Sample: fixtures/many-authors.toml.
@@ -1222,6 +1235,7 @@ Presentation:
       if (/^\s*Articles on Smashing Magazine/i.test(blog.textContent)) blog.textContent = "Smashing Magazine";
       if (/^\s*Le Monde\.fr\s+-\s/i.test(blog.textContent)) blog.textContent = "Le Monde";
       if (/^\s*Engadget\b.+/i.test(blog.textContent)) blog.textContent = "Engadget";
+      if (/^\s*NASA['\u2019]s Photojournal\b.+/i.test(blog.textContent)) blog.textContent = "NASA Photojournal";
       var staff = author.textContent.match(/^\s*Redazione\s+(.+?)\s*$/i);
       var clean = function (text) { return text.replace(/\s+/g, " ").trim().toLowerCase(); };
       if (staff && clean(staff[1]) === clean(blog.textContent)) author.textContent = blog.textContent;
