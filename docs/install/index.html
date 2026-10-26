@@ -62,7 +62,7 @@
         // Safari. So on an iPhone or iPad the page leads with the way out: open it in Safari.
         var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
         if (ios) {
-          title = "Open this page in Safari to update " + theme[0];
+          title = "Open this page in your browser to update " + theme[0];
         }
         document.getElementById("title").textContent = title;
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
