@@ -55,7 +55,19 @@
   --accent: #f05a00;         /* orange: link hover and focus only */
   --rule: #161616;           /* divider lines and borders */
   --code-surface: #f4f4f4;   /* background behind code */
+  --code-rule: rgb(22 22 22 / 0.14);   /* the line under a code block's header */
   --mark: #f05a00;           /* highlighter background */
+
+  /* Syntax colors for code blocks. Muted on purpose: enough hue to tell keywords,
+     strings and comments apart, never louder than the prose. Each is at least 4.5:1
+     against --code-surface. Orange stays reserved for links and focus. */
+  --syn-keyword: #7a3b9e;
+  --syn-string: #2b6a3d;
+  --syn-number: #8f5300;
+  --syn-title: #1d5da8;
+  --syn-type: #0b6868;
+  --syn-meta: #8a3a4a;
+  --syn-comment: #686868;
 
   /* Fonts. Daisy Sans is generated from this file with only --serif replaced. */
   --serif: ui-serif, "New York", Georgia, serif;
@@ -186,7 +198,15 @@
     --accent: #ff7a2e;
     --rule: #ececec;
     --code-surface: #1c1c1c;
+    --code-rule: rgb(236 236 236 / 0.16);
     --mark: #ff7a2e;
+    --syn-keyword: #c8a2ea;
+    --syn-string: #94cf9f;
+    --syn-number: #e2a85c;
+    --syn-title: #8cb9f2;
+    --syn-type: #72cfc7;
+    --syn-meta: #e59aa8;
+    --syn-comment: #939393;
   }
 }
 
@@ -603,6 +623,126 @@ pre {
 pre code {
   background: transparent;
   padding: 0;
+}
+
+/* A code block with a header (added by template.html): the block carries the surface
+   and the corners, and the <pre> inside is bare. The header is a footnote panel's
+   header in miniature: the label in the same medium weight, and a text button with
+   the same hover and focus, its tap area 44px tall but its padding pulled back so
+   the word lines up with the code's edge. */
+.code-block {
+  background: var(--code-surface);
+  border-radius: 0.25rem;
+  margin-block: 1.3em;
+  overflow: hidden;
+}
+
+.code-block pre {
+  background: none;
+  border-radius: 0;
+  margin: 0;
+}
+
+.code-header {
+  align-items: center;
+  border-bottom: 1px solid var(--code-rule);
+  display: flex;
+  font-size: var(--text-small);
+  justify-content: space-between;
+  padding: 0.35rem 1rem;
+}
+
+.code-language {
+  font-variation-settings: var(--label-axes);
+  font-weight: var(--weight-medium);
+}
+
+.code-copy {
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  margin: -0.4rem -12px;
+  min-height: 44px;
+  padding: 0 12px;
+}
+
+.code-copy:hover,
+.code-copy.copied {
+  color: var(--accent);
+}
+
+.code-copy:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Syntax colors. Only the names highlight.js gives its tokens appear here; anything
+   not listed (punctuation, operators, plain names) keeps the text color. */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag,
+.hljs-section,
+.hljs-tag,
+.hljs-name {
+  color: var(--syn-keyword);
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-template-variable,
+.hljs-selector-attr {
+  color: var(--syn-string);
+}
+
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-variable.constant_,
+.hljs-link {
+  color: var(--syn-number);
+}
+
+.hljs-title,
+.hljs-title.function_,
+.hljs-built_in,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: var(--syn-title);
+}
+
+.hljs-type,
+.hljs-title.class_,
+.hljs-class .hljs-title,
+.hljs-attr,
+.hljs-attribute,
+.hljs-property {
+  color: var(--syn-type);
+}
+
+.hljs-meta,
+.hljs-deletion,
+.hljs-template-tag {
+  color: var(--syn-meta);
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--syn-comment);
+  font-style: italic;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: var(--weight-bold);
 }
 
 kbd {
@@ -1778,6 +1918,7 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   .article ol,
   .article blockquote,
   .article pre,
+  .article .code-block,
   .article table {
     margin-block: 1em;
   }
