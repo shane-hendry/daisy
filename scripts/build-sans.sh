@@ -13,7 +13,8 @@ dest="$OUT"
 [ "${1:-}" = "--check" ] && dest="$(mktemp -d)/Daisy Sans.nnwtheme"
 mkdir -p "$dest"
 
-cp "$SRC/template.html" "$SRC/LICENSE" "$dest/"
+cp "$SRC/LICENSE" "$dest/"
+sed 's|data-update-key="daisy"|data-update-key="daisy-sans"|' "$SRC/template.html" > "$dest/template.html"
 sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
     -e 's|^\(  font-size: calc(\[\[font-size\]\]px \* \)1\.05);|\11);|' \
     -e 's|^\(  --serif-scale: \)[0-9.]*;|\11;|' \
@@ -43,6 +44,7 @@ sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
 sed -e 's|com\.shanehendry\.daisy|com.shanehendry.daisy-sans|' \
     -e 's|<string>Daisy</string>|<string>Daisy Sans</string>|' "$SRC/Info.plist" > "$dest/Info.plist"
 
+grep -q 'data-update-key="daisy-sans"' "$dest/template.html" || { echo "update key substitution failed" >&2; exit 1; }
 grep -q "$SANS" "$dest/stylesheet.css" || { echo "font substitution failed" >&2; exit 1; }
 
 if [ "${1:-}" = "--check" ]; then
