@@ -56,7 +56,7 @@ Daisy and Daisy Sans were built with [Dave Marquard's](https://github.com/dave-a
 
 * **CEO** Me
 * **Product** Yours truly
-* **Design** Moi
+* **Design and content** Moi
 * **Marketing** Ya boi
 * **Engineering** Claude 🤖
 
