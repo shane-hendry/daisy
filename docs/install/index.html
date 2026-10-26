@@ -27,7 +27,9 @@
       /* The update link is underlined (the theme's link line is not) so it reads as the thing to tap. */
       #add { text-decoration: underline; }
       /* Wrap without leaving a word or a version number alone on a line. */
-      li, .view-post span { text-wrap: pretty; }
+      li, p span, .view-post span { text-wrap: pretty; }
+      p span { display: block; }
+      .articleBody > p:last-child { margin-bottom: 0; text-box: trim-end cap alphabetic; }
       /* The release notes toggle is plain: bold text, no bar and no chevron. */
       details { margin-block: 0; padding-inline-start: 0; }
       details::before, summary::after { display: none; }
@@ -58,11 +60,14 @@
           <li>Close the in-app browser in NetNewsWire</li>
           <li>In your browser, <a id="add-ios" href="https://github.com/shane-hendry/daisy/releases">update to Daisy</a></li>
         </ol>
+        <p><span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com" target="_blank" rel="noopener">Shane&nbsp;Hendry</a>.</span><span><a href="https://shanehendry.com/daisy" target="_blank" rel="noopener">Learn more about the themes.</a></span></p>
       </div>
       <footer class="view-post">
-        <span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com" target="_blank" rel="noopener">Shane&nbsp;Hendry</a>.</span>
-        <span><a href="https://shanehendry.com/daisy" target="_blank" rel="noopener">Learn more about the themes.</a></span>
-        <!-- iPhone and iPad: the release notes close the footer, collapsed. -->
+        <div id="credit-web">
+          <span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com" target="_blank" rel="noopener">Shane&nbsp;Hendry</a>.</span>
+          <span><a href="https://shanehendry.com/daisy" target="_blank" rel="noopener">Learn more about the themes.</a></span>
+        </div>
+        <!-- iPhone and iPad: the credit moves into the body above, and the release notes alone close the footer, collapsed. -->
         <details id="notes-toggle" hidden><summary>View release notes</summary><ul id="notes-list-ios"></ul></details>
       </footer>
     </main>
@@ -82,6 +87,7 @@
           document.getElementById("body-web").hidden = true;
           document.getElementById("body-ios").hidden = false;
           document.getElementById("notes-toggle").hidden = false;
+          document.getElementById("credit-web").hidden = true;
           document.querySelector(".external-link").hidden = true;
         }
         document.getElementById("title").textContent = title;
