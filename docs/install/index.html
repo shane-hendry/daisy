@@ -67,7 +67,8 @@
         border-radius: 0.4em; -webkit-tap-highlight-color: transparent;
       }
       @media (hover: hover) { .add:hover { background: var(--accent); color: var(--canvas); } }
-      .hint { font-size: 0.9em; margin: -0.75rem 0 1.5rem; }
+      .hint { margin: -0.5rem 0 1.5rem; }
+      [hidden] { display: none !important; }
       .credit { margin: 0; }
       .credit span { display: block; }
       #notes { text-align: left; }
@@ -80,8 +81,8 @@
   <body>
     <main>
       <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
+      <p class="hint" id="hint" hidden>Tap the Share button, then Open in Safari. Already in Safari? Tap Install theme.</p>
       <p><a class="add" id="add" href="https://github.com/shane-hendry/daisy/releases">Install theme</a></p>
-      <p class="hint">Nothing happens? Open this page in Safari: tap Share, then Open in Safari.</p>
       <section id="notes" hidden>
         <h2 id="notes-title"></h2>
         <ul id="notes-list"></ul>
@@ -98,7 +99,15 @@
       var version = params.get("v");
       if (theme && /^\d+(\.\d+){0,2}$/.test(version || "")) {
         var zip = "https://github.com/shane-hendry/daisy/releases/download/v" + version + "/" + theme[1];
-        document.getElementById("title").textContent = "Get the latest version of " + theme[0] + " for NetNewsWire";
+        var title = "Get the latest version of " + theme[0] + " for NetNewsWire";
+        // NetNewsWire's in-app browser closes without installing, and a page cannot tell it from
+        // Safari. So on an iPhone or iPad the page leads with the way out: open it in Safari.
+        var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        if (ios) {
+          title = "To update " + theme[0] + ", open this page in Safari";
+          document.getElementById("hint").hidden = false;
+        }
+        document.getElementById("title").textContent = title;
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
         document.getElementById("add").href = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
         // The release notes are optional: without an entry for this version the list stays hidden.
