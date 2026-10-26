@@ -16,82 +16,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
     <title>Get the latest Daisy for NetNewsWire</title>
-    <style>
-      /* A replica of how the Daisy theme sets an article, so the page reads as part of the
-         theme: the title and the link line under it, the release notes as the post body and
-         a footer like "View original". Values are copied from the theme's stylesheet (Daisy
-         Sans by default, the serif Daisy with the .serif class). */
-      :root {
-        color-scheme: light dark;
-        --canvas: #fff; --text: #161616; --accent: #f05a00;
-        --serif: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
-        --serif-scale: 1;
-        --title-weight: 800; --title-axes: "wght" 800, "wdth" 115;
-        --link-weight: 450; --link-axes: "wght" 450, "wdth" 75;
-        --weight-bold: 600;
-        --title-gap: 1.05rem;
-        --title-wide: clamp(2.15em, 1.37em + 2.2vw, 2.8em);
-        --title-phone: clamp(1.7em, 1.36em + 1.92vw, 2.05em);
-        --space-large: 3.84rem;
-        --measure: 66ch;
-        --gutter: clamp(23px, 5vw, 55px);
-      }
-      :root.serif {
-        --serif: ui-serif, "New York", Georgia, serif;
-        --serif-scale: 1.05;
-        --title-weight: 700; --title-axes: "opsz" 72;
-        --link-weight: 500; --link-axes: normal;
-        --title-wide: clamp(2.4em, 1.55em + 2.48vw, 3.1em);
-        --title-phone: clamp(1.7em, 1.36em + 2.02vw, 2.05em);
-      }
-      @media (prefers-color-scheme: dark) {
-        :root { --canvas: #121212; --text: #ececec; --accent: #ff7a2e; }
-      }
-      html {
-        -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none;
-        background: var(--canvas); color: var(--text); font-family: var(--serif);
-        font-size: calc(115% * var(--serif-scale)); font-weight: 400;
-        letter-spacing: -0.008em; line-height: 1.7; overflow-wrap: break-word;
-      }
-      body { margin: 0; padding: clamp(28px, 6vw, 92px) var(--gutter); padding-bottom: max(clamp(28px, 6vw, 92px), var(--space-large)); }
-      .article { margin: 0 auto; max-width: var(--measure); }
-      [hidden] { display: none !important; }
-      a { color: var(--text); text-decoration-thickness: max(1px, 0.055em); text-underline-offset: 0.2em; }
-      @media (hover: hover) { a:hover { color: var(--accent); } }
-      a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-      h1 {
-        font-size: var(--title-wide); font-variation-settings: var(--title-axes); font-weight: var(--title-weight);
-        letter-spacing: -0.02em; line-height: 1.1; margin: 0; text-box: trim-both cap alphabetic; text-wrap: balance;
-      }
-      @media (max-width: 600px) { h1 { font-size: var(--title-phone); } }
-
-      /* The link line under the title. */
-      .external-link { font-variation-settings: var(--link-axes); font-weight: var(--link-weight); margin-top: var(--title-gap); text-box: trim-both cap alphabetic; }
-
-      /* The post body. */
-      .articleBody { margin-top: var(--space-large); }
-      ul { margin: 0; padding-inline-start: 1.5em; }
-      li { margin-block: 0.4em; }
-      li:first-child { margin-top: 0; text-box: trim-start cap alphabetic; }
-      strong { font-weight: var(--weight-bold); }
-
-      /* The footer, like "View original": plain links that underline on hover. */
-      .view-post { margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
-      .view-post span { display: block; }
-      .view-post a { text-decoration: none; }
-      .view-post a:hover { text-decoration: underline; }
-    </style>
     <script>
-      // Daisy shows the serif look; Daisy Sans (and anything else) the sans look.
-      if (new URLSearchParams(location.search).get("theme") === "daisy") document.documentElement.classList.add("serif");
+      // The page is set in the theme's own stylesheet: Daisy's for ?theme=daisy, Daisy Sans' otherwise.
+      var daisy = new URLSearchParams(location.search).get("theme") === "daisy";
+      document.write('<link rel="stylesheet" href="' + (daisy ? "daisy.css" : "daisy-sans.css") + '">');
     </script>
+    <style>
+      /* Only what the page needs beyond the theme (the styles are copied from it by scripts/build-install-css.sh): it has no credit row above the title, and
+         it shows the footer that the theme shows only for untitled posts. */
+      [hidden] { display: none !important; }
+      .article-header h1 { margin-top: 0; }
+      /* The update link is underlined (the theme's link line is not) so it reads as the thing to tap. */
+      #add { text-decoration: underline; }
+      .view-post { display: block; }
+      .view-post span { display: block; }
+    </style>
   </head>
   <body>
     <main class="article">
-      <header>
+      <header class="article-header">
         <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
-        <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases">Update</a></div>
+        <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases"><span class="external-link-label">Update</span></a></div>
       </header>
       <div class="articleBody"><ul id="notes-list"></ul></div>
       <footer class="view-post">
@@ -115,7 +60,7 @@
         }
         document.getElementById("title").textContent = title;
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
-        document.getElementById("add").textContent = "Update to " + theme[0] + " " + version;
+        document.querySelector("#add .external-link-label").textContent = "Update to " + theme[0] + " " + version;
         document.getElementById("add").href = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
         // The release notes are optional: without an entry for this version the list stays empty.
         fetch("../release-notes.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (all) {

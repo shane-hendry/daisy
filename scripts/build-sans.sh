@@ -50,3 +50,5 @@ grep -q "$SANS" "$dest/stylesheet.css" || { echo "font substitution failed" >&2;
 if [ "${1:-}" = "--check" ]; then
   diff -r "$dest" "$OUT" >/dev/null || { echo "Daisy Sans is stale: run scripts/build-sans.sh" >&2; exit 1; }
 fi
+
+if [ "${1:-}" != "--check" ]; then scripts/build-install-css.sh; fi
