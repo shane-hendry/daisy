@@ -1492,6 +1492,8 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       // brush: x, sourceCode x, or a data-lang attribute, on the <pre>, its <code>, or the
       // wrapper around them. Returns "" if none, "plain" if it declared plain text.
       function declared(pre, code) {
+        // Splash is the highlighter Swift sites use, so its class names the language.
+        if (/(?:^|\s)splash(?:\s|$)/.test(pre.getAttribute("class") || "")) return "swift";
         var nodes = [code, pre, pre.parentElement, pre.parentElement && pre.parentElement.parentElement];
         for (var i = 0; i < nodes.length; i++) {
           var el = nodes[i];
