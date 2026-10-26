@@ -32,16 +32,16 @@
       /* The release notes toggle is plain: a label like the footnote labels, no bar and no chevron. */
       details { margin-block: 0; padding-inline-start: 0; }
       details::before, summary::after { display: none; }
-      /* The notes start on the line below their label, like a soft return. */
+      /* The notes start below their label with the gap between list items. */
       details[open] > summary { text-box-trim: none; }
       details > summary + * { margin-top: 0; text-box: normal; }
-      details li:first-child { margin-top: 0; text-box: normal; }
+      details li:first-child { margin-top: 0.4em; text-box: normal; }
       summary, summary:hover { color: var(--text); font-weight: var(--weight-medium); font-variation-settings: var(--label-axes); -webkit-tap-highlight-color: transparent; }
       /* A label above the steps: body size, set like the footnote labels (medium; wide in Sans). */
       .lead-in { font-weight: var(--weight-medium); font-variation-settings: var(--label-axes); margin-bottom: 0; text-box: trim-start cap alphabetic; }
-      /* Labels sit one line above what they label, like a soft return: no extra gap. */
+      /* Labels sit above their list with the same gap as between list items. */
       .lead-in + ol { margin-top: 0; }
-      .lead-in + ol > li:first-child { margin-top: 0; text-box: normal; }
+      .lead-in + ol > li:first-child { margin-top: 0.4em; text-box: normal; }
       .view-post { display: block; margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
       .view-post a { text-decoration: underline; }
       /* The end of the notes gives up its margin and half-leading, so the gap to the footer equals the gap under the title block. */
