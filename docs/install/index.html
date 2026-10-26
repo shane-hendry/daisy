@@ -17,72 +17,87 @@
     <meta name="color-scheme" content="light dark" />
     <title>Get the latest Daisy for NetNewsWire</title>
     <style>
-      /* Styled after Daisy Sans: black text on white, system sans with variable weight and
-         width, underlined black links, orange only on hover and focus. */
+      /* A replica of how the Daisy theme sets an article, so the page reads as part of the
+         theme: the title and the link line under it, the release notes as the post body and
+         a footer like "View original". Values are copied from the theme's stylesheet (Daisy
+         Sans by default, the serif Daisy with the .serif class). */
       :root {
-        --canvas: #fff; --text: #161616; --accent: #f05a00; --on-text: #fff;
-        --font: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
-        --scale: 1;
-        --title-weight: 800; --title-axes: "wght" 800, "wdth" 115; --title-stretch: 115%; --title-spacing: -0.02em;
-        --head-weight: 700; --head-axes: "wght" 700, "wdth" 115; --h3-weight: 650; --h3-axes: "wght" 650, "wdth" 115; --head-stretch: 115%;
-        --strong-weight: 700;
+        color-scheme: light dark;
+        --canvas: #fff; --text: #161616; --accent: #f05a00;
+        --serif: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+        --serif-scale: 1;
+        --title-weight: 800; --title-axes: "wght" 800, "wdth" 115;
+        --link-weight: 450; --link-axes: "wght" 450, "wdth" 75;
+        --weight-bold: 600;
+        --title-gap: 1.05rem;
+        --title-wide: clamp(2.15em, 1.37em + 2.2vw, 2.8em);
+        --title-phone: clamp(1.7em, 1.36em + 1.92vw, 2.05em);
+        --space-large: 3.84rem;
+        --measure: 66ch;
+        --gutter: clamp(23px, 5vw, 55px);
       }
-      /* From Daisy (not Daisy Sans): the serif look. */
       :root.serif {
-        --font: ui-serif, "New York", Georgia, serif;
-        --scale: 1.05;
-        --title-weight: 700; --title-axes: "opsz" 72; --title-stretch: 100%; --title-spacing: -0.02em;
-        --head-weight: 620; --head-axes: normal; --h3-weight: 580; --h3-axes: normal; --head-stretch: 100%;
-        --strong-weight: 600;
+        --serif: ui-serif, "New York", Georgia, serif;
+        --serif-scale: 1.05;
+        --title-weight: 700; --title-axes: "opsz" 72;
+        --link-weight: 500; --link-axes: normal;
+        --title-wide: clamp(2.4em, 1.55em + 2.48vw, 3.1em);
+        --title-phone: clamp(1.7em, 1.36em + 2.02vw, 2.05em);
       }
       @media (prefers-color-scheme: dark) {
-        :root { --canvas: #121212; --text: #ececec; --accent: #ff7a2e; --on-text: #121212; }
+        :root { --canvas: #121212; --text: #ececec; --accent: #ff7a2e; }
       }
-      body {
-        margin: 0; min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 0 clamp(23px, 5vw, 55px);
-        box-sizing: border-box; background: var(--canvas); color: var(--text);
-        font: calc(clamp(0.9375rem, 0.85rem + 0.3vw, 1.0625rem) * var(--scale))/1.55 var(--font); -webkit-text-size-adjust: 100%;
+      html {
+        -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none;
+        background: var(--canvas); color: var(--text); font-family: var(--serif);
+        font-size: calc(115% * var(--serif-scale)); font-weight: 400;
+        letter-spacing: -0.008em; line-height: 1.7; overflow-wrap: break-word;
       }
-      main { max-width: 30rem; padding: 2.5rem 0; }
-      h1 {
-        font-size: clamp(1.45em, 1.2em + 1.6vw, 1.9em); line-height: 1.15; margin: 0 0 1.75rem;
-        font-weight: var(--title-weight); font-stretch: var(--title-stretch);
-        font-variation-settings: var(--title-axes); letter-spacing: var(--title-spacing); text-wrap: balance;
-      }
-      h2 {
-        font-size: 0.95em; margin: 0 0 0.6rem; text-align: center; line-height: 1.3;
-        font-weight: var(--h3-weight); font-stretch: var(--head-stretch); font-variation-settings: var(--h3-axes);
-      }
-      p { margin: 0 0 1.5rem; }
-      ul { margin: 0 0 2.25rem; padding-left: 1.25rem; font-size: 0.9em; }
-      li { margin: 0 0 0.6rem; }
-      li strong { font-weight: var(--strong-weight); }
-      a { color: var(--text); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+      body { margin: 0; padding: clamp(28px, 6vw, 92px) var(--gutter); padding-bottom: max(clamp(28px, 6vw, 92px), var(--space-large)); }
+      .article { margin: 0 auto; max-width: var(--measure); }
+      [hidden] { display: none !important; }
+      a { color: var(--text); text-decoration-thickness: max(1px, 0.055em); text-underline-offset: 0.2em; }
       @media (hover: hover) { a:hover { color: var(--accent); } }
       a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-      [hidden] { display: none !important; }
-      .update { font-size: 1.05em; margin: 0 0 1.75rem; }
-      .credit { margin: 0; }
-      .credit span { display: block; }
-      #notes { text-align: left; }
+
+      h1 {
+        font-size: var(--title-wide); font-variation-settings: var(--title-axes); font-weight: var(--title-weight);
+        letter-spacing: -0.02em; line-height: 1.1; margin: 0; text-box: trim-both cap alphabetic; text-wrap: balance;
+      }
+      @media (max-width: 600px) { h1 { font-size: var(--title-phone); } }
+
+      /* The link line under the title. */
+      .external-link { font-variation-settings: var(--link-axes); font-weight: var(--link-weight); margin-top: var(--title-gap); text-box: trim-both cap alphabetic; }
+
+      /* The post body. */
+      .articleBody { margin-top: var(--space-large); }
+      ul { margin: 0; padding-inline-start: 1.5em; }
+      li { margin-block: 0.4em; }
+      li:first-child { margin-top: 0; text-box: trim-start cap alphabetic; }
+      strong { font-weight: var(--weight-bold); }
+
+      /* The footer, like "View original": plain links that underline on hover. */
+      .view-post { margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
+      .view-post span { display: block; }
+      .view-post a { text-decoration: none; }
+      .view-post a:hover { text-decoration: underline; }
     </style>
-      <script>
+    <script>
       // Daisy shows the serif look; Daisy Sans (and anything else) the sans look.
       if (new URLSearchParams(location.search).get("theme") === "daisy") document.documentElement.classList.add("serif");
     </script>
   </head>
   <body>
-    <main>
-      <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
-      <p class="update"><a id="add" href="https://github.com/shane-hendry/daisy/releases">Update</a></p>
-      <section id="notes" hidden>
-        <h2 id="notes-title"></h2>
-        <ul id="notes-list"></ul>
-      </section>
-      <p class="credit">
+    <main class="article">
+      <header>
+        <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
+        <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases">Update</a></div>
+      </header>
+      <div class="articleBody"><ul id="notes-list"></ul></div>
+      <footer class="view-post">
         <span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com">Shane Hendry</a>.</span>
         <span><a href="https://shanehendry.com/daisy">Learn more about the themes.</a></span>
-      </p>
+      </footer>
     </main>
     <script>
       var params = new URLSearchParams(location.search);
@@ -102,11 +117,10 @@
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
         document.getElementById("add").textContent = "Update to " + theme[0] + " " + version;
         document.getElementById("add").href = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
-        // The release notes are optional: without an entry for this version the list stays hidden.
+        // The release notes are optional: without an entry for this version the list stays empty.
         fetch("../release-notes.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (all) {
           var items = all && all[version];
           if (!items || !items.length) return;
-          document.getElementById("notes-title").textContent = "Version " + version + " includes";
           var list = document.getElementById("notes-list");
           items.forEach(function (item) {
             var li = document.createElement("li");
@@ -116,7 +130,6 @@
             li.appendChild(document.createTextNode(" " + item.text));
             list.appendChild(li);
           });
-          document.getElementById("notes").hidden = false;
         }).catch(function () {});
       }
     </script>
