@@ -1617,5 +1617,40 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         p.classList.add("no-italic");
       }
     });
+    // Media never runs taller than the window: tell the stylesheet each image, video and
+    // embed's proportions (--ar) so it can shrink the width, centred, to fit the height.
+    (function () {
+      function mark(el, w, h) {
+        if (w > 0 && h > 0) {
+          el.style.setProperty("--ar", w / h);
+          el.setAttribute("data-ar", "");
+        }
+      }
+      function attr(el, name) {
+        var v = el.getAttribute(name);
+        return /^\d+(\.\d+)?$/.test(v || "") ? parseFloat(v) : 0;
+      }
+      document.querySelectorAll(".articleBody img, .articleBody video, .articleBody iframe").forEach(function (el) {
+        if (el.matches(".emoji, .wp-smiley, .side-thumb, .unfloat, .unfloat *")) return;
+        var tag = el.tagName;
+        if (tag === "IMG") {
+          var size = function () { mark(el, el.naturalWidth, el.naturalHeight); };
+          if (el.complete && el.naturalWidth) size();
+          else el.addEventListener("load", size);
+          mark(el, attr(el, "width"), attr(el, "height"));
+        } else if (tag === "VIDEO") {
+          var vsize = function () { mark(el, el.videoWidth, el.videoHeight); };
+          if (el.videoWidth) vsize();
+          else el.addEventListener("loadedmetadata", vsize);
+          mark(el, attr(el, "width"), attr(el, "height"));
+        } else {
+          var src = el.getAttribute("src") || "";
+          var w = attr(el, "width"), h = attr(el, "height");
+          if (/youtube\.com\/(embed\/[^?]*\?.*\bshorts\b|shorts\/)/i.test(src)) mark(el, 9, 16);
+          else if (w && h) mark(el, w, h);
+          else if (/youtube|youtu\.be|vimeo|video/i.test(src)) mark(el, 16, 9);
+        }
+      });
+    })();
   </script>
 </main>
