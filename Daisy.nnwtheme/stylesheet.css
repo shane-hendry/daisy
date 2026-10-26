@@ -1073,6 +1073,11 @@ h1 a {
    letters, or its first image, then sit exactly --space-large below the title. */
 .articleBody > :is(:first-child, .lead) {
   margin-top: 0;
+}
+
+.articleBody > :is(:first-child, .lead):not(:is(ul, ol)),
+.articleBody > :is(ul, ol):is(:first-child, .lead) > li:first-child,
+.articleBody > :is(ul, ol):is(:first-child, .lead) > li:first-child > p:first-child {
   text-box: trim-start cap alphabetic;
 }
 
