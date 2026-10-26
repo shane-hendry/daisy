@@ -29,7 +29,7 @@
       /* Wrap without leaving a word or a version number alone on a line. */
       li, .view-post span { text-wrap: pretty; }
       /* The release notes toggle is plain: bold text, no bar and no chevron. */
-      details { margin-block: var(--space-medium); padding-inline-start: 0; }
+      details { margin-block: 0; padding-inline-start: 0; }
       details::before, summary::after { display: none; }
       summary, summary:hover { color: var(--text); font-weight: var(--weight-bold); -webkit-tap-highlight-color: transparent; }
       .view-post { display: block; margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
@@ -51,18 +51,19 @@
         <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases"><span class="external-link-label">Update</span></a></div>
       </header>
       <div class="articleBody" id="body-web"><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
-      <!-- iPhone and iPad: steps for getting out of NetNewsWire's in-app browser, then the notes, collapsed. -->
+      <!-- iPhone and iPad: steps for getting out of NetNewsWire's in-app browser. -->
       <div class="articleBody" id="body-ios" hidden>
         <ol>
           <li>Open this page in your browser</li>
           <li>Close the in-app browser in NetNewsWire</li>
           <li>In your browser, <a id="add-ios" href="https://github.com/shane-hendry/daisy/releases">update to Daisy</a></li>
         </ol>
-        <details id="notes-toggle"><summary>View release notes</summary><ul id="notes-list-ios"></ul></details>
       </div>
       <footer class="view-post">
         <span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com" target="_blank" rel="noopener">Shane&nbsp;Hendry</a>.</span>
         <span><a href="https://shanehendry.com/daisy" target="_blank" rel="noopener">Learn more about the themes.</a></span>
+        <!-- iPhone and iPad: the release notes close the footer, collapsed. -->
+        <details id="notes-toggle" hidden><summary>View release notes</summary><ul id="notes-list-ios"></ul></details>
       </footer>
     </main>
     <script>
@@ -80,6 +81,7 @@
           title = "Open in your browser to update " + theme[0];
           document.getElementById("body-web").hidden = true;
           document.getElementById("body-ios").hidden = false;
+          document.getElementById("notes-toggle").hidden = false;
           document.querySelector(".external-link").hidden = true;
         }
         document.getElementById("title").textContent = title;
