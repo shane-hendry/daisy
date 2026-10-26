@@ -55,19 +55,18 @@
   --accent: #f05a00;         /* orange: link hover and focus only */
   --rule: #161616;           /* divider lines and borders */
   --code-surface: #f4f4f4;   /* background behind code */
-  --code-rule: rgb(22 22 22 / 0.14);   /* the line under a code block's header */
   --mark: #f05a00;           /* highlighter background */
 
   /* Syntax colors for code blocks. Muted on purpose: enough hue to tell keywords,
      strings and comments apart, never louder than the prose. Each is at least 4.5:1
      against --code-surface. Orange stays reserved for links and focus. */
-  --syn-keyword: #7a3b9e;
-  --syn-string: #2b6a3d;
-  --syn-number: #8f5300;
-  --syn-title: #1d5da8;
-  --syn-type: #0b6868;
-  --syn-meta: #8a3a4a;
-  --syn-comment: #686868;
+  --syn-keyword: #8029b8;
+  --syn-string: #1f7a33;
+  --syn-number: #a85a00;
+  --syn-title: #1456b8;
+  --syn-type: #007a7a;
+  --syn-meta: #b02a45;
+  --syn-comment: #6a6a6a;
 
   /* Fonts. Daisy Sans is generated from this file with only --serif replaced. */
   --serif: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
@@ -198,15 +197,14 @@
     --accent: #ff7a2e;
     --rule: #ececec;
     --code-surface: #1c1c1c;
-    --code-rule: rgb(236 236 236 / 0.16);
-    --mark: #ff7a2e;
-    --syn-keyword: #c8a2ea;
-    --syn-string: #94cf9f;
-    --syn-number: #e2a85c;
-    --syn-title: #8cb9f2;
-    --syn-type: #72cfc7;
-    --syn-meta: #e59aa8;
-    --syn-comment: #939393;
+      --mark: #ff7a2e;
+    --syn-keyword: #d29cff;
+    --syn-string: #7fe08f;
+    --syn-number: #ffb04a;
+    --syn-title: #7db4ff;
+    --syn-type: #4fe0d4;
+    --syn-meta: #ff8aa0;
+    --syn-comment: #959595;
   }
 }
 
@@ -627,7 +625,7 @@ pre code {
 
 /* A code block with a header (added by template.html): the block carries the surface
    and the corners, and the <pre> inside is bare. The header is a footnote panel's
-   header in miniature: the label in the same medium weight, and a text button with
+   header in miniature: the label and button in the same size and medium weight, with
    the same hover and focus, its tap area 44px tall but its padding pulled back so
    the word lines up with the code's edge. */
 .code-block {
@@ -645,9 +643,7 @@ pre code {
 
 .code-header {
   align-items: center;
-  border-bottom: 1px solid var(--code-rule);
   display: flex;
-  font-size: var(--text-small);
   justify-content: space-between;
   padding: 0.35rem 1rem;
 }
@@ -665,6 +661,7 @@ pre code {
   color: inherit;
   cursor: pointer;
   font: inherit;
+  font-weight: var(--weight-medium);
   margin: -0.4rem -12px;
   min-height: 44px;
   padding: 0 12px;

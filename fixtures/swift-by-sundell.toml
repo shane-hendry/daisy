@@ -1,0 +1,12 @@
+title = "Pre-colored Splash code (Swift by Sundell style)"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/splash"
+byline = "Pat Writer"
+date_medium = "Oct 26, 2026"
+body = '''<p>Let’s say that we’ve declared a <code>User</code> struct within a project, which currently only contains constant <code>let</code> properties:</p><pre class="splash"><code><span class="s-keyword">struct</span> User: <span class="s-type">Identifiable</span>, <span class="s-type">Codable</span> {
+    <span class="s-keyword">let</span> id: <span class="s-type">UUID</span>
+    <span class="s-keyword">let</span> name: <span class="s-type">String</span>
+    <span class="s-keyword">let</span> bio: <span class="s-type">String</span>
+    <span class="s-keyword">let</span> imageURL: <span class="s-type">URL</span>?
+}</code></pre><p>Besides the fact that neither of those properties can be directly modified.</p>'''
