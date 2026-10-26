@@ -44,7 +44,7 @@
         <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
         <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases"><span class="external-link-label">Update</span></a></div>
       </header>
-      <div class="articleBody"><ul id="notes-list"></ul></div>
+      <div class="articleBody"><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
       <footer class="view-post">
         <span>Daisy and Daisy Sans are made by <a href="https://shanehendry.com">Shane Hendry</a>.</span>
         <span><a href="https://shanehendry.com/daisy">Learn more about the themes.</a></span>
@@ -63,6 +63,7 @@
         var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
         if (ios) {
           title = "Open this page in your browser to update " + theme[0];
+          document.getElementById("intro").textContent = "Updating can\u2019t be done from NetNewsWire\u2019s in-app browser. This update includes:";
         }
         document.getElementById("title").textContent = title;
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
