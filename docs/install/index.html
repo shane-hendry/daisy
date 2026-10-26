@@ -29,12 +29,12 @@
       /* Wrap without leaving a word or a version number alone on a line. */
       li, p, .view-post span { text-wrap: pretty; }
       .articleBody > p:last-child { margin-bottom: 0; text-box: trim-end cap alphabetic; }
-      /* The release notes toggle is plain: bold text, no bar and no chevron. */
+      /* The release notes toggle is plain: a label like the footnote labels, no bar and no chevron. */
       details { margin-block: 0; padding-inline-start: 0; }
       details::before, summary::after { display: none; }
-      summary, summary:hover { color: var(--text); font-weight: var(--weight-bold); font-variation-settings: var(--h3-axes); -webkit-tap-highlight-color: transparent; }
-      /* A label above the steps: body size, set like an h3 (bold; wide in Sans). */
-      .lead-in { font-weight: var(--weight-bold); font-variation-settings: var(--h3-axes); margin-bottom: 0; text-box: trim-both cap alphabetic; }
+      summary, summary:hover { color: var(--text); font-weight: var(--weight-medium); font-variation-settings: var(--label-axes); -webkit-tap-highlight-color: transparent; }
+      /* A label above the steps: body size, set like the footnote labels (medium; wide in Sans). */
+      .lead-in { font-weight: var(--weight-medium); font-variation-settings: var(--label-axes); margin-bottom: 0; text-box: trim-both cap alphabetic; }
       .lead-in + ol { margin-top: var(--space-small); }
       .view-post { display: block; margin-top: var(--space-large); text-box: trim-start cap alphabetic; }
       .view-post a { text-decoration: underline; }
