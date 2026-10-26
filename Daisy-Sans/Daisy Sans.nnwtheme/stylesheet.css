@@ -73,8 +73,27 @@
   --eyebrow-axes: "wght" 800, "wdth" 115;
   --link-weight: 450;
   --link-axes: "wght" 450, "wdth" 75;
-  --title-wide: clamp(2em, 1.28em + 2.02vw, 2.6em);
-  --title-phone: clamp(1.6em, 1.31em + 1.67vw, 1.9em);
+  --meta-axes: "wght" 400, "wdth" 75;
+  --title-gap: 1.05rem;             /* eyebrow to title, and title to link line */
+  --title-wide: clamp(2.15em, 1.37em + 2.2vw, 2.8em);
+  --title-phone: clamp(1.7em, 1.36em + 1.92vw, 2.05em);
+
+  /* Headings inside an article: a weight and variable-font settings for each level,
+     plus the size of an h1 there (--text-h1 is the article title only). Serif leaves
+     them all at medium; Sans steps weight and width down together from the title. */
+  --text-h1-body: 1.7em;
+  --h1-weight: 750;
+  --h1-axes: "wght" 750, "wdth" 114;
+  --h2-weight: 700;
+  --h2-axes: "wght" 700, "wdth" 112;
+  --h3-weight: 650;
+  --h3-axes: "wght" 650, "wdth" 108;
+  --h4-weight: 600;
+  --h4-axes: "wght" 600, "wdth" 104;
+  --h5-weight: 600;
+  --h5-axes: "wght" 600, "wdth" 100;
+  --h6-weight: 500;
+  --h6-axes: "wght" 500, "wdth" 100;
 
   /* Page layout. */
   --measure: 66ch;                         /* widest the text column gets */
@@ -93,6 +112,10 @@
                        the block above to the top of the heading's capital
                        letters, so it looks the same under a paragraph, a list or
                        a quote. About 1.4 times the visible gap between paragraphs.
+       --space-heading-after
+                       The gap below every heading inside an article, measured
+                       from the heading's baseline to the capital letters of the
+                       paragraph, list or quote after it.
        --space-large   The "title gap": below the title block (the sponsor label,
                        title and link line) and below the credit row of an
                        untitled post, and above "View original". Above the title
@@ -106,8 +129,9 @@
      --space-large, --indent and --leading-body shrink (see part 4). */
   --space-small: 1.3rem;
   --space-medium: 1.5em;
-  --space-heading: 3.4em;
-  --space-large: 4.04rem;
+  --space-heading: 3.2rem;
+  --space-large: 3.84rem;
+  --space-heading-after: 1.5rem;
   --indent: 1.25rem;
 
   /* The type styles the whole design is built from. Most text (the credit row, the
@@ -118,7 +142,8 @@
                 --text-medium  Body text, and everything that has no reason to differ.
        Titles   --text-h1      The article title.
                 --text-h2      Section headings inside an article.
-                --text-h3      Sub-headings. h1, h2 and h3 each keep their own size.
+                --text-h3      Sub-headings. --text-h4 and --text-h5 (h5 and h6) follow it;
+                               every heading level keeps its own size.
        Weight   --weight-regular  Body text.
                 --weight-medium   Headings, labels and buttons.
                 --weight-bold     Bold text, table headers, definition terms.
@@ -133,8 +158,10 @@
   --text-small: 0.85em;
   --text-medium: 1em;
   --text-h1: var(--title-wide);
-  --text-h2: 1.4em;
-  --text-h3: 1.12em;
+  --text-h2: 1.5em;
+  --text-h3: 1.2em;
+  --text-h4: 1.06em;
+  --text-h5: 0.9em;
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-bold: 600;
@@ -166,10 +193,12 @@
    as literal text, so the declaration is invalid there and ignored. No device
    check is needed, and none would work: desktop WebKit lacks
    -webkit-touch-callout, so such a check would give the wrong answer in previews.
+   The scale is written as a plain number (Sans sets 1) because a rule with var() in it is
+   never dropped on macOS: it is accepted, then fails, and leaves the page at 16px.
    See `npx nnw-theme@2 guide theme-format`. */
 
 :root {
-  font-size: calc([[font-size]]px * var(--serif-scale));
+  font-size: calc([[font-size]]px * 1);  /* a number, not var(): see above */
   -webkit-text-size-adjust: none;
 }
 
@@ -258,8 +287,8 @@ body > .systemMessage {
 
 
 /* --- 1.4 Headings -----------------------------------------------------
-   h1 is the article title and is styled in part 2. These are the headings a
-   publisher puts inside the article. */
+   The article title is styled in part 2. These are the headings a publisher puts
+   inside the article, h1 included. */
 
 h1,
 h2,
@@ -274,6 +303,10 @@ h6 {
   text-wrap: balance;
 }
 
+.articleBody h1 {
+  font-size: var(--text-h1-body);
+}
+
 h2 {
   font-size: var(--text-h2);
 }
@@ -283,13 +316,20 @@ h3 {
 }
 
 h4 {
-  font-size: var(--text-medium);
+  font-size: var(--text-h4);
 }
 
 h5,
 h6 {
-  font-size: var(--text-small);
+  font-size: var(--text-h5);
 }
+
+.articleBody h1 { font-variation-settings: var(--h1-axes); font-weight: var(--h1-weight); }
+h2 { font-variation-settings: var(--h2-axes); font-weight: var(--h2-weight); }
+h3 { font-variation-settings: var(--h3-axes); font-weight: var(--h3-weight); }
+h4 { font-variation-settings: var(--h4-axes); font-weight: var(--h4-weight); }
+h5 { font-variation-settings: var(--h5-axes); font-weight: var(--h5-weight); }
+h6 { font-variation-settings: var(--h6-axes); font-weight: var(--h6-weight); }
 
 /* The gap above a heading is --space-heading for every level, measured from the
    heading's capital letters (text-box trims the half-leading above them, see 2.1) to
@@ -297,26 +337,54 @@ h6 {
    the baseline too, so a paragraph, list or quote above all leave the same visible gap.
    An image or other media has no half-leading and needs no trimming. Two headings in a
    row sit close, at --space-small. */
+.articleBody h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  margin-bottom: 0.6em;
+  margin-bottom: var(--space-heading-after);
   margin-top: var(--space-heading);
+  text-box: trim-both cap alphabetic;
+}
+
+/* The gap below a heading is --space-heading-after, measured from the heading's
+   baseline to the capital letters of what follows, so it is the same for every
+   heading level and every kind of block. A paragraph, list or quote after a heading
+   gives up its half-leading above the first line (the mirror of the trim-end rules
+   below). */
+:is(h1, h2, h3, h4, h5, h6) + p,
+:is(h1, h2, h3, h4, h5, h6) + :is(ul, ol) > li:first-child,
+:is(h1, h2, h3, h4, h5, h6) + blockquote > p:first-child,
+:is(h1, h2, h3, h4, h5, h6) + :is(ul, ol) > li:first-child > p:first-child {
   text-box: trim-start cap alphabetic;
 }
 
-:is(h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) {
+/* The heading's gap replaces the block's own margin above it, or the larger of the two
+   would win. */
+:is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol, blockquote) {
+  margin-top: 0;
+}
+
+:is(h1, h2, h3, h4, h5, h6):has(+ :is(h1, h2, h3, h4, h5, h6)) {
+  margin-bottom: 0;
+}
+
+:is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) {
   margin-top: var(--space-small);
 }
 
-:is(p, blockquote):has(+ :is(h2, h3, h4, h5, h6)),
-:is(ul, ol):has(+ :is(h2, h3, h4, h5, h6)) > li:last-child,
-:is(li, blockquote):has(+ :is(h2, h3, h4, h5, h6)) > p:last-child,
-blockquote:has(+ :is(h2, h3, h4, h5, h6)) > p:last-child,
-:is(ul, ol):has(+ :is(h2, h3, h4, h5, h6)) > li:last-child > p:last-child {
+:is(p, blockquote):has(+ :is(h1, h2, h3, h4, h5, h6)),
+:is(ul, ol):has(+ :is(h1, h2, h3, h4, h5, h6)) > li:last-child,
+:is(li, blockquote):has(+ :is(h1, h2, h3, h4, h5, h6)) > p:last-child,
+blockquote:has(+ :is(h1, h2, h3, h4, h5, h6)) > p:last-child,
+:is(ul, ol):has(+ :is(h1, h2, h3, h4, h5, h6)) > li:last-child > p:last-child {
   text-box: trim-end cap alphabetic;
+}
+
+/* A paragraph between two headings gives up both. */
+:is(h1, h2, h3, h4, h5, h6) + p:has(+ :is(h1, h2, h3, h4, h5, h6)) {
+  text-box: trim-both cap alphabetic;
 }
 
 
@@ -708,6 +776,7 @@ caption {
 /* The credit sits at the start of the top row and the date at the end. In the
    largest accessibility text sizes the date drops below the credit (see part 4). */
 .meta {
+  font-variation-settings: var(--meta-axes);
   align-items: baseline;
   display: flex;
   gap: 0 1rem;
@@ -794,9 +863,9 @@ caption {
 
 /* --- 2.2 The title ----------------------------------------------------
    The big heading. It has 94% of --space-large above it; the link line below it has
-   the same gap (--space-small) as the sponsor label above it. */
+   the same gap (--title-gap) as the sponsor label above it. */
 
-h1 {
+.article-header h1 {
   font-size: var(--text-h1);
   font-variation-settings: var(--title-axes);
   font-weight: var(--title-weight);
@@ -840,7 +909,7 @@ h1 a {
 .external-link {
   font-variation-settings: var(--link-axes);
   font-weight: var(--link-weight);
-  margin-top: var(--space-small);
+  margin-top: var(--title-gap);
 }
 
 /* The link line never wraps: a label, then the address cut with an ellipsis after 32
@@ -895,6 +964,7 @@ h1 a {
 .eyebrow {
   font-variation-settings: var(--eyebrow-axes);
   font-weight: var(--eyebrow-weight);
+  line-height: 1.25;                 /* a wrapped eyebrow sets as tight as a headline */
 }
 
 .eyebrow-label {
@@ -905,7 +975,7 @@ h1 a {
 /* Set so the visible gap from the eyebrow to the title equals the gap from the title
    to the link line below it, both measured from the letters. */
 .eyebrow + h1 {
-  margin-top: var(--space-small);
+  margin-top: var(--title-gap);
 }
 
 /* The eyebrow takes over the title's link line, so the original is hidden. */
@@ -1543,17 +1613,20 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
 
 /* Phones: a standalone image, video or embed runs edge to edge, past the page margins.
    Captions and all other text keep the margins, and larger windows keep the column.
-   In px, not rem, so a large text size never makes an iPad count as a phone. */
+   In px, not rem, so a large text size never makes an iPad count as a phone. The 12px
+   of extra width on the right is clipped by the page; it hides any sliver of white. */
 @media (max-width: 600px) {
   .articleBody > :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
   .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),
   .articleBody > :is(figure, div.image-text, p.image-text):not(.unfloat) > a > img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > p:has(> img:only-child) > img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > p:has(> a:only-child > img:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
+  .articleBody > p:has(> a:only-child > picture:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
+  .articleBody > p:has(> picture:only-child) img:not(.emoji):not(.wp-smiley):not(.side-thumb),
   .articleBody > div:has(img, video, iframe):not(:has(p)):not(.unfloat) :is(img, video, iframe):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat) {
     margin-inline: calc(-1 * var(--gutter)) !important;
     max-width: none !important;
-    width: calc(100% + 2 * var(--gutter)) !important;
+    width: calc(100% + 2 * var(--gutter) + 12px) !important;
   }
 }
 
@@ -1617,7 +1690,8 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   /* The three shared gaps shrink. Every rule that uses them follows automatically. */
   .article > * {
     --space-medium: 1em;
-    --space-heading: 2.2em;
+    --space-heading: 2.2rem;
+    --space-heading-after: 1.1em;
     --space-large: 1.75em;
     --indent: 0.75em;
     --leading-body: 1.25;
