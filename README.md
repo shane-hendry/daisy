@@ -67,3 +67,7 @@ Daisy and Daisy Sans were built with [Dave Marquard's](https://github.com/dave-a
 Daisy and Daisy Sans aren't affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for.
 The theme format is documented in NetNewsWire's
 [themes technote](https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md).
+
+## License
+
+Daisy and Daisy Sans are open source under [Apache 2.0](LICENSE). Use 'em, tweak 'em, make 'em your own.
