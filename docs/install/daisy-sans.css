@@ -540,9 +540,11 @@ mark {
 }
 
 /* Text the reader selects with the mouse or finger gets the same highlight. */
+/* Selection keeps the bright accent: the system recolours it, and the darker --mark came
+   out muddy. It is temporary, so white on the accent is accepted below 4.5:1. */
 ::selection {
-  background: var(--mark);
-  color: var(--on-mark);
+  background: var(--accent);
+  color: #fff;
 }
 
 
