@@ -88,12 +88,12 @@
   --label-axes: normal;          /* footnote labels ("Footnote 1"); Close and Go to footnotes stay regular */
   --meta-axes: normal;           /* the credit row: byline, feed name and date */
   --title-gap: 1.05rem;             /* eyebrow to title, and title to link line */
-  --title-wide: clamp(2.4em, 1.55em + 2.48vw, 3.1em);
-  --title-short-axes: var(--title-axes);   /* short titles (up to 24 characters): Sans goes narrow */
-  --title-short-scale: 1;
+  --title-wide: clamp(2.4em, 0.48em + 5.7vw, 3.1em);
+  --title-short-axes: var(--title-axes);   /* short titles (up to 24 characters): Sans goes narrow and 1.7x, Serif only grows */
+  --title-short-scale: 1.25;
   --title-long-axes: var(--title-axes);    /* long titles (70 or more): Sans goes narrow */
-  --title-long-scale: 1;
-  --title-brief-scale: 1;                  /* brief titles (25 to 36 characters) grow in wide windows; Sans sets 1.2 */
+  --title-long-scale: 0.9;
+  --title-brief-scale: 1.12;               /* brief titles (25 to 36 characters) grow in wide windows; Sans sets 1.2 */
   --title-phone: clamp(1.7em, 1.36em + 2.02vw, 2.05em);
 
   /* Headings inside an article: a weight and variable-font settings for each level,
