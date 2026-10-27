@@ -67,10 +67,10 @@ a:hover { color: var(--accent); }
 .line1 .sans { font-size: 0.9254em; font-variation-settings: "wdth" 116; font-weight: 800; }
 .line1 .amp { font-size: 0.7301em; font-weight: 800; letter-spacing: -0.03em; }
 .line1 .gap { font-weight: 510; letter-spacing: -0.02em; }
-.line2 .lead { font-variation-settings: "wdth" 100; font-weight: 540; letter-spacing: -0.02em; }
+.line2 .lead { font-variation-settings: "wdth" 125; font-weight: 540; letter-spacing: -0.02em; }
 .line2 .gap { font-variation-settings: "wdth" 129; font-weight: 567; letter-spacing: -0.03em; }
 .line2 .ny { font-size: 1.0623em; font-weight: 600; }
-.byline { color: var(--quiet); font-size: 1.0625rem; margin: 1.25rem 0 0; }
+.byline { color: var(--ink); font-size: 1.0625rem; margin: 1.25rem 0 0; }
 .sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
 .buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; }
 .button {
@@ -82,7 +82,8 @@ a:hover { color: var(--accent); }
   text-decoration: none;
 }
 .button:hover { background: var(--accent); color: #fff; }
-.button--serif { font-family: var(--serif); font-weight: 700; }
+.button--serif { font-family: var(--serif); font-weight: 500; }
+.button--sans { font-variation-settings: "wght" 800, "wdth" 116; font-weight: 800; }
 
 /* Hero: the block is pasted in as it is. */
 .hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
@@ -105,8 +106,17 @@ a:hover { color: var(--accent); }
 .release time { color: var(--quiet); display: block; font-size: 0.9375rem; margin-top: 0.15rem; }
 .release ul { margin: 0.9rem 0 0; padding-inline-start: 1.25rem; }
 .release li { margin-block: 0.5em; text-wrap: pretty; }
+.howto { margin-top: 0.9rem; }
+.howto .buttons { justify-content: flex-start; margin: 0; }
+.howto ol { margin: 0.5rem 0 0; padding-inline-start: 1.5rem; }
+.howto li { margin-block: 0.5em; text-wrap: pretty; }
+.howto a:not(.button) { text-decoration: underline; }
 .history { font-weight: 600; }
-.footer { color: var(--quiet); font-size: 0.9375rem; margin-top: 3rem; }
+.credits { color: var(--quiet); font-size: 0.9375rem; margin-top: 3rem; }
+.credits h3 { color: var(--ink); font-size: 1.0625rem; margin: 0 0 0.5rem; }
+.credits p { margin: 0.75rem 0; text-wrap: pretty; }
+.credits ul { margin: 0.75rem 0; padding-inline-start: 1.25rem; }
+.credits li { margin-block: 0.2em; }
 </style>
 <style>
 /* The hero's styles, from build/wordpress/daisy-examples.css; the hero block's own overrides come after them. */
@@ -118,10 +128,10 @@ a:hover { color: var(--accent); }
   <h1 class="title"><span class="sr">Daisy &amp; Daisy Sans. Clean up your feed</span>
     <span class="line1" aria-hidden="true"><span class="ny ny700" style="letter-spacing:-0.03em">D</span><span class="ny ny700">a</span><span class="ny ny700" style="letter-spacing:-0.01em">is</span><span class="ny ny700" style="letter-spacing:-0.05em">y</span><span class="ny ny700" style="letter-spacing:-0.06em"> </span><span class="ny amp">&amp;</span><span class="gap sf"> </span><span class="sans"><span class="sf" style="letter-spacing:-0.02em">D</span><span class="sf" style="letter-spacing:-0.01em">ai</span><span class="sf" style="letter-spacing:-0.02em">s</span><span class="sf">y </span><span class="sf" style="letter-spacing:-0.03em">S</span><span class="sf" style="letter-spacing:-0.02em">an</span><span class="sf">s</span></span></span>
     <span class="line2" aria-hidden="true"><span class="lead sf">Clean up</span><span class="gap sf"> </span><span class="ny" style="letter-spacing:-0.03em">y</span><span class="ny" style="letter-spacing:-0.04em">o</span><span class="ny" style="letter-spacing:-0.01em">u</span><span class="ny" style="letter-spacing:-0.03em">r</span><span class="ny" style="letter-spacing:-0.02em"> </span><span class="ny" style="letter-spacing:-0.03em">fee</span><span class="ny" style="letter-spacing:-0.02em">d</span></span></h1>
-  <p class="byline">NetNewsWire themes by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a></p>
+  <p class="byline"><a href="https://netnewswire.com/">NetNewsWire</a> themes by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a></p>
   <p class="buttons">
-    <a class="button button--serif" href="install/?theme=daisy&amp;v={{LATEST}}">Install Daisy</a>
-    <a class="button" href="install/?theme=daisy-sans&amp;v={{LATEST}}">Install Daisy Sans</a>
+    <a class="button button--serif" href="install/?theme=daisy&amp;v={{LATEST}}">Get Daisy</a>
+    <a class="button button--sans" href="install/?theme=daisy-sans&amp;v={{LATEST}}">Get Daisy Sans</a>
   </p>
 </header>
 
@@ -135,9 +145,41 @@ a:hover { color: var(--accent); }
     <h2>Updates</h2>
 {{RELEASES}}
     <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">Release history</a></p>
-    <p class="footer">Daisy and Daisy Sans are made by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a>.</p>
+    <section class="credits">
+      <h3>Credits</h3>
+      <p>Daisy and Daisy Sans were built with <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>. It was a collaborative effort by the whole team here at SH Enterprises Worldwide.</p>
+      <ul>
+        <li><strong>CEO</strong> Me</li>
+        <li><strong>Product</strong> Yours truly</li>
+        <li><strong>Design and content</strong> Moi</li>
+        <li><strong>Marketing</strong> Ya boi</li>
+        <li><strong>Engineering</strong> Claude &#129302;</li>
+      </ul>
+      <p>Daisy and Daisy Sans aren&#8217;t affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for. The theme format is documented in NetNewsWire&#8217;s <a href="https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md">themes technote</a>.</p>
+    </section>
   </div>
 </section>
 </main>
+<script>
+// The update steps: a Mac opens the update link directly. On an iPhone or iPad, NetNewsWire's in-app browser
+// closes without installing and a page cannot tell it from Safari, so the steps lead with the way out of it.
+// ?theme=daisy or ?theme=daisy-sans (from the theme's update notice) keeps only that theme's link.
+(function () {
+  var howto = document.getElementById("howto");
+  if (!howto) return;
+  var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (ios) {
+    document.getElementById("howto-mac").hidden = true;
+    document.getElementById("howto-ios").hidden = false;
+  }
+  var theme = new URLSearchParams(location.search).get("theme");
+  if (theme === "daisy" || theme === "daisy-sans") {
+    howto.querySelectorAll("a[data-theme]").forEach(function (a) {
+      if (a.getAttribute("data-theme") !== theme) a.hidden = true;
+    });
+    howto.querySelectorAll(".or").forEach(function (el) { el.hidden = true; });
+  }
+})();
+</script>
 </body>
 </html>

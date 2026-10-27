@@ -1778,7 +1778,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       if (!article || !note || !title) return;
       var key = article.getAttribute("data-update-key");
       var mine = article.getAttribute("data-version");
-      var SITE = "https://shane-hendry.github.io/daisy/";
+      var SITE = "https://daisyrss.com/";
       var DAY = 24 * 60 * 60 * 1000;
       // The title and link text, by the reader's language. Languages not listed use English.
       var WORDS = {
@@ -1821,7 +1821,8 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         text = typeof text === "string" ? text.trim() : "";
         if (!text || text.length > 300) return;
         var link = document.createElement("a");
-        link.href = SITE + "install/?theme=" + encodeURIComponent(key) + "&v=" + encodeURIComponent(entry.version);
+        // The link opens the release in the Updates section of the site, which has the update steps for Mac and for iPhone and iPad.
+        link.href = SITE + "?theme=" + encodeURIComponent(key) + "#v" + String(entry.version).replace(/\./g, "-");
         link.textContent = words[1];
         title.textContent = words[0];
         note.textContent = text + " ";

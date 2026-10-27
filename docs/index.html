@@ -105,6 +105,11 @@ a:hover { color: var(--accent); }
 .release time { color: var(--quiet); display: block; font-size: 0.9375rem; margin-top: 0.15rem; }
 .release ul { margin: 0.9rem 0 0; padding-inline-start: 1.25rem; }
 .release li { margin-block: 0.5em; text-wrap: pretty; }
+.howto { margin-top: 0.9rem; }
+.howto .buttons { justify-content: flex-start; margin: 0; }
+.howto ol { margin: 0.5rem 0 0; padding-inline-start: 1.5rem; }
+.howto li { margin-block: 0.5em; text-wrap: pretty; }
+.howto a:not(.button) { text-decoration: underline; }
 .history { font-weight: 600; }
 .footer { color: var(--quiet); font-size: 0.9375rem; margin-top: 3rem; }
 </style>
@@ -679,6 +684,22 @@ a:hover { color: var(--accent); }
     <article class="release" id="v0-5-0">
       <h3><a href="#v0-5-0">Version 0.5.0</a></h3>
       <time datetime="2026-10-26T19:44:46Z">Oct 26, 2026</time>
+      <div class="howto" id="howto">
+        <div id="howto-mac">
+          <p class="buttons">
+            <a class="button button--serif" data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.nnwtheme.zip">Update to Daisy 0.5.0</a>
+            <a class="button" data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.Sans.nnwtheme.zip">Update to Daisy Sans 0.5.0</a>
+          </p>
+        </div>
+        <div id="howto-ios" hidden>
+          <p class="lead-in">NetNewsWire&#x27;s in-app browser can&#x27;t install themes. To update:</p>
+          <ol>
+            <li>Open this page in your browser (tap the compass icon)</li>
+            <li>Close the in-app browser in NetNewsWire (tap Done)</li>
+            <li>In your browser, tap <a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.nnwtheme.zip">update to Daisy&nbsp;0.5.0</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.Sans.nnwtheme.zip">update to Daisy&nbsp;Sans&nbsp;0.5.0</a></li>
+          </ol>
+        </div>
+      </div>
       <ul>
         <li><strong>Code blocks.</strong> Code now has syntax highlighting, shows the language, and has a Copy button.</li>
         <li><strong>Tall media.</strong> Images, videos and embeds stay centered and stay fully in-view.</li>
@@ -691,5 +712,26 @@ a:hover { color: var(--accent); }
   </div>
 </section>
 </main>
+<script>
+// The update steps: a Mac opens the update link directly. On an iPhone or iPad, NetNewsWire's in-app browser
+// closes without installing and a page cannot tell it from Safari, so the steps lead with the way out of it.
+// ?theme=daisy or ?theme=daisy-sans (from the theme's update notice) keeps only that theme's link.
+(function () {
+  var howto = document.getElementById("howto");
+  if (!howto) return;
+  var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (ios) {
+    document.getElementById("howto-mac").hidden = true;
+    document.getElementById("howto-ios").hidden = false;
+  }
+  var theme = new URLSearchParams(location.search).get("theme");
+  if (theme === "daisy" || theme === "daisy-sans") {
+    howto.querySelectorAll("a[data-theme]").forEach(function (a) {
+      if (a.getAttribute("data-theme") !== theme) a.hidden = true;
+    });
+    howto.querySelectorAll(".or").forEach(function (el) { el.hidden = true; });
+  }
+})();
+</script>
 </body>
 </html>
