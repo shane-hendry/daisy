@@ -1324,6 +1324,46 @@ details.daisy-card__date {
 .dc .hljs-selector-class { color: var(--dc-title); }
 .dc .hljs-attribute { color: var(--dc-type); }
 
+/* The code card is a slice of an article: the code block sits in the vertical middle, with body text above and below
+   it running off the card. The card is static. The text blurs and fades out at the top and bottom edges, the way the
+   phone's status bar does. */
+.dc--code .dc__in {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: center;
+}
+
+.dc--code .dc__in > * {
+  flex: none;
+}
+
+.dc--code::before,
+.dc--code::after {
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  content: "";
+  height: 30%;
+  inset-inline: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.dc--code::before {
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--dc-canvas) 78%, transparent) 0%, color-mix(in srgb, var(--dc-canvas) 52%, transparent) 30%, color-mix(in srgb, var(--dc-canvas) 24%, transparent) 62%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 25%, rgba(0, 0, 0, 0.48) 55%, rgba(0, 0, 0, 0.16) 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 25%, rgba(0, 0, 0, 0.48) 55%, rgba(0, 0, 0, 0.16) 80%, transparent 100%);
+  top: 0;
+}
+
+.dc--code::after {
+  background: linear-gradient(to top, color-mix(in srgb, var(--dc-canvas) 78%, transparent) 0%, color-mix(in srgb, var(--dc-canvas) 52%, transparent) 30%, color-mix(in srgb, var(--dc-canvas) 24%, transparent) 62%, transparent 100%);
+  bottom: 0;
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 25%, rgba(0, 0, 0, 0.48) 55%, rgba(0, 0, 0, 0.16) 80%, transparent 100%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 25%, rgba(0, 0, 0, 0.48) 55%, rgba(0, 0, 0, 0.16) 80%, transparent 100%);
+}
+
 /* The part that is open (the author list, the date's time) turns orange, as a tappable control does. */
 .dc__on {
   color: var(--dc-accent);
@@ -1547,8 +1587,8 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 </script>
 
   <p class="buttons">
-    <a class="button button--serif" href="install/?theme=daisy&amp;v=0.5.0">Get Daisy</a>
-    <a class="button button--sans" href="install/?theme=daisy-sans&amp;v=0.5.0">Get Daisy Sans</a>
+    <a class="button button--serif" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.nnwtheme.zip">Get Daisy</a>
+    <a class="button button--sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.Sans.nnwtheme.zip">Get Daisy Sans</a>
   </p>
 </div>
 
@@ -12547,14 +12587,14 @@ window.addEventListener(&quot;message&quot;,function(e){
   </ul>
 <div class="daisy-cards__row">
 <div class="daisy-cards__cell"><h4 class="wp-block-heading daisy-cards__label">Code blocks</h4>
-<div class="dc dc--dark dc--sans"><div class="dc__in">
-<div class="dc__meta"><div class="dc__byline"><span class="dc__author">Dagny Voss</span> for <span class="dc__pub">Daisy</span></div><time class="dc__date">3 days ago</time></div>
-<div class="dc__title" role="heading" aria-level="2">Orphans are a choice</div>
+<div class="dc dc--dark dc--sans dc--code"><div class="dc__in">
+<p class="dc__text">Most style guides agree that a heading should never end on a single stranded word. It looks careless, and it makes a long title harder to scan. The fix is one line of CSS that you can add to any heading, byline or caption, and the browser handles the rest.</p>
 <div class="dc__code"><div class="dc__code-head"><span>CSS</span><button class="dc__copy" type="button">Copy</button></div>
 <pre><code><span class="hljs-comment">/* no lone words */</span>
 <span class="hljs-selector-tag">h1</span>, <span class="hljs-selector-class">.byline</span> {
   <span class="hljs-attribute">text-wrap</span>: pretty;
 }</code></pre></div>
+<p class="dc__text">Nothing else about the page changes. Short titles stay short and long ones settle into even lines, each with a few words at the end instead of just one. Pair it with a sensible measure and your headings will look edited even when nobody edited them.</p>
 </div></div></div>
 
 <div class="daisy-cards__cell"><h4 class="wp-block-heading daisy-cards__label">Social media</h4>
