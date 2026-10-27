@@ -36,9 +36,9 @@ def release(v, latest=False):
         f'    <article class="release" id="{anchor}">\n'
         f'      <h3><a href="#{anchor}">Version {v}</a></h3>\n'
         f'      <time datetime="{entry["published"]}">{pretty}</time>\n'
-        + (HOWTO.replace("{{VERSION}}", v) if latest else "")
+        + (HOWTO.replace("{{VERSION}}", v).replace("{{SHORT}}", re.sub(r"\.0$", "", v)) if latest else "")
         +
-        f"      <ul>\n{items}\n      </ul>\n"
+        f"      <details><summary>View release notes</summary>\n      <ul>\n{items}\n      </ul>\n      </details>\n"
         f"    </article>"
     )
 

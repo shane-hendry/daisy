@@ -75,7 +75,7 @@ a:hover { color: var(--accent); }
 .buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; }
 .button {
   background: var(--button);
-  border-radius: 999px;
+  border-radius: 0.6rem;
   color: var(--button-ink);
   font-weight: 600;
   padding: 0.7em 1.5em;
@@ -107,10 +107,25 @@ a:hover { color: var(--accent); }
 .release ul { margin: 0.9rem 0 0; padding-inline-start: 1.25rem; }
 .release li { margin-block: 0.5em; text-wrap: pretty; }
 .howto { margin-top: 0.9rem; }
-.howto .buttons { justify-content: flex-start; margin: 0; }
-.howto ol { margin: 0.5rem 0 0; padding-inline-start: 1.5rem; }
+.howto .buttons { gap: 0.5rem; justify-content: flex-start; margin: 0; }
+.howto .button { font-size: 0.9375rem; padding: 0.5em 1em; }
+.howto .lead-in { margin: 0; }
+.howto ol { margin: 0; padding-inline-start: 1.5rem; }
 .howto li { margin-block: 0.5em; text-wrap: pretty; }
 .howto a:not(.button) { text-decoration: underline; }
+.release details { margin-top: 0.9rem; }
+.release summary { cursor: pointer; font-weight: 600; list-style: none; -webkit-tap-highlight-color: transparent; }
+.release summary::-webkit-details-marker { display: none; }
+.release summary::marker { content: ""; }
+.release details ul { margin-top: 0.25rem; }
+/* Arriving from a theme's update notice (?theme=daisy or ?theme=daisy-sans), the Updates section is set in that theme's type. */
+.updates[data-theme="daisy"], .updates[data-theme="daisy"] :is(h2, h3, .button, summary) { font-family: var(--serif); }
+.updates[data-theme="daisy"] :is(h2, h3, .button) { font-variation-settings: normal; font-weight: 700; }
+.updates[data-theme="daisy"] h2 { letter-spacing: -0.01em; }
+.updates[data-theme="daisy"] summary { font-weight: 600; }
+.updates[data-theme="daisy-sans"] :is(h3, .button, summary) { font-variation-settings: "wdth" 115; }
+.updates[data-theme="daisy-sans"] :is(h3, .button) { font-weight: 700; }
+.updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
 .credits { color: var(--quiet); font-size: 0.9375rem; margin-top: 3rem; }
 .credits h3 { color: var(--ink); font-size: 1.0625rem; margin: 0 0 0.5rem; }
@@ -174,12 +189,19 @@ a:hover { color: var(--accent); }
   }
   var theme = new URLSearchParams(location.search).get("theme");
   if (theme === "daisy" || theme === "daisy-sans") {
+    document.getElementById("updates").setAttribute("data-theme", theme);
     howto.querySelectorAll("a[data-theme]").forEach(function (a) {
       if (a.getAttribute("data-theme") !== theme) a.hidden = true;
     });
     howto.querySelectorAll(".or").forEach(function (el) { el.hidden = true; });
   }
 })();
+</script>
+<script>
+// The release notes are collapsed under a plain label that reads "Hide release notes" while they are open.
+document.querySelectorAll(".release details").forEach(function (d) {
+  d.addEventListener("toggle", function () { d.firstElementChild.textContent = d.open ? "Hide release notes" : "View release notes"; });
+});
 </script>
 </body>
 </html>
