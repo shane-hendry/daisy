@@ -1721,7 +1721,12 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         if (el.matches(".emoji, .wp-smiley, .side-thumb, .unfloat, .unfloat *")) return;
         var tag = el.tagName;
         if (tag === "IMG") {
-          var size = function () { mark(el, el.naturalWidth, el.naturalHeight); };
+          var size = function () {
+            mark(el, el.naturalWidth, el.naturalHeight);
+            // The file's own width caps how far the stylesheet stretches it (--media-cap).
+            // A vector image has no fixed size and can grow freely.
+            if (el.naturalWidth > 0 && !/\.svg(\?|#|$)/i.test(el.currentSrc || el.src)) el.style.setProperty("--nw", el.naturalWidth);
+          };
           if (el.complete && el.naturalWidth) size();
           else el.addEventListener("load", size);
           mark(el, attr(el, "width"), attr(el, "height"));
