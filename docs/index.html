@@ -1521,7 +1521,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 <style>
 /* Daisy v12 type for the hero: bold title, heavy eyebrow, tighter header gaps, 1.05 serif scale, full-width phone photo. */
 .daisy-hero__article--mac { font-size: 16.8em; padding-top: calc(6.2em / 1.05); }
-.daisy-hero__article--phone { padding-top: 5.88em; }
+.daisy-hero__article--phone { padding-top: 5em; }
 .daisy-hero__article .daisy-hero__title {
   font-size: 3.25em;
   font-variation-settings: "opsz" 72;
@@ -1535,13 +1535,16 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   font-weight: 900;
   margin-top: calc(3.84em * 0.94 / 1.8);
 }
-.daisy-hero__article--phone .daisy-hero__meta { font-variation-settings: "wght" 400, "wdth" 75; }
+.daisy-hero__article--phone .daisy-hero__meta { font-size: 1.08em; font-variation-settings: "wght" 400, "wdth" 75; }
+/* As on every other phone, "for Blog" moves down as one piece. */
+.daisy-hero__article--phone .daisy-hero__byline .dh-pub { display: block; }
+.daisy-hero__article--phone .daisy-hero__byline .dh-pub a { display: inline; }
 .daisy-hero__article--phone .daisy-hero__eyebrow {
   color: var(--dh-accent);
   font-variation-settings: "wght" 800, "wdth" 115;
   font-weight: 800;
   line-height: 1.25;
-  margin-top: calc(3.84em * 0.94);
+  margin-top: calc(3.84em * 0.94 - 0.88em);
 }
 .daisy-hero__article--phone .daisy-hero__eyebrow + .daisy-hero__title { margin-top: calc(1.05em / 1.8); }
 .daisy-hero__article--phone .daisy-hero__photo {
@@ -1588,7 +1591,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 <div class="daisy-hero__body">
 <span class="daisy-hero__time">9:41</span><svg class="dh-battery" width="28" height="14" viewBox="0 0 28 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M26.4555 4.39525V8.47436C26.8626 8.36219 27.8093 7.45459 27.8093 6.43481C27.8093 5.41503 26.8626 4.50742 26.4555 4.39525ZM25.4376 7.62795C25.4376 7.8421 25.4376 8.05625 25.4376 8.27041C25.4376 8.45397 25.4376 8.62733 25.4376 8.81089C25.4274 9.2086 25.407 9.59612 25.3358 9.99383C25.2645 10.3915 25.1526 10.7587 24.9693 11.1156C24.7861 11.4725 24.552 11.7886 24.2771 12.064C24.0023 12.3393 23.6766 12.5739 23.3305 12.7574C22.9742 12.941 22.6078 13.0532 22.2108 13.1246C21.824 13.1959 21.427 13.2163 21.03 13.2265C20.8468 13.2265 20.6737 13.2265 20.4905 13.2265C20.2768 13.2265 20.063 13.2265 19.8492 13.2265H5.58832C5.37456 13.2265 5.1608 13.2265 4.94704 13.2265C4.76382 13.2265 4.59077 13.2265 4.40755 13.2265C4.01056 13.2163 3.62376 13.1959 3.22677 13.1246C2.82979 13.0532 2.46334 12.941 2.10707 12.7574C1.76098 12.5739 1.43525 12.3393 1.16042 12.064C0.885581 11.7886 0.651462 11.4623 0.468239 11.1156C0.285015 10.7587 0.173045 10.3915 0.101791 9.99383C0.0305373 9.60632 0.0101791 9.2086 0 8.81089C0 8.62733 0 8.45397 0 8.27041C0 8.05625 0 7.8421 0 7.62795V5.58839C0 5.37424 0 5.16008 0 4.94593C0 4.76237 0 4.58901 0 4.40545C0.0101791 4.00773 0.0305373 3.62022 0.101791 3.2327C0.173045 2.83499 0.285015 2.46787 0.468239 2.11094C0.651462 1.75402 0.885581 1.43789 1.16042 1.16255C1.43525 0.887208 1.76098 0.652659 2.10707 0.469098C2.46334 0.285538 2.82979 0.173362 3.22677 0.101978C3.61358 0.0305934 4.01056 0.0101978 4.40755 0C4.59077 0 4.76382 0 4.94704 0C5.1608 0 5.37456 0 5.58832 0H19.8391C20.0528 0 20.2666 0 20.4803 0C20.6636 0 20.8366 0 21.0198 0C21.4168 0.0101978 21.8036 0.0305934 22.2006 0.101978C22.5976 0.173362 22.964 0.285538 23.3203 0.469098C23.6766 0.652659 23.9921 0.887208 24.267 1.16255C24.5418 1.43789 24.7759 1.76422 24.9591 2.11094C25.1424 2.46787 25.2543 2.83499 25.3256 3.2327C25.3968 3.62022 25.4172 4.01793 25.4274 4.40545C25.4274 4.58901 25.4274 4.76237 25.4274 4.94593C25.4274 5.16008 25.4274 5.37424 25.4274 5.58839V7.62795H25.4376Z" fill-rule="evenodd" clip-rule="evenodd" fill="currentColor"/></svg>
 <div class="daisy-hero__article daisy-hero__article--phone">
-<div class="daisy-hero__meta"><div class="daisy-hero__byline"><span>Jonah Reyes</span> for <a class="dh-quiet" href="#">Gravel Brain</a></div><time class="daisy-hero__date" role="button" tabindex="0" aria-expanded="false">2 hours ago<span class="daisy-hero__date-full" data-hours="2" hidden>at 2:10 PM</span></time></div>
+<div class="daisy-hero__meta"><div class="daisy-hero__byline"><span>Jonah Reyes</span> <span class="dh-pub">for <a class="dh-quiet" href="#">Gravel Brain</a></span></div><time class="daisy-hero__date" role="button" tabindex="0" aria-expanded="false">2 hours ago<span class="daisy-hero__date-full" data-hours="2" hidden>at 2:10 PM</span></time></div>
 <div class="daisy-hero__eyebrow">reyes recap</div>
 <div class="daisy-hero__title" role="heading" aria-level="2">how bikepacking ruined my relationship</div>
 <img class="daisy-hero__photo" src="https://i0.wp.com/shanehendry.com/wp-content/uploads/2026/09/Bikepacking-11.jpeg?w=800" srcset="https://i0.wp.com/shanehendry.com/wp-content/uploads/2026/09/Bikepacking-11.jpeg?w=400 400w, https://i0.wp.com/shanehendry.com/wp-content/uploads/2026/09/Bikepacking-11.jpeg?w=600 600w, https://i0.wp.com/shanehendry.com/wp-content/uploads/2026/09/Bikepacking-11.jpeg?w=800 800w" sizes="260px" width="7728" height="5152" alt="Two small tents and two loaded bikes at a wooded campsite" loading="eager" decoding="async">
