@@ -1351,9 +1351,28 @@ h1 a {
   margin: 0;
 }
 
+.theme-update-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+  margin-bottom: 0.5em;
+}
+
 .theme-update-title {
   font-weight: 700;
-  margin-bottom: 0.5em !important;
+}
+
+/* "Not now" is plain text in the title's row, with nothing to mark it as a button. */
+.theme-update-dismiss {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
 }
 
 .theme-update-note a {

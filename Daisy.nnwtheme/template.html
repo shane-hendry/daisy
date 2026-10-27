@@ -47,7 +47,7 @@ Presentation:
     [[body]]
   </div>
   <footer class="view-post [[text_size_class]]"><a href="[[preferred_link]]">View original</a></footer>
-  <aside class="theme-update" hidden><p class="theme-update-title">Update</p><p class="theme-update-note"></p></aside>
+  <aside class="theme-update" hidden><div class="theme-update-head"><p class="theme-update-title">Update</p><button class="theme-update-dismiss" type="button">Not now</button></div><p class="theme-update-note"></p></aside>
 <!-- highlight.js:begin -->
 <script>
 /*! highlight.js 11.12.0 (https://highlightjs.org), BSD 3-Clause License. Copyright (c) 2006, Ivan Sagalaev. See Daisy.nnwtheme/LICENSE. */
@@ -1775,30 +1775,31 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var block = document.querySelector(".theme-update");
       var note = block && block.querySelector(".theme-update-note");
       var title = block && block.querySelector(".theme-update-title");
-      if (!article || !note || !title) return;
+      var dismiss = block && block.querySelector(".theme-update-dismiss");
+      if (!article || !note || !title || !dismiss) return;
       var key = article.getAttribute("data-update-key");
       var mine = article.getAttribute("data-version");
       var SITE = "https://daisyrss.com/";
       var DAY = 24 * 60 * 60 * 1000;
-      // The title and link text, by the reader's language. Languages not listed use English.
+      // The title, link text and dismiss label, by the reader's language. Languages not listed use English.
       var WORDS = {
-        en: ["Update", "Get the update."], es: ["Actualización", "Obtener la actualización."],
-        fr: ["Mise à jour", "Obtenir la mise à jour."], de: ["Update", "Update holen."],
-        it: ["Aggiornamento", "Scarica l’aggiornamento."], pt: ["Atualização", "Obter a atualização."],
-        nl: ["Update", "Download de update."], sv: ["Uppdatering", "Hämta uppdateringen."],
-        da: ["Opdatering", "Hent opdateringen."], nb: ["Oppdatering", "Hent oppdateringen."],
-        no: ["Oppdatering", "Hent oppdateringen."], nn: ["Oppdatering", "Hent oppdateringa."],
-        fi: ["Päivitys", "Hae päivitys."], pl: ["Aktualizacja", "Pobierz aktualizację."],
-        cs: ["Aktualizace", "Získat aktualizaci."], sk: ["Aktualizácia", "Získať aktualizáciu."],
-        hu: ["Frissítés", "Frissítés letöltése."], ro: ["Actualizare", "Obține actualizarea."],
-        ru: ["Обновление", "Получить обновление."], uk: ["Оновлення", "Отримати оновлення."],
-        tr: ["Güncelleme", "Güncellemeyi al."], el: ["Ενημέρωση", "Λήψη της ενημέρωσης."],
-        he: ["עדכון", "קבלת העדכון."], ar: ["تحديث", "احصل على التحديث."],
-        fa: ["به‌روزرسانی", "دریافت به‌روزرسانی."], hi: ["अपडेट", "अपडेट प्राप्त करें।"],
-        th: ["อัปเดต", "รับอัปเดต"], vi: ["Cập nhật", "Nhận bản cập nhật."],
-        id: ["Pembaruan", "Dapatkan pembaruan."], ms: ["Kemas kini", "Dapatkan kemas kini."],
-        ja: ["アップデート", "アップデートを入手"], ko: ["업데이트", "업데이트 받기"],
-        "zh-Hans": ["更新", "获取更新。"], "zh-Hant": ["更新", "取得更新。"]
+        en: ["Update", "Get the update.", "Not now"], es: ["Actualización", "Obtener la actualización.", "Ahora no"],
+        fr: ["Mise à jour", "Obtenir la mise à jour.", "Plus tard"], de: ["Update", "Update holen.", "Nicht jetzt"],
+        it: ["Aggiornamento", "Scarica l’aggiornamento.", "Non ora"], pt: ["Atualização", "Obter a atualização.", "Agora não"],
+        nl: ["Update", "Download de update.", "Niet nu"], sv: ["Uppdatering", "Hämta uppdateringen.", "Inte nu"],
+        da: ["Opdatering", "Hent opdateringen.", "Ikke nu"], nb: ["Oppdatering", "Hent oppdateringen.", "Ikke nå"],
+        no: ["Oppdatering", "Hent oppdateringen.", "Ikke nå"], nn: ["Oppdatering", "Hent oppdateringa.", "Ikkje no"],
+        fi: ["Päivitys", "Hae päivitys.", "Ei nyt"], pl: ["Aktualizacja", "Pobierz aktualizację.", "Nie teraz"],
+        cs: ["Aktualizace", "Získat aktualizaci.", "Teď ne"], sk: ["Aktualizácia", "Získať aktualizáciu.", "Teraz nie"],
+        hu: ["Frissítés", "Frissítés letöltése.", "Most nem"], ro: ["Actualizare", "Obține actualizarea.", "Nu acum"],
+        ru: ["Обновление", "Получить обновление.", "Не сейчас"], uk: ["Оновлення", "Отримати оновлення.", "Не зараз"],
+        tr: ["Güncelleme", "Güncellemeyi al.", "Şimdi değil"], el: ["Ενημέρωση", "Λήψη της ενημέρωσης.", "Όχι τώρα"],
+        he: ["עדכון", "קבלת העדכון.", "לא עכשיו"], ar: ["تحديث", "احصل على التحديث.", "ليس الآن"],
+        fa: ["به‌روزرسانی", "دریافت به‌روزرسانی.", "حالا نه"], hi: ["अपडेट", "अपडेट प्राप्त करें।", "अभी नहीं"],
+        th: ["อัปเดต", "รับอัปเดต", "ไม่ใช่ตอนนี้"], vi: ["Cập nhật", "Nhận bản cập nhật.", "Để sau"],
+        id: ["Pembaruan", "Dapatkan pembaruan.", "Nanti saja"], ms: ["Kemas kini", "Dapatkan kemas kini.", "Bukan sekarang"],
+        ja: ["アップデート", "アップデートを入手", "今はしない"], ko: ["업데이트", "업데이트 받기", "나중에"],
+        "zh-Hans": ["更新", "获取更新。", "以后再说"], "zh-Hant": ["更新", "取得更新。", "以後再說"]
       };
       var lang = String(daisy.lang || "en").replace("_", "-");
       var base = lang.toLowerCase().split("-")[0];
@@ -1814,6 +1815,10 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         var have = parts(mine);
         var latest = entry && parts(entry.version);
         if (!have || !latest || !newer(latest, have)) return;
+        // "Not now" hides the notice until a newer release than this one is published.
+        var skipped = null;
+        try { skipped = localStorage.getItem("daisy-update-skipped-" + key); } catch (error) {}
+        if (skipped === entry.version) return;
         // The note is one sentence per language ({"en": "...", "de": "..."}); a plain string
         // is English. A language without its own sentence gets the English one.
         var notes = entry.note;
@@ -1825,6 +1830,11 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         link.href = SITE + "?theme=" + encodeURIComponent(key) + "#updates";
         link.textContent = words[1];
         title.textContent = words[0];
+        dismiss.textContent = words[2];
+        dismiss.onclick = function () {
+          block.hidden = true;
+          try { localStorage.setItem("daisy-update-skipped-" + key, entry.version); } catch (error) {}
+        };
         note.textContent = text + " ";
         note.appendChild(link);
         block.hidden = false;

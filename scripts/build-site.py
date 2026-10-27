@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build docs/index.html, the front page, from scripts/site/index.template.html.
 
-The hero is build/wordpress/new/hero.html as it is, with the hero section of
-build/wordpress/daisy-examples.css, so there is one hero to keep up to date. The three
+The hero and the feature blocks (feed, rules, footnotes, niceties) are build/wordpress/new/*.html as they are,
+with all of build/wordpress/daisy-examples.css, so there is one copy of each to keep up to date. The three
 newest releases come from docs/release-notes.json (anchors like #v0-5-0); the newest also carries the update steps in scripts/site/howto.html.
 Usage: python3 scripts/build-site.py
 """
@@ -14,6 +14,13 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
 wp = root / "build/wordpress"
+
+def short(v):
+    """A version as shown to readers: a trailing .0 is dropped (0.5.0 is 0.5, 1.2.0 is 1.2, 1.0.0 is 1.0)."""
+    parts = v.split(".")
+    while len(parts) > 2 and parts[-1] == "0":
+        parts.pop()
+    return ".".join(parts)
 
 def version_key(v):
     return tuple(int(n) for n in v.split("."))
@@ -34,16 +41,16 @@ def release(v, latest=False):
     anchor = "v" + v.replace(".", "-")
     return (
         f'    <article class="release" id="{anchor}">\n'
-        f'      <h3><a href="#{anchor}">Version {v}</a></h3>\n'
+        f'      <h3><a href="#{anchor}">Version {short(v)}</a></h3>\n'
         f'      <time datetime="{entry["published"]}">{pretty}</time>\n'
-        + (HOWTO.replace("{{VERSION}}", v).replace("{{SHORT}}", re.sub(r"\.0$", "", v)) if latest else "")
+        + (HOWTO.replace("{{VERSION}}", v).replace("{{SHORT}}", short(v)) if latest else "")
         +
         f"      <details><summary>View release notes</summary>\n      <ul>\n{items}\n      </ul>\n      </details>\n"
         f"    </article>"
     )
 
 css = (wp / "daisy-examples.css").read_text()
-hero_css = css[css.index("/* Hero: a Mac window"):]
+hero_css = css  # all of it, as pasted into WordPress, so every block below looks as it does there
 hero = (wp / "new/hero.html").read_text()
 
 page = (root / "scripts/site/index.template.html").read_text()
@@ -51,5 +58,7 @@ page = page.replace("{{LATEST}}", versions[0])
 page = page.replace("{{RELEASES}}", "\n".join(release(v, i == 0) for i, v in enumerate(versions[:3])))
 page = page.replace("{{HERO_CSS}}", hero_css)
 page = page.replace("{{HERO}}", hero)
+for name in ("FEED", "RULES", "FOOTNOTES", "NICETIES"):
+    page = page.replace("{{" + name + "}}", (wp / "new" / (name.lower() + ".html")).read_text())
 (root / "docs/index.html").write_text(page)
 print(f"docs/index.html: {len(page) // 1024} KB, releases {', '.join(versions[:3])}")

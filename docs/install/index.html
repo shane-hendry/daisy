@@ -84,6 +84,8 @@
       var themes = { daisy: ["Daisy", "Daisy.nnwtheme.zip"], "daisy-sans": ["Daisy Sans", "Daisy.Sans.nnwtheme.zip"] };
       var theme = themes[params.get("theme")];
       var version = params.get("v");
+      // Shown without a trailing .0 (0.5.0 reads 0.5); the address keeps the full version.
+      var shown = function (v) { var p = v.split("."); while (p.length > 2 && p[p.length - 1] === "0") p.pop(); return p.join("."); };
       if (theme && /^\d+(\.\d+){0,2}$/.test(version || "")) {
         var zip = "https://github.com/shane-hendry/daisy/releases/download/v" + version + "/" + theme[1];
         var title = "Get the latest version of " + theme[0] + " for NetNewsWire";
@@ -100,12 +102,12 @@
         }
         document.getElementById("title").textContent = title;
         document.title = "Get the latest " + theme[0] + " for NetNewsWire";
-        document.querySelector("#add .external-link-label").textContent = "Update to " + theme[0] + " " + version;
+        document.querySelector("#add .external-link-label").textContent = "Update to " + theme[0] + " " + shown(version);
         document.getElementById("add").href = "netnewswire://theme/add?url=" + encodeURIComponent(zip);
         var toggle = document.getElementById("notes-toggle");
         toggle.addEventListener("toggle", function () { toggle.firstChild.textContent = toggle.open ? "Hide release notes" : "View release notes"; });
         var addIos = document.getElementById("add-ios");
-        addIos.textContent = "update to " + (theme[0] + " " + version.replace(/\.0$/, "")).replace(/ /g, "\u00a0");
+        addIos.textContent = "update to " + (theme[0] + " " + shown(version)).replace(/ /g, "\u00a0");
         addIos.href = document.getElementById("add").href;
         document.getElementById("byline").textContent = theme[0];
         // The release notes and publish date are optional: without an entry for this version the list stays empty.

@@ -88,6 +88,19 @@ a:hover { color: var(--accent); }
 /* Hero: the block is pasted in as it is. */
 .hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
 
+/* Feature sections: prose set like the page, with the WordPress blocks between. */
+.feature { margin-top: clamp(4rem, 12vw, 8rem); }
+.feature > :not(.daisy-ba, .daisy-cards, .daisy-hero, .dsf) { max-width: 46rem; }
+.feature > h2 { font-family: var(--sans); font-size: clamp(1.75rem, 4vw, 2.4rem); font-weight: 400; letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 1.25rem; }
+.feature > h3.sub { font-size: clamp(1.4rem, 3vw, 1.75rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.2; margin: 2.5rem 0 1rem; }
+.feature > p { margin: 0 0 1rem; text-wrap: pretty; }
+.feature > ul { margin: 0 0 1.25rem; padding-inline-start: 1.5rem; }
+.feature > ul > li { margin-block: 0.3em; text-wrap: pretty; }
+:not(pre) > code:not(.daisy-ba *, .daisy-card *, .daisy-hero *, .dc *) { -webkit-box-decoration-break: clone; background: color-mix(in srgb, var(--ink) 9%, transparent); border-radius: 0.2rem; box-decoration-break: clone; font-size: 0.9em; padding: 0.1em 0.2em; }
+.focus .feature { display: none; }
+/* On a phone the update page ends at the screen's bottom edge: Credits waits below the fold. */
+@media (max-width: 40rem) { .focus .credits { margin-top: 60svh; } }
+
 /* Updates */
 .updates { border-top: 2px solid var(--ink); margin-top: clamp(2rem, 6vw, 4rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
 .updates > .wrap { max-width: 42rem; }
@@ -156,6 +169,55 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 <main>
 <div class="wrap hero">
 {{HERO}}
+</div>
+
+<div class="wrap feature" id="house-style">
+  <h2>Daisy&#8217;s house style</h2>
+  <p>What sets Daisy apart is its house style for article headers. Every post opens the same way, so a mixed feed is easy to scan and predictable to swipe through.</p>
+  <p>It&#8217;s all done with built-in <a href="https://github.com/shane-hendry/daisy/blob/main/Daisy.nnwtheme/template.html">JavaScript rules</a>. <em>No AI is involved.</em> RSS posts are all structured the same way, with fields like <code>&lt;author&gt;</code>, <code>&lt;title&gt;</code>, and <code>&lt;pubDate&gt;</code>. The rules mostly look at these header fields to clean up sloppy and redundant content.</p>
+{{FEED}}
+  <h3 class="sub">A few example rules</h3>
+  <ul>
+    <li>If <code>[author name]</code> and <code>[publication name]</code> are an exact match, hide the author</li>
+    <li>If a title begins with <code>[Sponsor]</code>, <code>(Podcast)</code>, or <code>[Deals]</code>, move that to the eyebrow</li>
+    <li>If a title ends with <code>| [author name]</code>, and an exact match is already in the byline, hide it</li>
+  </ul>
+  <p>The rules are just broad enough to catch common cases, yet careful enough to leave everything else alone. Daisy also recognizes over 100 popular podcasts, newsletters, and recurring columns by name, so it can confidently distinguish labels from headlines. <a href="https://github.com/shane-hendry/daisy/blob/main/docs/content-rules.md">See all the rules.</a></p>
+{{RULES}}
+  <p>I know this is controversial. Stepping between an author and a reader is in some ways counter to what I love about RSS.</p>
+  <p>My goal is to polish the overall RSS experience and present authors&#8217; content as faithfully as I can. I stress-tested and refined the rules to avoid mangling headlines, and they focus only on redundant content and tacked-on labels. Is it bulletproof? No way. But my feed is <em>a lot nicer</em> in Daisy&#8217;s house style.</p>
+</div>
+
+<div class="wrap feature" id="footnotes">
+  <h2>Footnotes for everyone</h2>
+  <p>Authors and book lovers nerd out on footnotes but many readers rarely engage with them or don&#8217;t understand how they work, so I designed footnotes that are easy for everyone. Try them below.</p>
+  <ul>
+    <li><strong>Footnotes open in place</strong> under the paragraph, and stay open until you close them.</li>
+    <li><strong>Go to footnotes</strong> at the end of the article from any inline footnote.</li>
+    <li><strong>Jumping back to the footnote</strong> highlights its place so you can easily find it</li>
+    <li><strong>Every footnote section is the same,</strong> Daisy overrides platform-unique footnote styles</li>
+  </ul>
+{{FOOTNOTES}}
+</div>
+
+<div class="wrap feature" id="niceties">
+  <h2>Other content and design niceties</h2>
+  <ul>
+    <li><strong>Multi-author bylines</strong> follow one predictable format.</li>
+    <li><strong>Smart datelines</strong> are relative for the first week, and reveal the exact time with a click.</li>
+    <li><strong>Pretty bylines, titles, and headers</strong> never leave a word orphaned.</li>
+    <li><strong>Secondary links</strong> move below the article&#8217;s title, a better place to set context.</li>
+    <li><strong>Social media platforms</strong> have unique rules so posts read more naturally and predictably.</li>
+    <li><strong>Code blocks</strong> with syntax highlighting, language labels, and copy-to-clipboard</li>
+  </ul>
+  <h3 class="sub">For readers everywhere</h3>
+  <p>Daisy and Daisy Sans support 30+ languages. They rewrite whole phrases so they read naturally, instead of replacing individual words.</p>
+  <ul>
+    <li><strong>Bylines:</strong> &#8220;Author for Publication&#8221; becomes &#8220;Autor para Publicaci&#243;n&#8221; in Spanish and &#8220;Autor f&#252;r Publikation&#8221; in German.</li>
+    <li><strong>Times:</strong> &#8220;3 days ago&#8221; becomes &#8220;Hace 3 d&#237;as&#8221; and &#8220;Vor 3 Tagen&#8221;.</li>
+    <li><strong>Text size:</strong> Daisy&#8217;s design scales gracefully with your font size, including the largest accessibility sizes.</li>
+  </ul>
+{{NICETIES}}
 </div>
 
 <section class="updates" id="updates">
