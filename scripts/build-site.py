@@ -61,27 +61,8 @@ page = page.replace("{{HERO}}", hero)
 for name in ("FEED", "RULES", "FOOTNOTES"):
     page = page.replace("{{" + name + "}}", (wp / "new" / (name.lower() + ".html")).read_text())
 
-def top_level_divs(text, start_tag):
-    """The outer HTML of each <div> that opens with start_tag, found by counting nested divs."""
-    found, pos = [], 0
-    while (i := text.find(start_tag, pos)) != -1:
-        depth, j = 0, i
-        for m in re.finditer(r"<div\b|</div>", text[i:]):
-            depth += 1 if m.group(0) != "</div>" else -1
-            if depth == 0:
-                j = i + m.end()
-                break
-        found.append(text[i:j])
-        pos = j
-    return found
-
-# The niceties block is four cards in one row. The page sets them as two rows of two, each under the list it
-# illustrates, so the block's cells go into two rows inside one root (its script finds the cards by what is
-# inside the root) and its script comes once, after both.
-nice = (wp / "new/niceties.html").read_text()
-cells = top_level_divs(nice, '<div class="daisy-cards__cell">')
-assert len(cells) == 4, len(cells)
-row = lambda pair: '<div class="daisy-cards__row">\n' + "\n\n".join(pair) + "\n</div>"
-page = page.replace("{{NICETIES_1}}", row(cells[:2])).replace("{{NICETIES_2}}", row(cells[2:]) + "\n" + nice[nice.index("<script"):])
+# The niceties are two blocks of two cards, each under the list it illustrates; each comes with its own root and script.
+page = page.replace("{{NICETIES_1}}", (wp / "new/code-social.html").read_text())
+page = page.replace("{{NICETIES_2}}", (wp / "new/attribution-languages.html").read_text())
 (root / "docs/index.html").write_text(page)
 print(f"docs/index.html: {len(page) // 1024} KB, releases {', '.join(versions[:3])}")

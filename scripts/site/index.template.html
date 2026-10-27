@@ -81,13 +81,14 @@ a:hover { color: var(--accent); }
 .title .line2 { font-size: 0.461em; line-height: 0.9035; }
 .ny { font-family: var(--serif); }
 .sf { font-family: var(--sans); }
-.ny700 { font-weight: 700; }
+.ny700 { font-weight: 675; }
 .line1 .sans { font-size: 0.9254em; font-variation-settings: "wdth" 116; font-weight: 800; }
-.line1 .amp { font-size: 0.7301em; font-weight: 800; letter-spacing: -0.03em; }
+.line1 .amp { font-size: 0.7301em; font-weight: 770; letter-spacing: -0.03em; }
 .line1 .gap { font-weight: 510; letter-spacing: -0.02em; }
 .line2 .lead { font-variation-settings: "wdth" 125; font-weight: 540; letter-spacing: -0.02em; }
 .line2 .gap { font-variation-settings: "wdth" 129; font-weight: 567; letter-spacing: -0.03em; }
-.line2 .ny { font-size: 1.0623em; font-weight: 600; }
+.line2 .ny { font-size: 1.0623em; font-weight: 580;  font-variation-settings: "opsz" 100; }
+.line1 .ny, .line1 .amp { font-variation-settings: "opsz" 130; }
 .byline { color: var(--ink); font-size: 1.0625rem; margin: 1.25rem 0 0; }
 .sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
 .buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; }
@@ -104,7 +105,7 @@ a:hover { color: var(--accent); }
 .button--sans { font-variation-settings: "wght" 800, "wdth" 116; font-weight: 800; }
 
 /* Hero: the block is pasted in as it is. */
-.hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
+.hero { margin-top: clamp(1.75rem, 5.5vw, 4rem); }
 
 /* Feature sections: prose set like the page, with the WordPress blocks between. */
 .feature { margin-top: clamp(2rem, 5vw, 3.2rem); }
@@ -227,7 +228,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 {{FOOTNOTES}}
 </div>
 
-<div class="wrap feature daisy-cards" id="niceties" role="group" aria-label="Examples of Daisy&#8217;s content and design niceties">
+<div class="wrap feature" id="niceties">
   <h2>Other content and design niceties</h2>
   <ul>
     <li><strong>Multi-author bylines</strong> follow one predictable format.</li>

@@ -81,13 +81,14 @@ a:hover { color: var(--accent); }
 .title .line2 { font-size: 0.461em; line-height: 0.9035; }
 .ny { font-family: var(--serif); }
 .sf { font-family: var(--sans); }
-.ny700 { font-weight: 700; }
+.ny700 { font-weight: 675; }
 .line1 .sans { font-size: 0.9254em; font-variation-settings: "wdth" 116; font-weight: 800; }
-.line1 .amp { font-size: 0.7301em; font-weight: 800; letter-spacing: -0.03em; }
+.line1 .amp { font-size: 0.7301em; font-weight: 770; letter-spacing: -0.03em; }
 .line1 .gap { font-weight: 510; letter-spacing: -0.02em; }
 .line2 .lead { font-variation-settings: "wdth" 125; font-weight: 540; letter-spacing: -0.02em; }
 .line2 .gap { font-variation-settings: "wdth" 129; font-weight: 567; letter-spacing: -0.03em; }
-.line2 .ny { font-size: 1.0623em; font-weight: 600; }
+.line2 .ny { font-size: 1.0623em; font-weight: 580;  font-variation-settings: "opsz" 100; }
+.line1 .ny, .line1 .amp { font-variation-settings: "opsz" 130; }
 .byline { color: var(--ink); font-size: 1.0625rem; margin: 1.25rem 0 0; }
 .sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
 .buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; }
@@ -104,7 +105,7 @@ a:hover { color: var(--accent); }
 .button--sans { font-variation-settings: "wght" 800, "wdth" 116; font-weight: 800; }
 
 /* Hero: the block is pasted in as it is. */
-.hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
+.hero { margin-top: clamp(1.75rem, 5.5vw, 4rem); }
 
 /* Feature sections: prose set like the page, with the WordPress blocks between. */
 .feature { margin-top: clamp(2rem, 5vw, 3.2rem); }
@@ -1146,7 +1147,7 @@ details.daisy-card__date {
 }
 
 
-/* Cards: four square cards for the "content and design niceties" list. Each is live text
+/* Cards: square cards for the "content and design niceties" list. Each is live text
    with a byline, a date and a title (the Reddit post has no title). Nothing scrolls. A row
    of four when the column is wide, a stack below that. The type is sized from the card's own
    width (1cqw = 1% of it), so every card looks the same at any size. */
@@ -1160,13 +1161,6 @@ details.daisy-card__date {
   grid-template-columns: minmax(0, 18rem);
   justify-content: center;
   padding-block: 0 1.25rem;
-}
-
-@container daisy-cards (min-width: 56rem) {
-  .daisy-cards__row {
-    gap: 0.9rem;
-    grid-template-columns: repeat(4, minmax(0, 19rem));
-  }
 }
 
 .dc {
@@ -1472,6 +1466,13 @@ details.daisy-card__date {
     color: var(--dc-accent);
   }
 }
+
+/* Each block holds two cards: set two to a row from 36rem, a stack below that. Every card is square and its type
+   scales with its width, so the cap shrinks the whole card: at most 17.6rem (282px) wide and tall. */
+@container daisy-cards (min-width: 36rem) {
+  .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 17.6rem)); justify-content: center; }
+}
+.daisy-cards__cell { justify-self: center; max-width: 17.6rem; width: 100%; }
 
 </style>
 <script>
@@ -3043,9 +3044,28 @@ h1 a {
   margin: 0;
 }
 
+.theme-update-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+  margin-bottom: 0.5em;
+}
+
 .theme-update-title {
   font-weight: 700;
-  margin-bottom: 0.5em !important;
+}
+
+/* &quot;Not now&quot; is plain text in the title&#x27;s row, with nothing to mark it as a button. */
+.theme-update-dismiss {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
 }
 
 .theme-update-note a {
@@ -3893,7 +3913,7 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
     margin: 0 0 0 -12px;
   }
 }
-&lt;/style&gt;&lt;style&gt;html{height:100%;overflow:hidden!important;touch-action:pan-y;-webkit-user-select:none;user-select:none}body{height:100%;margin:0!important;overflow:hidden;padding:0!important}img{-webkit-user-drag:none;pointer-events:none}a{cursor:inherit}::-webkit-scrollbar{display:none}.pg{background:var(--canvas);box-sizing:border-box;inset:0;overflow-x:hidden;overflow-y:auto;padding:98px var(--gutter) 72px;position:absolute;scrollbar-width:none;touch-action:pan-y}.meta{display:block}.attribution,.dateline{display:block;line-height:inherit;margin:0}.attribution{text-box:normal!important}.dateline,.dateline:hover{color:var(--text)!important;cursor:default!important;text-box:normal!important}.article-header&gt;h1:has(a:empty){display:none}.dsl-top{margin:0!important}.dsl-top a{display:block;max-width:100%;overflow:hidden;text-decoration:none;text-overflow:ellipsis;white-space:nowrap}.dsl-top,.dsl-top a,.dsl-top .external-link-label,.dsl-top .external-link-url{font-weight:var(--weight-regular)!important}.dsl-top .external-link-label,.dsl-top .external-link-url{display:inline;line-height:inherit;margin:0!important;max-width:none;overflow:visible;padding:0!important;text-box:normal!important}.dsl-top+h1,.meta+h1{margin-top:var(--space-large)}.article-header h1{text-wrap:balance}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;section class=&quot;pg&quot;&gt;&lt;main class=&quot;article &quot; data-nnw-theme=&quot;daisy&quot; data-update-key=&quot;daisy-sans&quot; data-version=&quot;0.5.0&quot;&gt;
+&lt;/style&gt;&lt;style&gt;html{height:100%;overflow:hidden!important;touch-action:pan-y;-webkit-user-select:none;user-select:none}body{height:100%;margin:0!important;overflow:hidden;padding:0!important}img{-webkit-user-drag:none;pointer-events:none}a{cursor:inherit}::-webkit-scrollbar{display:none}.pg{background:var(--canvas);box-sizing:border-box;inset:0;overflow-x:hidden;overflow-y:auto;padding:98px var(--gutter) 72px;position:absolute;scrollbar-width:none;touch-action:pan-y}.meta{display:block}.attribution,.dateline{display:block;line-height:inherit;margin:0}.attribution{text-box:normal!important}.dateline,.dateline:hover{color:var(--text)!important;cursor:default!important;text-box:trim-end cap alphabetic!important}.article-header&gt;h1:has(a:empty){display:none}.dsl-top{margin:0!important}.dsl-top a{display:block;max-width:100%;overflow:hidden;text-decoration:none;text-overflow:ellipsis;white-space:nowrap}.dsl-top,.dsl-top a,.dsl-top .external-link-label,.dsl-top .external-link-url{font-weight:var(--weight-regular)!important}.dsl-top .external-link-label,.dsl-top .external-link-url{display:inline;line-height:inherit;margin:0!important;max-width:none;overflow:visible;padding:0!important;text-box:normal!important}.dsl-top+h1,.meta+h1{margin-top:calc(var(--space-large)*.94)}.article-header h1{text-wrap:balance}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;section class=&quot;pg&quot;&gt;&lt;main class=&quot;article &quot; data-nnw-theme=&quot;daisy&quot; data-update-key=&quot;daisy-sans&quot; data-version=&quot;0.5.0&quot;&gt;
   &lt;header class=&quot;article-header&quot;&gt;
     &lt;div class=&quot;meta&quot;&gt;
       &lt;div class=&quot;attribution&quot;&gt;&lt;span class=&quot;byline&quot;&gt;bfenwick@cogandsprocket.example (Barnaby Fenwick)&lt;/span&gt;&lt;span class=&quot;byline-for&quot;&gt; &lt;/span&gt;&lt;a class=&quot;feed&quot; href=&quot;https://cogandsprocket.example/&quot;&gt;Cog &amp;amp; Sprocket&lt;/a&gt;&lt;/div&gt;
@@ -3924,7 +3944,7 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
     
   &lt;/header&gt;
   &lt;div class=&quot;articleBody &quot;&gt;
-    &lt;p&gt;&lt;a href=&quot;https://techmeh.example/26/10/25/stackly&quot; title=&quot;Techmeh permalink&quot;&gt;&#9679;&lt;/a&gt; Ottoline Brandvold / &lt;a href=&quot;https://bytewisedaily.example/&quot;&gt;Bytewise Daily&lt;/a&gt;:&lt;br&gt;
+    &lt;p&gt;&lt;a href=&quot;https://techmeh.example/26/10/25/stackly&quot; title=&quot;Techmeh permalink&quot;&gt;&#8226;&lt;/a&gt; Ottoline Brandvold / &lt;a href=&quot;https://bytewisedaily.example/&quot;&gt;Bytewise Daily&lt;/a&gt;:&lt;br&gt;
 &lt;span style=&quot;font-size:1.3em;&quot;&gt;&lt;b&gt;&lt;a href=&quot;https://bytewisedaily.example/stackly-raises-210m&quot;&gt;Stackly, a startup that uses AI to schedule meetings about its AI scheduling tool, raises $210M at a $2.4B valuation&lt;/a&gt;&lt;/b&gt;&lt;/span&gt;&amp;nbsp; &#8212;&amp;nbsp; Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of its customers now hold a recurring meeting to review their other recurring meetings.&amp;nbsp; &#8212;&amp;nbsp; The round was led by investors who described the product as &#8220;a lot like email, but with a calendar.&#8221;&lt;/p&gt;
   &lt;/div&gt;
   &lt;footer class=&quot;view-post &quot;&gt;&lt;a href=&quot;https://techmeh.example/26/10/25/stackly&quot;&gt;View original&lt;/a&gt;&lt;/footer&gt;
@@ -5843,9 +5863,28 @@ h1 a {
   margin: 0;
 }
 
+.theme-update-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+  margin-bottom: 0.5em;
+}
+
 .theme-update-title {
   font-weight: 700;
-  margin-bottom: 0.5em !important;
+}
+
+/* &quot;Not now&quot; is plain text in the title&#x27;s row, with nothing to mark it as a button. */
+.theme-update-dismiss {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
 }
 
 .theme-update-note a {
@@ -12659,7 +12698,7 @@ window.addEventListener(&quot;message&quot;,function(e){
 
 </div>
 
-<div class="wrap feature daisy-cards" id="niceties" role="group" aria-label="Examples of Daisy&#8217;s content and design niceties">
+<div class="wrap feature" id="niceties">
   <h2>Other content and design niceties</h2>
   <ul>
     <li><strong>Multi-author bylines</strong> follow one predictable format.</li>
@@ -12669,6 +12708,8 @@ window.addEventListener(&quot;message&quot;,function(e){
     <li><strong>Social media platforms</strong> have unique rules so posts read more naturally and predictably.</li>
     <li><strong>Code blocks</strong> with syntax highlighting, language labels, and copy-to-clipboard</li>
   </ul>
+<!-- Code blocks and social media. Needs the Additional CSS (daisy-examples.css). Nothing scrolls; two cards to a row, a stack on narrow columns. -->
+<div class="daisy-cards" role="group" aria-label="Code blocks and social media">
 <div class="daisy-cards__row">
 <div class="daisy-cards__cell"><h4 class="wp-block-heading daisy-cards__label">Code blocks</h4>
 <div class="dc dc--dark dc--sans dc--code"><div class="dc__in">
@@ -12681,13 +12722,16 @@ window.addEventListener(&quot;message&quot;,function(e){
 <p class="dc__text">Nothing else about the page changes. Short titles stay short and long ones settle into even lines, each with a few words at the end instead of just one. Pair it with a sensible measure and your headings will look edited even when nobody edited them.</p>
 </div></div></div>
 
-<div class="daisy-cards__cell"><h4 class="wp-block-heading daisy-cards__label">Social media</h4>
+<div class="daisy-cards__cell"><h4 class="wp-block-heading daisy-cards__label">Social media posts</h4>
 <div class="dc dc--dark"><div class="dc__in">
 <div class="dc__meta"><div class="dc__byline"><span class="dc__author">u/oddsock</span> in <span class="dc__pub">r/rss</span></div><time class="dc__date">5 hours ago</time></div>
 <p class="dc__text dc__text--post">My 4,000 unread items are not a backlog. They&#8217;re a lifestyle.</p>
 <div class="dc__join">Join the conversation</div>
 </div></div></div>
 </div>
+<script>(function(){try{var b="CihmdW5jdGlvbiAoKSB7CiAgdmFyIHJvb3QgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCIuZGFpc3ktY2FyZHM6bm90KFtkYXRhLXJlYWR5XSkiKTsKICBpZiAoIXJvb3QpIHJldHVybjsKICByb290LnNldEF0dHJpYnV0ZSgiZGF0YS1yZWFkeSIsICIiKTsKICB2YXIgcSA9IGZ1bmN0aW9uIChzZWwsIGN0eCkgeyByZXR1cm4gKGN0eCB8fCByb290KS5xdWVyeVNlbGVjdG9yKHNlbCk7IH07CiAgdmFyIHJlZHVjZSA9IHdpbmRvdy5tYXRjaE1lZGlhICYmIHdpbmRvdy5tYXRjaE1lZGlhKCIocHJlZmVycy1yZWR1Y2VkLW1vdGlvbjogcmVkdWNlKSIpLm1hdGNoZXM7CiAgdmFyIHZpc2libGUgPSB0cnVlLCB0YWJPbiA9IHRydWU7CiAgdmFyIHRpbWVycyA9IFtdOwogIHZhciBsYXRlciA9IGZ1bmN0aW9uIChmbiwgbXMpIHsgdGltZXJzLnB1c2goc2V0VGltZW91dChmbiwgbXMpKTsgfTsKICB2YXIgcnVubmluZyA9IGZ1bmN0aW9uICgpIHsgcmV0dXJuIHZpc2libGUgJiYgdGFiT247IH07CgogIC8vIENvcHkgYnV0dG9uIG9uIHRoZSBjb2RlIGNhcmQ6IHRoZSBtb2Rlcm4gY2xpcGJvYXJkIHdoZXJlIHRoZSBwYWdlIG1heSB1c2UgaXQsIGEgaGlkZGVuCiAgLy8gdGV4dCBmaWVsZCBhbmQgZXhlY0NvbW1hbmQgZXZlcnl3aGVyZSBlbHNlIChvbGRlciBicm93c2VycywgcGFnZXMgd2l0aG91dCBwZXJtaXNzaW9uKS4KICB2YXIgY29weSA9IHEoIi5kY19fY29weSIpOwogIHZhciBsZWdhY3lDb3B5ID0gZnVuY3Rpb24gKHRleHQpIHsKICAgIHZhciB0YSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoInRleHRhcmVhIik7CiAgICB0YS52YWx1ZSA9IHRleHQ7CiAgICB0YS5zZXRBdHRyaWJ1dGUoInJlYWRvbmx5IiwgIiIpOwogICAgdGEuc3R5bGUuY3NzVGV4dCA9ICJwb3NpdGlvbjpmaXhlZDt0b3A6MDtsZWZ0OjA7b3BhY2l0eTowO3BvaW50ZXItZXZlbnRzOm5vbmUiOwogICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZCh0YSk7CiAgICB0YS5zZWxlY3QoKTsKICAgIHRhLnNldFNlbGVjdGlvblJhbmdlKDAsIHRleHQubGVuZ3RoKTsKICAgIHZhciBvayA9IGZhbHNlOwogICAgdHJ5IHsgb2sgPSBkb2N1bWVudC5leGVjQ29tbWFuZCgiY29weSIpOyB9IGNhdGNoIChlKSB7fQogICAgZG9jdW1lbnQuYm9keS5yZW1vdmVDaGlsZCh0YSk7CiAgICByZXR1cm4gb2s7CiAgfTsKICB2YXIgZmxhc2ggPSBmdW5jdGlvbiAobGFiZWwpIHsKICAgIGNvcHkudGV4dENvbnRlbnQgPSBsYWJlbDsKICAgIGNvcHkuY2xhc3NMaXN0LnRvZ2dsZSgiY29waWVkIiwgbGFiZWwgPT09ICJDb3BpZWQiKTsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gKCkgeyBjb3B5LnRleHRDb250ZW50ID0gIkNvcHkiOyBjb3B5LmNsYXNzTGlzdC5yZW1vdmUoImNvcGllZCIpOyB9LCAxNTAwKTsKICB9OwogIGlmIChjb3B5KSBjb3B5LmFkZEV2ZW50TGlzdGVuZXIoImNsaWNrIiwgZnVuY3Rpb24gKCkgewogICAgdmFyIHRleHQgPSBxKCIuZGNfX2NvZGUgY29kZSIpLnRleHRDb250ZW50OwogICAgaWYgKG5hdmlnYXRvci5jbGlwYm9hcmQgJiYgd2luZG93LmlzU2VjdXJlQ29udGV4dCkgewogICAgICBuYXZpZ2F0b3IuY2xpcGJvYXJkLndyaXRlVGV4dCh0ZXh0KS50aGVuKGZ1bmN0aW9uICgpIHsgZmxhc2goIkNvcGllZCIpOyB9LCBmdW5jdGlvbiAoKSB7IGZsYXNoKGxlZ2FjeUNvcHkodGV4dCkgPyAiQ29waWVkIiA6ICJQcmVzcyBDbWQrQyIpOyB9KTsKICAgIH0gZWxzZSB7CiAgICAgIGZsYXNoKGxlZ2FjeUNvcHkodGV4dCkgPyAiQ29waWVkIiA6ICJQcmVzcyBDbWQrQyIpOwogICAgfQogIH0pOwoKfSkoKTsK";var u=Uint8Array.from(atob(b),function(c){return c.charCodeAt(0)});var e=document.createElement("script");e.text=new TextDecoder().decode(u);document.head.appendChild(e);}catch(x){console.error("Daisy preview could not start",x);}})();</script>
+</div>
+
   <h3 class="sub">For readers everywhere</h3>
   <p>Daisy and Daisy Sans support 30+ languages. They rewrite whole phrases so they read naturally, instead of replacing individual words.</p>
   <ul>
@@ -12695,8 +12739,10 @@ window.addEventListener(&quot;message&quot;,function(e){
     <li><strong>Times:</strong> &#8220;3 days ago&#8221; becomes &#8220;Hace 3 d&#237;as&#8221; and &#8220;Vor 3 Tagen&#8221;.</li>
     <li><strong>Text size:</strong> Daisy&#8217;s design scales gracefully with your font size, including the largest accessibility sizes.</li>
   </ul>
+<!-- Attribution and languages. Needs the Additional CSS (daisy-examples.css). Nothing scrolls; two cards to a row, a stack on narrow columns. -->
+<div class="daisy-cards" role="group" aria-label="Attribution and languages">
 <div class="daisy-cards__row">
-<div class="daisy-cards__cell"><h4 class="wp-block-heading daisy-cards__label">Attribution</h4>
+<div class="daisy-cards__cell"><h4 class="wp-block-heading daisy-cards__label">Bylines and datelines</h4>
 <div class="dc dc--sans dc--fade"><div class="dc__in">
 <div class="dc__meta"><div class="dc__byline"><span class="dc__author" data-dc="authors">Sabine Corliss and 2 others</span> for <span class="dc__pub">Metro Daily</span></div><time class="dc__date" data-dc="date">3 days ago<span class="dc__date-full" data-dc="time" hidden>at 9:14 AM</span></time></div>
 <div class="dc__title" role="heading" aria-level="2">City adds bike lane, forgets the bikes</div>
@@ -12710,7 +12756,7 @@ window.addEventListener(&quot;message&quot;,function(e){
 <p class="dc__text" data-dc="lead">Daisy rewrites whole phrases, so every language reads the way a native speaker would say it.</p>
 </div></div></div>
 </div>
-<script>(function(){try{var b="CihmdW5jdGlvbiAoKSB7CiAgdmFyIHJvb3QgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCIuZGFpc3ktY2FyZHM6bm90KFtkYXRhLXJlYWR5XSkiKTsKICBpZiAoIXJvb3QpIHJldHVybjsKICByb290LnNldEF0dHJpYnV0ZSgiZGF0YS1yZWFkeSIsICIiKTsKICB2YXIgcSA9IGZ1bmN0aW9uIChzZWwsIGN0eCkgeyByZXR1cm4gKGN0eCB8fCByb290KS5xdWVyeVNlbGVjdG9yKHNlbCk7IH07CiAgdmFyIHJlZHVjZSA9IHdpbmRvdy5tYXRjaE1lZGlhICYmIHdpbmRvdy5tYXRjaE1lZGlhKCIocHJlZmVycy1yZWR1Y2VkLW1vdGlvbjogcmVkdWNlKSIpLm1hdGNoZXM7CiAgdmFyIHZpc2libGUgPSB0cnVlLCB0YWJPbiA9IHRydWU7CiAgdmFyIHRpbWVycyA9IFtdOwogIHZhciBsYXRlciA9IGZ1bmN0aW9uIChmbiwgbXMpIHsgdGltZXJzLnB1c2goc2V0VGltZW91dChmbiwgbXMpKTsgfTsKICB2YXIgcnVubmluZyA9IGZ1bmN0aW9uICgpIHsgcmV0dXJuIHZpc2libGUgJiYgdGFiT247IH07CgogIC8vIENvcHkgYnV0dG9uIG9uIHRoZSBjb2RlIGNhcmQ6IHRoZSBtb2Rlcm4gY2xpcGJvYXJkIHdoZXJlIHRoZSBwYWdlIG1heSB1c2UgaXQsIGEgaGlkZGVuCiAgLy8gdGV4dCBmaWVsZCBhbmQgZXhlY0NvbW1hbmQgZXZlcnl3aGVyZSBlbHNlIChvbGRlciBicm93c2VycywgcGFnZXMgd2l0aG91dCBwZXJtaXNzaW9uKS4KICB2YXIgY29weSA9IHEoIi5kY19fY29weSIpOwogIHZhciBsZWdhY3lDb3B5ID0gZnVuY3Rpb24gKHRleHQpIHsKICAgIHZhciB0YSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoInRleHRhcmVhIik7CiAgICB0YS52YWx1ZSA9IHRleHQ7CiAgICB0YS5zZXRBdHRyaWJ1dGUoInJlYWRvbmx5IiwgIiIpOwogICAgdGEuc3R5bGUuY3NzVGV4dCA9ICJwb3NpdGlvbjpmaXhlZDt0b3A6MDtsZWZ0OjA7b3BhY2l0eTowO3BvaW50ZXItZXZlbnRzOm5vbmUiOwogICAgZG9jdW1lbnQuYm9keS5hcHBlbmRDaGlsZCh0YSk7CiAgICB0YS5zZWxlY3QoKTsKICAgIHRhLnNldFNlbGVjdGlvblJhbmdlKDAsIHRleHQubGVuZ3RoKTsKICAgIHZhciBvayA9IGZhbHNlOwogICAgdHJ5IHsgb2sgPSBkb2N1bWVudC5leGVjQ29tbWFuZCgiY29weSIpOyB9IGNhdGNoIChlKSB7fQogICAgZG9jdW1lbnQuYm9keS5yZW1vdmVDaGlsZCh0YSk7CiAgICByZXR1cm4gb2s7CiAgfTsKICB2YXIgZmxhc2ggPSBmdW5jdGlvbiAobGFiZWwpIHsKICAgIGNvcHkudGV4dENvbnRlbnQgPSBsYWJlbDsKICAgIGNvcHkuY2xhc3NMaXN0LnRvZ2dsZSgiY29waWVkIiwgbGFiZWwgPT09ICJDb3BpZWQiKTsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gKCkgeyBjb3B5LnRleHRDb250ZW50ID0gIkNvcHkiOyBjb3B5LmNsYXNzTGlzdC5yZW1vdmUoImNvcGllZCIpOyB9LCAxNTAwKTsKICB9OwogIGlmIChjb3B5KSBjb3B5LmFkZEV2ZW50TGlzdGVuZXIoImNsaWNrIiwgZnVuY3Rpb24gKCkgewogICAgdmFyIHRleHQgPSBxKCIuZGNfX2NvZGUgY29kZSIpLnRleHRDb250ZW50OwogICAgaWYgKG5hdmlnYXRvci5jbGlwYm9hcmQgJiYgd2luZG93LmlzU2VjdXJlQ29udGV4dCkgewogICAgICBuYXZpZ2F0b3IuY2xpcGJvYXJkLndyaXRlVGV4dCh0ZXh0KS50aGVuKGZ1bmN0aW9uICgpIHsgZmxhc2goIkNvcGllZCIpOyB9LCBmdW5jdGlvbiAoKSB7IGZsYXNoKGxlZ2FjeUNvcHkodGV4dCkgPyAiQ29waWVkIiA6ICJQcmVzcyBDbWQrQyIpOyB9KTsKICAgIH0gZWxzZSB7CiAgICAgIGZsYXNoKGxlZ2FjeUNvcHkodGV4dCkgPyAiQ29waWVkIiA6ICJQcmVzcyBDbWQrQyIpOwogICAgfQogIH0pOwoKICAvLyBCeWxpbmUgYW5kIGRhdGUgY2FyZCBhbmQgbGFuZ3VhZ2UgY2FyZCBzaGFyZSBvbmUgY2xvY2s6IGV2ZXJ5IGJlYXQgdGhlIGNhcmQgZmFkZXMgb3V0LCBjaGFuZ2VzCiAgLy8gYW5kIGZhZGVzIGJhY2sgaW4sIHNvIGJvdGggbW92ZSBhdCB0aGUgc2FtZSBwYWNlIHdpdGggdGhlIHNhbWUgY3Jvc3NmYWRlLiBUaGUgb3BlbiBhdXRob3IgbGlzdAogIC8vIGFuZCB0aGUgZGF0ZSB3aXRoIGl0cyB0aW1lIHR1cm4gb3JhbmdlLCBhcyB0aGUgdGFwcGFibGUgcGFydHMgZG8gaW4gdGhlIHRoZW1lLgogIHZhciBhdXRob3JzID0gcSgnW2RhdGEtZGM9ImF1dGhvcnMiXScpLCB0aW1lID0gcSgnW2RhdGEtZGM9InRpbWUiXScpLCBkYXRlID0gcSgnW2RhdGEtZGM9ImRhdGUiXScpOwogIHZhciBzaG9ydCA9IGF1dGhvcnMudGV4dENvbnRlbnQsIGZ1bGwgPSAiU2FiaW5lIENvcmxpc3MsIE5pa29sYWkgSGFkbGV5LCBhbmQgT3JsYSBHYWxsYWdoZXIiOwogIHZhciBzdGF0ZXMgPSBbCiAgICBmdW5jdGlvbiAoKSB7IGF1dGhvcnMudGV4dENvbnRlbnQgPSBmdWxsOyBhdXRob3JzLmNsYXNzTGlzdC5hZGQoImRjX19vbiIpOyB0aW1lLmhpZGRlbiA9IHRydWU7IGRhdGUuY2xhc3NMaXN0LnJlbW92ZSgiZGNfX29uIik7IH0sCiAgICBmdW5jdGlvbiAoKSB7IGF1dGhvcnMudGV4dENvbnRlbnQgPSBzaG9ydDsgYXV0aG9ycy5jbGFzc0xpc3QucmVtb3ZlKCJkY19fb24iKTsgdGltZS5oaWRkZW4gPSBmYWxzZTsgZGF0ZS5jbGFzc0xpc3QuYWRkKCJkY19fb24iKTsgfQogIF07CiAgdmFyIEwgPSBbCiAgICBbIkF1dGhvciIsICIgZm9yICIsICJQdWJsaWNhdGlvbiIsICIzIGRheXMgYWdvIiwgIlNsb3cgZG93biwgcmlkZSBtb3JlIiwgIkRhaXN5IHJld3JpdGVzIHdob2xlIHBocmFzZXMsIHNvIGV2ZXJ5IGxhbmd1YWdlIHJlYWRzIHRoZSB3YXkgYSBuYXRpdmUgc3BlYWtlciB3b3VsZCBzYXkgaXQuIEJ5bGluZXMsIGRhdGVzIGFuZCBsYWJlbHMgYWxsIGZvbGxvdywgaW4gbW9yZSB0aGFuIHRoaXJ0eSBsYW5ndWFnZXMuIl0sCiAgICBbIkF1dG9yIiwgIiBwYXJhICIsICJQdWJsaWNhY2lcdTAwZjNuIiwgIkhhY2UgMyBkXHUwMGVkYXMiLCAiTVx1MDBlMXMgZGVzcGFjaW8sIG1cdTAwZTFzIGJpY2kiLCAiRGFpc3kgcmVlc2NyaWJlIGZyYXNlcyBlbnRlcmFzLCBwYXJhIHF1ZSBjYWRhIGlkaW9tYSBzdWVuZSBjb21vIGxvIGRpclx1MDBlZGEgdW4gaGFibGFudGUgbmF0aXZvLiBMYXMgZmlybWFzLCBsYXMgZmVjaGFzIHkgbGFzIGV0aXF1ZXRhcyB0YW1iaVx1MDBlOW4gc2UgYWRhcHRhbiwgZW4gbVx1MDBlMXMgZGUgdHJlaW50YSBpZGlvbWFzLiJdLAogICAgWyJBdXRldXIiLCAiIHBvdXIgIiwgIlB1YmxpY2F0aW9uIiwgIklsIHkgYSAzIGpvdXJzIiwgIk1vaW5zIHZpdGUsIHBsdXMgZGUgdlx1MDBlOWxvIiwgIkRhaXN5IHJcdTAwZTlcdTAwZTljcml0IGRlcyBwaHJhc2VzIGVudGlcdTAwZThyZXMgcG91ciBxdWUgY2hhcXVlIGxhbmd1ZSBzZSBsaXNlIGNvbW1lIGxhIGRpcmFpdCB1biBsb2N1dGV1ciBuYXRpZi4gTGVzIHNpZ25hdHVyZXMsIGxlcyBkYXRlcyBldCBsZXMgbGliZWxsXHUwMGU5cyBzdWl2ZW50IGF1c3NpLCBkYW5zIHBsdXMgZGUgdHJlbnRlIGxhbmd1ZXMuIl0sCiAgICBbIkF1dG9yIiwgIiBmXHUwMGZjciAiLCAiUHVibGlrYXRpb24iLCAiVm9yIDMgVGFnZW4iLCAiTGFuZ3NhbWVyIGZhaHJlbiwgbWVociBlcmxlYmVuIiwgIkRhaXN5IHNjaHJlaWJ0IGdhbnplIFNcdTAwZTR0emUgdW0sIGRhbWl0IGplZGUgU3ByYWNoZSBrbGluZ3QsIHdpZSBlaW4gTXV0dGVyc3ByYWNobGVyIHNpZSBzYWdlbiB3XHUwMGZjcmRlLiBBdXRvcmVuemVpbGVuLCBEYXR1bXNhbmdhYmVuIHVuZCBMYWJlbHMgcGFzc2VuIHNpY2ggZWJlbmZhbGxzIGFuLCBpbiBtZWhyIGFscyBkcmVpXHUwMGRmaWcgU3ByYWNoZW4uIl0sCiAgICBbIlx1ODQ1N1x1ODAwNSIsICIgXHUwMGI3ICIsICJcdTUxZmFcdTcyNDhcdTcyNjkiLCAiM1x1NjVlNVx1NTI0ZCIsICJcdTMwODZcdTMwNjNcdTMwNGZcdTMwOGFcdThkNzBcdTMwOGRcdTMwNDYiLCAiRGFpc3kgXHUzMDZmXHU1MzU4XHU4YTllXHUzMDY3XHUzMDZmXHUzMDZhXHUzMDRmXHU2NTg3XHU1MTY4XHU0ZjUzXHUzMDkyXHU2NmY4XHUzMDRkXHU2M2RiXHUzMDQ4XHUzMDhiXHUzMDZlXHUzMDY3XHUzMDAxXHUzMDY5XHUzMDZlXHU4YTAwXHU4YTllXHUzMDgyXHU4MWVhXHU3MTM2XHUzMDZiXHU4YWFkXHUzMDgxXHUzMDdlXHUzMDU5XHUzMDAyXHU3ZjcyXHU1NDBkXHUzMDAxXHU2NWU1XHU0ZWQ4XHUzMDAxXHUzMGU5XHUzMGQ5XHUzMGViXHUzMDgyIDMwIFx1NGVlNVx1NGUwYVx1MzA2ZVx1OGEwMFx1OGE5ZVx1MzA2Ylx1NWJmZVx1NWZkY1x1MzA1N1x1MzA2Nlx1MzA0NFx1MzA3ZVx1MzA1OVx1MzAwMiJdCiAgXTsKICB2YXIgY29kZXMgPSBbImVuIiwgImVzIiwgImZyIiwgImRlIiwgImphIl07CiAgdmFyIGxhbmdJbiA9IHEoJ1tkYXRhLWRjPSJsYW5nIl0nKSwgYnlsaW5lSW4gPSBhdXRob3JzLmNsb3Nlc3QoIi5kY19faW4iKTsKICB2YXIga2V5cyA9IFsiYnkiLCAiam9pbiIsICJwdWIiLCAid2hlbiIsICJ0aXRsZSIsICJsZWFkIl07CiAgdmFyIGVscyA9IGtleXMubWFwKGZ1bmN0aW9uIChrKSB7IHJldHVybiBxKCdbZGF0YS1kYz0iJyArIGsgKyAnIl0nKTsgfSk7CiAgdmFyIHNldExhbmcgPSBmdW5jdGlvbiAoaSkgewogICAgZWxzLmZvckVhY2goZnVuY3Rpb24gKGVsLCBuKSB7IGVsLnRleHRDb250ZW50ID0gTFtpXVtuXTsgfSk7IGxhbmdJbi5sYW5nID0gY29kZXNbaV07CiAgICAvLyBUaGUgdGhlbWUgc2l6ZXMgYSB0aXRsZSBieSBpdHMgbGVuZ3RoOiBzaG9ydCAoMjQgb3IgZmV3ZXIpLCBicmllZiAoMjUgdG8gMzYpLCBsb25nICg3MCBvciBtb3JlKS4KICAgIHZhciBuID0gZWxzWzRdLnRleHRDb250ZW50Lmxlbmd0aDsKICAgIGVsc1s0XS5zZXRBdHRyaWJ1dGUoImRhdGEtbGVuIiwgbiA8PSAyNCA/ICJzaG9ydCIgOiBuIDw9IDM2ID8gImJyaWVmIiA6IG4gPj0gNzAgPyAibG9uZyIgOiAiIik7CiAgfTsKICB2YXIgQkVBVCA9IDMwMDAsIEZBREUgPSAyMjAsIGJlYXQgPSAwLCB0aW1lciA9IG51bGw7CiAgbGFuZ0luLnN0eWxlLnRyYW5zaXRpb24gPSAib3BhY2l0eSAiICsgRkFERSArICJtcyBlYXNlIjsKICB2YXIgYXBwbHkgPSBmdW5jdGlvbiAoKSB7IHN0YXRlc1tiZWF0ICUgc3RhdGVzLmxlbmd0aF0oKTsgc2V0TGFuZyhiZWF0ICUgTC5sZW5ndGgpOyB9OwogIC8vIEJ5bGluZSBhbmQgZGF0ZSBjYXJkOiBvbmx5IHRoZSBieWxpbmUgcm93IGNoYW5nZXMsIHNvIG9ubHkgaXQgY3Jvc3NmYWRlcy4gQSBjb3B5IG9mIHRoZSBvbGQgcm93CiAgLy8gZmFkZXMgb3V0IG9uIHRvcCBvZiB0aGUgbmV3IG9uZSBmYWRpbmcgaW4sIGFuZCB0aGUgcm93J3MgaGVpZ2h0IGVhc2VzIHRvIGl0cyBuZXcgc2l6ZSwgc28gdGhlCiAgLy8gdGl0bGUgYW5kIHRleHQgYmVsb3cgaXQgc2xpZGUgaW5zdGVhZCBvZiBqdW1waW5nLgogIHZhciBtZXRhID0gYXV0aG9ycy5jbG9zZXN0KCIuZGNfX21ldGEiKSwgbWV0YUhvc3QgPSBtZXRhLnBhcmVudE5vZGUsIE1PVkUgPSAzNjA7CiAgdmFyIGNyb3NzZmFkZU1ldGEgPSBmdW5jdGlvbiAoY2hhbmdlKSB7CiAgICB2YXIgaDAgPSBtZXRhLm9mZnNldEhlaWdodDsKICAgIHZhciBnaG9zdCA9IG1ldGEuY2xvbmVOb2RlKHRydWUpOwogICAgZ2hvc3Quc2V0QXR0cmlidXRlKCJhcmlhLWhpZGRlbiIsICJ0cnVlIik7CiAgICBbXS5mb3JFYWNoLmNhbGwoZ2hvc3QucXVlcnlTZWxlY3RvckFsbCgiW2RhdGEtZGNdIiksIGZ1bmN0aW9uIChlbCkgeyBlbC5yZW1vdmVBdHRyaWJ1dGUoImRhdGEtZGMiKTsgfSk7CiAgICBnaG9zdC5zdHlsZS5jc3NUZXh0ID0gInBvc2l0aW9uOmFic29sdXRlO21hcmdpbjowO3BvaW50ZXItZXZlbnRzOm5vbmU7b3BhY2l0eToxO3RyYW5zaXRpb246b3BhY2l0eSAiICsgRkFERSArICJtcyBlYXNlO2xlZnQ6IiArIG1ldGEub2Zmc2V0TGVmdCArICJweDt0b3A6IiArIG1ldGEub2Zmc2V0VG9wICsgInB4O3dpZHRoOiIgKyBtZXRhLm9mZnNldFdpZHRoICsgInB4IjsKICAgIG1ldGFIb3N0LmFwcGVuZENoaWxkKGdob3N0KTsKICAgIGNoYW5nZSgpOwogICAgbWV0YS5zdHlsZS50cmFuc2l0aW9uID0gIm5vbmUiOwogICAgbWV0YS5zdHlsZS5oZWlnaHQgPSAiYXV0byI7CiAgICB2YXIgaDEgPSBtZXRhLm9mZnNldEhlaWdodDsKICAgIG1ldGEuc3R5bGUub3BhY2l0eSA9ICIwIjsKICAgIG1ldGEuc3R5bGUuaGVpZ2h0ID0gaDAgKyAicHgiOwogICAgbWV0YS5vZmZzZXRIZWlnaHQ7CiAgICBtZXRhLnN0eWxlLnRyYW5zaXRpb24gPSAib3BhY2l0eSAiICsgRkFERSArICJtcyBlYXNlLCBoZWlnaHQgIiArIE1PVkUgKyAibXMgZWFzZSI7CiAgICBtZXRhLnN0eWxlLm9wYWNpdHkgPSAiMSI7CiAgICBtZXRhLnN0eWxlLmhlaWdodCA9IGgxICsgInB4IjsKICAgIGdob3N0LnN0eWxlLm9wYWNpdHkgPSAiMCI7CiAgICBzZXRUaW1lb3V0KGZ1bmN0aW9uICgpIHsgbWV0YUhvc3QucmVtb3ZlQ2hpbGQoZ2hvc3QpOyBtZXRhLnN0eWxlLnRyYW5zaXRpb24gPSAiIjsgbWV0YS5zdHlsZS5oZWlnaHQgPSAiIjsgbWV0YS5zdHlsZS5vcGFjaXR5ID0gIiI7IH0sIE1PVkUgKyA0MCk7CiAgfTsKICBhcHBseSgpOwogIHZhciB0aWNrID0gZnVuY3Rpb24gKCkgewogICAgaWYgKCFydW5uaW5nKCkpIHsgdGltZXIgPSBudWxsOyByZXR1cm47IH0KICAgIGJlYXQrKzsKICAgIGlmIChyZWR1Y2UpIHsgYXBwbHkoKTsgfQogICAgZWxzZSB7CiAgICAgIGxhbmdJbi5zdHlsZS5vcGFjaXR5ID0gIjAiOwogICAgICBzZXRUaW1lb3V0KGZ1bmN0aW9uICgpIHsgc2V0TGFuZyhiZWF0ICUgTC5sZW5ndGgpOyBsYW5nSW4uc3R5bGUub3BhY2l0eSA9ICIxIjsgfSwgRkFERSk7CiAgICAgIGNyb3NzZmFkZU1ldGEoZnVuY3Rpb24gKCkgeyBzdGF0ZXNbYmVhdCAlIHN0YXRlcy5sZW5ndGhdKCk7IH0pOwogICAgfQogICAgdGltZXIgPSBzZXRUaW1lb3V0KHRpY2ssIEJFQVQpOwogIH07CgogIHZhciBzdGFydCA9IGZ1bmN0aW9uICgpIHsgaWYgKCF0aW1lcikgdGltZXIgPSBzZXRUaW1lb3V0KHRpY2ssIEJFQVQpOyB9OwogIHZhciBzdG9wID0gZnVuY3Rpb24gKCkgeyBjbGVhclRpbWVvdXQodGltZXIpOyB0aW1lciA9IG51bGw7IH07CiAgdmFyIHN5bmMgPSBmdW5jdGlvbiAoKSB7IGlmIChydW5uaW5nKCkpIHN0YXJ0KCk7IGVsc2Ugc3RvcCgpOyB9OwogIGRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoInZpc2liaWxpdHljaGFuZ2UiLCBmdW5jdGlvbiAoKSB7IHRhYk9uID0gIWRvY3VtZW50LmhpZGRlbjsgc3luYygpOyB9KTsKICBpZiAoIkludGVyc2VjdGlvbk9ic2VydmVyIiBpbiB3aW5kb3cpIHsKICAgIG5ldyBJbnRlcnNlY3Rpb25PYnNlcnZlcihmdW5jdGlvbiAoZW50cmllcykgeyB2aXNpYmxlID0gZW50cmllc1swXS5pc0ludGVyc2VjdGluZzsgc3luYygpOyB9KS5vYnNlcnZlKHJvb3QpOwogIH0KICBzeW5jKCk7Cn0pKCk7Cg==";var u=Uint8Array.from(atob(b),function(c){return c.charCodeAt(0)});var e=document.createElement("script");e.text=new TextDecoder().decode(u);document.head.appendChild(e);}catch(x){console.error("Daisy preview could not start",x);}})();</script>
+<script>(function(){try{var b="CihmdW5jdGlvbiAoKSB7CiAgdmFyIHJvb3QgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCIuZGFpc3ktY2FyZHM6bm90KFtkYXRhLXJlYWR5XSkiKTsKICBpZiAoIXJvb3QpIHJldHVybjsKICByb290LnNldEF0dHJpYnV0ZSgiZGF0YS1yZWFkeSIsICIiKTsKICB2YXIgcSA9IGZ1bmN0aW9uIChzZWwsIGN0eCkgeyByZXR1cm4gKGN0eCB8fCByb290KS5xdWVyeVNlbGVjdG9yKHNlbCk7IH07CiAgdmFyIHJlZHVjZSA9IHdpbmRvdy5tYXRjaE1lZGlhICYmIHdpbmRvdy5tYXRjaE1lZGlhKCIocHJlZmVycy1yZWR1Y2VkLW1vdGlvbjogcmVkdWNlKSIpLm1hdGNoZXM7CiAgdmFyIHZpc2libGUgPSB0cnVlLCB0YWJPbiA9IHRydWU7CiAgdmFyIHRpbWVycyA9IFtdOwogIHZhciBsYXRlciA9IGZ1bmN0aW9uIChmbiwgbXMpIHsgdGltZXJzLnB1c2goc2V0VGltZW91dChmbiwgbXMpKTsgfTsKICB2YXIgcnVubmluZyA9IGZ1bmN0aW9uICgpIHsgcmV0dXJuIHZpc2libGUgJiYgdGFiT247IH07CgogIC8vIEJ5bGluZSBhbmQgZGF0ZSBjYXJkIGFuZCBsYW5ndWFnZSBjYXJkIHNoYXJlIG9uZSBjbG9jazogZXZlcnkgYmVhdCB0aGUgY2FyZCBmYWRlcyBvdXQsIGNoYW5nZXMKICAvLyBhbmQgZmFkZXMgYmFjayBpbiwgc28gYm90aCBtb3ZlIGF0IHRoZSBzYW1lIHBhY2Ugd2l0aCB0aGUgc2FtZSBjcm9zc2ZhZGUuIFRoZSBvcGVuIGF1dGhvciBsaXN0CiAgLy8gYW5kIHRoZSBkYXRlIHdpdGggaXRzIHRpbWUgdHVybiBvcmFuZ2UsIGFzIHRoZSB0YXBwYWJsZSBwYXJ0cyBkbyBpbiB0aGUgdGhlbWUuCiAgdmFyIGF1dGhvcnMgPSBxKCdbZGF0YS1kYz0iYXV0aG9ycyJdJyksIHRpbWUgPSBxKCdbZGF0YS1kYz0idGltZSJdJyksIGRhdGUgPSBxKCdbZGF0YS1kYz0iZGF0ZSJdJyk7CiAgdmFyIHNob3J0ID0gYXV0aG9ycy50ZXh0Q29udGVudCwgZnVsbCA9ICJTYWJpbmUgQ29ybGlzcywgTmlrb2xhaSBIYWRsZXksIGFuZCBPcmxhIEdhbGxhZ2hlciI7CiAgdmFyIHN0YXRlcyA9IFsKICAgIGZ1bmN0aW9uICgpIHsgYXV0aG9ycy50ZXh0Q29udGVudCA9IGZ1bGw7IGF1dGhvcnMuY2xhc3NMaXN0LmFkZCgiZGNfX29uIik7IHRpbWUuaGlkZGVuID0gdHJ1ZTsgZGF0ZS5jbGFzc0xpc3QucmVtb3ZlKCJkY19fb24iKTsgfSwKICAgIGZ1bmN0aW9uICgpIHsgYXV0aG9ycy50ZXh0Q29udGVudCA9IHNob3J0OyBhdXRob3JzLmNsYXNzTGlzdC5yZW1vdmUoImRjX19vbiIpOyB0aW1lLmhpZGRlbiA9IGZhbHNlOyBkYXRlLmNsYXNzTGlzdC5hZGQoImRjX19vbiIpOyB9CiAgXTsKICB2YXIgTCA9IFsKICAgIFsiQXV0aG9yIiwgIiBmb3IgIiwgIlB1YmxpY2F0aW9uIiwgIjMgZGF5cyBhZ28iLCAiU2xvdyBkb3duLCByaWRlIG1vcmUiLCAiRGFpc3kgcmV3cml0ZXMgd2hvbGUgcGhyYXNlcywgc28gZXZlcnkgbGFuZ3VhZ2UgcmVhZHMgdGhlIHdheSBhIG5hdGl2ZSBzcGVha2VyIHdvdWxkIHNheSBpdC4gQnlsaW5lcywgZGF0ZXMgYW5kIGxhYmVscyBhbGwgZm9sbG93LCBpbiBtb3JlIHRoYW4gdGhpcnR5IGxhbmd1YWdlcy4iXSwKICAgIFsiQXV0b3IiLCAiIHBhcmEgIiwgIlB1YmxpY2FjaVx1MDBmM24iLCAiSGFjZSAzIGRcdTAwZWRhcyIsICJNXHUwMGUxcyBkZXNwYWNpbywgbVx1MDBlMXMgYmljaSIsICJEYWlzeSByZWVzY3JpYmUgZnJhc2VzIGVudGVyYXMsIHBhcmEgcXVlIGNhZGEgaWRpb21hIHN1ZW5lIGNvbW8gbG8gZGlyXHUwMGVkYSB1biBoYWJsYW50ZSBuYXRpdm8uIExhcyBmaXJtYXMsIGxhcyBmZWNoYXMgeSBsYXMgZXRpcXVldGFzIHRhbWJpXHUwMGU5biBzZSBhZGFwdGFuLCBlbiBtXHUwMGUxcyBkZSB0cmVpbnRhIGlkaW9tYXMuIl0sCiAgICBbIkF1dGV1ciIsICIgcG91ciAiLCAiUHVibGljYXRpb24iLCAiSWwgeSBhIDMgam91cnMiLCAiTW9pbnMgdml0ZSwgcGx1cyBkZSB2XHUwMGU5bG8iLCAiRGFpc3kgclx1MDBlOVx1MDBlOWNyaXQgZGVzIHBocmFzZXMgZW50aVx1MDBlOHJlcyBwb3VyIHF1ZSBjaGFxdWUgbGFuZ3VlIHNlIGxpc2UgY29tbWUgbGEgZGlyYWl0IHVuIGxvY3V0ZXVyIG5hdGlmLiBMZXMgc2lnbmF0dXJlcywgbGVzIGRhdGVzIGV0IGxlcyBsaWJlbGxcdTAwZTlzIHN1aXZlbnQgYXVzc2ksIGRhbnMgcGx1cyBkZSB0cmVudGUgbGFuZ3Vlcy4iXSwKICAgIFsiQXV0b3IiLCAiIGZcdTAwZmNyICIsICJQdWJsaWthdGlvbiIsICJWb3IgMyBUYWdlbiIsICJMYW5nc2FtZXIgZmFocmVuLCBtZWhyIGVybGViZW4iLCAiRGFpc3kgc2NocmVpYnQgZ2FuemUgU1x1MDBlNHR6ZSB1bSwgZGFtaXQgamVkZSBTcHJhY2hlIGtsaW5ndCwgd2llIGVpbiBNdXR0ZXJzcHJhY2hsZXIgc2llIHNhZ2VuIHdcdTAwZmNyZGUuIEF1dG9yZW56ZWlsZW4sIERhdHVtc2FuZ2FiZW4gdW5kIExhYmVscyBwYXNzZW4gc2ljaCBlYmVuZmFsbHMgYW4sIGluIG1laHIgYWxzIGRyZWlcdTAwZGZpZyBTcHJhY2hlbi4iXSwKICAgIFsiXHU4NDU3XHU4MDA1IiwgIiBcdTAwYjcgIiwgIlx1NTFmYVx1NzI0OFx1NzI2OSIsICIzXHU2NWU1XHU1MjRkIiwgIlx1MzA4Nlx1MzA2M1x1MzA0Zlx1MzA4YVx1OGQ3MFx1MzA4ZFx1MzA0NiIsICJEYWlzeSBcdTMwNmZcdTUzNThcdThhOWVcdTMwNjdcdTMwNmZcdTMwNmFcdTMwNGZcdTY1ODdcdTUxNjhcdTRmNTNcdTMwOTJcdTY2ZjhcdTMwNGRcdTYzZGJcdTMwNDhcdTMwOGJcdTMwNmVcdTMwNjdcdTMwMDFcdTMwNjlcdTMwNmVcdThhMDBcdThhOWVcdTMwODJcdTgxZWFcdTcxMzZcdTMwNmJcdThhYWRcdTMwODFcdTMwN2VcdTMwNTlcdTMwMDJcdTdmNzJcdTU0MGRcdTMwMDFcdTY1ZTVcdTRlZDhcdTMwMDFcdTMwZTlcdTMwZDlcdTMwZWJcdTMwODIgMzAgXHU0ZWU1XHU0ZTBhXHUzMDZlXHU4YTAwXHU4YTllXHUzMDZiXHU1YmZlXHU1ZmRjXHUzMDU3XHUzMDY2XHUzMDQ0XHUzMDdlXHUzMDU5XHUzMDAyIl0KICBdOwogIHZhciBjb2RlcyA9IFsiZW4iLCAiZXMiLCAiZnIiLCAiZGUiLCAiamEiXTsKICB2YXIgbGFuZ0luID0gcSgnW2RhdGEtZGM9ImxhbmciXScpLCBieWxpbmVJbiA9IGF1dGhvcnMuY2xvc2VzdCgiLmRjX19pbiIpOwogIHZhciBrZXlzID0gWyJieSIsICJqb2luIiwgInB1YiIsICJ3aGVuIiwgInRpdGxlIiwgImxlYWQiXTsKICB2YXIgZWxzID0ga2V5cy5tYXAoZnVuY3Rpb24gKGspIHsgcmV0dXJuIHEoJ1tkYXRhLWRjPSInICsgayArICciXScpOyB9KTsKICB2YXIgc2V0TGFuZyA9IGZ1bmN0aW9uIChpKSB7CiAgICBlbHMuZm9yRWFjaChmdW5jdGlvbiAoZWwsIG4pIHsgZWwudGV4dENvbnRlbnQgPSBMW2ldW25dOyB9KTsgbGFuZ0luLmxhbmcgPSBjb2Rlc1tpXTsKICAgIC8vIFRoZSB0aGVtZSBzaXplcyBhIHRpdGxlIGJ5IGl0cyBsZW5ndGg6IHNob3J0ICgyNCBvciBmZXdlciksIGJyaWVmICgyNSB0byAzNiksIGxvbmcgKDcwIG9yIG1vcmUpLgogICAgdmFyIG4gPSBlbHNbNF0udGV4dENvbnRlbnQubGVuZ3RoOwogICAgZWxzWzRdLnNldEF0dHJpYnV0ZSgiZGF0YS1sZW4iLCBuIDw9IDI0ID8gInNob3J0IiA6IG4gPD0gMzYgPyAiYnJpZWYiIDogbiA+PSA3MCA/ICJsb25nIiA6ICIiKTsKICB9OwogIHZhciBCRUFUID0gMzAwMCwgRkFERSA9IDIyMCwgYmVhdCA9IDAsIHRpbWVyID0gbnVsbDsKICBsYW5nSW4uc3R5bGUudHJhbnNpdGlvbiA9ICJvcGFjaXR5ICIgKyBGQURFICsgIm1zIGVhc2UiOwogIHZhciBhcHBseSA9IGZ1bmN0aW9uICgpIHsgc3RhdGVzW2JlYXQgJSBzdGF0ZXMubGVuZ3RoXSgpOyBzZXRMYW5nKGJlYXQgJSBMLmxlbmd0aCk7IH07CiAgLy8gQnlsaW5lIGFuZCBkYXRlIGNhcmQ6IG9ubHkgdGhlIGJ5bGluZSByb3cgY2hhbmdlcywgc28gb25seSBpdCBjcm9zc2ZhZGVzLiBBIGNvcHkgb2YgdGhlIG9sZCByb3cKICAvLyBmYWRlcyBvdXQgb24gdG9wIG9mIHRoZSBuZXcgb25lIGZhZGluZyBpbiwgYW5kIHRoZSByb3cncyBoZWlnaHQgZWFzZXMgdG8gaXRzIG5ldyBzaXplLCBzbyB0aGUKICAvLyB0aXRsZSBhbmQgdGV4dCBiZWxvdyBpdCBzbGlkZSBpbnN0ZWFkIG9mIGp1bXBpbmcuCiAgdmFyIG1ldGEgPSBhdXRob3JzLmNsb3Nlc3QoIi5kY19fbWV0YSIpLCBtZXRhSG9zdCA9IG1ldGEucGFyZW50Tm9kZSwgTU9WRSA9IDM2MDsKICB2YXIgY3Jvc3NmYWRlTWV0YSA9IGZ1bmN0aW9uIChjaGFuZ2UpIHsKICAgIHZhciBoMCA9IG1ldGEub2Zmc2V0SGVpZ2h0OwogICAgdmFyIGdob3N0ID0gbWV0YS5jbG9uZU5vZGUodHJ1ZSk7CiAgICBnaG9zdC5zZXRBdHRyaWJ1dGUoImFyaWEtaGlkZGVuIiwgInRydWUiKTsKICAgIFtdLmZvckVhY2guY2FsbChnaG9zdC5xdWVyeVNlbGVjdG9yQWxsKCJbZGF0YS1kY10iKSwgZnVuY3Rpb24gKGVsKSB7IGVsLnJlbW92ZUF0dHJpYnV0ZSgiZGF0YS1kYyIpOyB9KTsKICAgIGdob3N0LnN0eWxlLmNzc1RleHQgPSAicG9zaXRpb246YWJzb2x1dGU7bWFyZ2luOjA7cG9pbnRlci1ldmVudHM6bm9uZTtvcGFjaXR5OjE7dHJhbnNpdGlvbjpvcGFjaXR5ICIgKyBGQURFICsgIm1zIGVhc2U7bGVmdDoiICsgbWV0YS5vZmZzZXRMZWZ0ICsgInB4O3RvcDoiICsgbWV0YS5vZmZzZXRUb3AgKyAicHg7d2lkdGg6IiArIG1ldGEub2Zmc2V0V2lkdGggKyAicHgiOwogICAgbWV0YUhvc3QuYXBwZW5kQ2hpbGQoZ2hvc3QpOwogICAgY2hhbmdlKCk7CiAgICBtZXRhLnN0eWxlLnRyYW5zaXRpb24gPSAibm9uZSI7CiAgICBtZXRhLnN0eWxlLmhlaWdodCA9ICJhdXRvIjsKICAgIHZhciBoMSA9IG1ldGEub2Zmc2V0SGVpZ2h0OwogICAgbWV0YS5zdHlsZS5vcGFjaXR5ID0gIjAiOwogICAgbWV0YS5zdHlsZS5oZWlnaHQgPSBoMCArICJweCI7CiAgICBtZXRhLm9mZnNldEhlaWdodDsKICAgIG1ldGEuc3R5bGUudHJhbnNpdGlvbiA9ICJvcGFjaXR5ICIgKyBGQURFICsgIm1zIGVhc2UsIGhlaWdodCAiICsgTU9WRSArICJtcyBlYXNlIjsKICAgIG1ldGEuc3R5bGUub3BhY2l0eSA9ICIxIjsKICAgIG1ldGEuc3R5bGUuaGVpZ2h0ID0gaDEgKyAicHgiOwogICAgZ2hvc3Quc3R5bGUub3BhY2l0eSA9ICIwIjsKICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gKCkgeyBtZXRhSG9zdC5yZW1vdmVDaGlsZChnaG9zdCk7IG1ldGEuc3R5bGUudHJhbnNpdGlvbiA9ICIiOyBtZXRhLnN0eWxlLmhlaWdodCA9ICIiOyBtZXRhLnN0eWxlLm9wYWNpdHkgPSAiIjsgfSwgTU9WRSArIDQwKTsKICB9OwogIGFwcGx5KCk7CiAgdmFyIHRpY2sgPSBmdW5jdGlvbiAoKSB7CiAgICBpZiAoIXJ1bm5pbmcoKSkgeyB0aW1lciA9IG51bGw7IHJldHVybjsgfQogICAgYmVhdCsrOwogICAgaWYgKHJlZHVjZSkgeyBhcHBseSgpOyB9CiAgICBlbHNlIHsKICAgICAgbGFuZ0luLnN0eWxlLm9wYWNpdHkgPSAiMCI7CiAgICAgIHNldFRpbWVvdXQoZnVuY3Rpb24gKCkgeyBzZXRMYW5nKGJlYXQgJSBMLmxlbmd0aCk7IGxhbmdJbi5zdHlsZS5vcGFjaXR5ID0gIjEiOyB9LCBGQURFKTsKICAgICAgY3Jvc3NmYWRlTWV0YShmdW5jdGlvbiAoKSB7IHN0YXRlc1tiZWF0ICUgc3RhdGVzLmxlbmd0aF0oKTsgfSk7CiAgICB9CiAgICB0aW1lciA9IHNldFRpbWVvdXQodGljaywgQkVBVCk7CiAgfTsKCiAgdmFyIHN0YXJ0ID0gZnVuY3Rpb24gKCkgeyBpZiAoIXRpbWVyKSB0aW1lciA9IHNldFRpbWVvdXQodGljaywgQkVBVCk7IH07CiAgdmFyIHN0b3AgPSBmdW5jdGlvbiAoKSB7IGNsZWFyVGltZW91dCh0aW1lcik7IHRpbWVyID0gbnVsbDsgfTsKICB2YXIgc3luYyA9IGZ1bmN0aW9uICgpIHsgaWYgKHJ1bm5pbmcoKSkgc3RhcnQoKTsgZWxzZSBzdG9wKCk7IH07CiAgZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcigidmlzaWJpbGl0eWNoYW5nZSIsIGZ1bmN0aW9uICgpIHsgdGFiT24gPSAhZG9jdW1lbnQuaGlkZGVuOyBzeW5jKCk7IH0pOwogIGlmICgiSW50ZXJzZWN0aW9uT2JzZXJ2ZXIiIGluIHdpbmRvdykgewogICAgbmV3IEludGVyc2VjdGlvbk9ic2VydmVyKGZ1bmN0aW9uIChlbnRyaWVzKSB7IHZpc2libGUgPSBlbnRyaWVzWzBdLmlzSW50ZXJzZWN0aW5nOyBzeW5jKCk7IH0pLm9ic2VydmUocm9vdCk7CiAgfQogIHN5bmMoKTsKfSkoKTsK";var u=Uint8Array.from(atob(b),function(c){return c.charCodeAt(0)});var e=document.createElement("script");e.text=new TextDecoder().decode(u);document.head.appendChild(e);}catch(x){console.error("Daisy preview could not start",x);}})();</script>
 </div>
 
 </div>
