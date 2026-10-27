@@ -92,8 +92,8 @@ a:hover { color: var(--accent); }
 .feature { margin-top: clamp(2rem, 5vw, 3.2rem); }
 /* The buttons sit as far under the hero's device as the next header sits under the buttons. */
 .hero .buttons { margin-top: 0; }
-/* The four cards stay in a row at the column's width (the block's own row starts at 56rem). */
-@container daisy-cards (min-width: 36rem) { .feature .daisy-cards .daisy-cards__row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* The cards are set two to a row (the block's own row is four, from 56rem). */
+@container daisy-cards (min-width: 36rem) { .feature .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* Blocks run edge to edge of the column, so their left edge lines up with the text. */
 .feature .daisy-ba, .hero .daisy-ba { padding-inline: 0; }
 .feature .daisy-cards__label { font-weight: 400; }
@@ -207,7 +207,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 {{FOOTNOTES}}
 </div>
 
-<div class="wrap feature" id="niceties">
+<div class="wrap feature daisy-cards" id="niceties" role="group" aria-label="Examples of Daisy&#8217;s content and design niceties">
   <h2>Other content and design niceties</h2>
   <ul>
     <li><strong>Multi-author bylines</strong> follow one predictable format.</li>
@@ -217,6 +217,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
     <li><strong>Social media platforms</strong> have unique rules so posts read more naturally and predictably.</li>
     <li><strong>Code blocks</strong> with syntax highlighting, language labels, and copy-to-clipboard</li>
   </ul>
+{{NICETIES_1}}
   <h3 class="sub">For readers everywhere</h3>
   <p>Daisy and Daisy Sans support 30+ languages. They rewrite whole phrases so they read naturally, instead of replacing individual words.</p>
   <ul>
@@ -224,7 +225,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
     <li><strong>Times:</strong> &#8220;3 days ago&#8221; becomes &#8220;Hace 3 d&#237;as&#8221; and &#8220;Vor 3 Tagen&#8221;.</li>
     <li><strong>Text size:</strong> Daisy&#8217;s design scales gracefully with your font size, including the largest accessibility sizes.</li>
   </ul>
-{{NICETIES}}
+{{NICETIES_2}}
 </div>
 
 <div class="wrap feature" id="try-it">
