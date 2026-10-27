@@ -89,7 +89,9 @@ a:hover { color: var(--accent); }
 .hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
 
 /* Feature sections: prose set like the page, with the WordPress blocks between. */
-.feature { margin-top: clamp(2rem, 5vw, 3rem); }
+.feature { margin-top: clamp(2rem, 5vw, 3.2rem); }
+/* The buttons sit as far under the hero's device as the next header sits under the buttons. */
+.hero .buttons { margin-top: 0; }
 /* The four cards stay in a row at the column's width (the block's own row starts at 56rem). */
 @container daisy-cards (min-width: 36rem) { .feature .daisy-cards .daisy-cards__row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 /* Blocks run edge to edge of the column, so their left edge lines up with the text. */
@@ -146,6 +148,8 @@ a:hover { color: var(--accent); }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
 .credits { margin-top: clamp(7rem, 22vw, 12rem); }
+/* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
+@media (min-width: 40.01rem) { .updates { padding-block: clamp(3rem, 6vw, 4.5rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
 .credits p { margin: 0.75rem 0; }
 </style>
 <style>
