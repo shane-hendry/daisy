@@ -240,6 +240,7 @@ When a title is hidden:
 - Also: Apple @ Work, a 9to5Mac series. **Apple @ Work: The browser is the biggest gap in your AI governance strategy** becomes **Apple @ Work** over **The browser is the biggest gap in your AI governance strategy**. (v0.3.0)
 - Also: Indie App Spotlight, another 9to5Mac series. **Indie App Spotlight: ‘Flipcorder’ lets you shoot retro footage on your iPhone Duo** becomes **Indie App Spotlight** over **‘Flipcorder’ lets you shoot retro footage on your iPhone Duo**. (v0.4.0)
 - Also: Monthly Log, a MacStories series. **Monthly Log: September 2026** becomes **Monthly Log** over **September 2026**. (v0.4.0)
+- Also: New Theme, from the NetNewsWire blog. **New Theme: Cinder, a light-only theme** becomes **New Theme** over **Cinder, a light-only theme**. (v0.5.0)
 - **Today in Apple history: iPad sales overtake Macs** becomes **Today in Apple history** over **iPad sales overtake Macs**. (v0.3.0)
 - **Livestream: Die Nachrichten auf tagesschau24** becomes **Livestream** over **Die Nachrichten auf tagesschau24**. (v0.3.0)
 
