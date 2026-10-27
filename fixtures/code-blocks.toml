@@ -61,4 +61,14 @@ async def fetch(url: str, retries: int = 3) -> bytes:
 <p>A feed that pre-highlighted its code, one block-level span per line (Shiki style):</p>
 <pre class="shiki"><code><span class="line"><span style="color:#D73A49">let</span><span style="color:#24292E"> total = items.reduce(0) { $0 + $1.count }</span></span>
 <span class="line"><span style="color:#6A737D">// done</span></span></code></pre>
+<p>Prices lined up with spaces and no language, as Daring Fireball posts them. This is a table, not code: no header, no colors.</p>
+<pre><code>M6 with 2 Thunderbolt ports:
+    Base price:    $1500
+
+    RAM:   16 GB:     +0
+           24 GB:   +200
+
+    SSD:  256 GB:     +0
+          512 GB:   +200
+            1 TB:   +500</code></pre>
 <p>Text after the blocks, to check the spacing below the last one.</p>'''

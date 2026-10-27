@@ -1,6 +1,7 @@
 {
   "daisy": {
     "version": "0.5.0",
+    "released": "2026-10-26T19:44:46Z",
     "note": {
       "en": "Daisy 0.5 improves code blocks and vertical video.",
       "es": "Daisy 0.5 mejora los bloques de código y el vídeo vertical.",
@@ -40,6 +41,7 @@
   },
   "daisy-sans": {
     "version": "0.5.0",
+    "released": "2026-10-26T19:44:46Z",
     "note": {
       "en": "Daisy Sans 0.5 improves code blocks and vertical video.",
       "es": "Daisy Sans 0.5 mejora los bloques de código y el vídeo vertical.",

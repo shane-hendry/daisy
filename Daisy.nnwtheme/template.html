@@ -1601,6 +1601,16 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         clone.querySelectorAll("br").forEach(function (br) { br.replaceWith("\n"); });
         return clone.textContent;
       }
+      // Text a publisher set in a <pre> only to keep its columns lined up (a price list, a
+      // table written with spaces) is not code. With no declared language, lines that hold
+      // columns and none of the punctuation code needs stay a plain <pre>.
+      function isPlainTable(text) {
+        if (/[{}();=<>|`\\]|\/\/|\/\*|^\s*[#$>]/m.test(text)) return false;
+        var lines = text.split("\n").filter(function (l) { return l.trim(); });
+        if (lines.length < 3) return false;
+        var columns = lines.filter(function (l) { return /\S {2,}\S/.test(l); }).length;
+        return columns / lines.length >= 0.5;
+      }
       function copyText(text, done) {
         function fallback() {
           var area = document.createElement("textarea");
@@ -1630,6 +1640,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         var code = pre.querySelector(":scope > code");
         var language = "";
         var result = null;
+        if (!declared(pre, code) && isPlainTable(text)) return;
         if (hljs && text.length <= MAX_LENGTH) {
           var name = declared(pre, code);
           if (name && name !== "plain") {
@@ -1810,11 +1821,30 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         for (var i = 0; i < 3; i++) if ((a[i] || 0) !== (b[i] || 0)) return (a[i] || 0) > (b[i] || 0);
         return false;
       };
+      // The notice is meant to be seen now and then, not on every article, and a page cannot
+      // reliably remember a dismissal. So it shows only on a long read (about 500 words or more),
+      // published within the last two days, and then on about one article in four, chosen from
+      // the article's link so the same article always decides the same way.
+      var eligible = function () {
+        var body = document.querySelector(".articleBody");
+        if (!body || (body.textContent || "").length < 3000) return false;
+        var published = daisy.published;
+        if (!published || !(Date.now() - published < 2 * DAY)) return false;
+        var anchor = document.querySelector(".article-header h1 a");
+        var seed = (anchor && anchor.getAttribute("href")) || "";
+        var hash = 0;
+        for (var i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+        return hash % 4 === 0;
+      };
       var show = function (all) {
         var entry = all && all[key];
         var have = parts(mine);
         var latest = entry && parts(entry.version);
         if (!have || !latest || !newer(latest, have)) return;
+        // Only for a day and a half after the release went out; after that it is never shown.
+        // An entry without a release time is not shown.
+        var released = Date.parse(entry.released);
+        if (!(Date.now() - released < 36 * 60 * 60 * 1000)) return;
         // "Not now" hides the notice until a newer release than this one is published.
         var skipped = null;
         try { skipped = localStorage.getItem("daisy-update-skipped-" + key); } catch (error) {}
@@ -1839,6 +1869,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         note.appendChild(link);
         block.hidden = false;
       };
+      if (!eligible()) return;
       var cached = null;
       try { cached = JSON.parse(localStorage.getItem("daisy-updates")); } catch (error) {}
       if (cached && cached.at && Date.now() - cached.at < DAY && cached.data) { show(cached.data); return; }

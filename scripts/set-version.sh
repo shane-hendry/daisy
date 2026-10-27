@@ -4,6 +4,8 @@
 # supports. Keeps the template, Daisy Sans, docs/updates.json and the release tag in step.
 # Usage: scripts/set-version.sh 0.5.0 notes.json
 #        scripts/set-version.sh --check     (fails if template and updates.json disagree)
+# "released" is stamped when this runs; the theme shows its notice only for 36 hours after it,
+# so run this when you publish the release.
 # notes.json: {"daisy": {"en": "...", "de": "...", ...}, "daisy-sans": {...}}, with a
 # sentence for every language in the theme's STRINGS table (the script lists any missing).
 set -eu
@@ -43,8 +45,10 @@ echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' || { echo "version must lo
 
 python3 - "$UPDATES" "$version" "$2" "$(languages)" <<'PY'
 import json, sys
+from datetime import datetime, timezone
 path, version, notes_path, langs = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4].split()
 notes = json.load(open(notes_path))
+released = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 out = {}
 for key in ("daisy", "daisy-sans"):
     note = notes.get(key)
@@ -57,7 +61,7 @@ for key in ("daisy", "daisy-sans"):
     long = [l for l in langs if len(note[l].strip()) > 300]
     if long:
         sys.exit(f"{key}: over 300 characters in {' '.join(long)}")
-    out[key] = {"version": version, "note": {l: note[l].strip() for l in langs}}
+    out[key] = {"version": version, "released": released, "note": {l: note[l].strip() for l in langs}}
 json.dump(out, open(path, "w"), indent=2, ensure_ascii=False)
 open(path, "a").write("\n")
 PY
