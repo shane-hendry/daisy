@@ -1,0 +1,30 @@
+title = "Report: iPhone 18 Pro sales down 4% in the US, but China drives 3.1% global growth"
+feed_link_title = "9to5Mac"
+feed_link = "https://9to5mac.com/"
+preferred_link = "https://example.org/9to5mac-reader"
+byline = "Marcus Mendes"
+date_medium = "Oct 27, 2026"
+body = '''<div><div id="readability-page-1" class="page">
+<p class="wp-block-paragraph">Counterpoint Research’s latest report offers a look at global iPhone 18 Pro sales during the first three weeks of availability. Here are the details.</p>
+<span id="more-1076128"></span>
+<h2 id="h-report-counters-soft-demand-rumors" class="wp-block-heading">Report counters soft demand rumors</h2>
+<p class="wp-block-paragraph">In a <a href="https://counterpointresearch.com/en/insights/apple-iphone-18-pro-series-off-to-a-mixed-start-recording-sales-growth-three-weeks-after-launched">report</a> released today, Counterpoint Research says iPhone 18 Pro and iPhone 18 Pro Max sales in the US fell 4% during their first three weeks of availability compared to the first three weeks of iPhone 17 Pro series sales last year.</p>
+<p class="wp-block-paragraph">The report noted that Japan saw a whopping 27% drop in sales, with demand weakening “as exchange rates amplified the price increases.”</p>
+<p class="wp-block-paragraph">China, on the other hand, saw a 29% increase in sales, while other markets collectively recorded a more modest 3.1% increase.</p>
+<figure class="wp-block-image alignwide size-full"><img decoding="async" width="1588" height="1077" src="https://9to5mac.com/wp-content/uploads/sites/6/2026/10/counterpoint-18series-sales.jpg?quality=82&amp;strip=all" alt="" class="wp-image-1076133" sizes="(max-width: 1588px) 100vw, 1588px" /></figure>
+<p class="wp-block-paragraph">The report doesn’t break down what that means in units, or millions of units, but it does offer some context on what drove these regional differences.</p>
+<p class="wp-block-paragraph">Here’s <a href="https://9to5mac.com/guides/counterpoint-research/">Counterpoint</a>:</p>
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p class="wp-block-paragraph">A regional breakdown shows that the global 3.1% growth was concentrated in specific markets. China posted the strongest growth, with sales rising 29% YoY. This was driven by better early supply compared with last year and by price increases on competing flagship models from Chinese Android OEMs. Excluding China’s contribution, the global sales growth rate would have been far weaker. The US and Japan experienced a YoY decline, affected by higher prices compared with their predecessors. In the US, consumers largely do not perceive meaningful improvements over the previous models in either features or design, while in Japan, demand has contracted as exchange rates amplified the price increases.</p>
+</blockquote>
+<p class="wp-block-paragraph">Today’s report also includes another interesting tidbit: According to Counterpoint, the iPhone 18 Pro Max accounted for a slightly smaller share of Pro-series sales compared to last year’s iPhone 17 Pro series, which the firm attributed to higher prices and stronger demand for the smaller Pro model in emerging markets:</p>
+<figure class="wp-block-image alignwide size-full"><img loading="lazy" decoding="async" width="1656" height="1072" src="https://9to5mac.com/wp-content/uploads/sites/6/2026/10/counterpoint-18series-mix.jpg?quality=82&amp;strip=all" alt="" class="wp-image-1076137" sizes="auto, (max-width: 1656px) 100vw, 1656px" /></figure>
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p class="wp-block-paragraph">The iPhone 18 Pro Max accounted for 56% of sales within the iPhone 18 Pro series, a slight decrease from 57% last year. This can be attributed to the higher prices compared with last year, as well as the fact that the sales growth in emerging markets such as India and Southeast Asia skewed more toward the Pro models.</p>
+</blockquote>
+<p class="wp-block-paragraph">As to how, or whether, the iPhone Duo had any effect on these shifting numbers, the report didn’t address that directly, since the device launched after the three-week period covered by the data. However, Counterpoint Associate Director Sujeong Lim raised the possibility that it could affect Pro Max sales going forward:</p>
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p class="wp-block-paragraph">“Whether China’s outperformance reflects durable demand or front-loaded buying will become clearer in the coming weeks. The recovery of US and Japanese volumes, and whether the iPhone Duo launching in Week 43 will generate incremental demand rather than cannibalising Pro Max, are the two most consequential near-term variables.”</p>
+</blockquote>
+<p class="wp-block-paragraph">To check out <em>Counterpoint</em>&#8216;s full report, <a href="https://counterpointresearch.com/en/insights/apple-iphone-18-pro-series-off-to-a-mixed-start-recording-sales-growth-three-weeks-after-launched">follow this link</a>.</p>
+</div></div>'''

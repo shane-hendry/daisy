@@ -1,0 +1,14 @@
+title = 'Orchestra Baobab, "Made In Senegal"'
+feed_link_title = "Quote cases"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/quotes"
+byline = "Test Author"
+date_medium = "Oct 27, 2026"
+body = '''<p>Quote and apostrophe cases, one heading each.</p>
+<h2>"Dear Human" is how it starts</h2>
+<h2>Don't stop: the '90s, a 12" pizza and 5'10" tall</h2>
+<h2>'Single' then "double" and "'nested' quotes"</h2>
+<h2>The dogs' toys, 'tis the season, rock 'n' roll</h2>
+<h2>„Hallo“ stays German, «Bonjour» stays French</h2>
+<h2>A "quote" mid-heading that may wrap onto a second line when the heading is long enough "to do so"</h2>
+<p>End.</p>'''

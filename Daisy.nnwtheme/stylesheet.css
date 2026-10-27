@@ -542,6 +542,18 @@ mark {
   padding: 0.05em calc(0.15em + 2px);
 }
 
+/* A link inside a highlight (or a highlight inside a link) keeps the white text and
+   underline; orange on the orange highlight would vanish, so hover thickens the line. */
+mark a,
+a mark {
+  color: var(--on-mark);
+}
+
+mark a:hover,
+a:hover mark {
+  text-decoration-thickness: calc(var(--line-thin) * 2);
+}
+
 /* Text the reader selects with the mouse or finger gets the same highlight. */
 /* Selection keeps the bright accent: the system recolours it, and the darker --mark came
    out muddy. It is temporary, so white on the accent is accepted below 4.5:1. */
@@ -1197,6 +1209,13 @@ caption {
 
 h1 a {
   color: inherit;
+}
+
+/* Quotation marks in headings are wrapped by template.html so they can shrink, gain
+   weight and hang into the margin (see the script's notes). The offset lifts a shrunken
+   mark back to cap height. */
+.q {
+  position: relative;
 }
 
 /* The gap below the title block. The header's margin is the gap from the block's last

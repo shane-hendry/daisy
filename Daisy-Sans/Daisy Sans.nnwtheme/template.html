@@ -61,6 +61,23 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
   <script>
     // Shared by the scripts below: the reader's language and the words for it.
     var daisy = { lang: "en", words: null };
+    // Reader view hands over the whole article inside one or two wrapper divs
+    // (<div><div class="page">…</div></div>). The stylesheet's rules for full-width pictures
+    // and spacing look at the article's direct children, so the wrappers are removed and
+    // their content takes their place.
+    (function () {
+      var body = document.querySelector(".articleBody");
+      for (var depth = 0; body && depth < 3; depth++) {
+        var only = body.firstElementChild;
+        if (!only || body.childElementCount !== 1 || only.tagName !== "DIV" || only.classList.contains("image-text")) return;
+        var stray = Array.prototype.some.call(body.childNodes, function (n) {
+          return n.nodeType === 3 && n.nodeValue.trim();
+        });
+        if (stray) return;
+        while (only.firstChild) body.insertBefore(only.firstChild, only);
+        body.removeChild(only);
+      }
+    })();
     // A short single paragraph followed by a list is almost always that list's label
     // ("Sponsored by:"), so it sits close to the list instead of a paragraph away.
     document.querySelectorAll(".articleBody p").forEach(function (p) {
@@ -1119,6 +1136,165 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       if (!h1) return;
       var n = h1.textContent.trim().length;
       h1.setAttribute("data-len", n <= 24 ? "short" : n <= 36 ? "brief" : n >= 70 ? "long" : "medium");
+    })();
+    // Quotation marks in headings (the title and the headings inside the article).
+    // 1. Straight quotes become typographic ones. Apostrophes (Don't, '90s, dogs') become a
+    //    plain ’ and are otherwise left alone, as are inch and foot marks (12", 5'10") and
+    //    any heading that uses another language's quote marks (« », „ “, 「 」).
+    // 2. Real quotes are wrapped in <span class="q">. Large headings shrink them and give
+    //    them more weight so their strokes stay as thick as the heading's. Every quote in a
+    //    heading gets the same size and weight, so opening and closing marks always match.
+    // 3. A quote that starts a line hangs in the margin so the first letter lines up with the
+    //    text below. It stays a safe distance from the screen edge: when the margin is too
+    //    narrow, all the heading's quotes shrink together until it fits.
+    (function () {
+      var article = document.querySelector(".article");
+      if (!article || article.classList.contains("no-tracking")) return;
+      var START = 48, END = 105.6, MIN_SIZE = 0.79, MIN_FIT = 0.45, SAFE = 8, MAX_WEIGHT = 900;
+      var FOREIGN = /[«»‹›„‚「」『』]/;
+      var LETTER = /[\p{L}\p{N}]/u;
+      var ELISION = /^(\d\d|tis\b|twas\b|n\b|em\b|cause\b|til\b|round\b)/i;
+      var records = [];
+
+      document.querySelectorAll(".article-header h1, .articleBody :is(h1, h2, h3)").forEach(function (h) {
+        if (!/["'‘’“”]/.test(h.textContent) || FOREIGN.test(h.textContent)) return;
+        var nodes = [], walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT), node;
+        while ((node = walker.nextNode())) nodes.push(node);
+        var chars = nodes.map(function (n) { return n.data; }).join("").split("");
+        var kinds = new Array(chars.length), openSingles = 0;
+        for (var i = 0; i < chars.length; i++) {
+          var c = chars[i], p = i ? chars[i - 1] : "", n = chars[i + 1] || "";
+          if (c === '"') {
+            if (/\d/.test(p)) continue;
+            var open = !p || /[\s(\[{–—‘“\/-]/.test(p);
+            chars[i] = open ? "“" : "”";
+            kinds[i] = open ? "o" : "c";
+          } else if (c === "“" || c === "”") {
+            kinds[i] = c === "“" ? "o" : "c";
+          } else if (c === "'" || c === "‘" || c === "’") {
+            var prevLetter = LETTER.test(p), nextLetter = LETTER.test(n);
+            if (c === "'" && /\d/.test(p) && !/\p{L}/u.test(n)) continue;
+            if (c === "‘") { kinds[i] = "o"; openSingles++; continue; }
+            if (prevLetter && nextLetter) { chars[i] = "’"; continue; }
+            if (p && !/[\s(\[{–—“‘]/.test(p)) {
+              if (openSingles > 0) { chars[i] = "’"; kinds[i] = "c"; openSingles--; }
+              else chars[i] = "’";
+            } else if (ELISION.test(chars.slice(i + 1, i + 8).join(""))) {
+              chars[i] = "’";
+            } else {
+              chars[i] = "‘"; kinds[i] = "o"; openSingles++;
+            }
+          }
+        }
+        var at = 0;
+        nodes.forEach(function (n) {
+          var len = n.data.length, frag = null, run = "";
+          for (var j = 0; j < len; j++) {
+            var ch = chars[at + j];
+            if (kinds[at + j]) {
+              frag = frag || document.createDocumentFragment();
+              if (run) { frag.appendChild(document.createTextNode(run)); run = ""; }
+              var span = document.createElement("span");
+              span.className = "q " + kinds[at + j];
+              span.textContent = ch;
+              frag.appendChild(span);
+            } else {
+              run += ch;
+            }
+          }
+          if (frag) {
+            if (run) frag.appendChild(document.createTextNode(run));
+            n.parentNode.replaceChild(frag, n);
+          } else {
+            n.data = run;
+          }
+          at += len;
+        });
+        var spans = h.querySelectorAll(".q");
+        if (spans.length) {
+          records.push({
+            h: h,
+            spans: Array.prototype.slice.call(spans),
+            hangs: h.matches(".article-header h1") || h.parentNode === document.querySelector(".articleBody")
+          });
+        }
+      });
+
+      function layout(rec) {
+        var h = rec.h, qs = rec.spans, cs = getComputedStyle(h);
+        var fs = parseFloat(cs.fontSize), fvs = cs.fontVariationSettings;
+        var found = /"wght"\s+([\d.]+)/.exec(fvs);
+        var base = found ? parseFloat(found[1]) : (parseFloat(cs.fontWeight) || 400);
+        var t = Math.min(1, Math.max(0, (fs - START) / (END - START)));
+        var s = 1 - t * (1 - MIN_SIZE);
+        // A smaller mark has thinner strokes, so it gets heavier (up to the axis maximum)
+        // to keep the heading's stroke thickness. Stroke is taken as size x (weight + 150).
+        function style(size) {
+          var weight = size === 1 ? 0 : Math.min(MAX_WEIGHT, Math.max(base, (base + 150) / size - 150));
+          var axes = !weight ? "" : found ? fvs.replace(/"wght"\s+[\d.]+/, '"wght" ' + weight)
+            : (fvs && fvs !== "normal" ? fvs + ", " : "") + '"wght" ' + weight;
+          qs.forEach(function (q) {
+            q.style.marginLeft = "";
+            q.style.fontSize = size === 1 ? "" : size + "em";
+            // The smaller mark sits lower in the line; this keeps its top at cap height.
+            q.style.top = size === 1 ? "" : (-0.7 * (1 - size) / size) + "em";
+            q.style.fontWeight = weight || "";
+            q.style.fontVariationSettings = axes;
+          });
+        }
+        style(s);
+        if (!rec.hangs || cs.direction === "rtl") return;
+        var edge = h.getBoundingClientRect().left;
+        var room = Math.max(0, edge - SAFE);
+        // A line-start opener plus any opening marks right after it hangs as one group.
+        function groups() {
+          var found = [];
+          qs.forEach(function (q) {
+            if (!q.classList.contains("o")) return;
+            var prev = q.previousSibling;
+            if (prev && prev.nodeType === 1 && prev.classList.contains("o") && prev.nextSibling === q) return;
+            var first = q.getBoundingClientRect(), last = q, next;
+            while ((next = last.nextSibling) && next.nodeType === 1 && next.classList.contains("o")) last = next;
+            var end = last.getBoundingClientRect();
+            found.push({ el: q, left: first.left, width: end.right - first.left });
+          });
+          return found;
+        }
+        for (var pass = 0; pass < 4; pass++) {
+          qs.forEach(function (q) { q.style.marginLeft = ""; });
+          var starts = groups().filter(function (g) { return Math.abs(g.left - edge) < 2; });
+          var need = starts.reduce(function (m, g) { return Math.max(m, g.width); }, 0);
+          if (need > room + 0.5 && s > MIN_FIT) {
+            s = Math.max(MIN_FIT, s * room / need);
+            style(s);
+            continue;
+          }
+          starts.forEach(function (g) { g.el.style.marginLeft = -Math.min(g.width, room) + "px"; });
+          // Hanging gives a line more room, which can move a mark to the start of a line (or
+          // away from it): check again until the set of hung marks settles.
+          var again = groups().filter(function (g) {
+            var hung = g.el.style.marginLeft !== "";
+            return hung ? Math.abs(g.left - (edge + parseFloat(g.el.style.marginLeft))) > 2
+                        : Math.abs(g.left - edge) < 2;
+          });
+          if (!again.length) break;
+        }
+      }
+
+      var queued = false;
+      function run() {
+        queued = false;
+        records.forEach(layout);
+      }
+      function schedule() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(run);
+      }
+      if (!records.length) return;
+      run();
+      window.addEventListener("resize", schedule);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
     })();
     // An untitled post's link line moves to the bottom, under "View original", which keeps
     // linking to the post itself.
