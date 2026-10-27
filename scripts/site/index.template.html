@@ -93,9 +93,9 @@ a:hover { color: var(--accent); }
 /* The buttons sit as far under the hero's device as the next header sits under the buttons. */
 .hero .buttons { margin-top: 0; }
 /* The cards are set two to a row (the block's own row is four, from 56rem). */
-@container daisy-cards (min-width: 36rem) { .feature .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-/* Each card is square and its type scales with its width, so a smaller cap shrinks the whole card: at most 20rem (320px) wide and tall. */
-.feature .daisy-cards__cell { justify-self: center; max-width: 20rem; width: 100%; }
+@container daisy-cards (min-width: 36rem) { .feature .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 16rem)); justify-content: center; } }
+/* Each card is square and its type scales with its width, so a smaller cap shrinks the whole card: at most 16rem (256px) wide and tall, and a pair sits together with the block's own 1.4rem gap. */
+.feature .daisy-cards__cell { justify-self: center; max-width: 16rem; width: 100%; }
 /* Blocks run edge to edge of the column, so their left edge lines up with the text. */
 .feature .daisy-ba, .hero .daisy-ba { padding-inline: 0; }
 .feature .daisy-cards__label { font-weight: 400; }
