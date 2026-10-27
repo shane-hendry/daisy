@@ -44,7 +44,7 @@ body {
 }
 a { color: inherit; text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
-.wrap { margin-inline: auto; max-width: 70rem; padding-inline: 1rem; }
+.wrap { margin-inline: auto; max-width: 48.75rem; padding-inline: 1rem; }
 
 /* Title block, from the Figma frame (Daisy, node 79:2495). Sizes are em of the title (129.674px
    in the frame, 1em here); letter-spacing is the frame's per-letter tracking, also in em. */
@@ -90,12 +90,14 @@ a:hover { color: var(--accent); }
 
 /* Feature sections: prose set like the page, with the WordPress blocks between. */
 .feature { margin-top: clamp(4rem, 12vw, 8rem); }
-.feature > :not(.daisy-ba, .daisy-cards, .daisy-hero, .dsf) { max-width: 46rem; }
+/* Blocks run edge to edge of the column, so their left edge lines up with the text. */
+.feature .daisy-ba, .hero .daisy-ba { padding-inline: 0; }
+.feature .daisy-cards__label { font-weight: 400; }
 .feature > h2 { font-family: var(--sans); font-size: clamp(1.75rem, 4vw, 2.4rem); font-weight: 400; letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 1.25rem; }
 .feature > h3.sub { font-size: clamp(1.4rem, 3vw, 1.75rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.2; margin: 2.5rem 0 1rem; }
-.feature > p { margin: 0 0 1rem; text-wrap: pretty; }
+.feature > p { margin: 0 0 1rem; }
 .feature > ul { margin: 0 0 1.25rem; padding-inline-start: 1.5rem; }
-.feature > ul > li { margin-block: 0.3em; text-wrap: pretty; }
+.feature > ul > li { margin-block: 0.3em; }
 :not(pre) > code:not(.daisy-ba *, .daisy-card *, .daisy-hero *, .dc *) { -webkit-box-decoration-break: clone; background: color-mix(in srgb, var(--ink) 9%, transparent); border-radius: 0.2rem; box-decoration-break: clone; font-size: 0.9em; padding: 0.1em 0.2em; }
 .focus .feature { display: none; }
 /* On a phone the update page ends at the screen's bottom edge: Credits waits below the fold. */
@@ -103,7 +105,6 @@ a:hover { color: var(--accent); }
 
 /* Updates */
 .updates { border-top: 2px solid var(--ink); margin-top: clamp(2rem, 6vw, 4rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
-.updates > .wrap { max-width: 42rem; }
 .updates h2 {
   font-family: var(--sans);
   font-size: clamp(1.7rem, 4vw, 2.4rem);
@@ -118,7 +119,7 @@ a:hover { color: var(--accent); }
 .release h3 a { text-decoration: none; }
 .release time { color: var(--quiet); display: block; font-size: 0.9375rem; margin-top: 0.15rem; }
 .release ul { margin: 0.9rem 0 0; padding-inline-start: 1.25rem; }
-.release li { margin-block: 0.5em; text-wrap: pretty; }
+.release li { margin-block: 0.5em; }
 .focus .top, .focus .hero { display: none; }
 .focus .updates { border-top: 0; margin-top: 0; }
 .howto { margin-block: 1.75rem; }
@@ -126,7 +127,7 @@ a:hover { color: var(--accent); }
 .howto .button { font-size: 0.9375rem; padding: 0.5em 1em; }
 .howto .lead-in { margin: 0; }
 .howto ol { margin: 0; padding-inline-start: 1.5rem; }
-.howto li { margin-block: 0.5em; text-wrap: pretty; }
+.howto li { margin-block: 0.5em; }
 .howto a:not(.button) { text-decoration: underline; }
 .release details { margin-top: 0.9rem; }
 .release summary { cursor: pointer; font-weight: 600; list-style: none; -webkit-tap-highlight-color: transparent; }
@@ -143,7 +144,7 @@ a:hover { color: var(--accent); }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
 .credits { margin-top: clamp(7rem, 22vw, 12rem); }
-.credits p { margin: 0.75rem 0; text-wrap: pretty; }
+.credits p { margin: 0.75rem 0; }
 </style>
 <style>
 /* The hero's styles, from build/wordpress/daisy-examples.css; the hero block's own overrides come after them. */
@@ -12619,7 +12620,7 @@ window.addEventListener(&quot;message&quot;,function(e){
     <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">View all releases</a></p>
     <section class="credits">
       <h2>Credits</h2>
-      <p>Daisy and Daisy Sans were designed and built by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a>, using <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>, and with the help of Claude&nbsp;Code.</p>
+      <p>Daisy and Daisy Sans were designed and built by <a href="https://shanehendry.com/">Shane Hendry</a>, using <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>, and with the help of Claude Code.</p>
       <p>Daisy and Daisy Sans aren&#8217;t affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for. The theme format is documented in NetNewsWire&#8217;s <a href="https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md">themes technote</a>.</p>
     </section>
   </div>
