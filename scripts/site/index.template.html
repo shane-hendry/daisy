@@ -305,8 +305,10 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   var theme = new URLSearchParams(location.search).get("theme");
   if (theme === "daisy" || theme === "daisy-sans") {
     document.getElementById("updates").setAttribute("data-theme", theme);
+    document.querySelector("#updates h2").textContent = theme === "daisy" ? "Update Daisy" : "Update Daisy Sans";
     howto.querySelectorAll("a[data-theme]").forEach(function (a) {
       if (a.getAttribute("data-theme") !== theme) a.hidden = true;
+      else if (a.classList.contains("button")) a.textContent = "Update theme";
     });
     howto.querySelectorAll(".or").forEach(function (el) { el.hidden = true; });
   }
