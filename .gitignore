@@ -2,3 +2,4 @@ build/
 dist/
 *.nnwtheme.zip
 fixtures/wordpress*.toml
+fixtures/
