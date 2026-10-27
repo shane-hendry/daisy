@@ -67,10 +67,10 @@ a:hover { color: var(--accent); }
 .line1 .sans { font-size: 0.9254em; font-variation-settings: "wdth" 116; font-weight: 800; }
 .line1 .amp { font-size: 0.7301em; font-weight: 800; letter-spacing: -0.03em; }
 .line1 .gap { font-weight: 510; letter-spacing: -0.02em; }
-.line2 .lead { font-variation-settings: "wdth" 100; font-weight: 540; letter-spacing: -0.02em; }
+.line2 .lead { font-variation-settings: "wdth" 125; font-weight: 540; letter-spacing: -0.02em; }
 .line2 .gap { font-variation-settings: "wdth" 129; font-weight: 567; letter-spacing: -0.03em; }
 .line2 .ny { font-size: 1.0623em; font-weight: 600; }
-.byline { color: var(--quiet); font-size: 1.0625rem; margin: 1.25rem 0 0; }
+.byline { color: var(--ink); font-size: 1.0625rem; margin: 1.25rem 0 0; }
 .sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
 .buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; }
 .button {
@@ -82,7 +82,8 @@ a:hover { color: var(--accent); }
   text-decoration: none;
 }
 .button:hover { background: var(--accent); color: #fff; }
-.button--serif { font-family: var(--serif); font-weight: 700; }
+.button--serif { font-family: var(--serif); font-weight: 500; }
+.button--sans { font-variation-settings: "wght" 800, "wdth" 116; font-weight: 800; }
 
 /* Hero: the block is pasted in as it is. */
 .hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
@@ -111,7 +112,11 @@ a:hover { color: var(--accent); }
 .howto li { margin-block: 0.5em; text-wrap: pretty; }
 .howto a:not(.button) { text-decoration: underline; }
 .history { font-weight: 600; }
-.footer { color: var(--quiet); font-size: 0.9375rem; margin-top: 3rem; }
+.credits { color: var(--quiet); font-size: 0.9375rem; margin-top: 3rem; }
+.credits h3 { color: var(--ink); font-size: 1.0625rem; margin: 0 0 0.5rem; }
+.credits p { margin: 0.75rem 0; text-wrap: pretty; }
+.credits ul { margin: 0.75rem 0; padding-inline-start: 1.25rem; }
+.credits li { margin-block: 0.2em; }
 </style>
 <style>
 /* The hero's styles, from build/wordpress/daisy-examples.css; the hero block's own overrides come after them. */
@@ -491,6 +496,206 @@ a:hover { color: var(--accent); }
 }
 
 
+/* Cards: four square cards for the "content and design niceties" list. Each is live text
+   with a byline, a date and a title (the Reddit post has no title). Nothing scrolls. A row
+   of four when the column is wide, a stack below that. The type is sized from the card's own
+   width (1cqw = 1% of it), so every card looks the same at any size. */
+.daisy-cards {
+  container: daisy-cards / inline-size;
+}
+
+.daisy-cards__row {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: minmax(0, 18rem);
+  justify-content: center;
+  padding-block: 0.75rem 1.25rem;
+}
+
+@container daisy-cards (min-width: 56rem) {
+  .daisy-cards__row {
+    grid-template-columns: repeat(4, minmax(0, 19rem));
+  }
+}
+
+.dc {
+  --dc-canvas: #fff;
+  --dc-ink: #161616;
+  --dc-accent: #f05a00;
+  --dc-surface: #f4f4f4;
+  --dc-comment: #6a6a6a;
+  --dc-keyword: #8029b8;
+  --dc-title: #1456b8;
+  --dc-type: #007a7a;
+  --dc-font: ui-serif, "New York", Georgia, serif;
+  aspect-ratio: 1;
+  background: var(--dc-canvas);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.35rem 1.6rem rgba(0, 0, 0, 0.22), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+  color: var(--dc-ink);
+  container-type: inline-size;
+  overflow: hidden;
+  position: relative;
+}
+
+.dc--dark {
+  --dc-canvas: #121212;
+  --dc-ink: #ececec;
+  --dc-accent: #ff7a2e;
+  --dc-surface: #1c1c1c;
+  --dc-comment: #959595;
+  --dc-keyword: #d29cff;
+  --dc-title: #7db4ff;
+  --dc-type: #4fe0d4;
+}
+
+.dc--sans {
+  --dc-font: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, "Segoe UI", sans-serif;
+}
+
+.dc__in {
+  font-family: var(--dc-font);
+  font-size: 5cqw;
+  font-weight: 400;
+  inset: 0;
+  letter-spacing: -0.008em;
+  line-height: 1.55;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  padding: 1.3em 1.2em;
+  position: absolute;
+  text-align: left;
+}
+
+.dc__in * {
+  box-sizing: border-box;
+}
+
+.dc__meta {
+  align-items: baseline;
+  display: flex;
+  gap: 0 0.9em;
+  justify-content: space-between;
+}
+
+.dc__byline {
+  min-width: 0;
+  text-box: trim-end cap alphabetic;
+}
+
+.dc__byline .dc__pub {
+  display: inline-block;
+  text-wrap: pretty;
+}
+
+.dc__date {
+  cursor: default;
+  flex: none;
+  position: relative;
+  text-box: trim-end cap alphabetic;
+  white-space: nowrap;
+}
+
+/* The time is laid over the card, one line below the date, so nothing moves. */
+.dc__date-full {
+  background: var(--dc-canvas);
+  background-clip: content-box;
+  padding-top: 1lh;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0;
+  white-space: nowrap;
+  width: max-content;
+  z-index: 1;
+}
+
+.dc__date-full[hidden] {
+  display: none;
+}
+
+.dc__title {
+  font-size: 1.6em;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  margin: calc(2.2em / 1.6) 0 0;
+  text-box: trim-both cap alphabetic;
+  text-wrap: pretty;
+}
+
+.dc .dc__title + * {
+  margin-top: 2.2em;
+  text-box: trim-start cap alphabetic;
+}
+
+.dc__text {
+  margin: 0;
+}
+
+.dc__text--post {
+  font-size: 1.28em;
+  line-height: 1.4;
+  margin-top: calc(2.2em / 1.28);
+  text-box: trim-both cap alphabetic;
+}
+
+/* The link sits below the post at the same gap as the credit row and the post: it is not pinned to the bottom. */
+.dc .dc__join {
+  margin-top: 2.2em;
+  text-box: trim-both cap alphabetic;
+}
+
+.dc__code {
+  background: var(--dc-surface);
+  border-radius: 0.2em;
+  overflow: hidden;
+}
+
+.dc__code-head {
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+  justify-content: space-between;
+  padding: 0.5em 0.9em;
+}
+
+.dc__copy {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+  padding: 0;
+}
+
+.dc__copy:hover,
+.dc__copy.copied {
+  color: var(--dc-accent);
+}
+
+.dc__code pre {
+  background: none;
+  color: inherit;
+  font: 0.8em/1.55 ui-monospace, "SF Mono", Menlo, monospace;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 0.9em 0.9em;
+  white-space: pre;
+}
+
+.dc .hljs-comment { color: var(--dc-comment); font-style: italic; }
+.dc .hljs-selector-tag { color: var(--dc-keyword); }
+.dc .hljs-selector-class { color: var(--dc-title); }
+.dc .hljs-attribute { color: var(--dc-type); }
+
+/* The part that is open (the author list, the date's time) turns orange, as a tappable control does. */
+.dc__on {
+  color: var(--dc-accent);
+}
+
 </style>
 </head>
 <body>
@@ -498,10 +703,10 @@ a:hover { color: var(--accent); }
   <h1 class="title"><span class="sr">Daisy &amp; Daisy Sans. Clean up your feed</span>
     <span class="line1" aria-hidden="true"><span class="ny ny700" style="letter-spacing:-0.03em">D</span><span class="ny ny700">a</span><span class="ny ny700" style="letter-spacing:-0.01em">is</span><span class="ny ny700" style="letter-spacing:-0.05em">y</span><span class="ny ny700" style="letter-spacing:-0.06em"> </span><span class="ny amp">&amp;</span><span class="gap sf"> </span><span class="sans"><span class="sf" style="letter-spacing:-0.02em">D</span><span class="sf" style="letter-spacing:-0.01em">ai</span><span class="sf" style="letter-spacing:-0.02em">s</span><span class="sf">y </span><span class="sf" style="letter-spacing:-0.03em">S</span><span class="sf" style="letter-spacing:-0.02em">an</span><span class="sf">s</span></span></span>
     <span class="line2" aria-hidden="true"><span class="lead sf">Clean up</span><span class="gap sf"> </span><span class="ny" style="letter-spacing:-0.03em">y</span><span class="ny" style="letter-spacing:-0.04em">o</span><span class="ny" style="letter-spacing:-0.01em">u</span><span class="ny" style="letter-spacing:-0.03em">r</span><span class="ny" style="letter-spacing:-0.02em"> </span><span class="ny" style="letter-spacing:-0.03em">fee</span><span class="ny" style="letter-spacing:-0.02em">d</span></span></h1>
-  <p class="byline">NetNewsWire themes by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a></p>
+  <p class="byline"><a href="https://netnewswire.com/">NetNewsWire</a> themes by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a></p>
   <p class="buttons">
-    <a class="button button--serif" href="install/?theme=daisy&amp;v=0.5.0">Install Daisy</a>
-    <a class="button" href="install/?theme=daisy-sans&amp;v=0.5.0">Install Daisy Sans</a>
+    <a class="button button--serif" href="install/?theme=daisy&amp;v=0.5.0">Get Daisy</a>
+    <a class="button button--sans" href="install/?theme=daisy-sans&amp;v=0.5.0">Get Daisy Sans</a>
   </p>
 </header>
 
@@ -708,7 +913,18 @@ a:hover { color: var(--accent); }
       </ul>
     </article>
     <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">Release history</a></p>
-    <p class="footer">Daisy and Daisy Sans are made by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a>.</p>
+    <section class="credits">
+      <h3>Credits</h3>
+      <p>Daisy and Daisy Sans were built with <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>. It was a collaborative effort by the whole team here at SH Enterprises Worldwide.</p>
+      <ul>
+        <li><strong>CEO</strong> Me</li>
+        <li><strong>Product</strong> Yours truly</li>
+        <li><strong>Design and content</strong> Moi</li>
+        <li><strong>Marketing</strong> Ya boi</li>
+        <li><strong>Engineering</strong> Claude &#129302;</li>
+      </ul>
+      <p>Daisy and Daisy Sans aren&#8217;t affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for. The theme format is documented in NetNewsWire&#8217;s <a href="https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md">themes technote</a>.</p>
+    </section>
   </div>
 </section>
 </main>
