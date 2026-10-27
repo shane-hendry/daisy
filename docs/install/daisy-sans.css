@@ -93,7 +93,7 @@
   --title-short-scale: 1.7;
   --title-long-axes: "wght" 780, "wdth" 43;    /* long titles (70 or more): Sans goes narrow */
   --title-long-scale: 1.3;
-  --title-brief-scale: 1.2;               /* brief titles (25 to 36 characters) grow in wide windows; Sans sets 1.2 */
+  --title-brief-scale: 1.2;               /* brief titles (25 to 36 characters) grow; Sans sets 1.2 */
   --title-phone: clamp(1.7em, 1.36em + 1.92vw, 2.05em);
 
   /* Headings inside an article: a weight and variable-font settings for each level,
@@ -1148,10 +1148,8 @@ caption {
   line-height: 1;
 }
 
-@media (min-width: 700px) {
-  .article-header h1[data-len="brief"] {
-    font-size: calc(var(--text-h1) * var(--title-brief-scale));
-  }
+.article-header h1[data-len="brief"] {
+  font-size: calc(var(--text-h1) * var(--title-brief-scale));
 }
 
 .article-header h1[data-len="long"] {
