@@ -1821,8 +1821,8 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         text = typeof text === "string" ? text.trim() : "";
         if (!text || text.length > 300) return;
         var link = document.createElement("a");
-        // The link opens the release in the Updates section of the site, which has the update steps for Mac and for iPhone and iPad.
-        link.href = SITE + "?theme=" + encodeURIComponent(key) + "#v" + String(entry.version).replace(/\./g, "-");
+        // The link opens the site's Updates section on its own, set in this theme's type, with the update steps for Mac and for iPhone and iPad.
+        link.href = SITE + "?theme=" + encodeURIComponent(key) + "#updates";
         link.textContent = words[1];
         title.textContent = words[0];
         note.textContent = text + " ";

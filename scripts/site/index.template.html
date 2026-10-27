@@ -89,7 +89,7 @@ a:hover { color: var(--accent); }
 .hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
 
 /* Updates */
-.updates { border-top: 2px solid var(--ink); margin-top: clamp(2rem, 6vw, 4rem); padding-block: clamp(2rem, 6vw, 4rem) clamp(3rem, 8vw, 6rem); }
+.updates { border-top: 2px solid var(--ink); margin-top: clamp(2rem, 6vw, 4rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
 .updates > .wrap { max-width: 42rem; }
 .updates h2 {
   font-family: var(--sans);
@@ -106,7 +106,9 @@ a:hover { color: var(--accent); }
 .release time { color: var(--quiet); display: block; font-size: 0.9375rem; margin-top: 0.15rem; }
 .release ul { margin: 0.9rem 0 0; padding-inline-start: 1.25rem; }
 .release li { margin-block: 0.5em; text-wrap: pretty; }
-.howto { margin-top: 0.9rem; }
+.focus .top, .focus .hero { display: none; }
+.focus .updates { border-top: 0; margin-top: 0; }
+.howto { margin-block: 1.75rem; }
 .howto .buttons { gap: 0.5rem; justify-content: flex-start; margin: 0; }
 .howto .button { font-size: 0.9375rem; padding: 0.5em 1em; }
 .howto .lead-in { margin: 0; }
@@ -127,13 +129,17 @@ a:hover { color: var(--accent); }
 .updates[data-theme="daisy-sans"] :is(h3, .button) { font-weight: 700; }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
-.credits { margin-top: clamp(2rem, 6vw, 4rem); }
+.credits { margin-top: clamp(7rem, 22vw, 12rem); }
 .credits p { margin: 0.75rem 0; text-wrap: pretty; }
 </style>
 <style>
 /* The hero's styles, from build/wordpress/daisy-examples.css; the hero block's own overrides come after them. */
 {{HERO_CSS}}
 </style>
+<script>
+// Arriving from a theme's update notice (?theme=daisy or ?theme=daisy-sans), only the Updates section is shown, as a page of its own.
+if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.documentElement.classList.add("focus");
+</script>
 </head>
 <body>
 <header class="top wrap">
