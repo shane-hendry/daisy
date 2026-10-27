@@ -1138,7 +1138,7 @@ caption {
   line-height: 1.1;
   margin: calc(var(--space-large) * 0.94) 0 0;
   text-box: trim-both cap alphabetic;
-  text-wrap: pretty;
+  text-wrap: balance;
 }
 
 .article-header h1[data-len="short"] {
