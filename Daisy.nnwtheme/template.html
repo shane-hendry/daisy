@@ -911,7 +911,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|apple @ work|apple @ work podcast|indie app spotlight|monthly log|new theme|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|magsafe monday|apple @ work|apple @ work podcast|indie app spotlight|monthly log|new theme|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
       var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive|update|throwback|repost";
       var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
@@ -1701,10 +1701,26 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
     // Media never runs taller than the window: tell the stylesheet each image, video and
     // embed's proportions (--ar) so it can shrink the width, centred, to fit the height.
     (function () {
+      // On a phone a picture either bleeds to both edges of the screen or stays inside the
+      // text column; its edges never end in the gutter between the two. It bleeds only when
+      // neither the window-height limit nor its own pixels (--media-cap) hold it narrower
+      // than the screen; otherwise its widest size is the column (--media-wmax).
+      function fit(el) {
+        var ar = parseFloat(el.style.getPropertyValue("--ar"));
+        if (!(ar > 0)) return;
+        var nw = parseFloat(el.style.getPropertyValue("--nw"));
+        var grow = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--media-grow")) || 1;
+        var widest = Math.min(window.innerHeight * 0.7 * ar, nw > 0 ? nw * grow : Infinity);
+        el.style.setProperty("--media-wmax", widest >= window.innerWidth ? "100vw" : "100%");
+      }
+      var fitted = [];
+      window.addEventListener("resize", function () { fitted.forEach(fit); });
       function mark(el, w, h) {
         if (w > 0 && h > 0) {
           el.style.setProperty("--ar", w / h);
           el.setAttribute("data-ar", "");
+          if (fitted.indexOf(el) < 0) fitted.push(el);
+          fit(el);
           // A figure passes the proportions on to its caption, which lines up with the picture.
           var fig = el.parentNode;
           if (fig && fig.tagName === "FIGURE") {
@@ -1725,7 +1741,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
             mark(el, el.naturalWidth, el.naturalHeight);
             // The file's own width caps how far the stylesheet stretches it (--media-cap).
             // A vector image has no fixed size and can grow freely.
-            if (el.naturalWidth > 0 && !/\.svg(\?|#|$)/i.test(el.currentSrc || el.src)) el.style.setProperty("--nw", el.naturalWidth);
+            if (el.naturalWidth > 0 && !/\.svg(\?|#|$)/i.test(el.currentSrc || el.src)) { el.style.setProperty("--nw", el.naturalWidth); fit(el); }
           };
           if (el.complete && el.naturalWidth) size();
           else el.addEventListener("load", size);

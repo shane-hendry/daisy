@@ -285,8 +285,3 @@ native speaker would say them. [↗](content-rules.md#languages)
 ### Coverage
 
 - More than 30 languages are supported, and anything else falls back to English.
-
-## Where to see it
-
-The `fixtures/` folder has a sample article for each special case, such as
-`sponsor-paren.toml`, `untitled.toml`, `footnotes.toml`, and `editorial-label.toml`.

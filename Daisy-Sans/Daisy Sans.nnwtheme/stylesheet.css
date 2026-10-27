@@ -93,6 +93,8 @@
   --title-short-scale: 1.7;
   --title-long-axes: "wght" 780, "wdth" 43;    /* long titles (70 or more): Sans goes narrow */
   --title-long-scale: 1.3;
+  --title-short-leading: 0.9;                /* line spacing of the short and long titles; Sans is narrow there and sets 0.9 and 1 */
+  --title-long-leading: 1;
   --title-brief-scale: 1.2;               /* brief titles (25 to 36 characters) grow; Sans sets 1.2 */
   --title-phone: clamp(1.7em, 1.36em + 1.92vw, 2.05em);
 
@@ -1070,8 +1072,7 @@ caption {
   font-variation-settings: var(--meta-axes);
   align-items: flex-start;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35em 2.5rem;
+  gap: 0 2.5rem;
   justify-content: space-between;
 }
 
@@ -1174,7 +1175,7 @@ caption {
   font-size: calc(var(--text-h1) * var(--title-short-scale));
   font-variation-settings: var(--title-short-axes);
   letter-spacing: -0.01em;
-  line-height: 1;
+  line-height: var(--title-short-leading);
 }
 
 .article-header h1[data-len="brief"] {
@@ -1184,6 +1185,7 @@ caption {
 .article-header h1[data-len="long"] {
   font-size: calc(var(--text-h1) * var(--title-long-scale));
   font-variation-settings: var(--title-long-axes);
+  line-height: var(--title-long-leading);
 }
 
 /* Capped lower on phones. */
@@ -2021,7 +2023,7 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   .articleBody > div:has(img, video, iframe):not(:has(p)):not(.unfloat) :is(img, video, iframe):not(:is([src*="embed.podcasts.apple.com"], [src*="embed.music.apple.com"], [src*="open.spotify.com"], [src*="w.soundcloud.com"], [src*="bandcamp.com/EmbeddedPlayer"], [src*="pca.st"], [src*="overcast.fm"], [src*="share.transistor.fm"], [src*="player.simplecast.com"], [src*="html5-player.libsyn.com"], [src*="player.megaphone.fm"], [src*="podbean.com"], [src*="embed.acast.com"], [src*="buzzsprout.com"], [src*="mixcloud.com/widget"], [src*="widget.deezer.com"], [src*="embed.tidal.com"], [src*="embed.bsky.app"], [src*="platform.twitter.com"], [src*="platform.x.com"], [src*="instagram.com"], [src*="threads.net"], [src*="redditmedia.com"], [src*="codepen.io"], [src*="gist.github.com"])):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat) {
     /* Unless that would make it taller than the window: then it shrinks, centred
        (see 1.10). */
-    --media-w: min(100vw, calc(var(--media-max-h) * var(--ar, 1000)), var(--media-cap));
+    --media-w: min(var(--media-wmax, 100vw), calc(var(--media-max-h) * var(--ar, 1000)), var(--media-cap));
     margin-inline: calc(50% - var(--media-w) / 2) !important;
     max-width: 100vw !important;
     width: var(--media-w) !important;
