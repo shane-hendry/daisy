@@ -157,6 +157,10 @@ a:hover { color: var(--accent); }
 .release li { margin-block: 0.5em; }
 .focus .top, .focus .hero { display: none; }
 .focus .updates { border-top: 0; margin-top: 0; }
+/* Arriving from a theme's update notice, the page is just the update: no version line, no history link, and on a phone it starts higher. */
+.updates[data-theme] .release h3, .updates[data-theme] .release ~ .release, .updates[data-theme] .history { display: none; }
+.updates[data-theme] h2 + time { color: var(--quiet); display: block; font-size: 0.9375rem; margin: -0.9rem 0 0; }
+@media (max-width: 40rem) { .focus .updates { padding-top: clamp(3.5rem, 11vw, 6rem); } }
 .howto { margin-block: 1.75rem; }
 .howto .buttons { gap: 0.5rem; justify-content: flex-start; margin: 0; }
 .howto .button { font-size: 1.22rem; padding: 0.5em 1em; }
@@ -12809,7 +12813,7 @@ window.addEventListener(&quot;message&quot;,function(e){
           <ol>
             <li>Open this page in your browser</li>
             <li>Close the in-app browser in NetNewsWire</li>
-            <li>In your browser, update to <a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.nnwtheme.zip">Daisy&nbsp;0.5</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.Sans.nnwtheme.zip">Daisy&nbsp;Sans&nbsp;0.5</a></li>
+            <li>Return to your browser and <span class="to">update to </span><a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.nnwtheme.zip">Daisy&nbsp;0.5</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.5.0%2FDaisy.Sans.nnwtheme.zip">Daisy&nbsp;Sans&nbsp;0.5</a></li>
           </ol>
         </div>
       </div>
@@ -12846,12 +12850,20 @@ window.addEventListener(&quot;message&quot;,function(e){
   var theme = new URLSearchParams(location.search).get("theme");
   if (theme === "daisy" || theme === "daisy-sans") {
     document.getElementById("updates").setAttribute("data-theme", theme);
-    document.querySelector("#updates h2").textContent = theme === "daisy" ? "Update Daisy" : "Update Daisy Sans";
+    // The heading carries the version, so the release's own "Version" line goes, and its date moves up under the heading.
+    var latest = document.querySelector("#updates .release");
+    var heading = document.querySelector("#updates h2");
+    var version = latest ? latest.querySelector("h3").textContent.replace(/^\s*Version\s*/i, "").trim() : "";
+    heading.textContent = "Update to " + (theme === "daisy" ? "Daisy" : "Daisy Sans") + (version ? " " + version : "");
+    if (latest) heading.after(latest.querySelector("time"));
     howto.querySelectorAll("a[data-theme]").forEach(function (a) {
       if (a.getAttribute("data-theme") !== theme) a.hidden = true;
       else if (a.classList.contains("button")) a.textContent = "Update theme";
+      else a.prepend("update to ");
     });
+
     howto.querySelectorAll(".or").forEach(function (el) { el.hidden = true; });
+    howto.querySelectorAll(".to").forEach(function (el) { el.hidden = true; });
   }
 })();
 </script>
