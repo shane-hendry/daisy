@@ -46,28 +46,33 @@ a { color: inherit; text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
 .wrap { margin-inline: auto; max-width: 70rem; padding-inline: 1rem; }
 
-/* Title block: the same type as the hero image. */
-.top { padding-block: clamp(2.5rem, 8vw, 5.5rem) 0; text-align: center; }
+/* Title block, from the Figma frame (Daisy, node 79:2495). Sizes are em of the title (129.674px
+   in the frame, 1em here); letter-spacing is the frame's per-letter tracking, also in em. */
+.top { padding-block: clamp(4rem, 12vw, 8.5rem) 0; text-align: center; }
 .title {
-  font-size: clamp(2.6rem, 9.5vw, 6.2rem);
-  letter-spacing: -0.03em;
-  line-height: 1;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  font-size: min(8.96vw, 6.484rem);
+  font-weight: 500;
+  gap: 0.5em;
   margin: 0;
-  text-wrap: balance;
 }
-.title .serif { font-family: var(--serif); font-variation-settings: "opsz" 72; font-weight: 700; }
-.title .amp { font-family: var(--serif); font-size: 0.6em; font-weight: 400; margin-inline: 0.15em; }
-.title .sans { font-family: var(--sans); font-variation-settings: "wght" 800, "wdth" 115; font-weight: 800; }
-.tagline {
-  font-family: var(--sans);
-  font-size: clamp(1.7rem, 6vw, 3.9rem);
-  font-variation-settings: "wght" 800, "wdth" 115;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  margin: 0.15em 0 0;
-}
-.buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: clamp(1.5rem, 4vw, 2.5rem); }
+.title .line1, .title .line2 { display: block; text-box: trim-both cap alphabetic; white-space: nowrap; }
+.title .line1 { line-height: 0.3246; }
+.title .line2 { font-size: 0.461em; line-height: 0.9035; }
+.ny { font-family: var(--serif); }
+.sf { font-family: var(--sans); }
+.ny700 { font-weight: 700; }
+.line1 .sans { font-size: 0.9254em; font-variation-settings: "wdth" 116; font-weight: 800; }
+.line1 .amp { font-size: 0.7301em; font-weight: 800; letter-spacing: -0.03em; }
+.line1 .gap { font-weight: 510; letter-spacing: -0.02em; }
+.line2 .lead { font-variation-settings: "wdth" 100; font-weight: 540; letter-spacing: -0.02em; }
+.line2 .gap { font-variation-settings: "wdth" 129; font-weight: 567; letter-spacing: -0.03em; }
+.line2 .ny { font-size: 1.0623em; font-weight: 600; }
+.byline { color: var(--quiet); font-size: 1.0625rem; margin: 1.25rem 0 0; }
+.sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; }
 .button {
   background: var(--button);
   border-radius: 999px;
@@ -80,10 +85,10 @@ a:hover { color: var(--accent); }
 .button--serif { font-family: var(--serif); font-weight: 700; }
 
 /* Hero: the block is pasted in as it is. */
-.hero { margin-top: clamp(1rem, 4vw, 3rem); }
+.hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
 
 /* Updates */
-.updates { border-top: 1px solid var(--rule); margin-top: clamp(2rem, 6vw, 4rem); padding-block: clamp(2rem, 6vw, 4rem) clamp(3rem, 8vw, 6rem); }
+.updates { border-top: 2px solid var(--ink); margin-top: clamp(2rem, 6vw, 4rem); padding-block: clamp(2rem, 6vw, 4rem) clamp(3rem, 8vw, 6rem); }
 .updates > .wrap { max-width: 42rem; }
 .updates h2 {
   font-family: var(--sans);
@@ -485,8 +490,10 @@ a:hover { color: var(--accent); }
 </head>
 <body>
 <header class="top wrap">
-  <h1 class="title"><span class="serif">Daisy</span><span class="amp">&amp;</span><span class="sans">Daisy Sans</span></h1>
-  <p class="tagline">Clean up your feed</p>
+  <h1 class="title"><span class="sr">Daisy &amp; Daisy Sans. Clean up your feed</span>
+    <span class="line1" aria-hidden="true"><span class="ny ny700" style="letter-spacing:-0.03em">D</span><span class="ny ny700">a</span><span class="ny ny700" style="letter-spacing:-0.01em">is</span><span class="ny ny700" style="letter-spacing:-0.05em">y</span><span class="ny ny700" style="letter-spacing:-0.06em"> </span><span class="ny amp">&amp;</span><span class="gap sf"> </span><span class="sans"><span class="sf" style="letter-spacing:-0.02em">D</span><span class="sf" style="letter-spacing:-0.01em">ai</span><span class="sf" style="letter-spacing:-0.02em">s</span><span class="sf">y </span><span class="sf" style="letter-spacing:-0.03em">S</span><span class="sf" style="letter-spacing:-0.02em">an</span><span class="sf">s</span></span></span>
+    <span class="line2" aria-hidden="true"><span class="lead sf">Clean up</span><span class="gap sf"> </span><span class="ny" style="letter-spacing:-0.03em">y</span><span class="ny" style="letter-spacing:-0.04em">o</span><span class="ny" style="letter-spacing:-0.01em">u</span><span class="ny" style="letter-spacing:-0.03em">r</span><span class="ny" style="letter-spacing:-0.02em"> </span><span class="ny" style="letter-spacing:-0.03em">fee</span><span class="ny" style="letter-spacing:-0.02em">d</span></span></h1>
+  <p class="byline">NetNewsWire themes by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a></p>
   <p class="buttons">
     <a class="button button--serif" href="install/?theme=daisy&amp;v=0.5.0">Install Daisy</a>
     <a class="button" href="install/?theme=daisy-sans&amp;v=0.5.0">Install Daisy Sans</a>
