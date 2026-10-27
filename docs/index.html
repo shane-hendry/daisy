@@ -1385,6 +1385,11 @@ details.daisy-card__date {
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 25%, rgba(0, 0, 0, 0.48) 55%, rgba(0, 0, 0, 0.16) 80%, transparent 100%);
 }
 
+/* The text cards fade over a shorter strip than the code card: about the last line and a half. */
+.dc--fade::after {
+  height: 16%;
+}
+
 /* The part that is open (the author list, the date's time) turns orange, as a tappable control does. */
 .dc__on {
   color: var(--dc-accent);
