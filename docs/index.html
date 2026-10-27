@@ -44,23 +44,23 @@ body {
 }
 a { color: inherit; text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
-.wrap { margin-inline: auto; max-width: 48.75rem; padding-inline: 1rem; }
+.wrap { margin-inline: auto; max-width: 57.25rem; padding-inline: 1rem; }
 
 /* Title block, from the Figma frame (Daisy, node 79:2495). Sizes are em of the title (129.674px
    in the frame, 1em here); letter-spacing is the frame's per-letter tracking, also in em. */
-.top { padding-block: clamp(4rem, 12vw, 8.5rem) 0; text-align: center; }
+.top { container-type: inline-size; padding-block: clamp(4rem, 12vw, 8.5rem) 0; text-align: center; }
 .title {
   color: var(--ink);
   display: flex;
   flex-direction: column;
-  font-size: min(8.96vw, 6.484rem);
+  font-size: calc(100cqw / 8.5713); /* the first line is 8.5713em wide, so it fills the column */
   font-weight: 500;
   gap: 0.5em;
   margin: 0;
 }
 .title .line1, .title .line2 { display: block; text-box: trim-both cap alphabetic; white-space: nowrap; }
 .title .line1 { line-height: 0.3246; }
-.title .line2 { font-size: 0.461em; line-height: 0.9035; }
+.title .line2 { font-size: calc(100cqw / 8.5226); line-height: 0.9035; } /* the second line is 8.5226em wide: both lines span the column */
 .ny { font-family: var(--serif); }
 .sf { font-family: var(--sans); }
 .ny700 { font-weight: 700; }
