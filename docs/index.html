@@ -123,9 +123,9 @@ a:hover { color: var(--accent); }
 .get-nnw a { text-decoration: underline; }
 .tagline { container-type: inline-size; margin-top: clamp(1.25rem, 3.75vw, 2.4rem); text-align: center; }
 /* The cards are set two to a row (the block's own row is four, from 56rem). */
-@container daisy-cards (min-width: 36rem) { .feature .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 17.6rem)); justify-content: center; } }
-/* Each card is square and its type scales with its width, so a smaller cap shrinks the whole card: at most 17.6rem (282px) wide and tall, and a pair sits together with the block's own 1.4rem gap. */
-.feature .daisy-cards__cell { justify-self: center; max-width: 17.6rem; width: 100%; }
+@container daisy-cards (min-width: 36rem) { .feature .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 19.4rem)); justify-content: center; } }
+/* Each card is square and its type scales with its width, so a smaller cap shrinks the whole card: at most 19.4rem (282px) wide and tall, and a pair sits together with the block's own 1.4rem gap. */
+.feature .daisy-cards__cell { justify-self: center; max-width: 19.4rem; width: 100%; }
 /* Blocks run edge to edge of the column, so their left edge lines up with the text. */
 .feature .daisy-ba, .hero .daisy-ba { padding-inline: 0; }
 .feature .daisy-cards__label { font-weight: 400; }
@@ -1714,8 +1714,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 
 <div class="wrap feature" id="house-style">
   <h2>Daisy&#8217;s house style</h2>
-  <p>What sets Daisy apart is its house style for article headers. Every post opens the same way, so a mixed feed is easy to scan and predictable to swipe through.</p>
-  <p>It&#8217;s all done with built-in <a href="https://github.com/shane-hendry/daisy/blob/main/Daisy.nnwtheme/template.html">JavaScript rules</a>. <em>No AI is involved.</em> RSS posts are all structured the same way, with fields like <code>&lt;author&gt;</code>, <code>&lt;title&gt;</code>, and <code>&lt;pubDate&gt;</code>. The rules mostly look at these header fields to clean up sloppy and redundant content.</p>
+  <p>What sets Daisy apart is its house style for article headers. Every post opens the same way, so a mixed feed is easy to scan and predictable to swipe through. <a href="https://shanehendry.com/daisy/">Learn how Daisy&#8217;s house style works.</a></p>
 <!-- daisy-example: phone-feed combined (Daisy Sans, light): two phones swipe through the same 17 articles together; in a narrow column one phone shows under an Unedited | Daisy control. Uses the Additional CSS (daisy-examples.css) for the phones, like the other phone blocks. -->
 <div class="daisy-ba daisy-ba--phone dsf" role="group" aria-label="The same feed, unedited and in Daisy&#8217;s house style" data-view="b">
 <style>.dsf .dsf-label{font-size:1.5rem;font-weight:400;line-height:1.25;margin:0 0 1.25rem;text-align:center}.dsf .daisy-ba__grid{gap:2.5rem 2rem}.dsf button{-webkit-appearance:none;appearance:none;background:none;border:0;color:inherit;cursor:pointer;font:inherit;margin:0;padding:0}.dsf button:focus-visible{outline:2px solid #f05a00;outline-offset:3px}.dsf-switch{background:rgba(22,22,22,.07);border-radius:999px;display:none;gap:0;margin:0 auto 1.2rem;padding:2px;width:fit-content}.dsf .dsf-tab{background:transparent;border-radius:999px;font-size:.8rem;font-weight:500;line-height:1.2;min-width:5.2rem;padding:.4em 1.1em;transition:background-color .25s ease,box-shadow .25s ease}.dsf .dsf-tab[aria-pressed="true"]{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2),0 0 0 .5px rgba(0,0,0,.05)}@container daisy (max-width:41.99rem){.dsf-switch{display:flex}.dsf .dsf-label{display:none}.dsf.daisy-ba .daisy-ba__grid{display:grid;gap:0;grid-template-columns:minmax(0,1fr);justify-items:center}.dsf .dsf-ph{grid-area:1/1;opacity:0;pointer-events:none;transition:opacity .22s ease}.dsf[data-view="b"] .dsf-ph[data-v="b"],.dsf[data-view="a"] .dsf-ph[data-v="a"]{opacity:1;pointer-events:auto}}@media (prefers-reduced-motion:reduce){.dsf .dsf-tab,.dsf .dsf-ph{transition:none}}</style>
@@ -7394,13 +7393,6 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
 </script>
 </div>
 
-  <h2 class="sub">A few example rules</h2>
-  <ul>
-    <li>If <code>[author name]</code> and <code>[publication name]</code> are an exact match, hide the author</li>
-    <li>If a title begins with <code>[Sponsor]</code>, <code>(Podcast)</code>, or <code>[Deals]</code>, move that to the eyebrow</li>
-    <li>If a title ends with <code>| [author name]</code>, and an exact match is already in the byline, hide it</li>
-  </ul>
-  <p>The rules are just broad enough to catch common cases, yet careful enough to leave everything else alone. Daisy also recognizes over 100 popular podcasts, newsletters, and recurring columns by name, so it can confidently distinguish labels from headlines. <a href="https://github.com/shane-hendry/daisy/blob/main/docs/content-rules.md">See all the rules.</a></p>
 <!-- daisy-interactive (Daisy serif, light): one deliberately messy post; each chip switches one rule on in the After. Uses the Additional CSS (daisy-examples.css) for the phone, like the other phone blocks; the page inside is the real Daisy theme (without its rule script: the After text is composed by this block). -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><clipPath id="daisy-clip-phone" clipPathUnits="objectBoundingBox"><path d="M 0.762051 0.000000 C 0.845341 0.000000 0.886986 0.000000 0.918799 0.007437 A 0.148718 0.068235 0 0 1 0.983791 0.037257 C 1.000000 0.051853 1.000000 0.070961 1.000000 0.109176 L 1.000000 0.890824 C 1.000000 0.929039 1.000000 0.948147 0.983791 0.962743 A 0.148718 0.068235 0 0 1 0.918799 0.992563 C 0.886986 1.000000 0.845341 1.000000 0.762051 1.000000 L 0.237949 1.000000 C 0.154659 1.000000 0.113014 1.000000 0.081201 0.992563 A 0.148718 0.068235 0 0 1 0.016209 0.962743 C 0.000000 0.948147 0.000000 0.929039 0.000000 0.890824 L 0.000000 0.109176 C 0.000000 0.070961 0.000000 0.051853 0.016209 0.037257 A 0.148718 0.068235 0 0 1 0.081201 0.007437 C 0.113014 0.000000 0.154659 0.000000 0.237949 0.000000 Z"/></clipPath><clipPath id="daisy-clip-phone-short" clipPathUnits="objectBoundingBox"><path d="M 0.762051 0.000000 C 0.845341 0.000000 0.886986 0.000000 0.918799 0.007828 A 0.148718 0.071826 0 0 1 0.983791 0.039218 C 1.000000 0.054582 1.000000 0.074696 1.000000 0.114922 L 1.000000 0.885078 C 1.000000 0.925304 1.000000 0.945418 0.983791 0.960782 A 0.148718 0.071826 0 0 1 0.918799 0.992172 C 0.886986 1.000000 0.845341 1.000000 0.762051 1.000000 L 0.237949 1.000000 C 0.154659 1.000000 0.113014 1.000000 0.081201 0.992172 A 0.148718 0.071826 0 0 1 0.016209 0.960782 C 0.000000 0.945418 0.000000 0.925304 0.000000 0.885078 L 0.000000 0.114922 C 0.000000 0.074696 0.000000 0.054582 0.016209 0.039218 A 0.148718 0.071826 0 0 1 0.081201 0.007828 C 0.113014 0.000000 0.154659 0.000000 0.237949 0.000000 Z"/></clipPath><clipPath id="daisy-clip-mac" clipPathUnits="objectBoundingBox"><path d="M 0.968000 0.000000 C 0.979201 0.000000 0.984802 0.000000 0.989080 0.002997 A 0.020000 0.027500 0 0 1 0.997820 0.015015 C 1.000000 0.020898 1.000000 0.028599 1.000000 0.044000 L 1.000000 0.956000 C 1.000000 0.971401 1.000000 0.979102 0.997820 0.984985 A 0.020000 0.027500 0 0 1 0.989080 0.997003 C 0.984802 1.000000 0.979201 1.000000 0.968000 1.000000 L 0.032000 1.000000 C 0.020799 1.000000 0.015198 1.000000 0.010920 0.997003 A 0.020000 0.027500 0 0 1 0.002180 0.984985 C 0.000000 0.979102 0.000000 0.971401 0.000000 0.956000 L 0.000000 0.044000 C 0.000000 0.028599 0.000000 0.020898 0.002180 0.015015 A 0.020000 0.027500 0 0 1 0.010920 0.002997 C 0.015198 0.000000 0.020799 0.000000 0.032000 0.000000 Z"/></clipPath><clipPath id="daisy-clip-ipad" clipPathUnits="objectBoundingBox"><path d="M 0.041463 0 L 0.958537 0 A 0.041463 0.029825 0 0 1 1 0.029825 L 1 0.970175 A 0.041463 0.029825 0 0 1 0.958537 1 L 0.041463 1 A 0.041463 0.029825 0 0 1 0 0.970175 L 0 0.029825 A 0.041463 0.029825 0 0 1 0.041463 0 Z"/></clipPath></defs></svg>
 <div class="daisy-ba daisy-ba--device dsr" role="group" aria-label="Daisy's content rules">
@@ -7430,7 +7422,7 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
 @container daisy (max-width:39.99rem){.dsr{--dsr-gap:.75rem}.dsr .dsr-rule{max-width:none;padding-inline:0;text-wrap:balance}}
 .dsr-sr{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px}
 </style>
-<h3 class="dsr-label">Try Daisy&#8217;s house style</h3>
+<h3 class="dsr-label">Preview Daisy&#8217;s house style</h3>
 <div class="dsr-chips" role="group" aria-label="Rules to try"></div>
 <p class="dsr-rule"></p>
 <div class="daisy-device">
@@ -7459,19 +7451,11 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
 </script>
 </div>
 
-  <p class="after-block">I know this is controversial. Stepping between an author and a reader is in some ways counter to what I love about RSS.</p>
-  <p>My goal is to polish the overall RSS experience and present authors&#8217; content as faithfully as I can. I stress-tested and refined the rules to avoid mangling headlines, and they focus only on redundant content and tacked-on labels. Is it bulletproof? No way. But my feed is <em>a lot nicer</em> in Daisy&#8217;s house style.</p>
 </div>
 
 <div class="wrap feature" id="footnotes">
   <h2>Footnotes for everyone</h2>
-  <p>Authors and book lovers nerd out on footnotes but many readers rarely engage with them or don&#8217;t understand how they work, so I designed footnotes that are easy for everyone. Try them below.</p>
-  <ul>
-    <li><strong>Footnotes open in place</strong> under the paragraph, and stay open until you close them.</li>
-    <li><strong>Go to footnotes</strong> at the end of the article from any inline footnote.</li>
-    <li><strong>Jumping back to the footnote</strong> highlights its place so you can easily find it</li>
-    <li><strong>Every footnote section is the same,</strong> Daisy overrides platform-unique footnote styles</li>
-  </ul>
+  <p>Authors and book lovers nerd out on footnotes but many readers rarely engage with them or don&#8217;t understand how they work, so I designed footnotes that are easy for everyone.</p>
 <!-- daisy-example: footnotes-gears responsive after (Daisy Sans; a Mac window on wide screens, a phone on small ones; scale: change --dsy-s in the CSS) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><clipPath id="daisy-clip-phone" clipPathUnits="objectBoundingBox"><path d="M 0.762051 0.000000 C 0.845341 0.000000 0.886986 0.000000 0.918799 0.007437 A 0.148718 0.068235 0 0 1 0.983791 0.037257 C 1.000000 0.051853 1.000000 0.070961 1.000000 0.109176 L 1.000000 0.890824 C 1.000000 0.929039 1.000000 0.948147 0.983791 0.962743 A 0.148718 0.068235 0 0 1 0.918799 0.992563 C 0.886986 1.000000 0.845341 1.000000 0.762051 1.000000 L 0.237949 1.000000 C 0.154659 1.000000 0.113014 1.000000 0.081201 0.992563 A 0.148718 0.068235 0 0 1 0.016209 0.962743 C 0.000000 0.948147 0.000000 0.929039 0.000000 0.890824 L 0.000000 0.109176 C 0.000000 0.070961 0.000000 0.051853 0.016209 0.037257 A 0.148718 0.068235 0 0 1 0.081201 0.007437 C 0.113014 0.000000 0.154659 0.000000 0.237949 0.000000 Z"/></clipPath><clipPath id="daisy-clip-phone-short" clipPathUnits="objectBoundingBox"><path d="M 0.762051 0.000000 C 0.845341 0.000000 0.886986 0.000000 0.918799 0.007828 A 0.148718 0.071826 0 0 1 0.983791 0.039218 C 1.000000 0.054582 1.000000 0.074696 1.000000 0.114922 L 1.000000 0.885078 C 1.000000 0.925304 1.000000 0.945418 0.983791 0.960782 A 0.148718 0.071826 0 0 1 0.918799 0.992172 C 0.886986 1.000000 0.845341 1.000000 0.762051 1.000000 L 0.237949 1.000000 C 0.154659 1.000000 0.113014 1.000000 0.081201 0.992172 A 0.148718 0.071826 0 0 1 0.016209 0.960782 C 0.000000 0.945418 0.000000 0.925304 0.000000 0.885078 L 0.000000 0.114922 C 0.000000 0.074696 0.000000 0.054582 0.016209 0.039218 A 0.148718 0.071826 0 0 1 0.081201 0.007828 C 0.113014 0.000000 0.154659 0.000000 0.237949 0.000000 Z"/></clipPath><clipPath id="daisy-clip-mac" clipPathUnits="objectBoundingBox"><path d="M 0.968000 0.000000 C 0.979201 0.000000 0.984802 0.000000 0.989080 0.002997 A 0.020000 0.027500 0 0 1 0.997820 0.015015 C 1.000000 0.020898 1.000000 0.028599 1.000000 0.044000 L 1.000000 0.956000 C 1.000000 0.971401 1.000000 0.979102 0.997820 0.984985 A 0.020000 0.027500 0 0 1 0.989080 0.997003 C 0.984802 1.000000 0.979201 1.000000 0.968000 1.000000 L 0.032000 1.000000 C 0.020799 1.000000 0.015198 1.000000 0.010920 0.997003 A 0.020000 0.027500 0 0 1 0.002180 0.984985 C 0.000000 0.979102 0.000000 0.971401 0.000000 0.956000 L 0.000000 0.044000 C 0.000000 0.028599 0.000000 0.020898 0.002180 0.015015 A 0.020000 0.027500 0 0 1 0.010920 0.002997 C 0.015198 0.000000 0.020799 0.000000 0.032000 0.000000 Z"/></clipPath><clipPath id="daisy-clip-ipad" clipPathUnits="objectBoundingBox"><path d="M 0.041463 0 L 0.958537 0 A 0.041463 0.029825 0 0 1 1 0.029825 L 1 0.970175 A 0.041463 0.029825 0 0 1 0.958537 1 L 0.041463 1 A 0.041463 0.029825 0 0 1 0 0.970175 L 0 0.029825 A 0.041463 0.029825 0 0 1 0.041463 0 Z"/></clipPath></defs></svg>
 <div class="daisy-ba daisy-ba--device" role="group" aria-label="Footnotes in a post about a recumbent bike">
@@ -12734,15 +12718,8 @@ window.addEventListener(&quot;message&quot;,function(e){
 </div>
 
 <div class="wrap feature" id="niceties">
-  <h2>Other content and design niceties</h2>
-  <ul>
-    <li><strong>Multi-author bylines</strong> follow one predictable format.</li>
-    <li><strong>Smart datelines</strong> are relative for the first week, and reveal the exact time with a click.</li>
-    <li><strong>Pretty bylines, titles, and headers</strong> never leave a word orphaned.</li>
-    <li><strong>Secondary links</strong> move below the article&#8217;s title, a better place to set context.</li>
-    <li><strong>Social media platforms</strong> have unique rules so posts read more naturally and predictably.</li>
-    <li><strong>Code blocks</strong> with syntax highlighting, language labels, and copy-to-clipboard</li>
-  </ul>
+  <h2>More niceties</h2>
+  <p>Code blocks get syntax highlighting, language labels, and copy-to-clipboard. Social media posts follow each platform&#8217;s own rules, so they read more naturally and predictably.</p>
 <!-- Code blocks and social media. Needs the Additional CSS (daisy-examples.css). Nothing scrolls; two cards to a row, a stack on narrow columns. -->
 <div class="daisy-cards" role="group" aria-label="Code blocks and social media">
 <div class="daisy-cards__row">
@@ -12768,12 +12745,8 @@ window.addEventListener(&quot;message&quot;,function(e){
 </div>
 
   <h2 class="sub">For readers everywhere</h2>
+  <p>Multi-author bylines follow one predictable format. Smart datelines are relative for the first week, then reveal the exact time with a click.</p>
   <p>Daisy and Daisy Sans support 30+ languages. They rewrite whole phrases so they read naturally, instead of replacing individual words.</p>
-  <ul>
-    <li><strong>Bylines:</strong> &#8220;Author for Publication&#8221; becomes &#8220;Autor para Publicaci&#243;n&#8221; in Spanish and &#8220;Autor f&#252;r Publikation&#8221; in German.</li>
-    <li><strong>Times:</strong> &#8220;3 days ago&#8221; becomes &#8220;Hace 3 d&#237;as&#8221; and &#8220;Vor 3 Tagen&#8221;.</li>
-    <li><strong>Text size:</strong> Daisy&#8217;s design scales gracefully with your font size, including the largest accessibility sizes.</li>
-  </ul>
 <!-- Attribution and languages. Needs the Additional CSS (daisy-examples.css). Nothing scrolls; two cards to a row, a stack on narrow columns. -->
 <div class="daisy-cards" role="group" aria-label="Attribution and languages">
 <div class="daisy-cards__row">
