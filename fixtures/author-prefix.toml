@@ -1,0 +1,8 @@
+title = "Bengt Ohlsson: Finns det någon plats där jag kan få bli lämnad i fred?"
+feed_link_title = "Dagens Nyheter"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/author-prefix"
+byline = "Bengt Ohlsson"
+date_medium = "Oct 20, 2026"
+body = '''<p>The author's name before a colon. It leaves the title, since the byline already shows it. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

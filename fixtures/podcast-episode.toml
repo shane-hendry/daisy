@@ -1,0 +1,8 @@
+title = "Clockwise 679: Emotional Support Tabs"
+feed_link_title = "Six Colors"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/podcast-episode"
+byline = "Six Colors Podcasts"
+date_medium = "Oct 20, 2026"
+body = '''<p>A podcast name and episode number lead the headline. They move to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

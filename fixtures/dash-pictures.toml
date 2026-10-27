@@ -1,0 +1,8 @@
+title = "Take a stroll between Japan’s past and present – in pictures"
+feed_link_title = "The Guardian"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/dash-pictures"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>A tag after a dash that closes the headline. It moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

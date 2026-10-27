@@ -1,0 +1,14 @@
+title = "A footnotes list with no wrapper"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/plain-footnotes"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<h2 class="wp-block-heading">Footnotes</h2>
+<p class="wp-block-paragraph">A sentence with a footnote marker.<sup><a href="#fn-test-1" id="fnref-test-1">1</a></sup> And a second sentence with another marker.<sup><a href="#fn-test-2" id="fnref-test-2">2</a></sup></p>
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<ol class="wp-block-list">
+<li id="fn-test-1">The first footnote, with a bit of text. <a href="#fnref-test-1">↩︎</a></li>
+<li id="fn-test-2">The second footnote, which is long enough to wrap onto more than one line so the spacing inside a note is visible. <a href="#fnref-test-2">↩︎</a></li>
+</ol>
+<p class="wp-block-paragraph">That’s the end of the test post.</p>'''

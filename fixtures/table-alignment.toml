@@ -1,0 +1,24 @@
+title = "A post with small and aligned tables"
+feed_link_title = "Daring Fireball"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/table-alignment"
+byline = "Pat Writer"
+date_medium = "Oct 26, 2026"
+body = '''<p>It is heavy, compared to other phones. This two-column table has its first column aligned right by the author:</p>
+<table><thead><tr><th style="text-align: right">Phone</th><th style="text-align: left">Weight</th></tr></thead>
+<tbody><tr><td style="text-align: right">Duo</td><td style="text-align: left">254g</td></tr>
+<tr><td style="text-align: right">18 Pro Max</td><td style="text-align: left">249g</td></tr>
+<tr><td style="text-align: right">18 Pro</td><td style="text-align: left">211g</td></tr>
+<tr><td style="text-align: right">17</td><td style="text-align: left">177g</td></tr>
+<tr><td style="text-align: right">Air</td><td style="text-align: left">165g</td></tr></tbody></table>
+<p>The same idea with align attributes, a centred column and no styles:</p>
+<table><thead><tr><th>Model</th><th align="center">Year</th><th align="right">Price</th></tr></thead>
+<tbody><tr><td>Mini</td><td align="center">2020</td><td align="right">$699</td></tr>
+<tr><td>Air</td><td align="center">2025</td><td align="right">$999</td></tr></tbody></table>
+<p>No alignment given, so the columns of numbers line up on the right by themselves:</p>
+<table><thead><tr><th>Month</th><th>Opens</th><th>Share</th></tr></thead>
+<tbody><tr><td>October</td><td>1,382</td><td>36%</td></tr>
+<tr><td>November</td><td>449</td><td>8%</td></tr>
+<tr><td>December</td><td>12</td><td>10%</td></tr></tbody></table>
+<p>And a short table of words stays left-aligned and as narrow as its content.</p>
+<table><tbody><tr><td>Red</td><td>Apple</td></tr><tr><td>Yellow</td><td>Banana</td></tr></tbody></table>'''

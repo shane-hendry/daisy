@@ -1,0 +1,8 @@
+title = "A last-name-first author"
+byline = "Smith, John"
+feed_link_title = "Wired Magazine"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/last-name-first"
+date_medium = "Oct 22, 2026"
+body = '''<p>The author field lists two names separated by a comma, so the credit is left as written. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

@@ -1,0 +1,18 @@
+title = "MacStories Weekly: Issue 533"
+feed_link_title = "MacStories"
+feed_link = "https://example.org/"
+byline = "John Voorhees"
+date_medium = "Oct 16, 2026"
+body = '''<p><br><em>A lead paragraph that starts with a stray line break, as Zeldman's posts do.</em></p>
+<p>Ordinary paragraph of text that sits under the lead and runs long enough to wrap onto a second line.</p>
+<div class="club-notice-restricted">
+<h2>This Story is for Club Members</h2>
+<p>Get weekly newsletters, exclusive stories, member downloads, and ad-free version.</p>
+<p><br><a href="https://example.org/plans" class="button">See Plans</a></p>
+
+&nbsp;
+
+<p>Already a member? <a href="https://example.org/auth">Sign in</a></p>
+</div>
+<p>A paragraph that ends with a stray break.<br></p>
+<p>Three breaks in a row follow.<br><br><br><br>The last line.</p>'''

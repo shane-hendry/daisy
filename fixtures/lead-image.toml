@@ -1,0 +1,9 @@
+title = "Lead image article"
+feed_link_title = "Example Newsletter"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/post"
+byline = "Pat Writer"
+date_medium = "Oct 14, 2026"
+body = '''<figure><img src="https://example.org/lead.jpg" width="1024" height="683"></figure>
+<p>First paragraph after a lead image. The theme should space the image from the title exactly as it spaces text from the title, measured from the letters rather than the boxes.</p>
+<p>A second paragraph, long enough that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>'''

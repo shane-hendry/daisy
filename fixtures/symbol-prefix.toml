@@ -1,0 +1,8 @@
+title = "★ The iPhone Duo"
+feed_link_title = "Daring Fireball"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/symbol-prefix"
+byline = "John Gruber"
+date_medium = "Oct 20, 2026"
+body = '''<p>A single-symbol prefix is part of the title and stays where it is. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

@@ -1,0 +1,13 @@
+title = "Blank spacer blocks"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/blank"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>First paragraph with a trailing line break that must stay visible.<br></p>
+<p><br></p>
+<div class="separator"><br></div>
+<p>Second paragraph after two blank blocks, which should leave only normal paragraph spacing above it.</p>
+<div class="separator"><a href="https://example.org/x"><img src="https://example.org/x.jpg" width="620" height="775"></a></div>
+<div class="separator">A caption inside a separator div that must stay.</div>
+<p>Last paragraph, long enough that the readability check treats this fixture as a real article.</p>'''

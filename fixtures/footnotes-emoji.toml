@@ -1,0 +1,10 @@
+title = "Footnotes with a return emoji"
+feed_link_title = "Six Colors"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/emoji"
+byline = "Pat Writer"
+date_medium = "Oct 19, 2026"
+body = '''<p>All Macs that can run it are capable of Apple Intelligence.<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> A second sentence with more text so the paragraph is real.</p>
+<div class="footnotes"><hr /><ol>
+<li id="fn:1"><p>All Macs that can run Golden Gate are capable of Apple Intelligence, which requires an Apple silicon Mac. <a href="#fnref:1" class="reversefootnote" rev="footnote">&#8617;&#65039;</a></p></li>
+</ol></div>'''

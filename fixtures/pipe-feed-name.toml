@@ -1,0 +1,8 @@
+title = "Man City 2-1 Arsenal highlights | BBC Sport"
+feed_link_title = "BBC Sport"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/pipe-feed-name"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>A name after a pipe that is the feed's own name. It leaves the title, since the byline shows it. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

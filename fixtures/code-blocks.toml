@@ -1,0 +1,64 @@
+title = "Syntax-highlighted code blocks"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/code-blocks"
+byline = "Pat Writer"
+date_medium = "Oct 26, 2026"
+body = '''<p>A Swift snippet with no language class, so the language is guessed:</p>
+<pre><code>struct Feed: Identifiable {
+    let id: UUID
+    var title: String
+    var unreadCount: Int = 0
+
+    func summary() -> String {
+        // Count what is left to read.
+        return "\(title): \(unreadCount) unread"
+    }
+}</code></pre>
+<p>The same kind of block with the language declared:</p>
+<pre><code class="language-python">import asyncio
+
+async def fetch(url: str, retries: int = 3) -> bytes:
+    """Download a page, retrying on failure."""
+    for attempt in range(retries):
+        try:
+            return await client.get(url)
+        except TimeoutError:
+            await asyncio.sleep(2 ** attempt)
+    raise RuntimeError(f"gave up on {url}")</code></pre>
+<p>A wrapper-class language, as WordPress and Jekyll write it:</p>
+<div class="highlight highlight-source-rust"><pre>fn main() {
+    let feeds = vec!["daring", "inessential"];
+    for (i, name) in feeds.iter().enumerate() {
+        println!("{}: {}", i + 1, name);
+    }
+}</pre></div>
+<p>Shell, with a very long line that has to scroll sideways inside the block rather than widening the page:</p>
+<pre><code class="language-bash">$ brew install --cask netnewswire &amp;&amp; defaults write com.ranchero.NetNewsWire-Evergreen SomeVeryLongPreferenceKeyName -string "a value long enough that this line is wider than any phone screen could ever hope to show"</code></pre>
+<p>CSS and HTML:</p>
+<pre><code class="language-css">.article a:hover {
+  color: var(--accent);
+  margin: 0 auto;
+  content: "\2192";
+}</code></pre>
+<pre><code class="language-html">&lt;main class="article"&gt;
+  &lt;a href="https://example.org"&gt;Read&lt;/a&gt;
+&lt;/main&gt;</code></pre>
+<p>A diff and JSON:</p>
+<pre><code class="language-diff">@@ -1,3 +1,3 @@
+ context line
+-let x = 1
++let x = 2</code></pre>
+<pre><code class="language-json">{ "name": "daisy", "version": 17, "dark": true, "tags": ["rss", null] }</code></pre>
+<p>Plain output that should stay uncolored, labeled "Code":</p>
+<pre>+--------+-------+
+| name   | count |
++--------+-------+
+| daisy  |    17 |
++--------+-------+</pre>
+<p>A one-liner stays plain: <code>git status</code>, and a short block:</p>
+<pre><code>npm install</code></pre>
+<p>A feed that pre-highlighted its code, one block-level span per line (Shiki style):</p>
+<pre class="shiki"><code><span class="line"><span style="color:#D73A49">let</span><span style="color:#24292E"> total = items.reduce(0) { $0 + $1.count }</span></span>
+<span class="line"><span style="color:#6A737D">// done</span></span></code></pre>
+<p>Text after the blocks, to check the spacing below the last one.</p>'''

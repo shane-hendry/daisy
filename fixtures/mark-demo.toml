@@ -1,0 +1,10 @@
+title = "How a small studio decides what to ship"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/small-studio"
+byline = "Pat Writer"
+date_medium = "Oct 20, 2026"
+body = '''<p>Every Friday the team gathers around one table and answers a single question: <mark>what would we be proud to put our name on this month?</mark> It sounds simple, but it quietly rules out most of the backlog.</p>
+<p>The rule they follow is easy to say and hard to keep. Ship the smallest thing that is <mark>finished</mark>, not the biggest thing that is promising. A finished feature teaches you something real; a promising one only teaches you what you hoped.</p>
+<blockquote><p>We used to measure progress by how much we started. Now we measure it by how much we <mark>stopped carrying around</mark>.</p></blockquote>
+<p>That shift changed how the studio talks about work. Meetings got shorter, roadmaps got shorter, and the list of things the team is <mark>not</mark> doing became the most useful document in the building.</p>'''
