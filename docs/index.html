@@ -60,7 +60,7 @@ a:hover { color: var(--accent); }
 }
 .title .line1, .title .line2 { display: block; text-box: trim-both cap alphabetic; white-space: nowrap; }
 .title .line1 { line-height: 0.3246; }
-.title .line2 { font-size: calc(100cqw / 8.5226); line-height: 0.9035; } /* the second line is 8.5226em wide: both lines span the column */
+.title .line2 { font-size: 0.461em; line-height: 0.9035; }
 .ny { font-family: var(--serif); }
 .sf { font-family: var(--sans); }
 .ny700 { font-weight: 700; }
@@ -89,7 +89,9 @@ a:hover { color: var(--accent); }
 .hero { margin-top: clamp(2.5rem, 8vw, 6rem); }
 
 /* Feature sections: prose set like the page, with the WordPress blocks between. */
-.feature { margin-top: clamp(4rem, 12vw, 8rem); }
+.feature { margin-top: clamp(2rem, 5vw, 3rem); }
+/* The four cards stay in a row at the column's width (the block's own row starts at 56rem). */
+@container daisy-cards (min-width: 36rem) { .feature .daisy-cards .daisy-cards__row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 /* Blocks run edge to edge of the column, so their left edge lines up with the text. */
 .feature .daisy-ba, .hero .daisy-ba { padding-inline: 0; }
 .feature .daisy-cards__label { font-weight: 400; }
@@ -1365,10 +1367,6 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
     <span class="line1" aria-hidden="true"><span class="ny ny700" style="letter-spacing:-0.03em">D</span><span class="ny ny700">a</span><span class="ny ny700" style="letter-spacing:-0.01em">is</span><span class="ny ny700" style="letter-spacing:-0.05em">y</span><span class="ny ny700" style="letter-spacing:-0.06em"> </span><span class="ny amp">&amp;</span><span class="gap sf"> </span><span class="sans"><span class="sf" style="letter-spacing:-0.02em">D</span><span class="sf" style="letter-spacing:-0.01em">ai</span><span class="sf" style="letter-spacing:-0.02em">s</span><span class="sf">y </span><span class="sf" style="letter-spacing:-0.03em">S</span><span class="sf" style="letter-spacing:-0.02em">an</span><span class="sf">s</span></span></span>
     <span class="line2" aria-hidden="true"><span class="lead sf">Clean up</span><span class="gap sf"> </span><span class="ny" style="letter-spacing:-0.03em">y</span><span class="ny" style="letter-spacing:-0.04em">o</span><span class="ny" style="letter-spacing:-0.01em">u</span><span class="ny" style="letter-spacing:-0.03em">r</span><span class="ny" style="letter-spacing:-0.02em"> </span><span class="ny" style="letter-spacing:-0.03em">fee</span><span class="ny" style="letter-spacing:-0.02em">d</span></span></h1>
   <p class="byline"><a href="https://netnewswire.com/">NetNewsWire</a> themes by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a></p>
-  <p class="buttons">
-    <a class="button button--serif" href="install/?theme=daisy&amp;v=0.5.0">Get Daisy</a>
-    <a class="button button--sans" href="install/?theme=daisy-sans&amp;v=0.5.0">Get Daisy Sans</a>
-  </p>
 </header>
 
 <main>
@@ -1542,6 +1540,10 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 })();
 </script>
 
+  <p class="buttons">
+    <a class="button button--serif" href="install/?theme=daisy&amp;v=0.5.0">Get Daisy</a>
+    <a class="button button--sans" href="install/?theme=daisy-sans&amp;v=0.5.0">Get Daisy Sans</a>
+  </p>
 </div>
 
 <div class="wrap feature" id="house-style">
