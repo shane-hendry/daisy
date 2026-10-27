@@ -128,10 +128,7 @@ a:hover { color: var(--accent); }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
 .credits { margin-top: clamp(2rem, 6vw, 4rem); }
-.credits :is(p, ul) { color: var(--quiet); font-size: 0.9375rem; }
 .credits p { margin: 0.75rem 0; text-wrap: pretty; }
-.credits ul { margin: 0.75rem 0; padding-inline-start: 1.25rem; }
-.credits li { margin-block: 0.2em; }
 </style>
 <style>
 /* The hero's styles, from build/wordpress/daisy-examples.css; the hero block's own overrides come after them. */
@@ -521,7 +518,7 @@ a:hover { color: var(--accent); }
 
 .daisy-cards__row {
   display: grid;
-  gap: 0.9rem;
+  gap: 2.25rem 0.9rem;
   grid-template-columns: minmax(0, 18rem);
   justify-content: center;
   padding-block: 0.75rem 1.25rem;
@@ -529,6 +526,7 @@ a:hover { color: var(--accent); }
 
 @container daisy-cards (min-width: 56rem) {
   .daisy-cards__row {
+    gap: 0.9rem;
     grid-template-columns: repeat(4, minmax(0, 19rem));
   }
 }
@@ -717,7 +715,7 @@ a:hover { color: var(--accent); }
 }
 
 .daisy-cards__label {
-  font-size: 1.3em;
+  font-size: 1.3rem;
   margin: 0 0 0.75rem;
   text-align: center;
 }
@@ -963,14 +961,7 @@ a:hover { color: var(--accent); }
     <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">View all releases</a></p>
     <section class="credits">
       <h2>Credits</h2>
-      <p>Daisy and Daisy Sans were built with <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>. It was a collaborative effort by the whole team here at SH Enterprises Worldwide.</p>
-      <ul>
-        <li><strong>CEO</strong> Me</li>
-        <li><strong>Product</strong> Yours truly</li>
-        <li><strong>Design and content</strong> Moi</li>
-        <li><strong>Marketing</strong> Ya boi</li>
-        <li><strong>Engineering</strong> Claude &#129302;</li>
-      </ul>
+      <p>Daisy and Daisy Sans were designed and built by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a>, using <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>, and with the help of Claude&nbsp;Code.</p>
       <p>Daisy and Daisy Sans aren&#8217;t affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for. The theme format is documented in NetNewsWire&#8217;s <a href="https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md">themes technote</a>.</p>
     </section>
   </div>
