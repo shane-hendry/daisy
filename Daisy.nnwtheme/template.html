@@ -1099,12 +1099,12 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       node.data = rest;
     });
     // Title length picks the headline's style: short titles go narrow and big, long
-    // titles semi-narrow (see "2.2 The title"). Counted after the eyebrow has taken its tag.
+    // titles narrow (see "2.2 The title"). Counted after the eyebrow has taken its tag.
     (function () {
       var h1 = document.querySelector(".article-header h1");
       if (!h1) return;
       var n = h1.textContent.trim().length;
-      h1.setAttribute("data-len", n <= 24 ? "short" : n >= 70 ? "long" : "medium");
+      h1.setAttribute("data-len", n <= 24 ? "short" : n <= 36 ? "brief" : n >= 70 ? "long" : "medium");
     })();
     // An untitled post's link line moves to the bottom, under "View original", which keeps
     // linking to the post itself.

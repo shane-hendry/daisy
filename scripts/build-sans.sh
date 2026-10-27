@@ -18,8 +18,8 @@ sed 's|data-update-key="daisy"|data-update-key="daisy-sans"|' "$SRC/template.htm
 sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
     -e 's|^\(  font-size: calc(\[\[font-size\]\]px \* \)1\.05);|\11);|' \
     -e 's|^\(  --serif-scale: \)[0-9.]*;|\11;|' \
-    -e 's|^\(  --title-weight: \)[0-9]*;|\1800;|' \
-    -e 's|^\(  --title-axes: \).*$|\1"wght" 800, "wdth" 115;|' \
+    -e 's|^\(  --title-weight: \)[0-9]*;|\1900;|' \
+    -e 's|^\(  --title-axes: \).*$|\1"wght" 900, "wdth" 115;|' \
     -e 's|^\(  --eyebrow-weight: \)[0-9]*;|\1800;|' \
     -e 's|^\(  --eyebrow-axes: \).*$|\1"wght" 800, "wdth" 115;|' \
     -e 's|^\(  --link-weight: \)[0-9]*;|\1450;|' \
@@ -43,6 +43,7 @@ sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
     -e 's|^\(  --title-short-scale: \)[0-9.]*;|\11.7;|' \
     -e 's|^\(  --title-long-axes: \).*;|\1"wght" 800, "wdth" 43;|' \
     -e 's|^\(  --title-long-scale: \)[0-9.]*;|\11.3;|' \
+    -e 's|^\(  --title-brief-scale: \)[0-9.]*;|\11.2;|' \
     -e 's|^\(  --title-phone: \).*;|\1clamp(1.7em, 1.36em + 1.92vw, 2.05em);|' \
     -e '1s|^/\* Daisy: New York,|/* Daisy Sans: system sans,|' "$SRC/stylesheet.css" > "$dest/stylesheet.css"
 sed -e 's|com\.shanehendry\.daisy|com.shanehendry.daisy-sans|' \

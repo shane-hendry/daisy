@@ -79,8 +79,8 @@
      size (Daisy Sans uses weight and width instead). The title grows with the window:
      --title-wide from a narrow window up to a large one, --title-phone under 600px,
      where it is capped lower so longer titles still fit. Sans replaces these lines. */
-  --title-weight: 800;
-  --title-axes: "wght" 800, "wdth" 115;
+  --title-weight: 900;
+  --title-axes: "wght" 900, "wdth" 115;
   --eyebrow-weight: 800;
   --eyebrow-axes: "wght" 800, "wdth" 115;
   --link-weight: 450;
@@ -93,6 +93,7 @@
   --title-short-scale: 1.7;
   --title-long-axes: "wght" 800, "wdth" 43;    /* long titles (70 or more): Sans goes narrow */
   --title-long-scale: 1.3;
+  --title-brief-scale: 1.2;                  /* brief titles (25 to 36 characters) grow in wide windows; Sans sets 1.2 */
   --title-phone: clamp(1.7em, 1.36em + 1.92vw, 2.05em);
 
   /* Headings inside an article: a weight and variable-font settings for each level,
@@ -1145,6 +1146,12 @@ caption {
   font-variation-settings: var(--title-short-axes);
   letter-spacing: -0.01em;
   line-height: 1;
+}
+
+@media (min-width: 700px) {
+  .article-header h1[data-len="brief"] {
+    font-size: calc(var(--text-h1) * var(--title-brief-scale));
+  }
 }
 
 .article-header h1[data-len="long"] {
