@@ -52,10 +52,11 @@
   /* Colors (light mode; dark mode is below). */
   --canvas: #fff;            /* page background */
   --text: #161616;           /* all text, rules and quote bars */
-  --accent: #d34600;         /* Braun orange, 4.52:1 on white: eyebrow, link hover, focus, highlights */
+  --accent: #f05a00;         /* Braun orange: eyebrow, link hover, focus */
+  --on-mark: #fff;           /* text on the highlight */
   --rule: #161616;           /* divider lines and borders */
   --code-surface: #f4f4f4;   /* background behind code */
-  --mark: var(--accent);  /* highlighter background */
+  --mark: #d34600;       /* highlighter background: the lightest orange that gives white 4.5:1 */
 
   /* Syntax colors for code blocks. Muted on purpose: enough hue to tell keywords,
      strings and comments apart, never louder than the prose. Each is at least 4.5:1
@@ -201,7 +202,7 @@
     --accent: #ff7a2e;
     --rule: #ececec;
     --code-surface: #1c1c1c;
-      --mark: var(--accent);
+      --mark: #d34600;
     --syn-keyword: #d29cff;
     --syn-string: #7fe08f;
     --syn-number: #ffb04a;
@@ -528,20 +529,20 @@ sub {
   bottom: -0.25em;
 }
 
-/* Highlighted text: white on the orange accent. */
+/* Highlighted text: white on --mark, an orange dark enough for white to pass. */
 mark {
   -webkit-box-decoration-break: clone;
   background: var(--mark);
   border-radius: 0.2em;
   box-decoration-break: clone;
-  color: #fff;
+  color: var(--on-mark);
   padding: 0.05em calc(0.15em + 2px);
 }
 
 /* Text the reader selects with the mouse or finger gets the same highlight. */
 ::selection {
   background: var(--mark);
-  color: #fff;
+  color: var(--on-mark);
 }
 
 
@@ -1245,6 +1246,7 @@ h1 a {
 }
 
 .eyebrow {
+  font-size: max(1em, 18.67px);      /* bold at 18.67px counts as large text: 3:1 is enough */
   font-variation-settings: var(--eyebrow-axes);
   font-weight: var(--eyebrow-weight);
   line-height: 1.25;                 /* a wrapped eyebrow sets as tight as a headline */
