@@ -89,19 +89,20 @@ a:hover { color: var(--accent); }
 .line2 .gap { font-variation-settings: "wdth" 129; font-weight: 567; letter-spacing: -0.03em; }
 .line2 .ny { font-size: 1.0623em; font-weight: 580;  font-variation-settings: "opsz" 100; }
 .line1 .ny, .line1 .amp { font-variation-settings: "opsz" 130; }
-.byline { color: var(--ink); font-size: 1.0625rem; margin: 1.25rem 0 0; }
+.byline { color: var(--ink); font-size: 1.25rem; margin: clamp(1.75rem, 5.25vw, 3.25rem) 0 0; }
 .sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
 .buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; }
 .button {
   background: var(--button);
-  border-radius: 0.6rem;
+  border-radius: 0.4rem;
   color: var(--button-ink);
+  font-size: 1.3rem;
   font-weight: 600;
   padding: 0.7em 1.5em;
   text-decoration: none;
 }
 .button:hover { background: var(--accent); color: #fff; }
-.button--serif { font-family: var(--serif); font-weight: 500; }
+.button--serif { font-family: var(--serif); font-variation-settings: "opsz" 72; font-weight: 700; }
 .button--sans { font-variation-settings: "wght" 800, "wdth" 116; font-weight: 800; }
 
 /* Hero: the block is pasted in as it is. */
@@ -110,7 +111,8 @@ a:hover { color: var(--accent); }
 /* Feature sections: prose set like the page, with the WordPress blocks between. */
 .feature { margin-top: clamp(2rem, 5vw, 3.2rem); }
 /* The buttons sit as far under the hero's device as the next header sits under the buttons. */
-.hero .buttons { margin-top: 0; }
+.hero .buttons { margin-top: clamp(1.3rem, 3.5vw, 2.2rem); }
+.tagline { container-type: inline-size; margin-top: clamp(0.75rem, 2.5vw, 1.75rem); text-align: center; }
 /* The cards are set two to a row (the block's own row is four, from 56rem). */
 @container daisy-cards (min-width: 36rem) { .feature .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 17.6rem)); justify-content: center; } }
 /* Each card is square and its type scales with its width, so a smaller cap shrinks the whole card: at most 17.6rem (282px) wide and tall, and a pair sits together with the block's own 1.4rem gap. */
@@ -149,7 +151,7 @@ a:hover { color: var(--accent); }
 .focus .updates { border-top: 0; margin-top: 0; }
 .howto { margin-block: 1.75rem; }
 .howto .buttons { gap: 0.5rem; justify-content: flex-start; margin: 0; }
-.howto .button { font-size: 0.9375rem; padding: 0.5em 1em; }
+.howto .button { font-size: 1.22rem; padding: 0.5em 1em; }
 .howto .lead-in { margin: 0; }
 .howto ol { margin: 0; padding-inline-start: 1.5rem; }
 .howto li { margin-block: 0.5em; }
@@ -161,17 +163,28 @@ a:hover { color: var(--accent); }
 .release details ul { margin-top: 0.25rem; }
 /* Arriving from a theme's update notice (?theme=daisy or ?theme=daisy-sans), the Updates section is set in that theme's type. */
 .updates[data-theme="daisy"], .updates[data-theme="daisy"] :is(h2, h3, .button, summary) { font-family: var(--serif); }
-.updates[data-theme="daisy"] :is(h2, h3, .button) { font-variation-settings: normal; font-weight: 700; }
+.updates[data-theme="daisy"] :is(h2, h3) { font-variation-settings: normal; font-weight: 700; }
 .updates[data-theme="daisy"] h2 { letter-spacing: -0.01em; }
 .updates[data-theme="daisy"] summary { font-weight: 600; }
-.updates[data-theme="daisy-sans"] :is(h3, .button, summary) { font-variation-settings: "wdth" 115; }
-.updates[data-theme="daisy-sans"] :is(h3, .button) { font-weight: 700; }
+.updates[data-theme="daisy-sans"] :is(h3, summary) { font-variation-settings: "wdth" 115; }
+.updates[data-theme="daisy-sans"] h3 { font-weight: 700; }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
 .credits { margin-top: clamp(7rem, 22vw, 12rem); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
 @media (min-width: 40.01rem) { .updates { padding-block: clamp(3rem, 6vw, 4.5rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
 .credits p { margin: 0.75rem 0; }
+/* The page alternates between Daisy Sans (wide, bold headings; sans text) and Daisy (high-contrast serif headings and text). */
+#house-style, #footnotes, #updates, #niceties > .sub, #niceties > .sub ~ * {
+  --face: var(--sans); --h-axes: "wght" 900, "wdth" 115; --h-weight: 900; --h-tracking: -0.01em; --text-size: 1.0625rem;
+}
+#niceties, #try-it, .credits, #house-style > .sub, #house-style > .sub ~ * {
+  --face: var(--serif); --h-axes: "opsz" 72; --h-weight: 700; --h-tracking: -0.02em; --text-size: 1.125rem;
+}
+.feature > :is(h2, h3, p, ul), .updates > .wrap > :is(h2, h3), .credits :is(h2, p) { font-family: var(--face); }
+.feature > :is(h2, h3), .feature > h3.sub, .updates h2, .credits h2 { font-variation-settings: var(--h-axes); font-weight: var(--h-weight); letter-spacing: var(--h-tracking); }
+.feature > :is(p, ul), .credits p { font-size: var(--text-size); }
+.feature > ul > li strong { font-weight: 700; }
 </style>
 <style>
 /* The hero's styles, from build/wordpress/daisy-examples.css; the hero block's own overrides come after them. */
@@ -185,14 +198,14 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 <body>
 <header class="top wrap">
   <h1 class="title"><span class="sr">Daisy &amp; Daisy Sans. Clean up your feed</span>
-    <span class="line1" aria-hidden="true"><span class="ny ny700" style="letter-spacing:-0.03em">D</span><span class="ny ny700">a</span><span class="ny ny700" style="letter-spacing:-0.01em">is</span><span class="ny ny700" style="letter-spacing:-0.05em">y</span><span class="ny ny700" style="letter-spacing:-0.06em"> </span><span class="ny amp">&amp;</span><span class="gap sf"> </span><span class="sans"><span class="sf" style="letter-spacing:-0.02em">D</span><span class="sf" style="letter-spacing:-0.01em">ai</span><span class="sf" style="letter-spacing:-0.02em">s</span><span class="sf">y </span><span class="sf" style="letter-spacing:-0.03em">S</span><span class="sf" style="letter-spacing:-0.02em">an</span><span class="sf">s</span></span></span>
-    <span class="line2" aria-hidden="true"><span class="lead sf">Clean up</span><span class="gap sf"> </span><span class="ny" style="letter-spacing:-0.03em">y</span><span class="ny" style="letter-spacing:-0.04em">o</span><span class="ny" style="letter-spacing:-0.01em">u</span><span class="ny" style="letter-spacing:-0.03em">r</span><span class="ny" style="letter-spacing:-0.02em"> </span><span class="ny" style="letter-spacing:-0.03em">fee</span><span class="ny" style="letter-spacing:-0.02em">d</span></span></h1>
-  <p class="byline"><a href="https://netnewswire.com/">NetNewsWire</a> themes by <a href="https://shanehendry.com/">Shane&nbsp;Hendry</a></p>
+    <span class="line1" aria-hidden="true"><span class="ny ny700" style="letter-spacing:-0.03em">D</span><span class="ny ny700">a</span><span class="ny ny700" style="letter-spacing:-0.01em">is</span><span class="ny ny700" style="letter-spacing:-0.05em">y</span><span class="ny ny700" style="letter-spacing:-0.06em"> </span><span class="ny amp">&amp;</span><span class="gap sf"> </span><span class="sans"><span class="sf" style="letter-spacing:-0.02em">D</span><span class="sf" style="letter-spacing:-0.01em">ai</span><span class="sf" style="letter-spacing:-0.02em">s</span><span class="sf">y </span><span class="sf" style="letter-spacing:-0.03em">S</span><span class="sf" style="letter-spacing:-0.02em">an</span><span class="sf">s</span></span></span></h1>
+  <p class="byline"><a href="https://netnewswire.com/">NetNewsWire</a> themes with an editorial design and cohesive house style.</p>
 </header>
 
 <main>
 <div class="wrap hero">
 {{HERO}}
+  <div class="tagline"><div class="title"><span class="line2" aria-hidden="true"><span class="lead sf">Clean up</span><span class="gap sf"> </span><span class="ny" style="letter-spacing:-0.03em">y</span><span class="ny" style="letter-spacing:-0.04em">o</span><span class="ny" style="letter-spacing:-0.01em">u</span><span class="ny" style="letter-spacing:-0.03em">r</span><span class="ny" style="letter-spacing:-0.02em"> </span><span class="ny" style="letter-spacing:-0.03em">fee</span><span class="ny" style="letter-spacing:-0.02em">d</span></span></div></div>
   <p class="buttons">
     <a class="button button--serif" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.nnwtheme.zip">Get Daisy</a>
     <a class="button button--sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.Sans.nnwtheme.zip">Get Daisy Sans</a>
