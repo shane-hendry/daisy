@@ -127,8 +127,8 @@ a:hover { color: var(--accent); }
 .updates[data-theme="daisy-sans"] :is(h3, .button) { font-weight: 700; }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
-.credits { color: var(--quiet); font-size: 0.9375rem; margin-top: 3rem; }
-.credits h3 { color: var(--ink); font-size: 1.0625rem; margin: 0 0 0.5rem; }
+.credits { margin-top: clamp(2rem, 6vw, 4rem); }
+.credits :is(p, ul) { color: var(--quiet); font-size: 0.9375rem; }
 .credits p { margin: 0.75rem 0; text-wrap: pretty; }
 .credits ul { margin: 0.75rem 0; padding-inline-start: 1.25rem; }
 .credits li { margin-block: 0.2em; }
@@ -159,9 +159,9 @@ a:hover { color: var(--accent); }
   <div class="wrap">
     <h2>Updates</h2>
 {{RELEASES}}
-    <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">Release history</a></p>
+    <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">View all releases</a></p>
     <section class="credits">
-      <h3>Credits</h3>
+      <h2>Credits</h2>
       <p>Daisy and Daisy Sans were built with <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>. It was a collaborative effort by the whole team here at SH Enterprises Worldwide.</p>
       <ul>
         <li><strong>CEO</strong> Me</li>
