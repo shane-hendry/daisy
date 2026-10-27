@@ -119,6 +119,8 @@ a:hover { color: var(--accent); }
 .hero + .feature { margin-top: clamp(2.75rem, 8vw, 5.5rem); }
 /* The buttons sit as far under the hero's device as the next header sits under the buttons. */
 .hero .buttons { margin-top: clamp(1.3rem, 3.5vw, 2.2rem); }
+.get-nnw { font-size: 1.115rem; margin: 1.1rem 0 0; text-align: center; }
+.get-nnw a { text-decoration: underline; }
 .tagline { container-type: inline-size; margin-top: clamp(1.25rem, 3.75vw, 2.4rem); text-align: center; }
 /* The cards are set two to a row (the block's own row is four, from 56rem). */
 @container daisy-cards (min-width: 36rem) { .feature .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 17.6rem)); justify-content: center; } }
@@ -139,7 +141,7 @@ a:hover { color: var(--accent); }
 .focus .credits { display: none; }
 
 /* Updates */
-.updates { border-top: 2px solid var(--ink); margin-top: clamp(7rem, 22vw, 12rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
+.updates { font-size: 1.115rem; border-top: 2px solid var(--ink); margin-top: clamp(7rem, 22vw, 12rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
 .updates h2 {
   font-family: var(--sans);
   font-size: clamp(1.7rem, 4vw, 2.4rem);
@@ -188,10 +190,10 @@ a:hover { color: var(--accent); }
 .credits p { margin: 0.75rem 0; }
 /* The page alternates between Daisy Sans (wide, bold headings; sans text) and Daisy (high-contrast serif headings and text). */
 #house-style, #footnotes, #updates, #niceties > .sub, #niceties > .sub ~ * {
-  --face: var(--sans); --h-axes: "wght" 780, "wdth" 43; --h-weight: 780; --h-tracking: -0.005em; --h-leading: 1.05; --h-scale: 1.4; --text-size: 1.0625rem;
+  --face: var(--sans); --h-axes: "wght" 780, "wdth" 43; --h-weight: 780; --h-tracking: -0.005em; --h-leading: 1.05; --h-scale: 1.4; --text-size: 1.115rem;
 }
 #niceties, #try-it, .credits, #house-style > .sub, #house-style > .sub ~ * {
-  --face: var(--serif); --h-axes: "opsz" 72; --h-weight: 700; --h-tracking: -0.02em; --h-leading: 1.15; --h-scale: 1; --text-size: 1.125rem;
+  --face: var(--serif); --h-axes: "opsz" 72; --h-weight: 700; --h-tracking: -0.02em; --h-leading: 1.15; --h-scale: 1; --text-size: 1.18rem;
 }
 .feature > :is(h2, h3, p, ul), .updates > .wrap > :is(h2, h3), .credits :is(h2, p) { font-family: var(--face); }
 .feature > h2, .updates h2, .credits h2 { font-variation-settings: var(--h-axes); font-weight: var(--h-weight); letter-spacing: var(--h-tracking); line-height: var(--h-leading); }
@@ -224,6 +226,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
     <a class="button button--serif" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.nnwtheme.zip">Get Daisy</a>
     <a class="button button--sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.Sans.nnwtheme.zip">Get Daisy Sans</a>
   </p>
+  <p class="get-nnw"><a href="https://apps.apple.com/us/app/netnewswire-rss-reader/id1480640210">Get NetNewsWire</a></p>
 </div>
 
 <div class="wrap feature" id="house-style">
