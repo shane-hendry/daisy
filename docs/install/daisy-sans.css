@@ -56,7 +56,7 @@
   --on-mark: #fff;           /* text on the highlight */
   --rule: #161616;           /* divider lines and borders */
   --code-surface: #f4f4f4;   /* background behind code */
-  --mark: #d34600;       /* highlighter background: the lightest orange that gives white 4.5:1 */
+  --mark: var(--accent);  /* highlighter background: the accent, with white text (3.4:1 in light mode, accepted) */
 
   /* Syntax colors for code blocks. Muted on purpose: enough hue to tell keywords,
      strings and comments apart, never louder than the prose. Each is at least 4.5:1
@@ -203,7 +203,7 @@
     --accent: #ff7a2e;
     --rule: #ececec;
     --code-surface: #1c1c1c;
-      --mark: #d34600;
+      --mark: var(--accent);
     --syn-keyword: #d29cff;
     --syn-string: #7fe08f;
     --syn-number: #ffb04a;
@@ -530,7 +530,7 @@ sub {
   bottom: -0.25em;
 }
 
-/* Highlighted text: white on --mark, an orange dark enough for white to pass. */
+/* Highlighted text: white on --mark, which is the accent. */
 mark {
   -webkit-box-decoration-break: clone;
   background: var(--mark);
@@ -606,6 +606,25 @@ blockquote::before {
 blockquote.single-line::before {
   bottom: 0.15em;
   top: 0.15em;
+}
+
+/* A quote that sits before a heading loses its half-leading below the last line, and one
+   after a heading loses it above the first (see 1.4), so its box ends at the baseline or
+   starts at the cap top. The bar's offsets then measure from there. */
+blockquote:has(+ :is(h1, h2, h3, h4, h5, h6))::before {
+  bottom: -0.09em;
+}
+
+:is(h1, h2, h3, h4, h5, h6) + blockquote::before {
+  top: -0.09em;
+}
+
+blockquote.single-line:has(+ :is(h1, h2, h3, h4, h5, h6))::before {
+  bottom: -0.345em;
+}
+
+:is(h1, h2, h3, h4, h5, h6) + blockquote.single-line::before {
+  top: -0.35em;
 }
 
 
