@@ -90,6 +90,7 @@ a:hover { color: var(--accent); }
 .line2 .ny { font-family: var(--sans); font-variation-settings: "wght" 740, "wdth" 125; font-weight: 740; letter-spacing: -0.02em !important; }
 .line1 .ny, .line1 .amp { font-variation-settings: "opsz" 130; }
 .byline { color: var(--ink); font-size: clamp(1.25rem, 3vw, 1.75rem); line-height: 1.25; margin: clamp(1.75rem, 5.25vw, 3.25rem) auto 0; max-width: 22em; text-wrap: balance; }
+.serif { font-family: var(--serif); }
 .byline a { text-decoration: none; }
 .byline a:hover { text-decoration: underline; }
 .sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
@@ -133,6 +134,35 @@ a:hover { color: var(--accent); }
 .feature > h2.sub { margin-top: 2.5rem; }
 .feature > p.after-block { margin-top: 2.75rem; }
 .feature > p { margin: 0 0 1rem; }
+/* More niceties: the same 2.25rem between every paragraph and card row, whichever way it runs. */
+#niceties > p { margin-bottom: 2.25rem; }
+#niceties > p.serif { margin-top: 2.25rem; }
+#niceties .daisy-cards:has(+ p) .daisy-cards__row { padding-bottom: 0; }
+/* Each niceties card is the top of a phone: the phone's own width, about 40% of its height, a status bar over the content, and the content running off the bottom, cropped. Sizes are of the card's width (cqw); the frame's corner is 58 of 390. */
+#niceties .dc {
+  aspect-ratio: 390 / 338;
+  border-radius: 14.87% 14.87% 0 0 / 17.16% 17.16% 0 0;
+  /* The same shadow as the other devices (11px blur, 4px down, 25 percent black), cut off at the bottom edge so the fade has none. */
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.25), 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+  clip-path: inset(-40px -40px 0 -40px);
+}
+/* The phone ends in a clean crop at the bottom: no fade. The card's own fade strips are switched off. */
+#niceties .dc::after { display: none; }
+/* A stronger veil under the status bar on the code card, whose text runs up under it. */
+#niceties .dc--code::before {
+  -webkit-backdrop-filter: blur(9.5px); backdrop-filter: blur(9.5px);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--dc-canvas) 96%, transparent) 0%, color-mix(in srgb, var(--dc-canvas) 80%, transparent) 30%, color-mix(in srgb, var(--dc-canvas) 42%, transparent) 62%, color-mix(in srgb, var(--dc-canvas) 12%, transparent) 84%, transparent 100%);
+  height: 32%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.45) 65%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.45) 65%, transparent 100%);
+}
+#niceties .daisy-cards__row { column-gap: 2.25rem; }
+#niceties .dc__for { display: inline-block; }
+#niceties .dc__byline { text-wrap: wrap; } /* fill each line, so a wrapped byline breaks before "for" */
+#niceties .dc__in { padding-top: 5.2em; }
+#niceties .dc--code .dc__in { padding-bottom: 0.8em; }
+#niceties .dc__bar { inset: 0 0 auto; pointer-events: none; position: absolute; z-index: 3; }
+#niceties .dc__bar .daisy-phone__time { color: var(--dc-ink); font: 600 3.85cqw / 1 -apple-system, "SF Pro Text", system-ui, sans-serif; left: 11.8cqw; position: absolute; top: 9.7cqw; }
+#niceties .dc__battery { color: var(--dc-ink); height: auto; position: absolute; right: 11.8cqw; top: 9.7cqw; width: 7.2cqw; }
 .feature > ul { margin: 0 0 1.25rem; padding-inline-start: 1.5rem; }
 .feature > ul > li { margin-block: 0.3em; }
 :not(pre) > code:not(.daisy-ba *, .daisy-card *, .daisy-hero *, .dc *) { -webkit-box-decoration-break: clone; background: color-mix(in srgb, var(--ink) 9%, transparent); border-radius: 0.2rem; box-decoration-break: clone; font-size: 0.9em; padding: 0.1em 0.2em; }
@@ -233,7 +263,6 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   <h2>Daisy&#8217;s house style</h2>
   <p>What sets Daisy apart is its house style for article headers. Every post opens the same way, so a mixed feed is easy to scan and predictable to swipe through. <a href="https://shanehendry.com/daisy/">Learn how Daisy&#8217;s house style works.</a></p>
 {{FEED}}
-{{RULES}}
 </div>
 
 <div class="wrap feature" id="footnotes">
@@ -246,8 +275,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   <h2>More niceties</h2>
   <p>Code blocks get syntax highlighting, language labels, and copy-to-clipboard. Social media posts follow each platform&#8217;s own rules, so they read more naturally and predictably.</p>
 {{NICETIES_1}}
-  <h2 class="sub">For readers everywhere</h2>
-  <p>Multi-author bylines follow one predictable format. Smart datelines are relative for the first week, then reveal the exact time with a click. Daisy and Daisy Sans also support over 30 languages, rewriting whole phrases instead of replacing individual words.</p>
+  <p class="serif">Multi-author bylines follow one predictable format. Smart datelines are relative for the first week, then reveal the exact time with a click. Daisy and Daisy Sans also support over 30 languages, rewriting whole phrases instead of replacing individual words.</p>
 {{NICETIES_2}}
 </div>
 

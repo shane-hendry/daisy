@@ -62,7 +62,13 @@ for name in ("FEED", "RULES", "FOOTNOTES"):
     page = page.replace("{{" + name + "}}", (wp / "new" / (name.lower() + ".html")).read_text())
 
 # The niceties are two blocks of two cards, each under the list it illustrates; each comes with its own root and script.
-page = page.replace("{{NICETIES_1}}", (wp / "new/code-social.html").read_text())
-page = page.replace("{{NICETIES_2}}", (wp / "new/attribution-languages.html").read_text())
+# Each card is the top of a phone: the phone's own status bar (time, battery) goes in front of the card's content.
+battery = re.search(r'<svg class="daisy-phone__battery".*?</svg>', (wp / "new/feed.html").read_text(), re.S).group(0)
+bar = '<div class="dc__bar" aria-hidden="true"><span class="daisy-phone__time">9:41</span>' + battery.replace("daisy-phone__battery", "dc__battery") + '</div>\n'
+for key, name in (("{{NICETIES_1}}", "code-social"), ("{{NICETIES_2}}", "attribution-languages")):
+    block = (wp / f"new/{name}.html").read_text()
+    # "for" stays with the publication, so a wrapped byline breaks before it ("... and 2 others" / "for Metro Daily").
+    block = block.replace('</span> for <span class="dc__pub">Metro Daily</span>', '</span> <span class="dc__for">for <span class="dc__pub">Metro Daily</span></span>')
+    page = page.replace(key, re.sub(r'<div class="dc__in"', lambda m: bar + m.group(0), block))
 (root / "docs/index.html").write_text(page)
 print(f"docs/index.html: {len(page) // 1024} KB, releases {', '.join(versions[:3])}")
