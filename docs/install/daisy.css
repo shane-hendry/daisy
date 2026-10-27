@@ -933,6 +933,14 @@ figcaption {
   margin-top: 0.5rem;
 }
 
+/* A picture narrowed to fit the window height sits centred in the column; its caption
+   takes the same width (template.html passes the proportions to the figure), so the
+   text lines up with the picture's edges. */
+.articleBody figure[data-ar] > figcaption {
+  --media-w: min(100%, calc(var(--media-max-h) * var(--ar)));
+  margin-inline: calc((100% - var(--media-w)) / 2);
+}
+
 
 /* --- 1.11 Tables ------------------------------------------------------
    Tables have no lines: spacing and the bold header row do the separating. Rows sit
@@ -1994,6 +2002,11 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
 @media (max-width: 600px) {
   :root {
     --media-max-h: 70vh;
+  }
+
+  /* Pictures run edge to edge here, so the caption keeps the column. */
+  .articleBody figure[data-ar] > figcaption {
+    margin-inline: 0;
   }
 
   .articleBody > :is(img, video, iframe):not(:is([src*="embed.podcasts.apple.com"], [src*="embed.music.apple.com"], [src*="open.spotify.com"], [src*="w.soundcloud.com"], [src*="bandcamp.com/EmbeddedPlayer"], [src*="pca.st"], [src*="overcast.fm"], [src*="share.transistor.fm"], [src*="player.simplecast.com"], [src*="html5-player.libsyn.com"], [src*="player.megaphone.fm"], [src*="podbean.com"], [src*="embed.acast.com"], [src*="buzzsprout.com"], [src*="mixcloud.com/widget"], [src*="widget.deezer.com"], [src*="embed.tidal.com"], [src*="embed.bsky.app"], [src*="platform.twitter.com"], [src*="platform.x.com"], [src*="instagram.com"], [src*="threads.net"], [src*="redditmedia.com"], [src*="codepen.io"], [src*="gist.github.com"])):not(.emoji):not(.wp-smiley):not(.side-thumb):not(.unfloat),

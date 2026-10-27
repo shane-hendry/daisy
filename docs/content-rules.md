@@ -150,6 +150,7 @@ When a title is hidden:
 
 - **Name: October 21, 2026 – Headline** moves **Name: October 21, 2026** to the eyebrow, so the title starts after the dash. (v0.2.0)
 - The separator can be an en dash, an em dash, or a hyphen. (v0.2.0)
+- In the eyebrow, the date goes on its own line and the colon is dropped: **Name** over **October 21, 2026**. (v0.5.0)
 
 ##### Podcasts and series
 
@@ -238,6 +239,7 @@ When a title is hidden:
 - Also: Pluralistic and MacStories Weekly, which used to be found by the feed's name. **MacStories Weekly: Issue 533** becomes **MacStories Weekly** over **Issue 533**. (v0.3.0)
 - Also: HomeKit Weekly. **HomeKit Weekly: SwitchBot's new light bars bring 12-zone color to Apple Home** becomes **HomeKit Weekly** over **SwitchBot's new light bars bring 12-zone color to Apple Home**. (v0.3.0)
 - Also: Apple @ Work, a 9to5Mac series. **Apple @ Work: The browser is the biggest gap in your AI governance strategy** becomes **Apple @ Work** over **The browser is the biggest gap in your AI governance strategy**. (v0.3.0)
+- Also: Apple @ Work Podcast. **Apple @ Work Podcast: JNUC recap, Golden Gate, Rosetta, and more** becomes **Apple @ Work Podcast** over **JNUC recap, Golden Gate, Rosetta, and more**. (v0.6.0)
 - Also: Indie App Spotlight, another 9to5Mac series. **Indie App Spotlight: ‘Flipcorder’ lets you shoot retro footage on your iPhone Duo** becomes **Indie App Spotlight** over **‘Flipcorder’ lets you shoot retro footage on your iPhone Duo**. (v0.4.0)
 - Also: Monthly Log, a MacStories series. **Monthly Log: September 2026** becomes **Monthly Log** over **September 2026**. (v0.4.0)
 - Also: New Theme, from the NetNewsWire blog. **New Theme: Cinder, a light-only theme** becomes **New Theme** over **Cinder, a light-only theme**. (v0.5.0)
@@ -290,6 +292,7 @@ When a title is hidden:
 - A name that is exactly the feed's name is dropped, since the byline shows it. **Headline | BBC Sport** in the BBC Sport feed becomes **Headline**. (v0.3.0)
 - A name that is the post's author is dropped instead. **Headline | Margaret Sullivan** with the author Margaret Sullivan becomes **Headline**, since the byline already shows the name. (v0.3.0)
 - The name counts as the author only when it is the author's whole name. When a post lists several authors, any one of them counts. (v0.3.0)
+- This also works after a label at the start: **[Field Notes] Headline | Margaret Sullivan** becomes **Field Notes** over **Headline**.
 - **Ask Annalisa Barbieri** does not match the author **Annalisa Barbieri**, so it moves to the eyebrow, since it is a known name. (v0.3.0)
 - **Andrew Lawrence** does not match the author **Andrew Lawrence at State Farm Arena**, and is not a known name, so it stays in the title. (v0.3.0)
 - **| Editorial** moves to the eyebrow even when the author is also Editorial. (v0.3.0)

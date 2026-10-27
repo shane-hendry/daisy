@@ -911,7 +911,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|apple @ work|indie app spotlight|monthly log|new theme|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|apple @ work|apple @ work podcast|indie app spotlight|monthly log|new theme|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
       var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive|update|throwback|repost";
       var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
@@ -977,6 +977,10 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         if (text.length <= found[0].length) return;
         label = found[1].trim();
         rest = text.slice(found[0].length);
+        // The title behind a label can still end in the author's or the feed's name after a
+        // pipe ("[Field Notes] Headline | Barrett Thorne"): the byline shows it, so it goes too.
+        var restPiped = rest.match(/^(.*\S)\s+\|\s+([^|]{2,40}?)\s*$/);
+        if (restPiped && simple(restPiped[2]) !== "editorial" && (isAuthor(restPiped[2]) || (feedName && simple(restPiped[2]) === feedName))) rest = restPiped[1];
         // A prefix that is only an acronym ("CISA:", "EU:", "PSA:") stays in the title.
         // A label on the lists above is a word, not an acronym, even in capitals ("WATCH:").
         if (found !== named && found !== numbered && found !== dated && found !== paywall && !new RegExp("^(" + sponsorWords + ")$", "i").test(label) && /^[\p{Lu}\p{N}&.]+$/u.test(label)) return;
@@ -1076,6 +1080,16 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var name = document.createElement(linked && !creditHref ? "a" : "span");
       name.className = "eyebrow-label";
       name.textContent = /\+$/.test(label) ? label : label.charAt(0).toUpperCase() + label.slice(1);
+      // A dated edition breaks before its date and drops the colon: "9to5Mac Daily" over "October 23, 2026".
+      if (found === dated) {
+        var edition = label.match(/^(.*?):\s+(.+)$/);
+        if (edition) {
+          name.textContent = "";
+          name.appendChild(document.createTextNode(edition[1]));
+          name.appendChild(document.createElement("br"));
+          name.appendChild(document.createTextNode(edition[2]));
+        }
+      }
       if (creditHref && creditHref.href) {
         var shown = name.textContent, pub = creditHref.text;
         var link = document.createElement("a");
@@ -1691,6 +1705,12 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         if (w > 0 && h > 0) {
           el.style.setProperty("--ar", w / h);
           el.setAttribute("data-ar", "");
+          // A figure passes the proportions on to its caption, which lines up with the picture.
+          var fig = el.parentNode;
+          if (fig && fig.tagName === "FIGURE") {
+            fig.style.setProperty("--ar", w / h);
+            fig.setAttribute("data-ar", "");
+          }
         }
       }
       function attr(el, name) {
