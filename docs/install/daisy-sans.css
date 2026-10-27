@@ -52,14 +52,14 @@
   /* Colors (light mode; dark mode is below). */
   --canvas: #fff;            /* page background */
   --text: #161616;           /* all text, rules and quote bars */
-  --accent: #f05a00;         /* orange: link hover and focus only */
+  --accent: #d34600;         /* Braun orange, 4.52:1 on white: eyebrow, link hover, focus, highlights */
   --rule: #161616;           /* divider lines and borders */
   --code-surface: #f4f4f4;   /* background behind code */
-  --mark: #f05a00;           /* highlighter background */
+  --mark: var(--accent);  /* highlighter background */
 
   /* Syntax colors for code blocks. Muted on purpose: enough hue to tell keywords,
      strings and comments apart, never louder than the prose. Each is at least 4.5:1
-     against --code-surface. Orange stays reserved for links and focus. */
+     against --code-surface. Orange stays reserved for the eyebrow, links and focus. */
   --syn-keyword: #8029b8;
   --syn-string: #1f7a33;
   --syn-number: #a85a00;
@@ -87,7 +87,11 @@
   --label-axes: "wdth" 115;          /* footnote labels ("Footnote 1"); Close and Go to footnotes stay regular */
   --meta-axes: "wght" 400, "wdth" 75;
   --title-gap: 1.05rem;             /* eyebrow to title, and title to link line */
-  --title-wide: clamp(2.15em, 1.37em + 2.2vw, 2.8em);
+  --title-wide: clamp(2.15em, 0.52em + 4.6vw, 2.8em);
+  --title-short-axes: "wght" 800, "wdth" 43;   /* short titles (up to 24 characters): Sans goes narrow */
+  --title-short-scale: 1.7;
+  --title-long-axes: "wght" 800, "wdth" 43;    /* long titles (70 or more): Sans goes narrow */
+  --title-long-scale: 1.3;
   --title-phone: clamp(1.7em, 1.36em + 1.92vw, 2.05em);
 
   /* Headings inside an article: a weight and variable-font settings for each level,
@@ -197,7 +201,7 @@
     --accent: #ff7a2e;
     --rule: #ececec;
     --code-surface: #1c1c1c;
-      --mark: #ff7a2e;
+      --mark: var(--accent);
     --syn-keyword: #d29cff;
     --syn-string: #7fe08f;
     --syn-number: #ffb04a;
@@ -1133,6 +1137,18 @@ caption {
   text-wrap: pretty;
 }
 
+.article-header h1[data-len="short"] {
+  font-size: calc(var(--text-h1) * var(--title-short-scale));
+  font-variation-settings: var(--title-short-axes);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.article-header h1[data-len="long"] {
+  font-size: calc(var(--text-h1) * var(--title-long-scale));
+  font-variation-settings: var(--title-long-axes);
+}
+
 /* Capped lower on phones. */
 @media (max-width: 600px) {
   :root {
@@ -1221,6 +1237,11 @@ h1 a {
   display: flex;
   gap: 0 0.4em;
   margin-top: calc(var(--space-large) * 0.94);
+}
+
+.eyebrow,
+.eyebrow a {
+  color: var(--accent);
 }
 
 .eyebrow {

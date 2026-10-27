@@ -38,7 +38,11 @@ sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
     -e 's|^\(  --h5-axes: \).*$|\1"wght" 600, "wdth" 115;|' \
     -e 's|^\(  --h6-weight: \).*$|\1500;|' \
     -e 's|^\(  --h6-axes: \).*$|\1"wght" 500, "wdth" 115;|' \
-    -e 's|^\(  --title-wide: \).*;|\1clamp(2.15em, 1.37em + 2.2vw, 2.8em);|' \
+    -e 's|^\(  --title-wide: \).*;|\1clamp(2.15em, 0.52em + 4.6vw, 2.8em);|' \
+    -e 's|^\(  --title-short-axes: \).*;|\1"wght" 800, "wdth" 43;|' \
+    -e 's|^\(  --title-short-scale: \)[0-9.]*;|\11.7;|' \
+    -e 's|^\(  --title-long-axes: \).*;|\1"wght" 800, "wdth" 43;|' \
+    -e 's|^\(  --title-long-scale: \)[0-9.]*;|\11.3;|' \
     -e 's|^\(  --title-phone: \).*;|\1clamp(1.7em, 1.36em + 1.92vw, 2.05em);|' \
     -e '1s|^/\* Daisy: New York,|/* Daisy Sans: system sans,|' "$SRC/stylesheet.css" > "$dest/stylesheet.css"
 sed -e 's|com\.shanehendry\.daisy|com.shanehendry.daisy-sans|' \
