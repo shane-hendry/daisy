@@ -92,6 +92,8 @@ a:hover { color: var(--accent); }
   .title .t1 { margin-bottom: 0.1em; }
   .title .t2 span { display: block; }
 }
+/* On a phone the space above the title equals the space between the tagline and the devices below it (measured to the letters: the hero's own margin, about 1.75rem of room inside the hero, less the title's 4px of top leading). */
+@media (max-width: 40rem) { .top { padding-top: calc(clamp(1.75rem, 5vw, 3.5rem) + 1.75rem - 4px); } }
 .byline { text-align: center; color: var(--ink); font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; margin: 0 auto; max-width: none; }
 /* On a wide screen the line stays whole, or breaks only after "design". A phone is too narrow for that and wraps freely. */
 @media (min-width: 40rem) { .byline .nb { white-space: nowrap; } }
@@ -111,10 +113,54 @@ a:hover { color: var(--accent); }
 }
 .button:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 .button--serif { font-family: var(--serif); font-variation-settings: "opsz" 110, "wght" 713; font-weight: 713; }
-.button--sans { font-variation-settings: "wght" 678, "wdth" 66, "opsz" 28; font-weight: 678; }
+/* 5% larger type, with the padding and line height scaled back so the button is the same size as Get Daisy. */
+.button--sans { font-size: 1.386rem; line-height: 1.524; padding: 0.4643em 1em; font-variation-settings: "wght" 678, "wdth" 66, "opsz" 28; font-weight: 678; }
 .button--outline { background: transparent; color: var(--ink); font-size: 0.95rem; font-weight: 500; padding: 0.65em 1.6em; }
 #try-it { text-align: center; }
 .nnw-row { margin: 1.5rem 0 0; text-align: center; }
+
+/* Sticky menu: appears once the title has scrolled off. The bar is 98 percent opaque, so the page shows faintly behind it;
+   opened, it grows into a table of contents and goes fully opaque. */
+.menu {
+  --menu-bg: var(--canvas);
+  background: color-mix(in srgb, var(--menu-bg) 98%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 8%, transparent);
+  left: 0;
+  padding-top: env(safe-area-inset-top);
+  position: fixed;
+  right: 0;
+  top: 0;
+  transform: translateY(-100%);
+  transition: transform 0.35s cubic-bezier(.4, 0, .2, 1), background-color 0.3s ease, box-shadow 0.3s ease, visibility 0s linear 0.35s;
+  visibility: hidden;
+  z-index: 50;
+}
+.menu[data-shown] { transform: none; transition-delay: 0s; visibility: visible; }
+.menu[data-open] { background: var(--menu-bg); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14); }
+/* The menu runs the full width of the window with the page's own side gutter, not the centre column. The panel's box spans the window too, so the bullet in the margin is not clipped. */
+.menu { --gut: max(1.5rem, env(safe-area-inset-left)); }
+.menu__in { padding-inline: var(--gut); }
+.menu__bar { align-items: center; display: flex; height: 3.5rem; justify-content: space-between; }
+.menu__logo { align-items: baseline; display: inline-flex; gap: 0.38em; line-height: 1; text-decoration: none; white-space: nowrap; }
+.menu__logo:hover { color: inherit; }
+.menu__logo .ny { font-family: var(--serif); font-size: 1.5rem; font-variation-settings: "opsz" 110; font-weight: 700; letter-spacing: -0.02em; }
+.menu__logo .ny i { font-size: 0.78em; font-style: normal; font-weight: 800; }
+.menu__logo .sf { font-family: var(--sans); font-size: 1.4rem; font-variation-settings: "wght" 800, "wdth" 116; font-weight: 800; letter-spacing: -0.02em; }
+.menu__toggle { -webkit-appearance: none; appearance: none; background: none; border: 0; color: inherit; cursor: pointer; display: grid; height: 2.75rem; margin-right: -0.6rem; place-items: center; width: 2.75rem; }
+.menu__toggle:hover { color: var(--accent); }
+.menu__toggle:focus-visible, .menu__list a:focus-visible, .menu__logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.menu__toggle svg { height: 1.2rem; transition: transform 0.35s cubic-bezier(.4, 0, .2, 1); width: 1.2rem; }
+.menu[data-open] .menu__toggle svg { transform: rotate(180deg); }
+.menu__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s cubic-bezier(.4, 0, .2, 1); }
+.menu[data-open] .menu__panel { grid-template-rows: 1fr; }
+.menu__panel > div { margin-inline: calc(var(--gut) * -1); min-height: 0; overflow: hidden; padding-inline: var(--gut); }
+.menu__list { list-style: none; margin: 0; padding: 0.25rem 0 1.5rem; }
+.menu__list li { position: relative; }
+.menu__list a { display: block; font-size: 1.1rem; line-height: 1.3; padding: 0.4rem 0; text-decoration: none; }
+.menu__list a:hover { color: var(--accent); }
+.menu__list a[aria-current]::before { content: "\2022"; left: -0.8rem; position: absolute; }
+@media (prefers-reduced-motion: reduce) { .menu, .menu__panel, .menu__toggle svg { transition-duration: 0s !important; transition-delay: 0s !important; } }
+.focus .menu { display: none; }
 
 /* Alternating bands: gray, white, gray... The hero above is the first, white. */
 :root { --band: #f5f5f7; }
@@ -165,8 +211,12 @@ a:hover { color: var(--accent); }
 #niceties .daisy-cards__row { column-gap: 2.25rem; }
 #niceties .dc__for { display: inline-block; }
 #niceties .dc__byline { text-wrap: wrap; } /* fill each line, so a wrapped byline breaks before "for" */
-#niceties .dc__in { padding-top: 5.2em; }
+#niceties .dc:not(.dc--code) .dc__in { padding-top: 4.2em; } /* the content sits closer to the status bar */
+#niceties .dc--code .dc__in { padding-top: 5.2em; }
 #niceties .dc--code .dc__in { padding-bottom: 0.8em; }
+/* The code block's header, as in the theme: the language label in the wide style (wdth 115), both labels medium weight, a little smaller. */
+#niceties .dc__code-head { font-size: 0.9em; }
+#niceties .dc__code-head > span { font-variation-settings: "wdth" 115; }
 #niceties .dc__bar { inset: 0 0 auto; pointer-events: none; position: absolute; z-index: 3; }
 #niceties .dc__bar .daisy-phone__time { color: var(--dc-ink); font: 600 3.85cqw / 1 -apple-system, "SF Pro Text", system-ui, sans-serif; left: 11.8cqw; position: absolute; top: 9.7cqw; }
 #niceties .dc__battery { color: var(--dc-ink); height: auto; position: absolute; right: 11.8cqw; top: 9.7cqw; width: 7.2cqw; }
@@ -188,6 +238,7 @@ a:hover { color: var(--accent); }
   line-height: 1.1;
   margin: 0 0 1.5rem;
 }
+.updates:not([data-theme]) h2 { margin-bottom: 2.25rem; }
 .release { margin-bottom: 2.5rem; scroll-margin-top: 1.5rem; }
 .release h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; margin: 0; }
 .release h3 a { text-decoration: none; }
@@ -218,8 +269,15 @@ a:hover { color: var(--accent); }
 .history { font-weight: 600; }
 .credits { margin-top: clamp(7rem, 22vw, 12rem); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
-@media (min-width: 40.01rem) { .updates { margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: clamp(3rem, 6vw, 4.5rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
+@media (min-width: 40.01rem) { .updates { margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: clamp(3rem, 6vw, 4.5rem) clamp(6rem, 12vw, 9rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
 .credits p { margin: 0.75rem 0; }
+/* On a wide screen "View all releases" sits on the Updates heading's baseline, at the right edge. */
+@media (min-width: 40.01rem) {
+  .updates:not([data-theme]) > .wrap { column-gap: 1.5rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .updates:not([data-theme]) > .wrap > * { grid-column: 1 / -1; }
+  .updates:not([data-theme]) > .wrap > h2 { grid-column: 1; grid-row: 1; align-self: baseline; }
+  .updates:not([data-theme]) > .wrap > .history { align-self: baseline; grid-column: 2; grid-row: 1; margin: 0; text-align: right; }
+}
 /* All type on the page is sans. */
 .feature, .updates, .credits {
   --face: var(--sans); --h-axes: "wght" 800, "wdth" 115; --h-weight: 800; --h-tracking: -0.01em; --h-leading: 1.1; --h-scale: 1.15; --text-size: 1.0625rem;
@@ -240,7 +298,26 @@ a:hover { color: var(--accent); }
 if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.documentElement.classList.add("focus");
 </script>
 </head>
-<body>
+<body id="top">
+<nav class="menu" id="menu" aria-label="Page contents">
+  <div class="menu__in">
+    <div class="menu__bar">
+      <a class="menu__logo" href="#top" aria-label="Daisy and Daisy Sans, back to the top"><span class="ny">Daisy <i>&amp;</i></span><span class="sf">Daisy Sans</span></a>
+      <button class="menu__toggle" type="button" aria-expanded="false" aria-controls="menu-panel" aria-label="Contents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l9 8 9-8"/></svg></button>
+    </div>
+    <div class="menu__panel" id="menu-panel" inert><div>
+      <ul class="menu__list">
+        <li><a href="#get">Get the themes</a></li>
+        <li><a href="#house-style">Daisy&#8217;s house style</a></li>
+        <li><a href="#type">Typography</a></li>
+        <li><a href="#footnotes">Footnotes</a></li>
+        <li><a href="#niceties">Details</a></li>
+        <li><a href="#updates">Updates</a></li>
+        <li><a href="#credits">Credits</a></li>
+      </ul>
+    </div></div>
+  </div>
+</nav>
 <header class="top wrap">
   <h1 class="title"><span class="sr">Daisy &amp; Daisy Sans. Clean up your feed</span>
     <span class="t1" aria-hidden="true">Daisy <span class="amp">&amp;</span></span>
@@ -251,7 +328,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 <main>
 <div class="wrap hero">
 {{HERO}}
-  <p class="byline" style="margin-top:clamp(2rem,5vw,3rem)"><span class="nb">NetNewsWire themes with an editorial design</span> <span class="nb">and cohesive house style.</span></p>
+  <p class="byline" id="get" style="margin-top:clamp(2rem,5vw,3rem)"><span class="nb">NetNewsWire themes with an editorial design</span> <span class="nb">and cohesive house style.</span></p>
   <p class="buttons">
     <a class="button button--serif" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.nnwtheme.zip">Get Daisy</a>
     <a class="button button--sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.Sans.nnwtheme.zip">Get Daisy Sans</a>
@@ -307,7 +384,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
     <h2>Updates</h2>
 {{RELEASES}}
     <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">View all releases</a></p>
-    <section class="credits">
+    <section class="credits" id="credits">
       <h2>Credits</h2>
       <p>Daisy and Daisy Sans were designed and built by <a href="https://shanehendry.com/">Shane Hendry</a>, using <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>, and with the help of Claude Code.</p>
       <p>Daisy and Daisy Sans aren&#8217;t affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for. The theme format is documented in NetNewsWire&#8217;s <a href="https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md">themes technote</a>.</p>
@@ -315,6 +392,59 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   </div>
 </section>
 </main>
+<script>
+// The sticky menu: shown once the title has scrolled off. The caret opens it into a table of contents; the section you are in gets a
+// small bullet. A pick closes it and slides the page to that section. Scrolling, a tap outside, or Escape closes it too.
+(function () {
+  var menu = document.getElementById("menu");
+  if (!menu) return;
+  var toggle = menu.querySelector(".menu__toggle"), panel = menu.querySelector(".menu__panel");
+  var links = [].slice.call(menu.querySelectorAll(".menu__list a"));
+  var logo = menu.querySelector(".menu__logo");
+  var title = document.querySelector(".top .title");
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function target(a) {
+    var el = document.querySelector(a.getAttribute("href"));
+    return el && (el.matches("#updates, #credits") ? el.querySelector("h2") : el);
+  }
+  function setOpen(on) {
+    if (on === menu.hasAttribute("data-open")) return;
+    if (on) { menu.setAttribute("data-open", ""); panel.removeAttribute("inert"); }
+    else { menu.removeAttribute("data-open"); panel.setAttribute("inert", ""); }
+    toggle.setAttribute("aria-expanded", on ? "true" : "false");
+  }
+  function top(el) { return el.getBoundingClientRect().top + window.pageYOffset; }
+  function glide(y) { window.scrollTo({ top: Math.max(0, y), behavior: reduce ? "auto" : "smooth" }); }
+  function update() {
+    var shown = title ? title.getBoundingClientRect().bottom < 0 : window.pageYOffset > 300;
+    if (shown) menu.setAttribute("data-shown", ""); else { menu.removeAttribute("data-shown"); setOpen(false); }
+    var line = window.innerHeight * 0.35, current = links[0];
+    links.forEach(function (a) { var t = target(a); if (t && t.getBoundingClientRect().top <= line) current = a; });
+    links.forEach(function (a) { if (a === current) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+  }
+  var queued = false;
+  function onScroll() { if (!queued) { queued = true; requestAnimationFrame(function () { queued = false; update(); }); } }
+  window.addEventListener("scroll", function () { setOpen(false); onScroll(); }, { passive: true });
+  window.addEventListener("resize", onScroll);
+  toggle.addEventListener("click", function () { setOpen(!menu.hasAttribute("data-open")); });
+  logo.addEventListener("click", function (e) { e.preventDefault(); setOpen(false); glide(0); });
+  links.forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var t = target(a);
+      setOpen(false);
+      if (!t) return;
+      // A gray or white band lands with its top edge exactly at the bottom of the bar; anything else sits a little below it.
+      var bar = menu.querySelector(".menu__bar").offsetHeight + parseFloat(getComputedStyle(menu).paddingTop);
+      var band = t.closest(".band, .updates");
+      glide(band ? top(band) - bar : top(t) - bar - 28);
+    });
+  });
+  document.addEventListener("pointerdown", function (e) { if (!menu.contains(e.target)) setOpen(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && menu.hasAttribute("data-open")) { setOpen(false); toggle.focus(); } });
+  update();
+})();
+</script>
 <script>
 // The update steps: a Mac opens the update link directly. On an iPhone or iPad, NetNewsWire's in-app browser
 // closes without installing and a page cannot tell it from Safari, so the steps lead with the way out of it.
