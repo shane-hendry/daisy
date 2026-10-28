@@ -95,7 +95,7 @@ a:hover { color: var(--accent); }
 /* On a phone the space above the title equals the space between the tagline and the devices below it (measured to the letters: the hero's own margin, about 1.75rem of room inside the hero, less the title's 4px of top leading). */
 @media (max-width: 40rem) { .top { padding-top: calc(clamp(1.75rem, 5vw, 3.5rem) + 1.75rem - 4px); } }
 /* The heading above the buttons is set like the section headings below it. */
-.get-h2 { font-family: var(--sans); font-size: calc(clamp(1.75rem, 4vw, 2.4rem) * 1.15); font-variation-settings: "wght" 800, "wdth" 115; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; margin: clamp(2rem, 5vw, 3rem) 0 0.6rem; scroll-margin-top: 4rem; text-align: center; }
+.get-h2 { font-family: var(--sans); font-size: calc(clamp(1.75rem, 4vw, 2.4rem) * 1.15); font-variation-settings: "wght" 800, "wdth" 115; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; margin: clamp(2rem, 5vw, 3rem) 0 0.6rem; scroll-margin-top: calc(3.5rem + env(safe-area-inset-top) + 80px); text-align: center; } /* a link to #get lands with the same room under the menu as the menu item */
 .byline { text-align: center; color: var(--ink); font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; margin: 0 auto; max-width: none; text-wrap: balance; }
 /* On a wide screen the line stays whole, or breaks only after "house style". A phone is too narrow for that and wraps freely. */
 @media (min-width: 40rem) { .byline .nb { white-space: nowrap; } }
@@ -380,7 +380,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 <div class="band">
 <div class="wrap feature" id="type">
   <h2>Type worth taking in</h2>
-  <p>Daisy and Daisy Sans are typeset with care. Titles scale in size and width to fit their length, quotes hang in the margin, and the eyebrow creates more scannable titles. Generous spacing lets every paragraph breathe.</p>
+  <p>Daisy and Daisy Sans are typeset with care. Titles scale in size and width to fit their length, quotes hang in the margin, and the eyebrow creates more scannable titles. Generous spacing gives sections room to breathe.</p>
 {{IPAD}}
 </div>
 </div>
