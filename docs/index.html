@@ -7603,7 +7603,7 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
   probe.setAttribute("aria-hidden", "true");
   probe.style.cssText = "height:100svh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
   document.body.appendChild(probe);
-  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 24, GAP_BOTTOM = 24, UNIT = 646;   // UNIT: the pair (control + phone) is as tall as the responsive phones elsewhere on the page (a 0.8-scale phone)
+  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, FILL = 0.94;   // the phone takes 94 percent of the room under the menu, beside the control; the rest is breathing room above and below. MAX (0.8) is the size of the other phones on the page: never larger.
   var lastW = 0, lastH = 0;
   function fit() {
     var narrow = getComputedStyle(sw).display !== "none";
@@ -7619,8 +7619,7 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
     }
     var cs = getComputedStyle(sw);
     var control = sw.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
-    var fits = (h - bar - control - GAP_TOP - GAP_BOTTOM) / PHONE_H;
-    var s = Math.min((UNIT - control) / PHONE_H, fits);
+    var s = (h - bar - control) * FILL / PHONE_H;
     s = Math.max(MIN, Math.min(MAX, s));
     phones.forEach(function (p) { p.style.setProperty("--dsy-s", s.toFixed(3)); });
   }
@@ -18552,8 +18551,8 @@ window.addEventListener(&quot;message&quot;,function(e){
           <p class="lead-in">You can&#x2019;t update in NetNewsWire&#x2019;s in-app browser. To update:</p>
           <ol>
             <li>Open this page in your browser</li>
-            <li>Close the in-app browser in NetNewsWire</li>
-            <li>Return to your browser and <span class="to">update to </span><a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.nnwtheme.zip">Daisy&nbsp;0.6</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.Sans.nnwtheme.zip">Daisy&nbsp;Sans&nbsp;0.6</a></li>
+            <li>Go back to NetNewsWire and <strong>close the in-app browser</strong></li>
+            <li>Go back to your browser and <span class="to">update to </span><a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.nnwtheme.zip">Daisy&nbsp;0.6</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.Sans.nnwtheme.zip">Daisy&nbsp;Sans&nbsp;0.6</a></li>
           </ol>
         </div>
       </div>
