@@ -30,7 +30,7 @@ Feeds that inspired some special rules:
 * [Techmeme's](https://www.techmeme.com) titles are deduped from the body
 * [Daring Fireball](https://daringfireball.net/) inspired styling back-links as "A follow-up to..." (I hope John approves)
   
-Read more about [the themes,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md).
+Read more about [how the themes work,](https://shanehendry.com/daisy/) and it's all documented in [content design](docs/content-design.md) and [content rules](docs/content-rules.md).
 
 ### Other niceties
 
