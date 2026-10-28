@@ -94,7 +94,7 @@ a:hover { color: var(--accent); }
 }
 /* On a phone the space above the title equals the space between the tagline and the devices below it (measured to the letters: the hero's own margin, about 1.75rem of room inside the hero, less the title's 4px of top leading). */
 @media (max-width: 40rem) { .top { padding-top: calc(clamp(1.75rem, 5vw, 3.5rem) + 1.75rem - 4px); } }
-.byline { text-align: center; color: var(--ink); font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; margin: 0 auto; max-width: none; }
+.byline { text-align: center; color: var(--ink); font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; margin: 0 auto; max-width: none; text-wrap: balance; }
 /* On a wide screen the line stays whole, or breaks only after "design". A phone is too narrow for that and wraps freely. */
 @media (min-width: 40rem) { .byline .nb { white-space: nowrap; } }
 .serif { font-family: var(--serif); }
@@ -196,8 +196,8 @@ a:hover { color: var(--accent); }
   aspect-ratio: 390 / 338;
   border-radius: 14.87% 14.87% 0 0 / 17.16% 17.16% 0 0;
   /* The same shadow as the other devices (11px blur, 4px down, 25 percent black), cut off at the bottom edge so the fade has none. */
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.25), 0 0 0 0.5px rgba(0, 0, 0, 0.12);
-  clip-path: inset(-40px -40px 0 -40px);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.25), 0 -0.5px 0 0.5px rgba(0, 0, 0, 0.12);
+  clip-path: inset(-40px -40px 0.6px -40px); /* stops a hair above the card's bottom edge, so the shadow below it cannot show as a gray line on a card whose height is not a whole pixel */
 }
 /* The phone ends in a clean crop at the bottom: no fade. The card's own fade strips are switched off. */
 #niceties .dc::after { display: none; }
@@ -214,6 +214,9 @@ a:hover { color: var(--accent); }
 #niceties .dc:not(.dc--code) .dc__in { padding-top: 4.2em; } /* the content sits closer to the status bar */
 #niceties .dc--code .dc__in { padding-top: 5.2em; }
 #niceties .dc--code .dc__in { padding-bottom: 0.8em; }
+/* The social post's gaps are tighter than the other cards', so "Join the conversation" always fits inside the card. */
+#niceties .dc:has(.dc__text--post) .dc__text--post { margin-top: 2.2em; }
+#niceties .dc:has(.dc__text--post) .dc__join { margin-top: 2.2em; }
 /* The code block's header, as in the theme: the language label in the wide style (wdth 115), both labels medium weight, a little smaller. */
 #niceties .dc__code-head { font-size: 0.9em; }
 #niceties .dc__code-head > span { font-variation-settings: "wdth" 115; }
@@ -238,7 +241,7 @@ a:hover { color: var(--accent); }
   line-height: 1.1;
   margin: 0 0 1.5rem;
 }
-.updates:not([data-theme]) h2 { margin-bottom: 2.25rem; }
+.updates:not([data-theme]) h2 { margin-bottom: 2.9rem; }
 /* On the full page the release under the heading is centred; the list of notes keeps its own left-aligned lines. */
 .updates:not([data-theme]) .release { text-align: center; }
 .updates:not([data-theme]) .howto .buttons { justify-content: center; }
@@ -275,13 +278,15 @@ a:hover { color: var(--accent); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
 @media (min-width: 40.01rem) { .updates { margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: clamp(3rem, 6vw, 4.5rem) clamp(6rem, 12vw, 9rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
 .credits p { margin: 0.75rem 0; }
+/* On a phone the space above the divider equals the padding below it: the Try it band supplies its own bottom padding, and Updates adds the rest. */
+@media (max-width: 40rem) { .updates:not([data-theme]) { margin-top: calc(clamp(7rem, 22vw, 12rem) - clamp(3rem, 8vw, 5.5rem)); } }
 /* Try it: its line is as large as the tagline under the hero. */
 #try-it > p { font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; }
 /* The niceties cards animate inside themselves; nothing they do may move the page around them. */
 #niceties .dc { contain: layout; position: relative; }
 #niceties { overflow-anchor: none; }
-/* On a wide screen "View all releases" sits on the Updates heading's baseline, at the right edge. */
-@media (min-width: 40.01rem) {
+/* "View all releases" sits on the Updates heading's baseline, at the right edge, on every screen size. */
+@media all {
   .updates:not([data-theme]) > .wrap { column-gap: 1.5rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; }
   .updates:not([data-theme]) > .wrap > * { grid-column: 1 / -1; }
   .updates:not([data-theme]) > .wrap > h2 { grid-column: 1; grid-row: 1; align-self: baseline; }
@@ -7579,7 +7584,7 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
 <script>
 (function () {
   // On a narrow column, one phone sits under the Unedited | Daisy control. When the screen is short, the control and the phone shrink
-  // together so both fit between the bottom of the sticky menu (when there is one) and the bottom edge of the screen.
+  // together so both fill the space between the bottom of the sticky menu (when there is one) and the bottom edge of the screen (the full screen height, whether or not the browser's toolbar is showing).
   var root = document.querySelector(".dsf:not([data-fit])");
   if (!root) return;
   root.setAttribute("data-fit", "");
@@ -7588,9 +7593,9 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
   if (!sw || !phones.length) return;
   var probe = document.createElement("div");
   probe.setAttribute("aria-hidden", "true");
-  probe.style.cssText = "height:100svh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
+  probe.style.cssText = "height:100lvh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
   document.body.appendChild(probe);
-  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 20, GAP_BOTTOM = 24;
+  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 16, GAP_BOTTOM = 16;
   var lastW = 0, lastH = 0;
   function fit() {
     var narrow = getComputedStyle(sw).display !== "none";
@@ -12869,7 +12874,7 @@ function endFind() {
 }());
 
 &lt;/script&gt;
-&lt;script&gt;(function(){function fmt(h){var M=[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;,&quot;September&quot;,&quot;October&quot;,&quot;November&quot;,&quot;December&quot;];var now=new Date(),t=new Date(now.getTime()-h*3600000);var h12=t.getHours()%12;if(h12===0)h12=12;var time=h12+&quot;:&quot;+(&quot;0&quot;+t.getMinutes()).slice(-2)+&quot; &quot;+(12&gt;t.getHours()?&quot;AM&quot;:&quot;PM&quot;);var ms=now-t,minutes=Math.floor(ms/60000),hours=Math.floor(ms/3600000),rel;if(1&gt;minutes)rel=&quot;Just now&quot;;else if(60&gt;minutes)rel=minutes+&quot; minute&quot;+(minutes===1?&quot;&quot;:&quot;s&quot;)+&quot; ago&quot;;else if(24&gt;hours)rel=hours+&quot; hour&quot;+(hours===1?&quot;&quot;:&quot;s&quot;)+&quot; ago&quot;;else{var sod=function(x){return new Date(x.getFullYear(),x.getMonth(),x.getDate()).getTime()};var days=Math.round((sod(now)-sod(t))/86400000);rel=days===1?&quot;Yesterday&quot;:days+&quot; days ago&quot;;}return{day:M[t.getMonth()]+&quot; &quot;+t.getDate()+&quot;, &quot;+t.getFullYear(),long:M[t.getMonth()]+&quot; &quot;+t.getDate()+&quot;, &quot;+t.getFullYear()+&quot; at &quot;+time,rel:rel,time:&quot;at &quot;+time,iso:t.toISOString()};}var H=76,MODE=&quot;rel&quot;,EYEBROW=&quot;&quot;,TD=false;function f(){var d=fmt(H),t=document.querySelector(&#x27;.dateline&#x27;);if(t&amp;&amp;t.firstChild&amp;&amp;t.firstChild.nodeType===3)t.firstChild.nodeValue=d[MODE];var full=document.querySelector(&#x27;.dateline-full&#x27;);if(full)full.textContent=d.time;var l=document.querySelector(&#x27;.eyebrow-label&#x27;);if(l&amp;&amp;EYEBROW)l.textContent=EYEBROW;var a=document.querySelector(&#x27;.article-header h1 a&#x27;);if(a&amp;&amp;TD)a.textContent=a.textContent.replace(/[A-Z][a-z]+ \d{1,2}, \d{4}/,d.day);}f();document.addEventListener(&#x27;DOMContentLoaded&#x27;,f);window.addEventListener(&#x27;load&#x27;,f);})();&lt;/script&gt;&lt;style&gt;.q{position:relative}&lt;/style&gt;&lt;script&gt;// Quotation marks in headings (the title and the headings inside the article).
+&lt;script&gt;(function(){function fmt(h){var M=[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;,&quot;September&quot;,&quot;October&quot;,&quot;November&quot;,&quot;December&quot;];var now=new Date(),t=new Date(now.getTime()-h*3600000);var h12=t.getHours()%12;if(h12===0)h12=12;var time=h12+&quot;:&quot;+(&quot;0&quot;+t.getMinutes()).slice(-2)+&quot; &quot;+(12&gt;t.getHours()?&quot;AM&quot;:&quot;PM&quot;);var ms=now-t,minutes=Math.floor(ms/60000),hours=Math.floor(ms/3600000),rel;if(1&gt;minutes)rel=&quot;Just now&quot;;else if(60&gt;minutes)rel=minutes+&quot; minute&quot;+(minutes===1?&quot;&quot;:&quot;s&quot;)+&quot; ago&quot;;else if(24&gt;hours)rel=hours+&quot; hour&quot;+(hours===1?&quot;&quot;:&quot;s&quot;)+&quot; ago&quot;;else{var sod=function(x){return new Date(x.getFullYear(),x.getMonth(),x.getDate()).getTime()};var days=Math.round((sod(now)-sod(t))/86400000);rel=days===1?&quot;Yesterday&quot;:days+&quot; days ago&quot;;}return{day:M[t.getMonth()]+&quot; &quot;+t.getDate()+&quot;, &quot;+t.getFullYear(),long:M[t.getMonth()]+&quot; &quot;+t.getDate()+&quot;, &quot;+t.getFullYear()+&quot; at &quot;+time,rel:rel,time:&quot;at &quot;+time,iso:t.toISOString()};}var H=76,MODE=&quot;rel&quot;,EYEBROW=&quot;&quot;,TD=false;function f(){var d=fmt(H),t=document.querySelector(&#x27;.dateline&#x27;);if(t&amp;&amp;t.firstChild&amp;&amp;t.firstChild.nodeType===3)t.firstChild.nodeValue=d[MODE];var full=document.querySelector(&#x27;.dateline-full&#x27;);if(full)full.textContent=d.time;var l=document.querySelector(&#x27;.eyebrow-label&#x27;);if(l&amp;&amp;EYEBROW)l.textContent=EYEBROW;var a=document.querySelector(&#x27;.article-header h1 a&#x27;);if(a&amp;&amp;TD)a.textContent=a.textContent.replace(/[A-Z][a-z]+ \d{1,2}, \d{4}/,d.day);}f();document.addEventListener(&#x27;DOMContentLoaded&#x27;,f);window.addEventListener(&#x27;load&#x27;,f);})();&lt;/script&gt;&lt;style&gt;.q{position:relative}.article-header h1{font-size:calc(var(--text-h1)*1.25)}&lt;/style&gt;&lt;script&gt;// Quotation marks in headings (the title and the headings inside the article).
 // 1. Straight quotes become typographic ones. Apostrophes (Don&#x27;t, &#x27;90s, dogs&#x27;) become a
 //    plain ’ and are otherwise left alone, as are inch and foot marks (12&quot;, 5&#x27;10&quot;) and
 //    any heading that uses another language&#x27;s quote marks (« », „ “, 「 」).
@@ -12964,7 +12969,20 @@ function endFind() {
     var s = 1 - t * (1 - MIN_SIZE);
     // A smaller mark has thinner strokes, so it gets heavier (up to the axis maximum)
     // to keep the heading&#x27;s stroke thickness. Stroke is taken as size x (weight + 150).
-    function style(size) {
+    // Measures the glyphs themselves: the top of the opening quote, at its size and weight, is set to the cap height of the heading&#x27;s
+        // own capital letters (the Y of &quot;You&quot;), whatever size the quote has shrunk to.
+        var meter = document.createElement(&quot;canvas&quot;).getContext(&quot;2d&quot;);
+        function capLift(size, qWeight) {
+          try {
+            var fam = cs.fontFamily;
+            meter.font = base + &quot; &quot; + fs + &quot;px &quot; + fam;
+            var cap = meter.measureText(&quot;Y&quot;).actualBoundingBoxAscent;
+            meter.font = qWeight + &quot; &quot; + (fs * size) + &quot;px &quot; + fam;
+            var top = meter.measureText(&quot;\u201C&quot;).actualBoundingBoxAscent;
+            return (cap &amp;&amp; top) ? +(top - cap).toFixed(2) : null;
+          } catch (e) { return null; }
+        }
+        function style(size) {
       var weight = size === 1 ? 0 : Math.min(MAX_WEIGHT, Math.max(base, (base + 150) / size - 150));
       var axes = !weight ? &quot;&quot; : found ? fvs.replace(/&quot;wght&quot;\s+[\d.]+/, &#x27;&quot;wght&quot; &#x27; + weight)
         : (fvs &amp;&amp; fvs !== &quot;normal&quot; ? fvs + &quot;, &quot; : &quot;&quot;) + &#x27;&quot;wght&quot; &#x27; + weight;
@@ -12974,7 +12992,8 @@ function endFind() {
         q.style.marginRight = q.classList.contains(&quot;kern-a&quot;) ? (-0.06 / size) + &quot;em&quot; : &quot;&quot;;
         q.style.fontSize = size === 1 ? &quot;&quot; : size + &quot;em&quot;;
         // The smaller mark sits lower in the line; this keeps its top at cap height.
-        q.style.top = size === 1 ? &quot;&quot; : (-0.7 * (1 - size) / size) + &quot;em&quot;;
+        var lift = capLift(size, weight || base);
+        q.style.top = lift !== null ? lift + &quot;px&quot; : size === 1 ? &quot;&quot; : (-0.7 * (1 - size) / size) + &quot;em&quot;;
         q.style.fontWeight = weight || &quot;&quot;;
         q.style.fontVariationSettings = axes;
       });
@@ -18511,7 +18530,7 @@ window.addEventListener(&quot;message&quot;,function(e){
   <div class="wrap">
     <h2>Updates</h2>
     <article class="release" id="v0-6-0">
-      <h3><a href="#v0-6-0">Version 0.6</a></h3>
+      <h3>Version 0.6</h3>
       <time datetime="2026-10-28T12:42:00Z">Oct 28, 2026</time>
       <div class="howto" id="howto">
         <div id="howto-mac">

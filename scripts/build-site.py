@@ -41,7 +41,7 @@ def release(v, latest=False):
     anchor = "v" + v.replace(".", "-")
     return (
         f'    <article class="release" id="{anchor}">\n'
-        f'      <h3><a href="#{anchor}">Version {short(v)}</a></h3>\n'
+        f'      <h3>Version {short(v)}</h3>\n'
         f'      <time datetime="{entry["published"]}">{pretty}</time>\n'
         + (HOWTO.replace("{{VERSION}}", v).replace("{{SHORT}}", short(v)) if latest else "")
         +
