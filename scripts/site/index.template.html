@@ -221,6 +221,10 @@ a:hover { color: var(--accent); }
 #niceties .dc:not(.dc--code) .dc__in { padding-top: 4.2em; } /* the content sits closer to the status bar */
 #niceties .dc--code .dc__in { padding-top: 5.2em; }
 #niceties .dc--code .dc__in { padding-bottom: 0.8em; }
+/* In dark mode the dark phones are as dark as the page, so they get a thin light edge, like a device's metal rim, plus a faint highlight along the top. */
+@media (prefers-color-scheme: dark) {
+  #niceties .dc--dark { box-shadow: 0 4px 22px rgba(0, 0, 0, 0.25), 0 -0.5px 0 1px rgba(255, 255, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+}
 /* The credit row, the title and the body sit closer together on the social, bylines and languages cards (not the code card). */
 #niceties .dc:not(.dc--code) { --dc-gap: 2.7em; }
 /* The code block's header, as in the theme: the language label in the wide style (wdth 115), both labels medium weight, a little smaller. */
