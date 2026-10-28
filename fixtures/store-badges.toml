@@ -1,0 +1,12 @@
+title = "Find the app on your phone"
+feed_link_title = "Example Weekly"
+feed_link = "https://example.org/"
+byline = "Alex Example"
+date_medium = "Oct 28, 2026"
+body = '''<p>Find these recipes and hundreds more in the app. Consider becoming a subscriber to unlock the best experience and to support the project.</p>
+<p><a href="https://play.google.com/store/apps/details?id=org.example.app"><img src="media/get-it-on-google-play.svg" alt="Get it on Google Play" width="646" height="200"></a></p>
+<p><a href="https://apps.apple.com/app/id0000000000"><img src="media/download-on-the-app-store.svg" alt="Download on the App Store" width="600" height="200"></a></p>
+<p>Only one store? One badge on its own:</p>
+<div><a href="https://apps.apple.com/app/id0000000000"><img src="media/download-on-the-app-store.svg" alt="Download on the App Store" width="600" height="200"></a></div>
+<p>And a screenshot of the store page is not a badge:</p>
+<p><a href="https://apps.apple.com/app/id0000000000"><img src="media/app-page.svg" alt="The app page" width="600" height="200"></a></p>'''

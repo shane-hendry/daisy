@@ -962,6 +962,44 @@ figcaption {
 }
 
 
+/* --- 1.10b App Store and Google Play badges ---------------------------
+   template.html gathers a run of badge-only blocks into one .store-badges row. The
+   badges are the same size, never the width of the column: each sits in a box of the
+   badge shape (the two stores' artwork differs a little) and keeps its own proportions
+   inside it. Side by side where there is room, stacked on a phone. Sample:
+   fixtures/store-badges.toml. */
+.store-badges {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em 1em;
+  margin-block: 2em;
+}
+
+.store-badges > .store-badge {
+  display: block;
+  flex: none;
+  line-height: 0;
+}
+
+.store-badges img {
+  display: block;
+  height: 2.75em;
+  margin: 0 !important;
+  max-width: none;
+  object-fit: contain;
+  object-position: left center;
+  width: 8.8em !important;
+}
+
+@media (max-width: 600px) {
+  .store-badges {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
 /* --- 1.11 Tables ------------------------------------------------------
    Tables have no lines: spacing and the bold header row do the separating. Rows sit
    close together, the outer cells sit flush with the table's own edges, and digits

@@ -226,7 +226,7 @@ a:hover { color: var(--accent); }
 .feature > ul { margin: 0 0 1.25rem; padding-inline-start: 1.5rem; }
 .feature > ul > li { margin-block: 0.3em; }
 :not(pre) > code:not(.daisy-ba *, .daisy-card *, .daisy-hero *, .dc *) { -webkit-box-decoration-break: clone; background: color-mix(in srgb, var(--ink) 9%, transparent); border-radius: 0.2rem; box-decoration-break: clone; font-size: 0.9em; padding: 0.1em 0.2em; }
-.focus .feature { display: none; }
+.focus .feature, .focus .band { display: none; }
 /* The update page holds only the release; Credits is left to the full page. */
 .focus .credits { display: none; }
 
@@ -274,6 +274,7 @@ a:hover { color: var(--accent); }
 .updates[data-theme="daisy-sans"] h3 { font-weight: 700; }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
+.updates h2 .nw { white-space: nowrap; }
 .credits { margin-top: clamp(7rem, 22vw, 12rem); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
 @media (min-width: 40.01rem) { .updates { margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: clamp(3rem, 6vw, 4.5rem) clamp(6rem, 12vw, 9rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
@@ -302,6 +303,13 @@ a:hover { color: var(--accent); }
 .updates h2 { font-size: calc(clamp(1.7rem, 4vw, 2.4rem) * var(--h-scale)); }
 .feature > :is(p, ul), .credits p { font-size: var(--text-size); }
 .feature > ul > li strong { font-weight: 700; }
+/* Arriving from the Daisy theme's update notice (?theme=daisy), the update page is set in the theme's serif type. */
+.updates[data-theme="daisy"] { --face: var(--serif); font-family: var(--serif); }
+.updates[data-theme="daisy"] :is(h2, h3, summary, .button) { font-family: var(--serif); }
+.updates[data-theme="daisy"] :is(h2, h3) { font-variation-settings: "opsz" 72; font-weight: 700; }
+.updates[data-theme="daisy"] h2 { letter-spacing: -0.01em; }
+.updates[data-theme="daisy"] summary { font-weight: 600; }
+.updates[data-theme="daisy"] .button { font-variation-settings: "opsz" 110, "wght" 713; font-weight: 713; }
 </style>
 <style>
 /* The hero's styles, from build/wordpress/daisy-examples.css; the hero block's own overrides come after them. */
@@ -478,7 +486,12 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
     var latest = document.querySelector("#updates .release");
     var heading = document.querySelector("#updates h2");
     var version = latest ? latest.querySelector("h3").textContent.replace(/^\s*Version\s*/i, "").trim() : "";
-    heading.textContent = "Update to " + (theme === "daisy" ? "Daisy" : "Daisy Sans") + (version ? " " + version : "");
+    // The theme's name and its version stay on one line.
+    var name = document.createElement("span");
+    name.className = "nw";
+    name.textContent = (theme === "daisy" ? "Daisy" : "Daisy Sans") + (version ? " " + version : "");
+    heading.textContent = "Update to ";
+    heading.appendChild(name);
     if (latest) heading.after(latest.querySelector("time"));
     howto.querySelectorAll("a[data-theme]").forEach(function (a) {
       if (a.getAttribute("data-theme") !== theme) a.hidden = true;

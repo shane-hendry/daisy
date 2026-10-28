@@ -226,7 +226,7 @@ a:hover { color: var(--accent); }
 .feature > ul { margin: 0 0 1.25rem; padding-inline-start: 1.5rem; }
 .feature > ul > li { margin-block: 0.3em; }
 :not(pre) > code:not(.daisy-ba *, .daisy-card *, .daisy-hero *, .dc *) { -webkit-box-decoration-break: clone; background: color-mix(in srgb, var(--ink) 9%, transparent); border-radius: 0.2rem; box-decoration-break: clone; font-size: 0.9em; padding: 0.1em 0.2em; }
-.focus .feature { display: none; }
+.focus .feature, .focus .band { display: none; }
 /* The update page holds only the release; Credits is left to the full page. */
 .focus .credits { display: none; }
 
@@ -274,6 +274,7 @@ a:hover { color: var(--accent); }
 .updates[data-theme="daisy-sans"] h3 { font-weight: 700; }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
+.updates h2 .nw { white-space: nowrap; }
 .credits { margin-top: clamp(7rem, 22vw, 12rem); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
 @media (min-width: 40.01rem) { .updates { margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: clamp(3rem, 6vw, 4.5rem) clamp(6rem, 12vw, 9rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
@@ -302,6 +303,13 @@ a:hover { color: var(--accent); }
 .updates h2 { font-size: calc(clamp(1.7rem, 4vw, 2.4rem) * var(--h-scale)); }
 .feature > :is(p, ul), .credits p { font-size: var(--text-size); }
 .feature > ul > li strong { font-weight: 700; }
+/* Arriving from the Daisy theme's update notice (?theme=daisy), the update page is set in the theme's serif type. */
+.updates[data-theme="daisy"] { --face: var(--serif); font-family: var(--serif); }
+.updates[data-theme="daisy"] :is(h2, h3, summary, .button) { font-family: var(--serif); }
+.updates[data-theme="daisy"] :is(h2, h3) { font-variation-settings: "opsz" 72; font-weight: 700; }
+.updates[data-theme="daisy"] h2 { letter-spacing: -0.01em; }
+.updates[data-theme="daisy"] summary { font-weight: 600; }
+.updates[data-theme="daisy"] .button { font-variation-settings: "opsz" 110, "wght" 713; font-weight: 713; }
 </style>
 <style>
 /* The hero's styles, from build/wordpress/daisy-examples.css; the hero block's own overrides come after them. */
@@ -7584,7 +7592,7 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
 <script>
 (function () {
   // On a narrow column, one phone sits under the Unedited | Daisy control. When the screen is short, the control and the phone shrink
-  // together so both fill the space between the bottom of the sticky menu (when there is one) and the bottom edge of the screen (the full screen height, whether or not the browser's toolbar is showing).
+  // together so the pair is as tall as the responsive phones elsewhere on the page, and never taller than the space between the sticky menu and the bottom of the screen.
   var root = document.querySelector(".dsf:not([data-fit])");
   if (!root) return;
   root.setAttribute("data-fit", "");
@@ -7593,9 +7601,9 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
   if (!sw || !phones.length) return;
   var probe = document.createElement("div");
   probe.setAttribute("aria-hidden", "true");
-  probe.style.cssText = "height:100lvh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
+  probe.style.cssText = "height:100svh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
   document.body.appendChild(probe);
-  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 16, GAP_BOTTOM = 16;
+  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 24, GAP_BOTTOM = 24, UNIT = 646;   // UNIT: the pair (control + phone) is as tall as the responsive phones elsewhere on the page (a 0.8-scale phone)
   var lastW = 0, lastH = 0;
   function fit() {
     var narrow = getComputedStyle(sw).display !== "none";
@@ -7611,7 +7619,8 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
     }
     var cs = getComputedStyle(sw);
     var control = sw.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
-    var s = (h - bar - control - GAP_TOP - GAP_BOTTOM) / PHONE_H;
+    var fits = (h - bar - control - GAP_TOP - GAP_BOTTOM) / PHONE_H;
+    var s = Math.min((UNIT - control) / PHONE_H, fits);
     s = Math.max(MIN, Math.min(MAX, s));
     phones.forEach(function (p) { p.style.setProperty("--dsy-s", s.toFixed(3)); });
   }
@@ -18639,7 +18648,12 @@ window.addEventListener(&quot;message&quot;,function(e){
     var latest = document.querySelector("#updates .release");
     var heading = document.querySelector("#updates h2");
     var version = latest ? latest.querySelector("h3").textContent.replace(/^\s*Version\s*/i, "").trim() : "";
-    heading.textContent = "Update to " + (theme === "daisy" ? "Daisy" : "Daisy Sans") + (version ? " " + version : "");
+    // The theme's name and its version stay on one line.
+    var name = document.createElement("span");
+    name.className = "nw";
+    name.textContent = (theme === "daisy" ? "Daisy" : "Daisy Sans") + (version ? " " + version : "");
+    heading.textContent = "Update to ";
+    heading.appendChild(name);
     if (latest) heading.after(latest.querySelector("time"));
     howto.querySelectorAll("a[data-theme]").forEach(function (a) {
       if (a.getAttribute("data-theme") !== theme) a.hidden = true;

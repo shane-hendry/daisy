@@ -1913,6 +1913,58 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         p.classList.add("no-italic");
       }
     });
+    // App Store and Google Play badges: a run of blocks that hold nothing but badges is
+    // gathered into one .store-badges row, so the stylesheet can size them alike and put
+    // them side by side or stacked. A badge is an image whose alt text or file name names
+    // a store and says "get it on" / "download on" (or whose link goes to the store).
+    (function () {
+      var body = document.querySelector(".articleBody");
+      if (!body) return;
+      var store = /google[\s_%20-]*play|play[\s_%20-]*store|app[\s_%20-]*store/i;
+      var phrase = /get[\s_%20-]*it[\s_%20-]*on|download[\s_%20-]*on|available[\s_%20-]*on|badge/i;
+      var storeLink = /^https?:\/\/(play\.google\.com|apps\.apple\.com|itunes\.apple\.com)\//i;
+      function isBadge(el) {
+        var img = el.tagName === "IMG" ? el :
+          (el.tagName === "A" && el.children.length === 1 && el.firstElementChild.tagName === "IMG" ? el.firstElementChild : null);
+        if (!img) return false;
+        var text = (img.getAttribute("alt") || "") + " " + (img.getAttribute("src") || "");
+        var href = el.tagName === "A" ? el.getAttribute("href") || "" : "";
+        return store.test(text) && (phrase.test(text) || storeLink.test(href));
+      }
+      // The badges a block holds, or null when it holds anything else (text, other media).
+      function itemsOf(block) {
+        if (!/^(P|DIV|FIGURE)$/.test(block.tagName) || block.textContent.replace(/[\s\u00a0]+/g, "")) return null;
+        var items = [];
+        for (var i = 0; i < block.children.length; i++) {
+          var kid = block.children[i];
+          if (kid.tagName === "BR") continue;
+          if (isBadge(kid)) { items.push(kid); continue; }
+          var inner = /^(P|DIV)$/.test(kid.tagName) ? itemsOf(kid) : null;
+          if (!inner) return null;
+          items = items.concat(inner);
+        }
+        return items.length ? items : null;
+      }
+      var run = [];
+      function flush() {
+        if (!run.length) return;
+        var row = document.createElement("aside");
+        row.className = "store-badges";
+        if (run[0].el.classList.contains("lead")) row.classList.add("lead");
+        run[0].el.parentNode.insertBefore(row, run[0].el);
+        run.forEach(function (unit) {
+          unit.items.forEach(function (item) { item.classList.add("store-badge"); row.appendChild(item); });
+          unit.el.parentNode.removeChild(unit.el);
+        });
+        run = [];
+      }
+      Array.prototype.slice.call(body.children).forEach(function (el) {
+        if (el.classList.contains("blank")) return;
+        var items = itemsOf(el);
+        if (items) run.push({ el: el, items: items }); else flush();
+      });
+      flush();
+    })();
     // Media never runs taller than the window: tell the stylesheet each image, video and
     // embed's proportions (--ar) so it can shrink the width, centred, to fit the height.
     (function () {
@@ -1949,7 +2001,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         return /^\d+(\.\d+)?$/.test(v || "") ? parseFloat(v) : 0;
       }
       document.querySelectorAll(".articleBody img, .articleBody video, .articleBody iframe").forEach(function (el) {
-        if (el.matches(".emoji, .wp-smiley, .side-thumb, .unfloat, .unfloat *")) return;
+        if (el.matches(".emoji, .wp-smiley, .side-thumb, .unfloat, .unfloat *, .store-badges *")) return;
         var tag = el.tagName;
         if (tag === "IMG") {
           var size = function () {
