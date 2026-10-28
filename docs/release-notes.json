@@ -1,4 +1,29 @@
 {
+  "0.6.0": {
+    "published": "2026-10-28T12:42:00Z",
+    "notes": [
+      {
+        "title": "Dynamic title typography.",
+        "text": "Title size and width is scaled for length and device size."
+      },
+      {
+        "title": "Hanging quotes.",
+        "text": "Quotation marks hang outside the text edge."
+      },
+      {
+        "title": "Tables.",
+        "text": "Tables fit their content, sit centered, and keep the author’s alignment."
+      },
+      {
+        "title": "Eyebrows.",
+        "text": "Eyebrows are now poppy, with other color, spacing, and typography refinements."
+      },
+      {
+        "title": "Media height.",
+        "text": "Media height is capped so it never overflows the window."
+      }
+    ]
+  },
   "0.5.0": {
     "published": "2026-10-26T19:44:46Z",
     "notes": [
