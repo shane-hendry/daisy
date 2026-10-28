@@ -60,6 +60,10 @@ body {
   font: 1.0625rem / 1.6 var(--sans);
   margin: 0;
 }
+/* Selected text, as in the themes: white on the accent. */
+::selection { background: var(--accent); color: #fff; }
+/* The dark devices use the lighter accent the themes use on dark backgrounds. */
+.daisy-hero__phone ::selection, .dc--dark ::selection, .daisy-phone--dark ::selection, .daisy-device--dark ::selection, .daisy-ba--dark ::selection { background: #ff7a2e; color: #fff; }
 a { color: inherit; text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
 .wrap { margin-inline: auto; max-width: 57.25rem; padding-inline: max(1rem, env(safe-area-inset-left)) max(1rem, env(safe-area-inset-right)); }
