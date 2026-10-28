@@ -32,11 +32,11 @@
 <style>
 :root {
   --canvas: #fff;
-  --ink: #161616;
+  --ink: #191919;
   --quiet: #5c5c5c;
   --rule: #e4e4e4;
   --accent: #f05a00;
-  --button: #161616;
+  --button: #191919;
   --button-ink: #fff;
   --serif: ui-serif, "New York", Georgia, serif;
   --sans: ui-sans-serif, -apple-system, "SF Pro Text", system-ui, "Segoe UI", sans-serif;
@@ -278,6 +278,7 @@ a:hover { color: var(--accent); }
 .updates[data-theme="daisy-sans"] h3 { font-weight: 700; }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
 .history { font-weight: 600; }
+.history a { text-decoration: none; }
 .updates h2 .nw { white-space: nowrap; }
 .credits { margin-top: clamp(7rem, 22vw, 12rem); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
@@ -287,7 +288,8 @@ a:hover { color: var(--accent); }
 @media (max-width: 40rem) { .updates:not([data-theme]) { margin-top: calc(clamp(7rem, 22vw, 12rem) - clamp(3rem, 8vw, 5.5rem)); } }
 /* Try it: its line is as large as the tagline under the hero. */
 #try-it > p { font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; }
-#try-it > p:not(.buttons) { margin: 2rem 0 2.5rem; text-wrap: balance; }
+#try-it > h2 { margin-bottom: 0.6rem; }
+#try-it > p:not(.buttons) { margin: 0.6rem 0 2.5rem; text-wrap: balance; }
 #try-it > .buttons { margin-top: 2.5rem; }
 /* The niceties cards animate inside themselves; nothing they do may move the page around them. */
 #niceties .dc { contain: layout; position: relative; }
@@ -1884,7 +1886,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   <p>What sets Daisy apart is its house style for article headers. Every post opens the same way, so a mixed feed is easy to scan and predictable to swipe through. <a href="https://shanehendry.com/daisy/">Learn how Daisy&#8217;s house style works.</a></p>
 <!-- daisy-example: phone-feed combined (Daisy Sans, light): two phones swipe through the same 17 articles together; in a narrow column one phone shows under an Unedited | Daisy control. Uses the Additional CSS (daisy-examples.css) for the phones, like the other phone blocks. -->
 <div class="daisy-ba daisy-ba--phone dsf" role="group" aria-label="The same feed, unedited and in Daisy&#8217;s house style" data-view="b">
-<style>.dsf .dsf-label{font-size:1.5rem;font-weight:400;line-height:1.25;margin:0 0 1.25rem;text-align:center}.dsf .daisy-ba__grid{gap:2.5rem 2rem}.dsf button{-webkit-appearance:none;appearance:none;background:none;border:0;color:inherit;cursor:pointer;font:inherit;margin:0;padding:0}.dsf button:focus-visible{outline:2px solid #f05a00;outline-offset:3px}.dsf-switch{position:relative;background:#e8e8ed;border-radius:999px;display:none;gap:0;margin:0 auto 1.2rem;padding:.25rem;width:fit-content}.dsf .dsf-tab{position:relative;z-index:1;background:transparent;border-radius:999px;color:#333336;font-size:.95rem;font-weight:400;line-height:1.2;min-width:6.4rem;padding:.55em 1.2em;transition:color .3s ease}.dsf .dsf-tab[aria-pressed="true"]{color:#fff}.dsf-pill{background:#1d1d1f;border-radius:999px;bottom:.25rem;left:0;pointer-events:none;position:absolute;top:.25rem;width:0;z-index:0}@container daisy (max-width:41.99rem){.dsf-switch{display:flex}.dsf .dsf-label{display:none}.dsf.daisy-ba .daisy-ba__grid{display:grid;gap:0;grid-template-columns:minmax(0,1fr);justify-items:center}.dsf .dsf-ph{grid-area:1/1;opacity:0;pointer-events:none;transition:opacity .22s ease}.dsf[data-view="b"] .dsf-ph[data-v="b"],.dsf[data-view="a"] .dsf-ph[data-v="a"]{opacity:1;pointer-events:auto}}@media (prefers-reduced-motion:reduce){.dsf .dsf-tab,.dsf .dsf-ph{transition:none}}</style>
+<style>.dsf .dsf-label{font-size:1.5rem;font-weight:400;line-height:1.25;margin:0 0 1.25rem;text-align:center}.dsf .daisy-ba__grid{gap:2.5rem 2rem}.dsf button{-webkit-appearance:none;appearance:none;background:none;border:0;color:inherit;cursor:pointer;font:inherit;margin:0;padding:0}.dsf button:focus-visible{outline:2px solid #f05a00;outline-offset:3px}.dsf-switch{position:relative;background:#e8e8ed;border-radius:999px;display:none;gap:0;margin:0 auto 1.2rem;padding:.25rem;width:fit-content}.dsf .dsf-tab{position:relative;z-index:1;background:transparent;border-radius:999px;color:#333336;font-size:.95rem;font-weight:400;line-height:1.2;min-width:6.4rem;padding:.55em 1.2em;transition:color .3s ease}.dsf .dsf-tab[aria-pressed="true"]{color:#fff}.dsf-pill{background:#191919;border-radius:999px;bottom:.25rem;left:0;pointer-events:none;position:absolute;top:.25rem;width:0;z-index:0}@container daisy (max-width:41.99rem){.dsf-switch{display:flex}.dsf .dsf-label{display:none}.dsf.daisy-ba .daisy-ba__grid{display:grid;gap:0;grid-template-columns:minmax(0,1fr);justify-items:center}.dsf .dsf-ph{grid-area:1/1;opacity:0;pointer-events:none;transition:opacity .22s ease}.dsf[data-view="b"] .dsf-ph[data-v="b"],.dsf[data-view="a"] .dsf-ph[data-v="a"]{opacity:1;pointer-events:auto}}@media (prefers-reduced-motion:reduce){.dsf .dsf-tab,.dsf .dsf-ph{transition:none}}</style>
 <div class="dsf-switch" role="group" aria-label="Show a feed"><button type="button" class="dsf-tab" data-v="b" aria-pressed="true">Unedited</button><button type="button" class="dsf-tab" data-v="a" aria-pressed="false">Daisy</button></div>
 <div class="daisy-ba__grid">
 <div class="dsf-ph" data-v="b">
