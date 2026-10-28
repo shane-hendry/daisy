@@ -58,7 +58,7 @@ page = page.replace("{{LATEST}}", versions[0])
 page = page.replace("{{RELEASES}}", "\n".join(release(v, i == 0) for i, v in enumerate(versions[:3])))
 page = page.replace("{{HERO_CSS}}", hero_css)
 page = page.replace("{{HERO}}", hero)
-for name in ("FEED", "RULES", "FOOTNOTES"):
+for name in ("FEED", "RULES", "FOOTNOTES", "IPAD"):
     page = page.replace("{{" + name + "}}", (wp / "new" / (name.lower() + ".html")).read_text())
 
 # The niceties are two blocks of two cards, each under the list it illustrates; each comes with its own root and script.

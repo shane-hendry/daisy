@@ -549,6 +549,12 @@ a mark {
   color: var(--on-mark);
 }
 
+/* A link that is wholly a highlight draws its underline on the link, not the mark, so the
+   line has to be white there too or it stays black on the orange. */
+a:has(> mark:only-child) {
+  text-decoration-color: var(--on-mark);
+}
+
 mark a:hover,
 a:hover mark {
   text-decoration-thickness: calc(var(--line-thin) * 2);
@@ -1609,22 +1615,28 @@ hr + .footnotes-title {
    are undone for it below. */
 
 .footnote-panel {
+  /* The visible gap between paragraphs inside the note, from one paragraph's last baseline
+     to the next one's capital letters: a line pitch plus the paragraph margin, less the
+     capital height. "Footnote N" above the text and "Go to footnotes" below it use the
+     same gap, so every line in the panel is spaced like a paragraph. */
+  --panel-gap: calc(1lh + 0.6em - 1cap);
   margin-block: var(--space-medium);
   padding-inline-start: var(--indent);
   position: relative;
 }
 
 /* The bar matches a block quote's: cap height of the first line to the baseline of
-   the last, overshooting by its own thickness. The last line is "Go to footnotes", centred
-   in a 44px tap area, so its baseline is 22px - 0.355em above the panel's bottom edge,
-   whatever the line height. */
+   the last, overshooting by its own thickness. "Footnote N" and "Go to footnotes" are
+   trimmed to their capital height (text-box), so the header is 20px tall with the title
+   centred on it, and "Go to footnotes" has its baseline exactly its padding above the
+   panel's bottom edge, in any font. */
 .footnote-panel::before {
   background: var(--text);
-  bottom: calc(22px - 0.355em - 0.09em);
+  bottom: calc((44px - 1cap) / 2 - 0.09em);
   content: "";
   inset-inline-start: 0;
   position: absolute;
-  top: calc(0.500em - 0.09em);
+  top: calc(10px - 0.5cap - 0.09em);
   width: 0.09em;
 }
 
@@ -1632,11 +1644,13 @@ hr + .footnotes-title {
   align-items: center;
   display: flex;
   justify-content: space-between;
+  min-height: 20px;
 }
 
 .footnote-panel-title {
   font-variation-settings: var(--label-axes);
   font-weight: var(--weight-medium);
+  text-box: trim-both cap alphabetic;
 }
 
 /* The close button keeps a 44px-tall tap area, with its padding pulled back so the
@@ -1666,13 +1680,12 @@ hr + .footnotes-title {
    --space-panel gap from the note text, with the word lined up on the text edge. */
 .footnote-panel-goto {
   -webkit-tap-highlight-color: transparent;
-  align-items: center;
   color: inherit;
-  display: flex;
+  display: block;
   font-weight: var(--weight-medium);
-  margin: calc(var(--space-panel) - 22px - 0.143em) 0 0 -12px;
-  min-height: 44px;
-  padding: 0 12px;
+  margin: calc(var(--panel-gap) - (44px - 1cap) / 2) 0 0 -12px;
+  padding: calc((44px - 1cap) / 2) 12px;
+  text-box: trim-both cap alphabetic;
   text-decoration: none;
   width: fit-content;
 }
@@ -1684,8 +1697,9 @@ hr + .footnotes-title {
 }
 
 /* The note text: undo the popover's floating position and box so it flows inline,
-   with --space-panel between the "Footnote 1" header and the text. The header's 44px tap
-   area sets its height, so this gap is measured from the header's box. */
+   with --panel-gap between the "Footnote 1" baseline and the text's first capital. The
+   header is 20px tall with the title centred, so its baseline is 10px - 0.5cap above
+   the header's bottom edge. */
 .footnote-panel .footnote-panel-body.newsfoot-footnote-popover,
 .footnote-panel .footnote-panel-body {
   background: none;
@@ -1694,7 +1708,7 @@ hr + .footnotes-title {
   font-size: var(--text-medium);
   left: auto;
   line-height: inherit;
-  margin: calc(var(--space-panel) - 0.505em) 0 0;
+  margin: calc(var(--panel-gap) - 10px + 0.5cap) 0 0;
   max-width: none;
   padding: 0;
   position: static;
@@ -1710,10 +1724,16 @@ hr + .footnotes-title {
 .footnote-panel-body > :first-child,
 .footnote-panel-body > .footnote-label + * {
   margin-top: 0;
+  text-box: trim-start cap alphabetic;
 }
 
 .footnote-panel-body > :last-child {
   margin-bottom: 0;
+  text-box: trim-end cap alphabetic;
+}
+
+.footnote-panel-body > :only-child {
+  text-box: trim-both cap alphabetic;
 }
 
 .footnote-panel-body .reversefootnote,

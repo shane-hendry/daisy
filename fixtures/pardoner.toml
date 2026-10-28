@@ -1,0 +1,8 @@
+title = 'Pardoner, "Target Practice"'
+feed_link_title = "Bandcamp Updates"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/pardoner"
+byline = "Jennifer Kelly"
+date_medium = "Oct 16, 2026"
+body = '''<p>A review paragraph long enough that the fixture reads as a real article when the check looks for readable content, with a few more words so the preview has something to show under the title.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview more to show beneath the headline.</p>'''

@@ -1196,6 +1196,9 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
               if (run) { frag.appendChild(document.createTextNode(run)); run = ""; }
               var span = document.createElement("span");
               span.className = "q " + kinds[at + j];
+              // An opening quote before a capital A sits a little closer: the A's slanted
+              // side leaves a gap that reads as too much space.
+              if (kinds[at + j] === "o" && /[AÀÁÂÃÄÅĀĂĄ]/.test(chars[at + j + 1] || "")) span.className += " kern-a";
               span.textContent = ch;
               frag.appendChild(span);
             } else {
@@ -1235,6 +1238,8 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
             : (fvs && fvs !== "normal" ? fvs + ", " : "") + '"wght" ' + weight;
           qs.forEach(function (q) {
             q.style.marginLeft = "";
+            // Tucked in by 0.06 of the heading's size, whatever size the mark itself is.
+            q.style.marginRight = q.classList.contains("kern-a") ? (-0.06 / size) + "em" : "";
             q.style.fontSize = size === 1 ? "" : size + "em";
             // The smaller mark sits lower in the line; this keeps its top at cap height.
             q.style.top = size === 1 ? "" : (-0.7 * (1 - size) / size) + "em";
@@ -1260,9 +1265,18 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
           });
           return found;
         }
-        for (var pass = 0; pass < 4; pass++) {
+        // Hanging narrows the mark's line box, which can let it fit onto the end of the
+        // previous line instead (the comma in "Pardoner, “Target" then touches the quote). A
+        // mark that moves like that gets a forced line break before it, so it stays put.
+        Array.prototype.slice.call(h.querySelectorAll("br.q-br")).forEach(function (br) { br.remove(); });
+        function misplaced(g) {
+          return g.el.style.marginLeft !== "" && Math.abs(g.left - (edge + parseFloat(g.el.style.marginLeft))) > 2;
+        }
+        for (var pass = 0; pass < 8; pass++) {
           qs.forEach(function (q) { q.style.marginLeft = ""; });
-          var starts = groups().filter(function (g) { return Math.abs(g.left - edge) < 2; });
+          var starts = groups().filter(function (g) {
+            return Math.abs(g.left - edge) < 2;
+          });
           var need = starts.reduce(function (m, g) { return Math.max(m, g.width); }, 0);
           if (need > room + 0.5 && s > MIN_FIT) {
             s = Math.max(MIN_FIT, s * room / need);
@@ -1270,15 +1284,15 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
             continue;
           }
           starts.forEach(function (g) { g.el.style.marginLeft = -Math.min(g.width, room) + "px"; });
-          // Hanging gives a line more room, which can move a mark to the start of a line (or
-          // away from it): check again until the set of hung marks settles.
-          var again = groups().filter(function (g) {
-            var hung = g.el.style.marginLeft !== "";
-            return hung ? Math.abs(g.left - (edge + parseFloat(g.el.style.marginLeft))) > 2
-                        : Math.abs(g.left - edge) < 2;
+          var moved = groups().filter(misplaced);
+          if (!moved.length) break;
+          moved.forEach(function (g) {
+            var br = document.createElement("br");
+            br.className = "q-br";
+            g.el.parentNode.insertBefore(br, g.el);
           });
-          if (!again.length) break;
         }
+        groups().filter(misplaced).forEach(function (g) { g.el.style.marginLeft = ""; });
       }
 
       var queued = false;
@@ -1293,8 +1307,22 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       }
       if (!records.length) return;
       run();
+      // The hang depends on where lines break, which changes when the web fonts finish
+      // loading, when the page settles to its final width, or when the text size changes.
+      // fonts.ready can resolve before a font has started loading, so every one of those
+      // moments re-runs the layout, and each heading is watched for any size change.
       window.addEventListener("resize", schedule);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+      window.addEventListener("load", schedule);
+      if (document.fonts) {
+        if (document.fonts.ready) document.fonts.ready.then(schedule);
+        if (document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", schedule);
+      }
+      if (window.ResizeObserver) {
+        var watcher = new ResizeObserver(schedule);
+        records.forEach(function (rec) { watcher.observe(rec.h); });
+        watcher.observe(article);
+      }
+      [100, 400, 1000].forEach(function (ms) { setTimeout(schedule, ms); });
     })();
     // An untitled post's link line moves to the bottom, under "View original", which keeps
     // linking to the post itself.

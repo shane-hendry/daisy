@@ -62,68 +62,74 @@ body {
 }
 a { color: inherit; text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
-.wrap { margin-inline: auto; max-width: 57.25rem; padding-inline: 1rem; }
+.wrap { margin-inline: auto; max-width: 57.25rem; padding-inline: max(1rem, env(safe-area-inset-left)) max(1rem, env(safe-area-inset-right)); }
+@media (max-width: 40rem) { :root { --gutter: 2.5rem; } .wrap { padding-inline: max(1.25rem, env(safe-area-inset-left)) max(1.25rem, env(safe-area-inset-right)); } }
 
-/* Title block, from the Figma frame (Daisy, node 79:2495). Sizes are em of the title (129.674px
-   in the frame, 1em here); letter-spacing is the frame's per-letter tracking, also in em. */
-.top { container-type: inline-size; padding-block: clamp(4rem, 12vw, 8.5rem) 0; text-align: center; }
+/* Title block, from the Figma frame (node 112:830). --t is the size of "Daisy"; the frame's sizes are em of it
+   (serif 102.685px, sans 95.024px, tagline 35.457px). On a wide screen "Daisy &" and "Daisy Sans" share a line;
+   on a phone "Daisy &" is its own line and "Daisy Sans" wraps onto two, tight, so it reads as one block. */
+.top { container-type: inline-size; padding-block: clamp(3.5rem, 10vw, 7rem) 0; text-align: center; }
 .title {
+  --t: calc(100cqw / 8.3);
+  align-items: baseline;
   color: var(--ink);
   display: flex;
-  flex-direction: column;
-  font-size: calc(100cqw / 8.5713); /* the first line is 8.5713em wide, so it fills the column */
-  font-weight: 500;
-  gap: 0.5em;
+  flex-wrap: nowrap;
+  font-size: var(--t);
+  gap: 0 0.25em;
+  justify-content: center;
+  line-height: 0.86;
   margin: 0;
 }
-.title .line1, .title .line2 { display: block; text-box: trim-both cap alphabetic; white-space: nowrap; }
-.title .line1 { line-height: 0.3246; }
-.title .line2 { font-size: 0.52em; line-height: 0.9035; }
-.ny { font-family: var(--serif); }
-.sf { font-family: var(--sans); }
-.ny700 { font-weight: 675; }
-.line1 .sans { font-size: 0.9254em; font-variation-settings: "wdth" 116; font-weight: 800; }
-.line1 .amp { font-size: 0.7301em; font-weight: 770; letter-spacing: -0.03em; }
-.line1 .gap { font-weight: 510; letter-spacing: -0.02em; }
-.line2 .lead { font-variation-settings: "wght" 740, "wdth" 125; font-weight: 740; letter-spacing: -0.02em; }
-.line2 .gap { font-variation-settings: "wdth" 129; font-weight: 567; letter-spacing: -0.03em; }
-.line2 .ny { font-family: var(--sans); font-variation-settings: "wght" 740, "wdth" 125; font-weight: 740; letter-spacing: -0.02em !important; }
-.line1 .ny, .line1 .amp { font-variation-settings: "opsz" 130; }
-.byline { color: var(--ink); font-size: clamp(1.25rem, 3vw, 1.75rem); line-height: 1.25; margin: clamp(1.75rem, 5.25vw, 3.25rem) auto 0; max-width: 22em; text-wrap: balance; }
+.title .t1 { font-family: var(--serif); font-variation-settings: "opsz" 130; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.title .amp { font-size: 0.7377em; font-weight: 800; letter-spacing: -0.03em; }
+.title .t2 { font-family: var(--sans); font-size: 0.9254em; font-variation-settings: "wdth" 116; font-weight: 800; letter-spacing: -0.02em; line-height: 0.82; white-space: nowrap; }
+.title .t2 span { display: inline; }
+.top .tagline { font-family: var(--sans); font-size: calc(100cqw / 8.3 * 0.3453); font-variation-settings: "wdth" 120; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin: 0.45em 0 0; }
+@container (max-width: 40rem) {
+  .title { --t: 17cqw; flex-direction: column; align-items: center; }
+  .top .tagline { font-size: calc(17cqw * 0.3453); }
+  .title .t1 { margin-bottom: 0.1em; }
+  .title .t2 span { display: block; }
+}
+.byline { text-align: center; color: var(--ink); font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; margin: 0 auto; max-width: none; }
+/* On a wide screen the line stays whole, or breaks only after "design". A phone is too narrow for that and wraps freely. */
+@media (min-width: 40rem) { .byline .nb { white-space: nowrap; } }
 .serif { font-family: var(--serif); }
-.byline a { text-decoration: none; }
-.byline a:hover { text-decoration: underline; }
 .sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
-.buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.5rem, 4vw, 2.5rem) 0 0; }
+.buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.25rem, 3vw, 1.75rem) 0 0; }
 .button {
   background: var(--button);
-  border-radius: 0.4rem;
+  border: 2px solid var(--button);
+  border-radius: 999px;
   color: var(--button-ink);
-  font-size: 1.3rem;
+  font-size: 1.32rem;
   font-weight: 600;
-  letter-spacing: 0.015em;
-  padding: 0.7em 1.5em;
+  letter-spacing: 0.01em;
+  padding: 0.4875em 1.05em;
   text-decoration: none;
 }
-.button:hover { background: var(--accent); color: #fff; }
-.button--serif { font-family: var(--serif); font-variation-settings: "opsz" 72; font-weight: 700; }
-.button--sans { font-variation-settings: "wght" 800, "wdth" 116; font-weight: 800; }
+.button:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.button--serif { font-family: var(--serif); font-variation-settings: "opsz" 110, "wght" 713; font-weight: 713; }
+.button--sans { font-variation-settings: "wght" 678, "wdth" 66, "opsz" 28; font-weight: 678; }
+.button--outline { background: transparent; color: var(--ink); font-size: 0.95rem; font-weight: 500; padding: 0.65em 1.6em; }
+#try-it { text-align: center; }
+.nnw-row { margin: 1.5rem 0 0; text-align: center; }
+
+/* Alternating bands: gray, white, gray... The hero above is the first, white. */
+:root { --band: #f5f5f7; }
+@media (prefers-color-scheme: dark) { :root { --band: #1b1b1d; } }
+.band { padding-block: clamp(3rem, 8vw, 5.5rem); }
+.band--gray { background: var(--band); }
+.band > .feature { margin-top: 0; }
 
 /* Hero: the block is pasted in as it is. */
-.hero { margin-top: clamp(1.75rem, 5.5vw, 4rem); }
+.hero { margin-top: clamp(1.75rem, 5vw, 3.5rem); padding-bottom: calc(clamp(3rem, 8vw, 5.5rem) + 1.6rem); }
 /* On a wide screen the devices run 25% wider than the text column; as the window narrows, their edges come back in line with it. */
-.hero .daisy-hero { margin-inline: calc((100% - min(125%, 100vw - 2rem)) / 2); width: min(125%, 100vw - 2rem); }
+.hero .daisy-hero { margin-inline: calc((100% - min(125%, 100vw - var(--gutter, 2rem))) / 2); width: min(125%, 100vw - var(--gutter, 2rem)); }
 
 /* Feature sections: prose set like the page, with the WordPress blocks between. */
 .feature { margin-top: clamp(2rem, 5vw, 3.2rem); }
-/* The tagline and buttons sit a little above the middle of the space between the devices and the first header. */
-/* The tagline section is centred between the visible bottom of the hero devices and the top of the first header: the two margins add up to clamp(8rem, 22vw, 14.5rem), split 3.05rem unevenly because the devices' frame leaves about 3.5rem of shadow room under them and the header's text sits about 0.55rem down in its box. */
-.hero + .feature { margin-top: calc((clamp(8rem, 22vw, 14.5rem) + 3.05rem) / 2); }
-/* The buttons sit as far under the hero's device as the next header sits under the buttons. */
-.hero .buttons { margin-top: clamp(1.3rem, 3.5vw, 2.2rem); }
-.get-nnw { font-size: 1.115rem; margin: 1.1rem 0 0; text-align: center; }
-.get-nnw a { text-decoration: underline; }
-.tagline { container-type: inline-size; margin-top: calc((clamp(8rem, 22vw, 14.5rem) - 3.05rem) / 2); text-align: center; }
 /* The cards are set two to a row (the block's own row is four, from 56rem). */
 @container daisy-cards (min-width: 36rem) { .feature .daisy-cards__row { grid-template-columns: repeat(2, minmax(0, 19.4rem)); justify-content: center; } }
 /* Each card is square and its type scales with its width, so a smaller cap shrinks the whole card: at most 19.4rem (282px) wide and tall, and a pair sits together with the block's own 1.4rem gap. */
@@ -137,7 +143,7 @@ a:hover { color: var(--accent); }
 .feature > p { margin: 0 0 1rem; }
 /* More niceties: the same 2.25rem between every paragraph and card row, whichever way it runs. */
 #niceties > p { margin-bottom: 2.25rem; }
-#niceties > p.serif { margin-top: 2.25rem; }
+#niceties > p.after-block { margin-top: 2.25rem; }
 #niceties .daisy-cards:has(+ p) .daisy-cards__row { padding-bottom: 0; }
 /* Each niceties card is the top of a phone: the phone's own width, about 40% of its height, a status bar over the content, and the content running off the bottom, cropped. Sizes are of the card's width (cqw); the frame's corner is 58 of 390. */
 #niceties .dc {
@@ -206,11 +212,6 @@ a:hover { color: var(--accent); }
 .release summary::-webkit-details-marker { display: none; }
 .release summary::marker { content: ""; }
 .release details ul { margin-top: 0.25rem; }
-/* Arriving from a theme's update notice (?theme=daisy or ?theme=daisy-sans), the Updates section is set in that theme's type. */
-.updates[data-theme="daisy"], .updates[data-theme="daisy"] :is(h2, h3, .button, summary) { font-family: var(--serif); }
-.updates[data-theme="daisy"] :is(h2, h3) { font-variation-settings: normal; font-weight: 700; }
-.updates[data-theme="daisy"] h2 { letter-spacing: -0.01em; }
-.updates[data-theme="daisy"] summary { font-weight: 600; }
 .updates[data-theme="daisy-sans"] :is(h3, summary) { font-variation-settings: "wdth" 115; }
 .updates[data-theme="daisy-sans"] h3 { font-weight: 700; }
 .updates[data-theme="daisy-sans"] summary { font-weight: 510; }
@@ -219,12 +220,9 @@ a:hover { color: var(--accent); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
 @media (min-width: 40.01rem) { .updates { margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: clamp(3rem, 6vw, 4.5rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
 .credits p { margin: 0.75rem 0; }
-/* The page alternates between Daisy Sans (wide, bold headings; sans text) and Daisy (high-contrast serif headings and text). */
-#house-style, #footnotes, #updates, #niceties > .sub, #niceties > .sub ~ * {
-  --face: var(--sans); --h-axes: "wght" 780, "wdth" 43; --h-weight: 780; --h-tracking: -0.005em; --h-leading: 1.05; --h-scale: 1.4; --text-size: 1.115rem;
-}
-#niceties, #try-it, .credits, #house-style > .sub, #house-style > .sub ~ * {
-  --face: var(--serif); --h-axes: "opsz" 72; --h-weight: 700; --h-tracking: -0.02em; --h-leading: 1.15; --h-scale: 1; --text-size: 1.18rem;
+/* All type on the page is sans. */
+.feature, .updates, .credits {
+  --face: var(--sans); --h-axes: "wght" 800, "wdth" 115; --h-weight: 800; --h-tracking: -0.01em; --h-leading: 1.1; --h-scale: 1.15; --text-size: 1.0625rem;
 }
 .feature > :is(h2, h3, p, ul), .updates > .wrap > :is(h2, h3), .credits :is(h2, p) { font-family: var(--face); }
 .feature > h2, .updates h2, .credits h2 { font-variation-settings: var(--h-axes); font-weight: var(--h-weight); letter-spacing: var(--h-tracking); line-height: var(--h-leading); }
@@ -245,46 +243,65 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 <body>
 <header class="top wrap">
   <h1 class="title"><span class="sr">Daisy &amp; Daisy Sans. Clean up your feed</span>
-    <span class="line1" aria-hidden="true"><span class="ny ny700" style="letter-spacing:-0.03em">D</span><span class="ny ny700">a</span><span class="ny ny700" style="letter-spacing:-0.01em">is</span><span class="ny ny700" style="letter-spacing:-0.05em">y</span><span class="ny ny700" style="letter-spacing:-0.06em"> </span><span class="ny amp">&amp;</span><span class="gap sf"> </span><span class="sans"><span class="sf" style="letter-spacing:-0.02em">D</span><span class="sf" style="letter-spacing:-0.01em">ai</span><span class="sf" style="letter-spacing:-0.02em">s</span><span class="sf">y </span><span class="sf" style="letter-spacing:-0.03em">S</span><span class="sf" style="letter-spacing:-0.02em">an</span><span class="sf">s</span></span></span></h1>
-  <p class="byline"><a href="https://netnewswire.com/">NetNewsWire</a> themes with an editorial design and cohesive house style.</p>
+    <span class="t1" aria-hidden="true">Daisy <span class="amp">&amp;</span></span>
+    <span class="t2" aria-hidden="true"><span>Daisy</span> <span>Sans</span></span></h1>
+  <p class="tagline">Clean up your feed</p>
 </header>
 
 <main>
 <div class="wrap hero">
 {{HERO}}
-  <div class="tagline"><div class="title"><span class="line2" aria-hidden="true"><span class="lead sf">Clean up</span><span class="gap sf"> </span><span class="ny" style="letter-spacing:-0.03em">y</span><span class="ny" style="letter-spacing:-0.04em">o</span><span class="ny" style="letter-spacing:-0.01em">u</span><span class="ny" style="letter-spacing:-0.03em">r</span><span class="ny" style="letter-spacing:-0.02em"> </span><span class="ny" style="letter-spacing:-0.03em">fee</span><span class="ny" style="letter-spacing:-0.02em">d</span></span></div></div>
+  <p class="byline" style="margin-top:clamp(2rem,5vw,3rem)"><span class="nb">NetNewsWire themes with an editorial design</span> <span class="nb">and cohesive house style.</span></p>
   <p class="buttons">
     <a class="button button--serif" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.nnwtheme.zip">Get Daisy</a>
     <a class="button button--sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.Sans.nnwtheme.zip">Get Daisy Sans</a>
   </p>
-  <p class="get-nnw"><a href="https://apps.apple.com/us/app/netnewswire-rss-reader/id1480640210">Get NetNewsWire</a></p>
+  <p class="nnw-row"><a class="button button--outline" href="https://apps.apple.com/us/app/netnewswire-rss-reader/id1480640210">Get NetNewsWire</a></p>
 </div>
 
+<div class="band band--gray">
 <div class="wrap feature" id="house-style">
   <h2>Daisy&#8217;s house style</h2>
   <p>What sets Daisy apart is its house style for article headers. Every post opens the same way, so a mixed feed is easy to scan and predictable to swipe through. <a href="https://shanehendry.com/daisy/">Learn how Daisy&#8217;s house style works.</a></p>
 {{FEED}}
 </div>
+</div>
 
+<div class="band">
+<div class="wrap feature" id="type">
+  <h2>Type to take in</h2>
+  <p>Daisy and Daisy Sans are typeset with care. Titles scale in size and width to fit their length, quotes hang in the margin, and the eyebrow creates more scannable titles. Generous spacing lets every paragraph breathe.</p>
+{{IPAD}}
+</div>
+</div>
+
+<div class="band band--gray">
 <div class="wrap feature" id="footnotes">
   <h2>Footnotes for everyone</h2>
   <p>Authors and book lovers nerd out on footnotes but many readers rarely engage with them or don&#8217;t understand how they work, so I designed footnotes that are easy for everyone.</p>
 {{FOOTNOTES}}
 </div>
+</div>
 
+<div class="band">
 <div class="wrap feature" id="niceties">
   <h2>More niceties</h2>
-  <p>Code blocks get syntax highlighting, language labels, and copy-to-clipboard. Social media posts follow each platform&#8217;s own rules, so they read more naturally and predictably.</p>
+  <p>Code blocks get syntax highlighting, language labels, and copy-to-clipboard. Social posts keep each platform&#8217;s own conventions, so they look the way you&#8217;d expect.</p>
 {{NICETIES_1}}
-  <p class="serif">Multi-author bylines follow one predictable format. Smart datelines are relative for the first week, then reveal the exact time with a click. Daisy and Daisy Sans also support over 30 languages, rewriting whole phrases instead of replacing individual words.</p>
+  <p class="after-block">Multi-author bylines follow one predictable format. Smart datelines are relative for the first week, then reveal the exact time with a click. Daisy and Daisy Sans also support over 30 languages, rewriting whole phrases instead of replacing individual words.</p>
 {{NICETIES_2}}
 </div>
-
-<div class="wrap feature" id="try-it">
-  <h2>Try it</h2>
-  <p>Daisy and Daisy Sans are in beta, and you <a href="https://github.com/shane-hendry/daisy/releases">can download them</a> to try them in NetNewsWire. I&#8217;d love any feedback.</p>
 </div>
 
+<div class="band">
+<div class="wrap feature" id="try-it">
+  <h2>Try it</h2>
+  <p>Daisy and Daisy Sans for NetNewsWire are in beta. I&#8217;d love any feedback.</p>
+  <p class="buttons">
+    <a class="button button--serif" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.nnwtheme.zip">Get Daisy</a>
+    <a class="button button--sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv{{LATEST}}%2FDaisy.Sans.nnwtheme.zip">Get Daisy Sans</a>
+  </p></div>
+</div>
 <section class="updates" id="updates">
   <div class="wrap">
     <h2>Updates</h2>

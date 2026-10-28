@@ -11,4 +11,5 @@ body = '''<p>Quote and apostrophe cases, one heading each.</p>
 <h2>The dogs' toys, 'tis the season, rock 'n' roll</h2>
 <h2>„Hallo“ stays German, «Bonjour» stays French</h2>
 <h2>A "quote" mid-heading that may wrap onto a second line when the heading is long enough "to do so"</h2>
+<h2>The Verge's Duo Review: 'Apple's Folding Phone Is a Messy, Expensive Good Time'</h2>
 <p>End.</p>'''
