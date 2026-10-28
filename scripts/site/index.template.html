@@ -60,10 +60,13 @@ body {
   font: 1.0625rem / 1.6 var(--sans);
   margin: 0;
 }
-/* Selected text, as in the themes: white on the accent. */
+/* Selected text is white on the accent, the same orange as a button on hover (a lighter orange in dark mode), everywhere on the page including the devices. */
 ::selection { background: var(--accent); color: #fff; }
-/* The dark devices use the lighter accent the themes use on dark backgrounds. */
-.daisy-hero__phone ::selection, .dc--dark ::selection, .daisy-phone--dark ::selection, .daisy-device--dark ::selection, .daisy-ba--dark ::selection { background: #ff7a2e; color: #fff; }
+/* Safari tints the native selection lighter than the color asked for. Where the Custom Highlight API exists, the page draws the highlight itself (script below) and the native one is made invisible, so the color is exactly the accent. */
+@supports selector(::highlight(daisy-selection)) {
+  ::selection { background: transparent; color: #fff; }  /* the selection layer wins over the highlight layer for the text color, so the white is set here */
+  ::highlight(daisy-selection) { background-color: var(--accent); color: #fff; }
+}
 a { color: inherit; text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
 .wrap { margin-inline: auto; max-width: 57.25rem; padding-inline: max(1rem, env(safe-area-inset-left)) max(1rem, env(safe-area-inset-right)); }
@@ -433,6 +436,17 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   </div>
 </section>
 </main>
+<script>
+// Draws selected text in the page itself with the Custom Highlight API, so it is exactly the accent color (see the ::highlight rule).
+(function () {
+  if (!window.CSS || !CSS.highlights || typeof Highlight === "undefined") return;
+  document.addEventListener("selectionchange", function () {
+    var sel = document.getSelection(), ranges = [];
+    for (var i = 0; sel && i < sel.rangeCount; i++) if (!sel.isCollapsed) ranges.push(sel.getRangeAt(i));
+    if (ranges.length) CSS.highlights.set("daisy-selection", new Highlight(...ranges)); else CSS.highlights.delete("daisy-selection");
+  });
+})();
+</script>
 <script>
 // The sticky menu: shown once the title has scrolled off. The caret opens it into a table of contents; the section you are in gets a
 // small bullet. A pick closes it and slides the page to that section. Scrolling, a tap outside, or Escape closes it too.
