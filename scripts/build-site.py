@@ -55,7 +55,7 @@ hero = (wp / "new/hero.html").read_text()
 
 page = (root / "scripts/site/index.template.html").read_text()
 page = page.replace("{{LATEST}}", versions[0])
-page = page.replace("{{RELEASES}}", "\n".join(release(v, i == 0) for i, v in enumerate(versions[:3])))
+page = page.replace("{{RELEASES}}", "\n".join(release(v, i == 0) for i, v in enumerate(versions[:1])))
 page = page.replace("{{HERO_CSS}}", hero_css)
 page = page.replace("{{HERO}}", hero)
 for name in ("FEED", "RULES", "FOOTNOTES", "IPAD"):

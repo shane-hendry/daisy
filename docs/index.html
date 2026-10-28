@@ -228,7 +228,7 @@ a:hover { color: var(--accent); }
 .focus .credits { display: none; }
 
 /* Updates */
-.updates { font-size: 1.115rem; border-top: 2px solid var(--ink); margin-top: clamp(7rem, 22vw, 12rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
+.updates { font-size: 1.115rem; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); margin-top: clamp(7rem, 22vw, 12rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
 .updates h2 {
   font-family: var(--sans);
   font-size: clamp(1.7rem, 4vw, 2.4rem);
@@ -239,6 +239,10 @@ a:hover { color: var(--accent); }
   margin: 0 0 1.5rem;
 }
 .updates:not([data-theme]) h2 { margin-bottom: 2.25rem; }
+/* On the full page the release under the heading is centred; the list of notes keeps its own left-aligned lines. */
+.updates:not([data-theme]) .release { text-align: center; }
+.updates:not([data-theme]) .howto .buttons { justify-content: center; }
+.updates:not([data-theme]) .release :is(ul, ol) { display: inline-block; max-width: 100%; text-align: left; }
 .release { margin-bottom: 2.5rem; scroll-margin-top: 1.5rem; }
 .release h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; margin: 0; }
 .release h3 a { text-decoration: none; }
@@ -271,6 +275,11 @@ a:hover { color: var(--accent); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
 @media (min-width: 40.01rem) { .updates { margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: clamp(3rem, 6vw, 4.5rem) clamp(6rem, 12vw, 9rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
 .credits p { margin: 0.75rem 0; }
+/* Try it: its line is as large as the tagline under the hero. */
+#try-it > p { font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; }
+/* The niceties cards animate inside themselves; nothing they do may move the page around them. */
+#niceties .dc { contain: layout; position: relative; }
+#niceties { overflow-anchor: none; }
 /* On a wide screen "View all releases" sits on the Updates heading's baseline, at the right edge. */
 @media (min-width: 40.01rem) {
   .updates:not([data-theme]) > .wrap { column-gap: 1.5rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; }
@@ -1615,8 +1624,8 @@ details.daisy-card__date {
 .daisy-cards .daisy-cards__row { column-gap: 2.25rem; }
 .daisy-cards .dc__for { display: inline-block; }
 .daisy-cards .dc__byline { text-wrap: wrap; } /* fill each line, so a wrapped byline breaks before "for" */
-.daisy-cards .dc__in { padding-top: 5.2em; }
-.daisy-cards .dc--code .dc__in { padding-bottom: 0.8em; }
+.daisy-cards .dc__in { padding-top: 3.9em; }
+.daisy-cards .dc--code .dc__in { padding-bottom: 0.8em; padding-top: 5.2em; }
 .daisy-cards .dc__bar { inset: 0 0 auto; pointer-events: none; position: absolute; z-index: 3; }
 .daisy-cards .dc__bar .daisy-phone__time { color: var(--dc-ink); font: 600 3.85cqw / 1 -apple-system, "SF Pro Text", system-ui, sans-serif; left: 11.8cqw; position: absolute; top: 9.7cqw; }
 .daisy-cards .dc__battery { color: var(--dc-ink); height: auto; position: absolute; right: 11.8cqw; top: 9.7cqw; width: 7.2cqw; }
@@ -7565,6 +7574,47 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
     if (window.ResizeObserver) new ResizeObserver(function () { place(false); }).observe(sw);
     place(false);
   });
+})();
+</script>
+<script>
+(function () {
+  // On a narrow column, one phone sits under the Unedited | Daisy control. When the screen is short, the control and the phone shrink
+  // together so both fit between the bottom of the sticky menu (when there is one) and the bottom edge of the screen.
+  var root = document.querySelector(".dsf:not([data-fit])");
+  if (!root) return;
+  root.setAttribute("data-fit", "");
+  var sw = root.querySelector(".dsf-switch");
+  var phones = [].slice.call(root.querySelectorAll(".daisy-phone"));
+  if (!sw || !phones.length) return;
+  var probe = document.createElement("div");
+  probe.setAttribute("aria-hidden", "true");
+  probe.style.cssText = "height:100svh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
+  document.body.appendChild(probe);
+  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 20, GAP_BOTTOM = 24;
+  var lastW = 0, lastH = 0;
+  function fit() {
+    var narrow = getComputedStyle(sw).display !== "none";
+    var h = probe.offsetHeight || window.innerHeight, w = window.innerWidth;
+    if (h === lastH && w === lastW && narrow === root.hasAttribute("data-fit-on")) return;
+    lastH = h; lastW = w;
+    if (!narrow) { root.removeAttribute("data-fit-on"); phones.forEach(function (p) { p.style.removeProperty("--dsy-s"); }); return; }
+    root.setAttribute("data-fit-on", "");
+    var menu = document.getElementById("menu"), bar = 0;
+    if (menu) {
+      var b = menu.querySelector(".menu__bar");
+      bar = (b ? b.offsetHeight : 0) + (parseFloat(getComputedStyle(menu).paddingTop) || 0);
+    }
+    var cs = getComputedStyle(sw);
+    var control = sw.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
+    var s = (h - bar - control - GAP_TOP - GAP_BOTTOM) / PHONE_H;
+    s = Math.max(MIN, Math.min(MAX, s));
+    phones.forEach(function (p) { p.style.setProperty("--dsy-s", s.toFixed(3)); });
+  }
+  window.addEventListener("resize", fit);
+  window.addEventListener("orientationchange", fit);
+  window.addEventListener("load", fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(root);
+  fit();
 })();
 </script>
 </div>
@@ -18486,18 +18536,6 @@ window.addEventListener(&quot;message&quot;,function(e){
         <li><strong>Tables.</strong> Tables fit their content, sit centered, and keep the author’s alignment.</li>
         <li><strong>Eyebrows.</strong> Eyebrows are now poppy, with other color, spacing, and typography refinements.</li>
         <li><strong>Media height.</strong> Media height is capped so it never overflows the window.</li>
-      </ul>
-      </details>
-    </article>
-    <article class="release" id="v0-5-0">
-      <h3><a href="#v0-5-0">Version 0.5</a></h3>
-      <time datetime="2026-10-26T19:44:46Z">Oct 26, 2026</time>
-      <details><summary>View release notes</summary>
-      <ul>
-        <li><strong>Code blocks.</strong> Code now has syntax highlighting, shows the language, and has a Copy button.</li>
-        <li><strong>Tall media.</strong> Images, videos and embeds stay centered and stay fully in-view.</li>
-        <li><strong>Update notices.</strong> When a newer release exists, a short note and link to update appears at the end of articles. Daisy and Daisy Sans check one small file on this project&#x27;s GitHub Pages site at most once a day, and send nothing about you, your feeds or your articles.</li>
-        <li><strong>Lead lists.</strong> Links in a list at the start of a post no longer shift when you hover over them.</li>
       </ul>
       </details>
     </article>

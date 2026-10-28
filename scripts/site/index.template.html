@@ -228,7 +228,7 @@ a:hover { color: var(--accent); }
 .focus .credits { display: none; }
 
 /* Updates */
-.updates { font-size: 1.115rem; border-top: 2px solid var(--ink); margin-top: clamp(7rem, 22vw, 12rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
+.updates { font-size: 1.115rem; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); margin-top: clamp(7rem, 22vw, 12rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
 .updates h2 {
   font-family: var(--sans);
   font-size: clamp(1.7rem, 4vw, 2.4rem);
@@ -239,6 +239,10 @@ a:hover { color: var(--accent); }
   margin: 0 0 1.5rem;
 }
 .updates:not([data-theme]) h2 { margin-bottom: 2.25rem; }
+/* On the full page the release under the heading is centred; the list of notes keeps its own left-aligned lines. */
+.updates:not([data-theme]) .release { text-align: center; }
+.updates:not([data-theme]) .howto .buttons { justify-content: center; }
+.updates:not([data-theme]) .release :is(ul, ol) { display: inline-block; max-width: 100%; text-align: left; }
 .release { margin-bottom: 2.5rem; scroll-margin-top: 1.5rem; }
 .release h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.2; margin: 0; }
 .release h3 a { text-decoration: none; }
@@ -271,6 +275,11 @@ a:hover { color: var(--accent); }
 /* The big space around Updates is for a phone showing it on its own; a wide screen needs much less. */
 @media (min-width: 40.01rem) { .updates { margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: clamp(3rem, 6vw, 4.5rem) clamp(6rem, 12vw, 9rem); } .credits { margin-top: clamp(3rem, 6vw, 4.5rem); } }
 .credits p { margin: 0.75rem 0; }
+/* Try it: its line is as large as the tagline under the hero. */
+#try-it > p { font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; }
+/* The niceties cards animate inside themselves; nothing they do may move the page around them. */
+#niceties .dc { contain: layout; position: relative; }
+#niceties { overflow-anchor: none; }
 /* On a wide screen "View all releases" sits on the Updates heading's baseline, at the right edge. */
 @media (min-width: 40.01rem) {
   .updates:not([data-theme]) > .wrap { column-gap: 1.5rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; }
