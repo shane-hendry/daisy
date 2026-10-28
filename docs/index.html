@@ -214,6 +214,8 @@ a:hover { color: var(--accent); }
 #niceties .dc:not(.dc--code) .dc__in { padding-top: 4.2em; } /* the content sits closer to the status bar */
 #niceties .dc--code .dc__in { padding-top: 5.2em; }
 #niceties .dc--code .dc__in { padding-bottom: 0.8em; }
+/* The credit row, the title and the body sit closer together on the social, bylines and languages cards (not the code card). */
+#niceties .dc:not(.dc--code) { --dc-gap: 2.7em; }
 /* The code block's header, as in the theme: the language label in the wide style (wdth 115), both labels medium weight, a little smaller. */
 #niceties .dc__code-head { font-size: 0.9em; }
 #niceties .dc__code-head > span { font-variation-settings: "wdth" 115; }
@@ -1409,7 +1411,7 @@ details.daisy-card__date {
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
-  margin: calc(3.84em * 0.94 / 1.6) 0 0;
+  margin: calc(var(--dc-gap, 3.84em) * 0.94 / 1.6) 0 0;
   text-box: trim-both cap alphabetic;
   text-wrap: pretty;
 }
@@ -1421,42 +1423,42 @@ details.daisy-card__date {
 
 .dc__title[data-len="short"] {
   font-size: calc(1.6em * 1.25);
-  margin-top: calc(3.84em * 0.94 / (1.6 * 1.25));
+  margin-top: calc(var(--dc-gap, 3.84em) * 0.94 / (1.6 * 1.25));
   letter-spacing: -0.01em;
   line-height: 1;
 }
 
 .dc__title[data-len="brief"] {
   font-size: calc(1.6em * 1.12);
-  margin-top: calc(3.84em * 0.94 / (1.6 * 1.12));
+  margin-top: calc(var(--dc-gap, 3.84em) * 0.94 / (1.6 * 1.12));
 }
 
 .dc__title[data-len="long"] {
   font-size: calc(1.6em * 0.9);
-  margin-top: calc(3.84em * 0.94 / (1.6 * 0.9));
+  margin-top: calc(var(--dc-gap, 3.84em) * 0.94 / (1.6 * 0.9));
 }
 
 .dc--sans .dc__title[data-len="short"] {
   font-size: calc(1.6em * 1.7);
-  margin-top: calc(3.84em * 0.94 / (1.6 * 1.7));
+  margin-top: calc(var(--dc-gap, 3.84em) * 0.94 / (1.6 * 1.7));
   font-variation-settings: "wght" 780, "wdth" 43;
   line-height: 0.9;
 }
 
 .dc--sans .dc__title[data-len="brief"] {
   font-size: calc(1.6em * 1.2);
-  margin-top: calc(3.84em * 0.94 / (1.6 * 1.2));
+  margin-top: calc(var(--dc-gap, 3.84em) * 0.94 / (1.6 * 1.2));
 }
 
 .dc--sans .dc__title[data-len="long"] {
   font-size: calc(1.6em * 1.3);
-  margin-top: calc(3.84em * 0.94 / (1.6 * 1.3));
+  margin-top: calc(var(--dc-gap, 3.84em) * 0.94 / (1.6 * 1.3));
   font-variation-settings: "wght" 780, "wdth" 43;
   line-height: 1;
 }
 
 .dc .dc__title + * {
-  margin-top: 3.84em;
+  margin-top: var(--dc-gap, 3.84em);
   text-box: trim-start cap alphabetic;
 }
 
@@ -1466,13 +1468,13 @@ details.daisy-card__date {
 
 .dc__text--post {
   /* A social post has no title: the post is body text, the same size as the credit row and the link below it. */
-  margin-top: calc(3.84em * 0.94);
+  margin-top: calc(var(--dc-gap, 3.84em) * 0.94);
   text-box: trim-both cap alphabetic;
 }
 
 /* The link sits below the post at the same gap as the credit row and the post: it is not pinned to the bottom. */
 .dc .dc__join {
-  margin-top: 3.84em;
+  margin-top: var(--dc-gap, 3.84em);
   text-box: trim-both cap alphabetic;
 }
 
@@ -7633,7 +7635,7 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
 
 <div class="band">
 <div class="wrap feature" id="type">
-  <h2>Type to take in</h2>
+  <h2>Type worth taking in</h2>
   <p>Daisy and Daisy Sans are typeset with care. Titles scale in size and width to fit their length, quotes hang in the margin, and the eyebrow creates more scannable titles. Generous spacing lets every paragraph breathe.</p>
 <!-- daisy-example: footnotes-jeep responsive after (Daisy Sans; a Mac window on wide screens, a phone on small ones; scale: change --dsy-s in the CSS) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><clipPath id="daisy-clip-phone" clipPathUnits="objectBoundingBox"><path d="M 0.762051 0.000000 C 0.845341 0.000000 0.886986 0.000000 0.918799 0.007437 A 0.148718 0.068235 0 0 1 0.983791 0.037257 C 1.000000 0.051853 1.000000 0.070961 1.000000 0.109176 L 1.000000 0.890824 C 1.000000 0.929039 1.000000 0.948147 0.983791 0.962743 A 0.148718 0.068235 0 0 1 0.918799 0.992563 C 0.886986 1.000000 0.845341 1.000000 0.762051 1.000000 L 0.237949 1.000000 C 0.154659 1.000000 0.113014 1.000000 0.081201 0.992563 A 0.148718 0.068235 0 0 1 0.016209 0.962743 C 0.000000 0.948147 0.000000 0.929039 0.000000 0.890824 L 0.000000 0.109176 C 0.000000 0.070961 0.000000 0.051853 0.016209 0.037257 A 0.148718 0.068235 0 0 1 0.081201 0.007437 C 0.113014 0.000000 0.154659 0.000000 0.237949 0.000000 Z"/></clipPath><clipPath id="daisy-clip-phone-short" clipPathUnits="objectBoundingBox"><path d="M 0.762051 0.000000 C 0.845341 0.000000 0.886986 0.000000 0.918799 0.007828 A 0.148718 0.071826 0 0 1 0.983791 0.039218 C 1.000000 0.054582 1.000000 0.074696 1.000000 0.114922 L 1.000000 0.885078 C 1.000000 0.925304 1.000000 0.945418 0.983791 0.960782 A 0.148718 0.071826 0 0 1 0.918799 0.992172 C 0.886986 1.000000 0.845341 1.000000 0.762051 1.000000 L 0.237949 1.000000 C 0.154659 1.000000 0.113014 1.000000 0.081201 0.992172 A 0.148718 0.071826 0 0 1 0.016209 0.960782 C 0.000000 0.945418 0.000000 0.925304 0.000000 0.885078 L 0.000000 0.114922 C 0.000000 0.074696 0.000000 0.054582 0.016209 0.039218 A 0.148718 0.071826 0 0 1 0.081201 0.007828 C 0.113014 0.000000 0.154659 0.000000 0.237949 0.000000 Z"/></clipPath><clipPath id="daisy-clip-mac" clipPathUnits="objectBoundingBox"><path d="M 0.968000 0.000000 C 0.979201 0.000000 0.984802 0.000000 0.989080 0.002997 A 0.020000 0.027500 0 0 1 0.997820 0.015015 C 1.000000 0.020898 1.000000 0.028599 1.000000 0.044000 L 1.000000 0.956000 C 1.000000 0.971401 1.000000 0.979102 0.997820 0.984985 A 0.020000 0.027500 0 0 1 0.989080 0.997003 C 0.984802 1.000000 0.979201 1.000000 0.968000 1.000000 L 0.032000 1.000000 C 0.020799 1.000000 0.015198 1.000000 0.010920 0.997003 A 0.020000 0.027500 0 0 1 0.002180 0.984985 C 0.000000 0.979102 0.000000 0.971401 0.000000 0.956000 L 0.000000 0.044000 C 0.000000 0.028599 0.000000 0.020898 0.002180 0.015015 A 0.020000 0.027500 0 0 1 0.010920 0.002997 C 0.015198 0.000000 0.020799 0.000000 0.032000 0.000000 Z"/></clipPath><clipPath id="daisy-clip-ipad" clipPathUnits="objectBoundingBox"><path d="M 0.041463 0 L 0.958537 0 A 0.041463 0.029825 0 0 1 1 0.029825 L 1 0.970175 A 0.041463 0.029825 0 0 1 0.958537 1 L 0.041463 1 A 0.041463 0.029825 0 0 1 0 0.970175 L 0 0.029825 A 0.041463 0.029825 0 0 1 0.041463 0 Z"/></clipPath></defs></svg>

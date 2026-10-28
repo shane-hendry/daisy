@@ -214,6 +214,8 @@ a:hover { color: var(--accent); }
 #niceties .dc:not(.dc--code) .dc__in { padding-top: 4.2em; } /* the content sits closer to the status bar */
 #niceties .dc--code .dc__in { padding-top: 5.2em; }
 #niceties .dc--code .dc__in { padding-bottom: 0.8em; }
+/* The credit row, the title and the body sit closer together on the social, bylines and languages cards (not the code card). */
+#niceties .dc:not(.dc--code) { --dc-gap: 2.7em; }
 /* The code block's header, as in the theme: the language label in the wide style (wdth 115), both labels medium weight, a little smaller. */
 #niceties .dc__code-head { font-size: 0.9em; }
 #niceties .dc__code-head > span { font-variation-settings: "wdth" 115; }
@@ -365,7 +367,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 
 <div class="band">
 <div class="wrap feature" id="type">
-  <h2>Type to take in</h2>
+  <h2>Type worth taking in</h2>
   <p>Daisy and Daisy Sans are typeset with care. Titles scale in size and width to fit their length, quotes hang in the margin, and the eyebrow creates more scannable titles. Generous spacing lets every paragraph breathe.</p>
 {{IPAD}}
 </div>
