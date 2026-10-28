@@ -466,7 +466,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
       // A gray or white band lands with its top edge exactly at the bottom of the bar; anything else sits a little below it.
       var bar = menu.querySelector(".menu__bar").offsetHeight + parseFloat(getComputedStyle(menu).paddingTop);
       var band = t.closest(".band, .updates");
-      glide(band ? top(band) - bar : top(t) - bar - 28);
+      glide(band ? top(band) - bar : top(t) - bar - (t.id === "get" ? 80 : 28));  // the hero heading lands with roomy padding under the bar
     });
   });
   document.addEventListener("pointerdown", function (e) { if (!menu.contains(e.target)) setOpen(false); });
