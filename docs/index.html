@@ -192,6 +192,8 @@ a:hover { color: var(--accent); }
 .feature > h2.sub { margin-top: 2.5rem; }
 .feature > p.after-block { margin-top: 2.75rem; }
 .feature > p { margin: 0 0 1rem; }
+/* The paragraphs under the section headings avoid short last lines. */
+#house-style > p, #type > p, #footnotes > p, #niceties > p { text-wrap: pretty; }
 /* More niceties: the same 2.25rem between every paragraph and card row, whichever way it runs. */
 #niceties > p { margin-bottom: 2.25rem; }
 #niceties > p.after-block { margin-top: 2.25rem; }
@@ -235,7 +237,7 @@ a:hover { color: var(--accent); }
 .focus .credits { display: none; }
 
 /* Updates */
-.updates { font-size: 1.115rem; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); margin-top: clamp(7rem, 22vw, 12rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
+.updates { font-size: 1.2296rem; border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); margin-top: clamp(7rem, 22vw, 12rem); padding-block: clamp(7rem, 22vw, 12rem) clamp(7rem, 22vw, 12rem); }
 .updates h2 {
   font-family: var(--sans);
   font-size: clamp(1.7rem, 4vw, 2.4rem);
@@ -303,7 +305,7 @@ a:hover { color: var(--accent); }
 }
 /* All type on the page is sans. */
 .feature, .updates, .credits {
-  --face: var(--sans); --h-axes: "wght" 800, "wdth" 115; --h-weight: 800; --h-tracking: -0.01em; --h-leading: 1.1; --h-scale: 1.15; --text-size: 1.0625rem;
+  --face: var(--sans); --h-axes: "wght" 800, "wdth" 115; --h-weight: 800; --h-tracking: -0.01em; --h-leading: 1.1; --h-scale: 1.15; --text-size: 1.1714rem; /* body copy, 10% up from 1.0625rem */
 }
 .feature > :is(h2, h3, p, ul), .updates > .wrap > :is(h2, h3), .credits :is(h2, p) { font-family: var(--face); }
 .feature > h2, .updates h2, .credits h2 { font-variation-settings: var(--h-axes); font-weight: var(--h-weight); letter-spacing: var(--h-tracking); line-height: var(--h-leading); }
