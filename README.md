@@ -1,7 +1,7 @@
 <!-- nnw-theme-identity:start -->
 # Daisy & Daisy Sans
 
-![Daisy in NetNewsWire](screenshots/Daisy%20Hero.png)
+![Daisy in NetNewsWire](screenshots/daisy-hero.png)
 
 Two [NetNewsWire](https://netnewswire.com/) themes by [Shane Hendry](https://shanehendry.com/), with a cohesive house style across every feed you follow. One design, two appearances:
 
