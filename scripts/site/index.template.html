@@ -285,11 +285,11 @@ a:hover { color: var(--accent); }
 .updates[data-theme] .release h3, .updates[data-theme] .release ~ .release, .updates[data-theme] .history { display: none; }
 .updates[data-theme] h2 + time { color: var(--quiet); display: block; font-size: 0.9375rem; margin: -0.9rem 0 0; }
 @media (max-width: 40rem) { .focus .updates { padding-top: clamp(3.5rem, 11vw, 6rem); } }
-/* On a wide screen the update page is centred across, and down so its middle sits 60% of the way up the window. */
+/* On a wide screen the update page is centred across and starts 23% down the window, so with the notes closed its middle sits about 60% of the way up; opening the notes grows it downward. */
 @media (min-width: 40.01rem) {
-  .focus .updates[data-theme] { align-items: center; box-sizing: border-box; display: flex; min-height: 100vh; min-height: 100svh; padding-block: 0 20vh; padding-block: 0 20svh; text-align: center; }
-  .focus .updates[data-theme] > .wrap { width: 100%; }
+  .focus .updates[data-theme] { padding-block: 23vh 0; padding-block: 23svh 0; text-align: center; }
   .focus .updates[data-theme] .howto .buttons { justify-content: center; }
+  .focus .updates[data-theme] .release ul { margin-inline: auto; max-width: 34rem; text-align: left; }
 }
 .howto { margin-block: 1.75rem 2.4rem; }
 .howto .buttons { gap: 0.5rem; justify-content: flex-start; margin: 0; }
