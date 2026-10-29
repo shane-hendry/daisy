@@ -69,6 +69,7 @@ for key, name in (("{{NICETIES_1}}", "code-social"), ("{{NICETIES_2}}", "attribu
     block = (wp / f"new/{name}.html").read_text()
     # "for" stays with the publication, so a wrapped byline breaks before it ("... and 2 others" / "for Metro Daily").
     block = block.replace('</span> for <span class="dc__pub">Metro Daily</span>', '</span> <span class="dc__for">for <span class="dc__pub">Metro Daily</span></span>')
+    block = re.sub(r'<div class="dc ', lambda m: '<div class="dc__shadow" aria-hidden="true"></div>\n' + m.group(0), block)
     page = page.replace(key, re.sub(r'<div class="dc__in"', lambda m: bar + m.group(0), block))
 (root / "docs/index.html").write_text(page)
 print(f"docs/index.html: {len(page) // 1024} KB, releases {', '.join(versions[:3])}")

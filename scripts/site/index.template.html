@@ -209,26 +209,35 @@ a:hover { color: var(--accent); }
 /* Each niceties card is the top of a phone: the phone's own width, about 40% of its height, a status bar over the content, and the content running off the bottom, cropped. Sizes are of the card's width (cqw); the frame's corner is 58 of 390. */
 #niceties .dc {
   aspect-ratio: 390 / 338;
-  border-radius: 14.87% 14.87% 0 0 / 17.16% 17.16% 0 0;
-  /* The same shadow as the other devices (11px blur, 4px down, 25 percent black), cut off at the bottom edge so the fade has none. */
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.25), 0 -0.5px 0 0.5px rgba(0, 0, 0, 0.12);
-  clip-path: inset(-40px -40px 0.6px -40px); /* stops a hair above the card's bottom edge, so the shadow below it cannot show as a gray line on a card whose height is not a whole pixel */
+  /* The top of the phone's frame, with the same smoothed (continuous) corners as the other phones: the clip is the frame's top path, 58 of 390 at the corner, cut off a hair above the bottom edge. */
+  border-radius: 0;
+  clip-path: url(#daisy-clip-card);
 }
 /* The phone ends in a clean crop at the bottom: no fade. The card's own fade strips are switched off. */
 #niceties .dc::after { display: none; }
+/* The dark cards keep a 1px outline along the frame's top and sides (2px stroke, the outer half clipped away); the card's own fade styles for ::after are reset. */
+#niceties .dc--dark::after { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 338' preserveAspectRatio='none'%3E%3Cpath d='M 390 337.3 L 390 92.8 C 390 60.32 390 44.07 383.68 31.67 A 58 58 0 0 0 358.33 6.32 C 345.92 0 329.68 0 297.2 0 L 92.8 0 C 60.32 0 44.08 0 31.67 6.32 A 58 58 0 0 0 6.32 31.67 C 0 44.07 0 60.32 0 92.8 L 0 337.3' fill='none' stroke='%23414141' stroke-width='2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat; bottom: 0; content: ""; display: block; filter: none; height: auto; inset: 0; opacity: 1; pointer-events: none; position: absolute; width: auto; z-index: 4; -webkit-backdrop-filter: none; backdrop-filter: none; -webkit-mask-image: none; mask-image: none; }
+/* The shadow is its own element, as on the other phones: the frame's shape, blurred, 4px down, 25 percent black, cut off at the card's bottom edge. */
+#niceties .daisy-cards__cell { position: relative; }
+#niceties .dc__shadow { aspect-ratio: 390 / 338; bottom: 0; clip-path: inset(-60px -60px 0 -60px); filter: blur(11px); left: 0; opacity: 0.25; pointer-events: none; position: absolute; right: 0; }
+#niceties .dc__shadow::before { background: #000; clip-path: url(#daisy-clip-card); content: ""; inset: 4px 0 -4px; position: absolute; }
 /* A stronger veil under the status bar on the code card, whose text runs up under it. */
 #niceties .dc--code::before {
   -webkit-backdrop-filter: blur(9.5px); backdrop-filter: blur(9.5px);
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--dc-canvas) 96%, transparent) 0%, color-mix(in srgb, var(--dc-canvas) 80%, transparent) 30%, color-mix(in srgb, var(--dc-canvas) 42%, transparent) 62%, color-mix(in srgb, var(--dc-canvas) 12%, transparent) 84%, transparent 100%);
-  height: 32%;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.45) 65%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.85) 30%, rgba(0, 0, 0, 0.45) 65%, transparent 100%);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--dc-canvas) 98%, transparent) 0%, color-mix(in srgb, var(--dc-canvas) 87%, transparent) 30%, color-mix(in srgb, var(--dc-canvas) 54%, transparent) 62%, color-mix(in srgb, var(--dc-canvas) 20%, transparent) 84%, transparent 100%);
+  height: 36%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.92) 30%, rgba(0, 0, 0, 0.52) 65%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.92) 30%, rgba(0, 0, 0, 0.52) 65%, transparent 100%);
 }
 #niceties .daisy-cards__row { column-gap: 2.25rem; }
 #niceties .dc__for { display: inline-block; }
 #niceties .dc__byline { text-wrap: wrap; } /* fill each line, so a wrapped byline breaks before "for" */
 #niceties .dc:not(.dc--code) .dc__in { padding-top: 4.2em; } /* the content sits closer to the status bar */
-#niceties .dc--code .dc__in { padding-top: 5.2em; }
-#niceties .dc--code .dc__in { padding-bottom: 0.8em; }
+/* The code block sits a little below the card's vertical centre, between the old position and dead centre: the text above it ends at the centre line's upper edge and the text below starts under it, each running off the card. */
+#niceties .dc--code .dc__in { display: grid; gap: 0; grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr); padding-block: 2.6em 0.4em; }
+#niceties .dc--code .dc__in > .dc__text:first-child { align-self: unsafe end; padding-bottom: 1em; }
+#niceties .dc--code .dc__in > .dc__text:last-child { align-self: unsafe start; padding-top: 1em; }
+/* The code card's text runs up under the top edge; keep it out of the outline's 2px so no letter tops show through. */
+#niceties .dc--code .dc__in { clip-path: inset(2px 0 0 0); }
 /* In dark mode the dark phones are as dark as the page, so they get a thin light edge, like a device's metal rim, plus a faint highlight along the top. */
 @media (prefers-color-scheme: dark) {
   #niceties .dc--dark { box-shadow: 0 4px 22px rgba(0, 0, 0, 0.25), 0 -0.5px 0 1px rgba(255, 255, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
@@ -343,6 +352,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 </script>
 </head>
 <body id="top">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><clipPath id="daisy-clip-card" clipPathUnits="objectBoundingBox"><path d="M 0.762051 0 C 0.845333 0 0.886974 0 0.918795 0.018698 A 0.148718 0.171598 0 0 1 0.983795 0.093698 C 1.0 0.130385 1.0 0.178462 1.0 0.274556 L 1.0 0.998 L 0.0 0.998 L 0.0 0.274556 C 0.0 0.178462 0.0 0.130385 0.016205 0.093698 A 0.148718 0.171598 0 0 1 0.081205 0.018698 C 0.113026 0 0.154667 0 0.237949 0 Z"/></clipPath></defs></svg>
 <nav class="menu" id="menu" aria-label="Page contents">
   <div class="menu__in">
     <div class="menu__bar">
