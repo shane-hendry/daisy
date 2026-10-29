@@ -105,7 +105,12 @@ a:hover { color: var(--accent); }
 .get-h2 { font-family: var(--sans); font-size: calc(clamp(1.75rem, 4vw, 2.4rem) * 1.15); font-variation-settings: "wght" 800, "wdth" 115; font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; margin: clamp(2rem, 5vw, 3rem) 0 0.6rem; scroll-margin-top: calc(3.5rem + env(safe-area-inset-top) + 80px); text-align: center; } /* a link to #get lands with the same room under the menu as the menu item */
 .byline { text-align: center; color: var(--ink); font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; margin: 0 auto; max-width: none; text-wrap: balance; }
 /* On a wide screen the line stays whole, or breaks only after "house style". A phone is too narrow for that and wraps freely. */
-@media (min-width: 40rem) { .byline .nb { white-space: nowrap; } }
+/* On a wide screen the paragraph runs wider than the text column so it sits on two lines: the break falls after "consistent," so the two lines are close in length. Narrower windows let it wrap freely, balanced. */
+@media (min-width: 70rem) {
+  .byline { margin-inline: calc((100% - min(100vw - 3rem, 66rem)) / 2); }
+  .byline .nb { white-space: nowrap; }
+}
+.byline a { white-space: nowrap; } /* the name never splits across lines */
 .serif { font-family: var(--serif); }
 .sr { clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; width: 1px; }
 .buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: clamp(1.25rem, 3vw, 1.75rem) 0 0; }
@@ -127,7 +132,7 @@ a:hover { color: var(--accent); }
 .howto .button.button--serif { padding-block: 0.95em; }
 /* 5% larger type, with the padding and line height scaled back so the button is the same size as Get Daisy. */
 .button--sans { font-size: 1.386rem; line-height: 1.524; padding: 0.4643em 1em; font-variation-settings: "wght" 678, "wdth" 66, "opsz" 28; font-weight: 678; }
-.button--outline { background: transparent; color: var(--ink); font-size: 0.95rem; font-weight: 500; padding: 0.65em 1.6em; }
+.button--outline { background: transparent; color: var(--ink); font-size: 0.95rem; font-weight: 500; padding: 0.85em 1.615em; }
 #try-it { text-align: center; }
 .nnw-row { margin: 1.5rem 0 0; text-align: center; }
 
@@ -1902,7 +1907,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 </script>
 
   <h2 class="get-h2" id="get">One design in two appearances</h2>
-  <p class="byline"><span class="nb">Thoughtful typography and one house style</span> <span class="nb">for a consistent, predictable NetNewsWire feed.</span></p>
+  <p class="byline"><span class="nb">Thoughtful typography and one house style for a consistent,</span> <span class="nb">predictable NetNewsWire feed. Designed by <a href="https://shanehendry.com/">Shane Hendry</a>.</span></p>
   <p class="buttons">
     <a class="button button--serif" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.nnwtheme.zip">Get Daisy</a>
     <a class="button button--sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.Sans.nnwtheme.zip">Get Daisy Sans</a>
@@ -7630,7 +7635,7 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
 <script>
 (function () {
   // On a narrow column, one phone sits under the Unedited | Daisy control. When the screen is short, the control and the phone shrink
-  // together so the pair is as tall as the responsive phones elsewhere on the page, and never taller than the space between the sticky menu and the bottom of the screen.
+  // together so the pair fills the space between the sticky menu and the bottom of the screen, with a little air above and below.
   var root = document.querySelector(".dsf:not([data-fit])");
   if (!root) return;
   root.setAttribute("data-fit", "");
@@ -7639,9 +7644,9 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
   if (!sw || !phones.length) return;
   var probe = document.createElement("div");
   probe.setAttribute("aria-hidden", "true");
-  probe.style.cssText = "height:100svh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
+  probe.style.cssText = "height:100lvh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
   document.body.appendChild(probe);
-  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, FILL = 0.94;   // the phone takes 94 percent of the room under the menu, beside the control; the rest is breathing room above and below. MAX (0.8) is the size of the other phones on the page: never larger.
+  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 26, GAP_BOTTOM = 25;   // the control and phone fill the space from 26px under the sticky menu to 25px above the bottom of the screen (the full screen height); MAX (0.8) is the size of the other phones on the page: never larger.
   var lastW = 0, lastH = 0;
   function fit() {
     var narrow = getComputedStyle(sw).display !== "none";
@@ -7657,7 +7662,7 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
     }
     var cs = getComputedStyle(sw);
     var control = sw.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
-    var s = (h - bar - control) * FILL / PHONE_H;
+    var s = (h - bar - control - GAP_TOP - GAP_BOTTOM) / PHONE_H;
     s = Math.max(MIN, Math.min(MAX, s));
     phones.forEach(function (p) { p.style.setProperty("--dsy-s", s.toFixed(3)); });
   }
@@ -18690,6 +18695,37 @@ window.addEventListener(&quot;message&quot;,function(e){
   document.addEventListener("pointerdown", function (e) { if (!menu.contains(e.target)) setOpen(false); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && menu.hasAttribute("data-open")) { setOpen(false); toggle.focus(); } });
   update();
+})();
+</script>
+<script>
+// Responsive phones (the footnotes and iPad blocks when they are a phone): sized like the feed's phone, to fill the space from 26px under the sticky
+// menu to 25px above the bottom of the screen (its full height). At most the usual 0.8 scale; wide screens keep the Mac window and the iPad as they are.
+(function () {
+  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 26, GAP_BOTTOM = 25, WIDE = 880;
+  var probe = document.createElement("div");
+  probe.setAttribute("aria-hidden", "true");
+  probe.style.cssText = "height:100lvh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
+  document.body.appendChild(probe);
+  function fit() {
+    var h = probe.offsetHeight || window.innerHeight;
+    var menu = document.getElementById("menu"), bar = 0;
+    if (menu) {
+      var b = menu.querySelector(".menu__bar");
+      bar = (b ? b.offsetHeight : 0) + (parseFloat(getComputedStyle(menu).paddingTop) || 0);
+    }
+    var s = Math.max(MIN, Math.min(MAX, (h - bar - GAP_TOP - GAP_BOTTOM) / PHONE_H));
+    document.querySelectorAll(".daisy-device").forEach(function (d) {
+      var block = d.closest(".daisy-ba");
+      var phone = (block ? block.getBoundingClientRect().width < WIDE : true) || d.classList.contains("daisy-device--ipad-short");
+      if (phone) d.style.setProperty("--dsy-s", s.toFixed(3)); else d.style.removeProperty("--dsy-s");
+    });
+  }
+  window.addEventListener("resize", fit);
+  window.addEventListener("orientationchange", fit);
+  window.addEventListener("load", fit);
+  // The iPad block switches itself between iPad and phone as the window's height changes; look again when it does.
+  new MutationObserver(fit).observe(document.body, { attributes: true, attributeFilter: ["class"], subtree: true });
+  fit();
 })();
 </script>
 <script>
