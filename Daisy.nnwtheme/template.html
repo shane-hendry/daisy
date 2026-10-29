@@ -928,7 +928,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|magsafe monday|apple @ work|apple @ work podcast|indie app spotlight|monthly log|new theme|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|magsafe monday|apple @ work|apple @ work podcast|indie app spotlight|monthly log|new theme|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream|early addition|early edition";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
       var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive|update|throwback|repost";
       var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
@@ -1548,6 +1548,53 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       if (/^\s*Le Monde\.fr\s+-\s/i.test(blog.textContent)) blog.textContent = "Le Monde";
       if (/^\s*Engadget\b.+/i.test(blog.textContent)) blog.textContent = "Engadget";
       if (/^\s*NASA['\u2019]s Photojournal\b.+/i.test(blog.textContent)) blog.textContent = "NASA Photojournal";
+      // Filler in a publication name goes: a closing "Latest Articles" ("Eurogamer.net Latest
+      // Articles") and an opening "Latest from" ("Latest from Cyclingnews"). A bare site address
+      // with a section tag ("www.espn.com - TOP") shows the site without the "www." or the tag;
+      // ESPN and TMZ show their plain names. A name that is a sentence of description (over 60
+      // characters or 8 words) is replaced by the feed's own site name. Sample: fixtures/feed-filler.toml.
+      (function () {
+        var text = blog.textContent.replace(/\s+/g, " ").trim();
+        var out = text.replace(/\s+latest\s+(?:articles|news|posts|stories|updates)$/i, "").replace(/^latest\s+(?:articles\s+)?from\s+/i, "");
+        var site = out.match(/^(www\.)?([\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)*\.[a-z]{2,})(?:\s+[-–—|]\s+\p{Lu}[\p{Lu}\s]{1,11})?$/iu);
+        if (site) {
+          var plain = { "espn.com": "ESPN", "tmz.com": "TMZ" }[site[2].toLowerCase()];
+          if (plain) out = plain;
+          else if (site[1] || out !== site[2]) out = site[2];
+        } else if (out.length > 60 || out.split(" ").length > 8) {
+          try { out = new URL(blog.getAttribute("href")).hostname.replace(/^www\./i, ""); } catch (error) {}
+        }
+        if (out && out !== text) blog.textContent = out;
+      })();
+      // A credit with debris in it is tidied piece by piece. Text after a pipe is an affiliation
+      // ("Name | Associated Press") and goes. "email (Name)" shows the name, a bare email goes,
+      // a name given twice shows once, and "Name @ Blog" or "Name (Blog)" with the publication's
+      // own name shows just the name. "TMZ Staff" in the TMZ feed is the publication itself.
+      // Names with links are left as they are. Sample: fixtures/credit-debris.toml.
+      (function () {
+        if (author.querySelector("a")) return;
+        var tidy = function (text) { return text.replace(/\s+/g, " ").trim(); };
+        var plain = function (text) { return text.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); };
+        var feed = plain(blog.textContent);
+        var raw = author.textContent;
+        var bar = raw.indexOf("|");
+        if (bar > 0) raw = raw.slice(0, bar);
+        var seen = [], kept = [];
+        raw.split(",").forEach(function (piece) {
+          var name = tidy(piece).replace(/^and\s+/i, "");
+          var mail = name.match(/^[^\s@()]+@[^\s@()]+(?:\s*\(([^)]+)\))?$/);
+          if (mail) name = mail[1] ? tidy(mail[1]) : "";
+          var tagged = name.match(/^(.+?)\s*(?:\s@\s|\()\s*([^()]+?)\)?$/);
+          if (tagged && feed && plain(tagged[2]) === feed) name = tidy(tagged[1]);
+          if (!name || seen.indexOf(plain(name)) >= 0) return;
+          seen.push(plain(name));
+          kept.push(name);
+        });
+        var joined = kept.join(", ");
+        if (kept.length && (bar > 0 || kept.length !== raw.split(",").length || joined !== tidy(raw))) author.textContent = joined;
+        var staff = author.textContent.match(/^\s*(.+?)\s+(?:staff|team|editors?|editorial|newsroom|desk|admin|writers?)\s*$/i);
+        if (staff && feed && plain(staff[1]) === feed) author.textContent = blog.textContent;
+      })();
       var staff = author.textContent.match(/^\s*Redazione\s+(.+?)\s*$/i);
       var clean = function (text) { return text.replace(/\s+/g, " ").trim().toLowerCase(); };
       if (staff && clean(staff[1]) === clean(blog.textContent)) author.textContent = blog.textContent;
@@ -1637,7 +1684,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         var style = getComputedStyle(credit);
         var line = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.3;
         render(items.length);
-        overflowing = credit.getBoundingClientRect().height > LINES * line + 1;
+        overflowing = items.length >= 4 || credit.getBoundingClientRect().height > LINES * line + 1;
         if (overflowing && !expanded) render(1);
         sync();
       };

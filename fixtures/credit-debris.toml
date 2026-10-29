@@ -1,0 +1,8 @@
+title = "Credit with email debris"
+byline = "Dani Ostanek, cyclingnews@futurenet.com (Dani Ostanek)"
+feed_link_title = "Latest from Cyclingnews"
+feed_link = "https://www.cyclingnews.com/"
+preferred_link = "https://example.org/credit-debris"
+date_medium = "Oct 29, 2026"
+body = '''<p>The author field lists the same name twice, once as an email with the name in brackets. The credit shows it once, and the publication drops "Latest from". This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

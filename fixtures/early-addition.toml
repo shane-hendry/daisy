@@ -1,0 +1,8 @@
+title = "Early Addition: Is the Cheesecake Factory vs. the Amtrak buttercake our new culture war?"
+byline = "James Ramsay"
+feed_link_title = "Gothamist"
+feed_link = "https://gothamist.com/"
+preferred_link = "https://example.org/early-addition"
+date_medium = "Oct 29, 2026"
+body = '''<p>The series label before the colon moves to the line above the title. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

@@ -1,0 +1,8 @@
+title = "Blog name repeated in the author"
+byline = "Dana @ Minimalist Baker"
+feed_link_title = "Minimalist Baker"
+feed_link = "https://minimalistbaker.com/"
+preferred_link = "https://example.org/credit-blog-echo"
+date_medium = "Oct 29, 2026"
+body = '''<p>The author carries the blog's name after an at sign, so only the name shows. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

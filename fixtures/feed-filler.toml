@@ -1,0 +1,8 @@
+title = "A feed name that carries filler"
+byline = "Edwin Evans-Thirlwell"
+feed_link_title = "Rock Paper Shotgun Latest Articles"
+feed_link = "https://www.rockpapershotgun.com/"
+preferred_link = "https://example.org/feed-filler"
+date_medium = "Oct 29, 2026"
+body = '''<p>The publication name ends in "Latest Articles", which the credit drops. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

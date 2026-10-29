@@ -1,0 +1,8 @@
+title = "Affiliation and blog name in the credit"
+byline = "Aniyah Riddle | Associated Press"
+feed_link_title = "Local and national news, NPR, things to do, food recommendations and guides to Los Angeles, Orange County and the Inland Empire"
+feed_link = "https://laist.com/"
+preferred_link = "https://example.org/credit-affiliation"
+date_medium = "Oct 29, 2026"
+body = '''<p>The affiliation after the pipe goes, and the long description used as a feed name is replaced by the site. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

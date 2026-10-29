@@ -97,6 +97,8 @@
   --title-long-leading: 1.1;
   --title-brief-scale: 1.12;               /* brief titles (25 to 36 characters) grow; Sans sets 1.2 */
   --title-phone: clamp(1.7em, 1.36em + 2.02vw, 2.05em);
+  --title-short-scale-phone: 1.4;          /* short and brief titles are larger still on phones, where they have room to spare */
+  --title-brief-scale-phone: 1.2;
 
   /* Headings inside an article: a weight and variable-font settings for each level,
      plus the size of an h1 there (--text-h1 is the article title only). Serif leaves
@@ -1244,10 +1246,13 @@ caption {
   line-height: var(--title-long-leading);
 }
 
-/* Capped lower on phones. */
+/* Capped lower on phones, except that short and brief titles, which wrap to two
+   or three short lines, grow back past the cap. */
 @media (max-width: 600px) {
   :root {
     --text-h1: var(--title-phone);
+    --title-short-scale: var(--title-short-scale-phone);
+    --title-brief-scale: var(--title-brief-scale-phone);
   }
 }
 
