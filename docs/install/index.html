@@ -67,16 +67,16 @@
         <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
         <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases"><span class="external-link-label">Update</span></a></div>
       </header>
-      <div class="articleBody" id="body-web"><p class="thanks">Thanks for beta testing Daisy.</p><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
+      <div class="articleBody" id="body-web"><p class="thanks">Thanks for beta testing. These update notices are experimental while in beta, and may be removed in future updates.</p><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
       <!-- iPhone and iPad: steps for getting out of NetNewsWire's in-app browser. -->
       <div class="articleBody" id="body-ios" hidden>
-        <p class="thanks">Thanks for beta testing Daisy.</p>
         <p class="lead-in">To update:</p>
         <ol>
           <li>Open this page in your browser</li>
           <li>Return to NetNewsWire and <strong>close the in-app browser</strong></li>
-          <li>Return to your browser and<a id="add-ios" href="https://github.com/shane-hendry/daisy/releases">update to Daisy</a></li>
+          <li>Return to your browser and <a id="add-ios" href="https://github.com/shane-hendry/daisy/releases">update to Daisy</a></li>
         </ol>
+        <p class="thanks">Thanks for beta testing. These update notices are experimental while in beta, and may be removed in future updates.</p>
       </div>
       <footer class="view-post">
         <div id="credit-web">
@@ -119,7 +119,6 @@
         addIos.textContent = "update to " + (theme[0] + " " + shown(version)).replace(/ /g, "\u00a0");
         addIos.href = document.getElementById("add").href;
         document.getElementById("byline").textContent = theme[0];
-        document.querySelectorAll(".thanks").forEach(function (el) { el.textContent = "Thanks for beta testing " + theme[0] + "."; });
         document.querySelector(".theme-name").textContent = theme[0];
         // The release notes and publish date are optional: without an entry for this version the list stays empty.
         fetch("../release-notes.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (all) {
