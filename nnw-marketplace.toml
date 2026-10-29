@@ -1,0 +1,9 @@
+[[theme]]
+id = "com.shanehendry.daisy"
+description = "An editorial NetNewsWire theme set in New York, with a cohesive house style for article headers across every feed."
+screenshot = "screenshots/daisy-themepreview.png"
+
+[[theme]]
+id = "com.shanehendry.daisy-sans"
+description = "The Daisy house style set in SF Pro, a modern sans serif, for a cohesive look across every feed."
+screenshot = "screenshots/daisysans-themepreview.png"
