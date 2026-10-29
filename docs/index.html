@@ -292,7 +292,14 @@ a:hover { color: var(--accent); }
 .focus .updates { border-top: 0; margin-top: 0; }
 /* Arriving from a theme's update notice, the page is just the update: no version line, no history link, and on a phone it starts higher. */
 .updates[data-theme] .release h3, .updates[data-theme] .release ~ .release, .updates[data-theme] .history { display: none; }
-.updates[data-theme] h2 + time { color: var(--quiet); display: block; font-size: 0.9375rem; margin: -0.9rem 0 0; }
+.updates[data-theme] .release time { display: none; }
+.dateline { display: flex; font-size: 1.0625rem; gap: 1rem; justify-content: space-between; margin: 0 0 3rem; }
+.dateline a { color: inherit; text-decoration: none; }
+.dateline .when { cursor: pointer; flex: none; position: relative; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
+/* Like the theme: the date and the link turn orange under a real pointer, and the time is laid over the page just below the date so nothing moves. */
+@media (hover: hover) { .dateline a:hover, .dateline .when:hover { color: var(--accent); } }
+.dateline .when-full { background: var(--canvas); background-clip: content-box;color: var(--ink); padding-top: 1lh; position: absolute; right: 0; text-align: right; top: 0; white-space: nowrap; width: max-content; z-index: 1; }
+.dateline .when-full[hidden] { display: none; }
 @media (max-width: 40rem) { .focus .updates { padding-top: clamp(3.5rem, 11vw, 6rem); } }
 /* On a wide screen the update page is centred across and starts 23% down the window, so with the notes closed its middle sits about 60% of the way up; opening the notes grows it downward. */
 @media (min-width: 40.01rem) {
@@ -306,7 +313,9 @@ a:hover { color: var(--accent); }
 .howto .lead-in { margin: 0; }
 .howto ol { margin: 0; padding-inline-start: 1.5rem; }
 .howto li { margin-block: 0.5em; }
-.howto a:not(.button) { text-decoration: underline; }
+.howto a:not(.button) { color: var(--accent); text-decoration: underline; }
+.howto .thanks { margin: 0 0 1.5rem; }
+.made-by { margin: 2.5rem 0 0; }
 .release details { margin-top: 0.9rem; }
 .release summary { cursor: pointer; font-weight: 600; list-style: none; -webkit-tap-highlight-color: transparent; }
 .release summary::-webkit-details-marker { display: none; }
@@ -18604,6 +18613,7 @@ window.addEventListener(&quot;message&quot;,function(e){
       <h3>Version 0.6</h3>
       <time datetime="2026-10-28T12:42:00Z">Oct 28, 2026</time>
       <div class="howto" id="howto">
+        <p class="thanks" hidden></p>
         <div id="howto-mac">
           <p class="buttons">
             <a class="button button--serif" data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.nnwtheme.zip">Daisy 0.6</a>
@@ -18611,11 +18621,11 @@ window.addEventListener(&quot;message&quot;,function(e){
           </p>
         </div>
         <div id="howto-ios" hidden>
-          <p class="lead-in">You can&#x2019;t update in NetNewsWire&#x2019;s in-app browser. To update:</p>
+          <p class="lead-in">To update:</p>
           <ol>
             <li>Open this page in your browser</li>
-            <li>Go back to NetNewsWire and <strong>close the in-app browser</strong></li>
-            <li>Go back to your browser and <span class="to">update to </span><a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.nnwtheme.zip">Daisy&nbsp;0.6</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.Sans.nnwtheme.zip">Daisy&nbsp;Sans&nbsp;0.6</a></li>
+            <li>Return to NetNewsWire and <strong>close the in-app browser</strong></li>
+            <li>Return to your browser, and <span class="to">update to </span><a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.nnwtheme.zip">Daisy&nbsp;0.6</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.6.0%2FDaisy.Sans.nnwtheme.zip">Daisy&nbsp;Sans&nbsp;0.6</a></li>
           </ol>
         </div>
       </div>
@@ -18629,6 +18639,7 @@ window.addEventListener(&quot;message&quot;,function(e){
       </ul>
       </details>
     </article>
+    <p class="made-by" hidden></p>
     <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">View all releases</a></p>
     <section class="credits" id="credits">
       <h2>Credits</h2>
@@ -18757,9 +18768,51 @@ window.addEventListener(&quot;message&quot;,function(e){
     var name = document.createElement("span");
     name.className = "nw";
     name.textContent = (theme === "daisy" ? "Daisy" : "Daisy Sans") + (version ? " " + version : "");
-    heading.textContent = "Update to ";
-    heading.appendChild(name);
-    if (latest) heading.after(latest.querySelector("time"));
+    var label = theme === "daisy" ? "Daisy" : "Daisy Sans";
+    if (ios) heading.textContent = "Open in your browser to update " + label;
+    else { heading.textContent = "Update to "; heading.appendChild(name); }
+    var thanks = howto.querySelector(".thanks");
+    thanks.textContent = "Thanks for beta testing " + label + ".";
+    thanks.hidden = false;
+    var madeBy = document.querySelector(".made-by");
+    madeBy.innerHTML = label + ' is made by <a href="https://shanehendry.com/">Shane Hendry</a>.';
+    madeBy.hidden = false;
+    // The byline names the theme and the dateline is when this release came out ("3 days ago", or the date once it is older than a month).
+    var time = latest && latest.querySelector("time");
+    if (time) {
+      var days = Math.floor((Date.now() - new Date(time.getAttribute("datetime"))) / 864e5);
+      var ago = days < 1 ? "Today" : days === 1 ? "Yesterday" : days < 30 ? days + " days ago" : time.textContent;
+      var line = document.createElement("p");
+      line.className = "dateline";
+      var by = document.createElement("span"), when = document.createElement("span");
+      by.append(label + " for ");
+      var nnw = document.createElement("a");
+      nnw.href = "https://netnewswire.com/";
+      nnw.textContent = "NetNewsWire";
+      by.append(nnw);
+      // Tapping the date shows the time ("at 3:42 PM") just below it; tapping elsewhere or pressing Escape hides it.
+      var published = new Date(time.getAttribute("datetime"));
+      var full = document.createElement("span");
+      full.className = "when-full";
+      full.hidden = true;
+      try {
+        var dateOnly = new Intl.DateTimeFormat(undefined, { dateStyle: "long" }).format(published);
+        var both = new Intl.DateTimeFormat(undefined, { dateStyle: "long", timeStyle: "short" }).format(published);
+        full.textContent = both.replace(dateOnly, "").replace(/\s+/g, " ").trim() || both;
+      } catch (e) { full.textContent = time.textContent; }
+      when.className = "when";
+      when.setAttribute("role", "button");
+      when.tabIndex = 0;
+      when.setAttribute("aria-expanded", "false");
+      when.append(ago, full);
+      function show(open) { full.hidden = !open; when.setAttribute("aria-expanded", open ? "true" : "false"); }
+      when.addEventListener("click", function (e) { e.stopPropagation(); show(full.hidden); });
+      when.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(full.hidden); } });
+      document.addEventListener("click", function () { show(false); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") show(false); });
+      line.append(by, when);
+      heading.before(line);
+    }
     howto.querySelectorAll("a[data-theme]").forEach(function (a) {
       if (a.getAttribute("data-theme") !== theme) a.hidden = true;
       else if (a.classList.contains("button")) a.textContent = "Update theme";

@@ -1229,6 +1229,12 @@ caption {
   text-wrap: balance;
 }
 
+/* A star rating that closed the title ("Title - ★★★★") sits on its own line under it. */
+.article-header h1 .rating {
+  display: block;
+  margin-top: 0.2em;
+}
+
 .article-header h1[data-len="short"] {
   font-size: calc(var(--text-h1) * var(--title-short-scale));
   font-variation-settings: var(--title-short-axes);

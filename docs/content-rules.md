@@ -10,7 +10,7 @@ thinking behind them, see [content-design.md](content-design.md).
 - Each bullet is one rule: when something is detected, and what Daisy does.
 - The version at the end of each rule is the release it first shipped in.
 - v0.1.0 is the first beta, so everything up to it says v0.1.0.
-- New rules go in the next release. That's v0.3.0.
+- New rules go in the next release. That's v0.7.0.
 
 ## Contents
 
@@ -73,6 +73,18 @@ Part of the [hero block](#hero-block): who wrote the post, and for which publica
 - A feed name that starts with "Le Monde.fr - ", such as "Le Monde.fr - Actualités et Infos en France et dans le monde", is shortened to **Le Monde**. (v0.4.0)
 - A feed name that starts with "Engadget", such as "Engadget - Technology News & Expert Reviews", is shortened to **Engadget**. (v0.4.0)
 - A feed name that starts with "NASA's Photojournal", such as "NASA's Photojournal: Images of Photojournal and when applicable, their available satellites.", is shortened to **NASA Photojournal**.
+- A feed name that ends in "updates on arXiv.org", like **cs updates on arXiv.org**, shows as **arXiv.org**. (v0.7.0)
+- A GitHub release feed, "Release notes from NetNewsWire", shows the repository first: **NetNewsWire release notes**. (v0.7.0)
+- A GitHub commits feed, "Recent Commits to NetNewsWire:main", shows the repository and branch first: **NetNewsWire:main recent commits**. (v0.7.0)
+- A feed name that ends in "Latest Articles", "Latest News", "Latest Posts", "Latest Stories" or "Latest Updates", or starts with "Latest from", drops that filler: **Rock Paper Shotgun Latest Articles** shows as **Rock Paper Shotgun**, and **Latest from Cyclingnews** as **Cyclingnews**. (v0.7.0)
+- A feed name that starts with "Local News" and a dash or colon, followed by a name of up to four words, shows the name: **Local News - CBS Colorado** shows as **CBS Colorado**. (v0.7.0)
+- A feed name that is only a web address drops "www." and a short section tag in capitals after a dash: **www.espn.com - TOP** shows as **espn.com**. A bare address with no "www." or tag is left as written. (v0.7.0)
+- Some addresses show a plain name: espn.com shows as **ESPN**, tmz.com as **TMZ**, laist.com as **LAist**, eurogamer.net as **Eurogamer**, and xkcd.com as **xkcd**. (v0.7.0)
+- A feed name over 60 characters or 8 words is a description, not a name, so the feed's own web address shows instead, without "www.". If the address is on the list above, the plain name shows, so a feed with a long description for a name at laist.com shows as **LAist**. (v0.7.0)
+- **CHS Capitol Hill Seattle News** is shortened to **CHS Capitol Hill**. (v0.7.0)
+- **Local News: Breaking Boston news, politics, crime, and traffic** shows as **Boston.com**. (v0.7.0)
+- **The Oatmeal - Comics** shows as **The Oatmeal**. (v0.7.0)
+- Names that are spelled out in full, like the two above, are in one list in `template.html`. To shorten another feed name, add a line to it. (v0.7.0)
 - An author of "Redazione" plus the feed's own name, the Italian staff credit, is not a person: the byline shows the publication once, as **Repubblica.it** rather than "Redazione Repubblica.it for Repubblica.it". (v0.4.0)
 - "Redazione" followed by anything else, such as **Redazione Esteri**, stays. (v0.4.0)
 - A publication that ends in "by" and the author's own name drops that ending, so "Name for Site by Name" shows as **Name for Site**. A different name after "by" stays. (v0.4.0)
@@ -81,6 +93,18 @@ Part of the [hero block](#hero-block): who wrote the post, and for which publica
 - A list that did not fit opens on a tap and shows every name, joined the same way (**A, B, and C for Nature**), while the content below moves down at once, with no animation. A tap on the author part, on the date, anywhere else on the page, or Escape closes it, and opening the time closes the list. While it is open, a linked name opens its link, and the publication always does. Nothing marks it as tappable except the pointer on a Mac and its button role for VoiceOver. (v0.4.0)
 - Linked authors keep their links in a rebuilt list. (v0.4.0)
 - Only a list where every piece has two or more words and no suffix (Jr., PhD, Inc.) is rebuilt, so **Smith, John** and **Jane Doe, PhD** are left as written. A list of four or more that fails this check still reads **N authors**. (v0.4.0)
+- A byline that starts with "By" and a capitalized name, like **By Ethan Stark-Miller**, drops the word, in every feed. (v0.7.0)
+- Text after a pipe in an author is an affiliation and is dropped: **Aniyah Riddle | Associated Press** shows as **Aniyah Riddle**. (v0.7.0)
+- In a list of comma-separated authors, each piece is tidied on its own. **Name (email)** shows the name, a bare email address is dropped, and a name given twice shows once. **Dani Ostanek, cyclingnews@example.com (Dani Ostanek)** shows as **Dani Ostanek**. A list that has not changed is left as written. (v0.7.0)
+- A name with the publication's own name after an at sign or in brackets drops it: **Dana @ Minimalist Baker** and **Angela Liddon (Oh She Glows)** show as **Dana** and **Angela Liddon** in a feed with that publication name. A different name in the brackets stays. (v0.7.0)
+- A job description after a name is cut off, along with the "and" before it: **Sandra Scott and author at the VP Chicago** shows as **Sandra Scott**. The description starts with author, writer, editor, reporter, contributor, columnist, correspondent, journalist, producer or photographer, followed by at, for, of or with. (v0.7.0)
+- An author that is the publication's name plus Staff, Team, Editors, Editorial, Newsroom, Desk, Admin or Writers is the publication itself, so the byline shows it once: **TMZ Staff** in the TMZ feed shows as **TMZ**. A staff credit inside a longer list stays in the list. (v0.7.0)
+- A credit that contains links is left as it is by every clean-up above except dropping the leading "By". (v0.7.0)
+- A list of four or more authors always shows the first name and a count, like **Talia Levy and 4 others**, even when it would fit on three lines. A tap opens the full list. (v0.7.0)
+- An author that is only an agency's name is hidden, so the byline shows just the publication: **U.S. Geological Survey**, **NWS** and **National Weather Service**. (v0.7.0)
+- A publication name that ends in a dash, en dash, em dash, pipe or colon and the author's own name drops that ending: **Letterboxd - Matthew Buchanan** by Matthew Buchanan shows as **Matthew Buchanan for Letterboxd**. A different name after the dash stays. (v0.7.0)
+- An author written as "address by user" or "address via user" drops the address and the word when the address is the same site as the link line under the title: **da.vidbuchanan.co.uk by retr0id** shows as **retr0id**, and **virtuallyfun.com via ninakali** as **ninakali**. An address that is not the link line's stays. (v0.7.0)
+- As a last resort, a byline that still runs past two lines (three on touch) after every rule above shortens only the longer of the author and the publication, at a word, with an ellipsis. The other stays whole. A tap opens the full text, and once it is open a tap on a link follows the link. A tap on the date, anywhere else, or Escape closes it. A collapsed list of authors is never cut this way, so a long publication beside it is. (v0.7.0)
 
 ### Timestamp
 
@@ -227,6 +251,7 @@ When a title is hidden:
 - **WATCH: Inside the State Fair** becomes **Watch** over **Inside the State Fair**. (v0.3.0)
 - A label in capitals is shown in lowercase with a capital first letter. (v0.3.0)
 - The label must be followed by a colon. (v0.2.0)
+- Also: Early Addition and Early Edition. **Early Addition: Is the Cheesecake Factory vs. the Amtrak buttercake our new culture war?** becomes **Early Addition** over **Is the Cheesecake Factory vs. the Amtrak buttercake our new culture war?** (v0.7.0)
 - **Breaking:** and **Top 10:** stay as they are. (v0.2.0)
 
 ##### Recurring sections
@@ -318,6 +343,34 @@ When a title is hidden:
 - A prefix that is only an acronym stays in the title, even before a colon. **CISA:**, **EU:**, **PSA:**, and **NFL:** are left as they are. (v0.2.0)
 - A word from the lists of labels and sections is not an acronym, even in capitals. **WATCH:**, **EXTRA:**, and **BONUS:** still move. (v0.3.0)
 - Sponsor words are the exception, so **AD: Headline** still moves. (v0.2.0)
+
+##### Elections
+
+- **Live Election Results: 2026 In Chicago And Illinois** becomes **Live Election Results** over **2026 In Chicago And Illinois**. (v0.7.0)
+- The label must contain **election** or **elections**. Up to three words may come before it, such as a place, a kind of election, a year or **Live**: **Illinois Primary Election Results:**, **2026 Midterm Elections:** and **Chicago Election Results:** all move. (v0.7.0)
+- After it, the label may take a year, **Live**, and the words results, night, day, coverage, updates, blog or live blog, in any order: **Election 2028:**, **Election Results 2030:**, **Election Night 2026 Live:**. (v0.7.0)
+- The label ends at a colon or at a dash with a space on each side. (v0.7.0)
+- Anything else after "election" keeps the headline in the title: **Why the election matters: Headline** stays. (v0.7.0)
+
+##### Annual events and sales
+
+- A label for a yearly event or sale moves to the eyebrow when a colon or a spaced dash follows it: **Black Friday deals: Headline** becomes **Black Friday deals** over **Headline**, and **Cyber Monday 2026 - Headline** becomes **Cyber Monday 2026** over **Headline**. (v0.7.0)
+- These stand alone or take the words below: Amazon Prime Day, Prime Day, Prime Big Deal Days, Big Deal Days, Deal Days, Prime Early Access Sale, Black Friday, Cyber Monday, Cyber Week, Green Monday, Singles' Day, Small Business Saturday, Giving Tuesday, Boxing Day, Big Spring Sale, Spring Sale, Way Day, Target Circle Week, Super Bowl, March Madness, NFL Draft, NBA Draft, World Series, Oscars, Emmys, Grammys, Golden Globes, and Met Gala. (v0.7.0)
+- Holidays and seasons only move when one of the words below follows them: Thanksgiving, Christmas, Holiday, Halloween, Easter, Valentine's Day, Mother's Day, Father's Day, Memorial Day, Labor Day, Presidents Day, 4th of July, Fourth of July, New Year's, Back to School, Cinco de Mayo, Hanukkah, St. Patrick's Day, and Earth Day. **Labor Day sales - Headline** moves. **Christmas: a ghost story** and **Labor Day: a history** stay in the title. (v0.7.0)
+- Words that may follow: a four-digit year, a Roman numeral, deals, sales, discounts, savings, offers, live, blog, live blog, updates, coverage, guide, gift guide, gifts, ideas, recipes, tips, hours, specials, predictions, preview, picks, roundup, early, best and top. **Super Bowl LX:** and **Amazon Prime Day 2025:** move. (v0.7.0)
+- Words that may come before the name: a four-digit year, The, Our, Amazon, Early, Best, Top, Biggest, New, Official, Last-minute and Final. **2026 Black Friday deals:** and **Early Black Friday deals:** move. (v0.7.0)
+- To follow another event, add its name to the lists in `template.html`. (v0.7.0)
+
+##### Guides
+
+- A short label that ends in **Guide** or **Guides**, up to four words, moves to the eyebrow when a colon follows it: **November Culture Guide: 44 Things to Do in the DC Area** becomes **November Culture Guide** over **44 Things to Do in the DC Area**. (v0.7.0)
+- Only a colon counts. A dash after "Guide" leaves the headline as it is. (v0.7.0)
+
+##### Star ratings
+
+- A star rating that closes a title after a dash moves to its own line under the title, without the dash: **Resident Evil, 2026 - ★★★★** shows as **Resident Evil, 2026** over **★★★★**. (v0.7.0)
+- The rating is one or more stars, with an optional half star (½) at the end, or a lone half star. The dash can be a hyphen, an en dash or an em dash, with a space on each side. (v0.7.0)
+- This applies in every feed. A title with stars anywhere else, or with no dash before them, is left as it is. (v0.7.0)
 
 ##### Where the title goes
 
@@ -462,6 +515,31 @@ New site-specific rules get a row here.
 | [Le Monde](https://www.lemonde.fr) | Moves "EN DIRECT" to the eyebrow, the same for Le Figaro and Libération | [Live labels](#live-labels) | v0.3.0 |
 | [Tagesschau](https://www.tagesschau.de) | Moves "Livestream:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
 | [The Pragmatic Engineer](https://newsletter.pragmaticengineer.com) | Moves "The Pulse:" to the eyebrow | [Recurring sections](#recurring-sections) | v0.3.0 |
+| [ESPN](https://www.espn.com) | Shortens the feed name "www.espn.com - TOP" to "ESPN" | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [TMZ](https://www.tmz.com) | Shortens the feed name to "TMZ", and shows "TMZ Staff" once | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [LAist](https://laist.com) | Replaces the long description used as the feed name with "LAist", and drops "| Associated Press" from an author | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Eurogamer](https://www.eurogamer.net) | Shortens the feed name to "Eurogamer" | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [xkcd](https://xkcd.com) | Shortens the feed name to "xkcd" | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [The Oatmeal](https://theoatmeal.com) | Drops "- Comics" from the feed name | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Rock Paper Shotgun](https://www.rockpapershotgun.com) | Drops "Latest Articles" from the feed name | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Cyclingnews](https://www.cyclingnews.com) | Drops "Latest from" from the feed name, and shows the name once when the author is an email with the name in brackets | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [CBS Colorado](https://www.cbsnews.com/colorado/) | Drops "Local News -" from the feed name | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Boston.com](https://www.boston.com) | Replaces the long feed name with "Boston.com" | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [CHS Capitol Hill Seattle](https://www.capitolhillseattle.com) | Shortens the feed name to "CHS Capitol Hill" | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Brooklyn Paper](https://www.brooklynpaper.com) | Drops "By" at the start of an author's name | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Minimalist Baker](https://minimalistbaker.com) | Drops the publication name from an author written "Name @ Publication" | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Oh She Glows](https://ohsheglows.com) | Drops the publication name in brackets from an author | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [The Chicago Reporter](https://chicagoreporter.com) | Cuts a job description such as "and author at …" from an author | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Block Club Chicago](https://blockclubchicago.org) | Moves "Live Election Results:" to the eyebrow | [Elections](#elections) | v0.7.0 |
+| [Gothamist](https://gothamist.com) | Moves "Early Addition:" to the eyebrow | [Editorial labels](#editorial-labels) | v0.7.0 |
+| [Washingtonian](https://www.washingtonian.com) | Moves "November Culture Guide:" and other labels ending in "Guide:" to the eyebrow | [Guides](#guides) | v0.7.0 |
+| [Letterboxd](https://letterboxd.com) | Drops the author's name from the end of the feed name | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Letterboxd](https://letterboxd.com) | Moves a star rating at the end of a title to its own line | [Star ratings](#star-ratings) | v0.7.0 |
+| [arXiv](https://arxiv.org) | Shortens feed names like "cs updates on arXiv.org" to "arXiv.org" | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [GitHub](https://github.com) | Puts the repository first in release and commit feed names: "NetNewsWire release notes", "NetNewsWire:main recent commits" | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [U.S. Geological Survey](https://earthquake.usgs.gov) | Hides the agency name as author | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [National Weather Service](https://www.weather.gov) | Hides "NWS" as author | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
+| [Lobsters](https://lobste.rs) | Drops the story's address and "by" or "via" from the author | [Email and staff credits](#email-and-staff-credits) | v0.7.0 |
 
 ### Platforms and tools
 

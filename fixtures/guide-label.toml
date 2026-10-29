@@ -1,0 +1,8 @@
+title = "November Culture Guide: 44 Things to Do in the DC Area"
+byline = "Pat Padua"
+feed_link_title = "Washingtonian"
+feed_link = "https://washingtonian.com/"
+preferred_link = "https://example.org/guide-label"
+date_medium = "Oct 29, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

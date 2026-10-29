@@ -1,0 +1,8 @@
+title = "Resident Evil, 2026 - ★★★½"
+byline = "Matthew Buchanan"
+feed_link_title = "Letterboxd - Matthew Buchanan"
+feed_link = "https://letterboxd.com/"
+preferred_link = "https://example.org/rating"
+date_medium = "Sep 30, 2026"
+body = '''<p>The rating closes the title after a dash, so it moves to its own line. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

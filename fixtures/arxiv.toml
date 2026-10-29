@@ -1,0 +1,8 @@
+title = "SpeeDiff: Scalable Pixel-Anchored End-to-End Latent Diffusion Model"
+byline = "Bingliang Zhang"
+feed_link_title = "cs updates on arXiv.org"
+feed_link = "https://arxiv.org/"
+preferred_link = "https://example.org/arxiv"
+date_medium = "Oct 29, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

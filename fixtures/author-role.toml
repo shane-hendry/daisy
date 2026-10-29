@@ -1,0 +1,8 @@
+title = "A job description after the author name"
+byline = "Sandra Scott and author at the VP Chicago"
+feed_link_title = "The Chicago Reporter"
+feed_link = "https://chicagoreporter.com/"
+preferred_link = "https://example.org/author-role"
+date_medium = "Oct 29, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

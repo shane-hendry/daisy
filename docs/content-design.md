@@ -35,6 +35,11 @@ where it was published.
 - The byline is written as **Author for Publication**, like "Matilda Jeffries for Time". [↗](content-rules.md#author-and-publication)
 - When there's no author, only the publication name is shown. [↗](content-rules.md#author-and-publication)
 - When the author and the publication share a name, it's shown once. [↗](content-rules.md#author-and-publication)
+- Debris in a credit is cleaned up: a leading "By", an affiliation after a pipe, an email address, a name given twice, the publication's name inside the author, a job description after a name, and a staff credit that is the publication itself. [↗](content-rules.md#email-and-staff-credits)
+- Publication names lose their filler ("Latest Articles", "Local News -"), and long or address-like names shrink to the plain name. [↗](content-rules.md#email-and-staff-credits)
+- An author that is only an agency's name, or an address and "by" or "via" that the link line already shows, is hidden. [↗](content-rules.md#email-and-staff-credits)
+- A publication name that ends with the author's own name drops it, and GitHub feeds put the repository first. [↗](content-rules.md#email-and-staff-credits)
+- A list of four or more authors always shows the first name and a count. [↗](content-rules.md#email-and-staff-credits)
 - The [timestamp](#timestamp) sits at the other end of the same row.
 - Social media bylines are written as **Name on Mastodon** or **Name on Bluesky**. See [Social posts](#social-posts).
 
@@ -117,15 +122,22 @@ Split in two, the label and the headline each read quickly.
 - **Show names after a pipe.** A known show or section at the end of a headline, like **The Vergecast Livestream**. A name that is the post's author or the feed's name is dropped instead, since the byline shows it. [↗](content-rules.md#show-names-after-a-pipe)
 - **Community posts.** A **Show HN**, **Ask HN**, or **Tell HN** at the start of a headline. [↗](content-rules.md#community-posts)
 - **Live labels.** A label like **En direct** at the start of a headline. [↗](content-rules.md#live-labels)
+- **Elections.** A label about an election, like **Live Election Results** or **Illinois Primary Election Results**, in any year. [↗](content-rules.md#elections)
+- **Annual events and sales.** A yearly event or sale, like **Black Friday deals**, **Amazon Prime Day 2026** or **Labor Day sales**. [↗](content-rules.md#annual-events-and-sales)
+- **Guides.** A short label ending in "Guide", like **November Culture Guide**. [↗](content-rules.md#guides)
 - **Dash tags at the end.** A **– video** or **– live** that closes a headline. [↗](content-rules.md#dash-tags-at-the-end)
 
 An author's name before a colon, like **Bengt Ohlsson: …** by Bengt Ohlsson, is dropped
 instead of moved, since the byline already shows it. [↗](content-rules.md#author-names-before-a-colon)
 
-Numbered series, editorial labels, and recurring sections are deliberately short
+Numbered series, editorial labels, recurring sections, and annual events are deliberately short
 lists. "iOS 17: …", "Top 10: …", and "Breaking: …" are headlines, not labels, so
 they stay put. To follow a new series, label, or section, add its name to the list
 in `template.html`.
+
+##### Star ratings
+
+A star rating that closes a title after a dash, like **Resident Evil, 2026 - ★★★★**, is not a label for the eyebrow. It drops the dash and takes its own line under the title, so the rating reads at a glance. [↗](content-rules.md#star-ratings)
 
 ##### What stays in the title
 

@@ -1,0 +1,8 @@
+title = "Special Weather Statement issued October 29 at 3:13PM EDT by NWS Upton NY"
+byline = "NWS"
+feed_link_title = "Current watches, warnings, and advisories for New York"
+feed_link = "https://alerts.weather.gov/"
+preferred_link = "https://example.org/nws-author"
+date_medium = "Oct 29, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

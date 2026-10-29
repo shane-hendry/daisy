@@ -988,7 +988,28 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var dated = text.match(/^\s*([^:\uff1a]{1,40}?:\s+\p{Lu}\p{L}+\.?\s+\d{1,2},?\s+\d{4})\s*[\u2014\u2013-]\s+/u);
       // A live label that stands first: "EN DIRECT - Headline", "EN DIRECT, topic : Headline".
       var live = text.match(/^\s*(en direct)\s*[,:\uff1a\u2014\u2013-]\s+/i);
-      var found = tagged || plain || named || echo || numbered || dated || paywall || opinion || newsletter || live;
+      // An election label before a colon, in any of its forms: "Live Election Results:",
+      // "Election Results:", "Election 2026:", "2026 Election Night:", "Election Day Live Updates:".
+      // The word "election" (or "elections") may take up to three words before it (a place, a kind
+      // of election, a year, "live") and, after it, a year, "live" or one of results, night, day,
+      // coverage, updates or live blog, in any order. A colon or a spaced dash ends the label.
+      // Samples: fixtures/election-label.toml, fixtures/election-place.toml.
+      var election = text.match(/^\s*((?:(?:live|\d{4}|midterms?|general|primary|runoff|special|[\p{L}'’.-]+)\s+){0,3}elections?(?:\s+(?:\d{4}|live|results?|night|day|coverage|updates?|blog|live\s*blog))*)\s*(?:[:：]\s+|\s[–—-]\s+)/iu);
+      // Annual events and seasons before a colon or a spaced dash: "Black Friday deals: ...",
+      // "Cyber Monday 2026 - Best ...", "Prime Day live blog: ...". Shopping events stand alone or
+      // take words such as deals, a year or live blog, and an opener before the name (a year,
+      // Amazon, Early, Best, Top, Our, Biggest): "2026 Black Friday deals:", "Amazon Prime Day 2026:". A holiday or season (Thanksgiving,
+      // Christmas, Back to School) only counts with such a word after it, so "Christmas: a
+      // ghost story" stays in the title. Add a name to the lists to follow another event.
+      // A short label that ends in "Guide" moves too ("November Culture Guide: ...", "Gift Guide: ...").
+      // Samples: fixtures/black-friday.toml, fixtures/cyber-monday.toml, fixtures/guide-label.toml.
+      var shopEvents = "amazon prime day|green monday|big spring sale|spring sale|way day|target circle week|deal days|black friday|cyber monday|cyber week|prime day|prime big deal days|big deal days|prime early access sale|singles['\\u2019]? day|small business saturday|giving tuesday|boxing day|super bowl|march madness|nfl draft|nba draft|world series|oscars|emmys|grammys|golden globes|met gala";
+      var seasons = "thanksgiving|christmas|holiday|halloween|easter|valentine['\\u2019]?s(?: day)?|mother['\\u2019]?s day|father['\\u2019]?s day|memorial day|labor day|presidents['\\u2019]? day|4th of july|fourth of july|july 4th|new year['\\u2019]?s(?: eve)?|back[- ]to[- ]school|cinco de mayo|hanukkah|st\\.? patrick['\\u2019]?s day|earth day";
+      var eventWords = "(?:\\d{4}|[ivxlc]{1,6}|deals?|sales?|discounts?|savings|offers?|live|live\\s*blog|blog|updates?|coverage|guides?|gift\\s+guides?|gifts?|ideas|recipes|tips|hours|specials?|predictions?|previews?|picks|roundup|early|best|top)";
+      var openers = "(?:(?:the|our|amazon|early|best|top|biggest|new|official|last-minute|final|\\d{4})\\s+)*";
+      var recurring = text.match(new RegExp("^\\s*(" + openers + "(?:(?:" + shopEvents + ")(?:\\s+" + eventWords + ")*|(?:" + seasons + ")(?:\\s+" + eventWords + ")+))\\s*(?:[:\\uff1a]\\s+|\\s[\\u2013\\u2014-]\\s+)", "i"));
+      var guide = text.match(/^\s*((?:[\p{L}\p{N}'’&.-]+\s+){0,3}guides?)\s*[:：]\s+/iu);
+      var found = tagged || plain || named || echo || numbered || dated || paywall || opinion || newsletter || live || election || recurring || guide;
       var label, rest;
       if (found) {
         if (text.length <= found[0].length) return;
@@ -1129,12 +1150,27 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       heading.parentNode.insertBefore(eyebrow, heading);
       node.data = rest;
     });
+    // A star rating that closes a title after a dash ("Resident Evil, 2026 - \u2605\u2605\u2605\u2605") drops the
+    // dash and takes a line of its own under the title. The rating is stars, with a half star
+    // (\u00bd) at the end. Sample: fixtures/rating.toml.
+    document.querySelectorAll(".article-header h1 a").forEach(function (a) {
+      var node = a.firstChild;
+      if (!node || node.nodeType !== 3 || a.childNodes.length !== 1) return;
+      var match = node.data.match(/^(.*\S)\s+[-\u2013\u2014]\s+([\u2605\u2606\u2b50]+\u00bd?|\u00bd)\s*$/);
+      if (!match) return;
+      node.data = match[1];
+      var rating = document.createElement("span");
+      rating.className = "rating";
+      rating.textContent = match[2];
+      a.appendChild(rating);
+    });
     // Title length picks the headline's style: short titles go narrow and big, long
     // titles narrow (see "2.2 The title"). Counted after the eyebrow has taken its tag.
     (function () {
       var h1 = document.querySelector(".article-header h1");
       if (!h1) return;
-      var n = h1.textContent.trim().length;
+      var stars = h1.querySelector(".rating");
+      var n = h1.textContent.trim().length - (stars ? stars.textContent.length : 0);
       h1.setAttribute("data-len", n <= 24 ? "short" : n <= 36 ? "brief" : n >= 70 ? "long" : "medium");
     })();
     // Quotation marks in headings (the title and the headings inside the article).
@@ -1551,25 +1587,72 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       // Filler in a publication name goes: a closing "Latest Articles" ("Eurogamer.net Latest
       // Articles") and an opening "Latest from" ("Latest from Cyclingnews"). A bare site address
       // with a section tag ("www.espn.com - TOP") shows the site without the "www." or the tag;
-      // ESPN and TMZ show their plain names. A name that is a sentence of description (over 60
+      // ESPN, TMZ, LAist, Eurogamer and xkcd show their plain names, and "The Oatmeal - Comics" drops "- Comics". A name that is a sentence of description (over 60
       // characters or 8 words) is replaced by the feed's own site name. Sample: fixtures/feed-filler.toml.
       (function () {
         var text = blog.textContent.replace(/\s+/g, " ").trim();
-        var out = text.replace(/\s+latest\s+(?:articles|news|posts|stories|updates)$/i, "").replace(/^latest\s+(?:articles\s+)?from\s+/i, "");
-        var site = out.match(/^(www\.)?([\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)*\.[a-z]{2,})(?:\s+[-–—|]\s+\p{Lu}[\p{Lu}\s]{1,11})?$/iu);
+        // Names that are spelled out in full. The key is the feed's name in lowercase.
+        var aliases = {
+          "chs capitol hill seattle news": "CHS Capitol Hill",
+          "local news: breaking boston news, politics, crime, and traffic": "Boston.com"
+        };
+        var alias = aliases[text.toLowerCase()];
+        // "Local News - CBS Colorado" is a section of the station's site, so it shows just the station.
+        var local = text.match(/^local news\s*[-\u2013\u2014:]\s+(\S.{0,40})$/i);
+        var out = alias || (local && local[1].split(/\s+/).length <= 4 ? local[1] : text);
+        // "cs updates on arXiv.org" is just arXiv.org. GitHub's feed names read "Release notes from
+        // repo" and "Recent Commits to repo:branch", so the repository comes first:
+        // "repo release notes", "repo:branch recent commits". Samples: fixtures/arxiv.toml, fixtures/github-releases.toml.
+        out = out.replace(/^.*\bupdates on (arxiv\.org)$/i, "arXiv.org").replace(/^release notes from (\S.*)$/i, "$1 release notes").replace(/^recent commits to (\S.*)$/i, "$1 recent commits");
+        out = out.replace(/\s+latest\s+(?:articles|news|posts|stories|updates)$/i, "").replace(/^latest\s+(?:articles\s+)?from\s+/i, "");
+        var names = { "espn.com": "ESPN", "tmz.com": "TMZ", "laist.com": "LAist", "eurogamer.net": "Eurogamer", "xkcd.com": "xkcd" };
+        if (alias) { if (out !== text) blog.textContent = out; return; }
+        var site = out.match(/^(www\.)?([\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)*\.[a-z]{2,})(?:\s+[-\u2013\u2014|]\s+\p{Lu}[\p{Lu}\s]{1,11})?$/iu);
         if (site) {
-          var plain = { "espn.com": "ESPN", "tmz.com": "TMZ" }[site[2].toLowerCase()];
-          if (plain) out = plain;
+          if (names[site[2].toLowerCase()]) out = names[site[2].toLowerCase()];
           else if (site[1] || out !== site[2]) out = site[2];
         } else if (out.length > 60 || out.split(" ").length > 8) {
           try { out = new URL(blog.getAttribute("href")).hostname.replace(/^www\./i, ""); } catch (error) {}
+          if (names[out.toLowerCase()]) out = names[out.toLowerCase()];
         }
+        out = out.replace(/^(The Oatmeal)\s+[-\u2013\u2014]\s+Comics$/i, "$1");
         if (out && out !== text) blog.textContent = out;
+      })();
+      // Some feeds always send the agency as the author ("U.S. Geological Survey", "NWS"). The
+      // publication already says who it is, so the author is hidden and only the publication shows.
+      // Sample: fixtures/agency-author.toml.
+      (function () {
+        var plain = author.textContent.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+        if (/^(?:us|usa)geologicalsurvey$|^nws$|^nationalweatherservice$/.test(plain)) author.textContent = "";
+      })();
+      // Lobsters sends "address by user" and "address via user", where the address is the story's own
+      // link, which the link line under the title already shows. The address and the "by" or "via"
+      // go, so the credit reads "user for Lobsters". Only an address that matches the link line
+      // counts. Samples: fixtures/lobsters-by.toml, fixtures/lobsters-via.toml.
+      (function () {
+        var anchor = document.querySelector(".article-header .external-link a");
+        var href = anchor && anchor.getAttribute("href");
+        if (!href) return;
+        var hostOf = function (value) {
+          try { return new URL(/^[a-z][a-z0-9+.-]*:/i.test(value) ? value : "https://" + value).hostname.replace(/^www\./i, "").toLowerCase(); } catch (error) { return ""; }
+        };
+        var walker = document.createTreeWalker(author, NodeFilter.SHOW_TEXT);
+        var first = walker.nextNode();
+        var match = first && first.data.match(/^(\s*)(\S+)\s+(?:by|via)\s+/i);
+        if (match && hostOf(match[2]) && hostOf(match[2]) === hostOf(href)) first.data = first.data.slice(match[0].length);
+      })();
+      // A byline that opens with "By" ("By Ethan Stark-Miller") drops the word, whenever a name
+      // starts right after it. Sample: fixtures/by-prefix.toml.
+      (function () {
+        var walker = document.createTreeWalker(author, NodeFilter.SHOW_TEXT);
+        var first = walker.nextNode();
+        if (first) first.data = first.data.replace(/^(\s*)by\s+(?=\p{Lu})/iu, "$1");
       })();
       // A credit with debris in it is tidied piece by piece. Text after a pipe is an affiliation
       // ("Name | Associated Press") and goes. "email (Name)" shows the name, a bare email goes,
       // a name given twice shows once, and "Name @ Blog" or "Name (Blog)" with the publication's
-      // own name shows just the name. "TMZ Staff" in the TMZ feed is the publication itself.
+      // own name shows just the name. A job description after a name ("Sandra Scott and author at
+      // the VP Chicago") is cut off. "TMZ Staff" in the TMZ feed is the publication itself.
       // Names with links are left as they are. Sample: fixtures/credit-debris.toml.
       (function () {
         if (author.querySelector("a")) return;
@@ -1582,6 +1665,8 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         var seen = [], kept = [];
         raw.split(",").forEach(function (piece) {
           var name = tidy(piece).replace(/^and\s+/i, "");
+          // "Sandra Scott and author at the VP Chicago": a job description after the name goes.
+          name = name.replace(/\s+(?:and\s+)?(?:an?\s+)?(?:author|writer|editor|reporter|contributor|columnist|correspondent|journalist|producer|photographer)\s+(?:at|for|of|with)\b.*$/i, "");
           var mail = name.match(/^[^\s@()]+@[^\s@()]+(?:\s*\(([^)]+)\))?$/);
           if (mail) name = mail[1] ? tidy(mail[1]) : "";
           var tagged = name.match(/^(.+?)\s*(?:\s@\s|\()\s*([^()]+?)\)?$/);
@@ -1594,6 +1679,15 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         if (kept.length && (bar > 0 || kept.length !== raw.split(",").length || joined !== tidy(raw))) author.textContent = joined;
         var staff = author.textContent.match(/^\s*(.+?)\s+(?:staff|team|editors?|editorial|newsroom|desk|admin|writers?)\s*$/i);
         if (staff && feed && plain(staff[1]) === feed) author.textContent = blog.textContent;
+      })();
+      // A publication name that ends in a dash and the author's name ("Letterboxd - Matthew
+      // Buchanan") drops that ending, since the byline already shows the name. Dash, en dash, em dash,
+      // pipe and colon all count. Sample: fixtures/letterboxd.toml.
+      (function () {
+        var plain = function (text) { return text.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); };
+        var who = plain(author.textContent);
+        var tail = blog.textContent.match(/^(.*\S)\s+[-\u2013\u2014|:]\s+(.+?)\s*$/);
+        if (who && tail && plain(tail[2]) === who) blog.textContent = tail[1];
       })();
       var staff = author.textContent.match(/^\s*Redazione\s+(.+?)\s*$/i);
       var clean = function (text) { return text.replace(/\s+/g, " ").trim().toLowerCase(); };
@@ -1710,6 +1804,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       date.addEventListener("click", function () { set(false); });
       document.addEventListener("click", function (event) { if (expanded && !author.contains(event.target)) set(false); });
       document.addEventListener("keydown", function (event) { if (event.key === "Escape") set(false); });
+      author.dataset.managed = "1";
       fit();
       var timer;
       window.addEventListener("resize", function () { clearTimeout(timer); timer = setTimeout(fit, 50); });
@@ -1726,6 +1821,139 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       if (clean(author.textContent) && clean(author.textContent) === clean(blog.textContent)) {
         credit.classList.add("same-name");
       }
+    })();
+    // The last resort for a byline that no rule above has shortened enough: if "Author for
+    // Blog" still runs past the limit (two lines, three on touch), only the longer of the two
+    // is cut, at a word, with an ellipsis. A tap opens the full text and a second tap follows
+    // its link. A collapsed author list is left alone, so the blog is the one that is cut.
+    // Samples: fixtures/long-byline.toml, fixtures/long-publication.toml.
+    (function () {
+      var credit = document.querySelector(".attribution");
+      var author = credit && credit.querySelector(".byline");
+      var blog = credit && credit.querySelector(".feed");
+      if (!author || !blog) return;
+      var meta = credit.parentNode;
+      var date = meta && meta.querySelector(".dateline");
+      var touch = window.matchMedia("(hover: none), (max-width: 34rem)");
+      var fields = [author, blog].map(function (el) {
+        return { el: el, full: el.innerHTML, expanded: false, clipped: false };
+      });
+      var width = function (el) {
+        return Array.prototype.reduce.call(el.getClientRects(), function (sum, r) { return sum + r.width; }, 0);
+      };
+      var overflows = function () {
+        var style = getComputedStyle(credit);
+        var line = parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.3;
+        return credit.getBoundingClientRect().height > (touch.matches ? 3 : 2) * line + 1;
+      };
+      // The text cut to its first n characters, ending at a word, with markup and links kept.
+      var clip = function (field, n) {
+        var el = field.el;
+        el.innerHTML = field.full;
+        var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        var nodes = [], node;
+        while ((node = walker.nextNode())) nodes.push(node);
+        var left = n, last = null;
+        nodes.forEach(function (text) {
+          if (left <= 0) { text.parentNode.removeChild(text); return; }
+          if (text.data.length > left) {
+            var cut = text.data.slice(0, left);
+            if (/\S/.test(text.data.charAt(left)) && /\s/.test(cut)) cut = cut.replace(/\s+\S*$/, "");
+            text.data = cut.replace(/[\s,;:\-–—(]+$/, "");
+            left = 0;
+          } else {
+            left -= text.data.length;
+          }
+          last = text;
+        });
+        if (last) last.data += "…";
+        Array.prototype.slice.call(el.querySelectorAll("a, span, em, strong")).forEach(function (child) {
+          if (!child.textContent) child.parentNode.removeChild(child);
+        });
+        field.clipped = true;
+      };
+      var restore = function (field) {
+        field.el.innerHTML = field.full;
+        field.clipped = false;
+      };
+      // The most characters the field can keep while the byline fits, or 0 if none will do.
+      var shrink = function (field) {
+        var lo = 8, hi = field.el.textContent.length - 1, best = 0;
+        while (lo <= hi) {
+          var mid = (lo + hi) >> 1;
+          clip(field, mid);
+          if (overflows()) hi = mid - 1; else { best = mid; lo = mid + 1; }
+        }
+        if (best) clip(field, best); else restore(field);
+        return best;
+      };
+      var sync = function (field) {
+        var el = field.el;
+        el.classList.toggle("expandable", field.clipped || field.expanded);
+        var hasLink = el.tagName === "A" || !!el.querySelector("a");
+        if ((field.clipped || field.expanded) && (!field.expanded || !hasLink)) {
+          el.setAttribute("role", "button");
+          el.setAttribute("aria-expanded", field.expanded ? "true" : "false");
+        } else if (!field.managed) {
+          el.removeAttribute("role");
+          el.removeAttribute("aria-expanded");
+        }
+        if (field.clipped || field.expanded) el.setAttribute("tabindex", "0");
+        else if (!field.managed) el.removeAttribute("tabindex");
+      };
+      var fit = function () {
+        // An author list that the rule above manages (or has collapsed) is not touched here.
+        fields[0].managed = !!author.dataset.managed;
+        fields.forEach(function (field) {
+          if (field.managed || field.expanded) return;
+          restore(field);
+        });
+        if (fields.some(function (field) { return field.expanded; })) return;
+        var open = fields.filter(function (field) { return !field.managed; });
+        if (overflows() && open.length) {
+          open.sort(function (a, b) { return width(b.el) - width(a.el); });
+          if (!shrink(open[0]) && open[1]) shrink(open[1]);
+        }
+        fields.forEach(sync);
+      };
+      var set = function (field, state) {
+        if (!(field.clipped || field.expanded) || state === field.expanded) return;
+        field.expanded = state;
+        if (state) restore(field); else { field.expanded = false; fit(); return; }
+        field.clipped = false;
+        sync(field);
+      };
+      fields.forEach(function (field) {
+        var el = field.el;
+        el.addEventListener("click", function (event) {
+          if (field.managed || !(field.clipped || field.expanded)) return;
+          var link = el.tagName === "A" ? el : event.target.closest && event.target.closest("a");
+          if (link && field.expanded && el.contains(link)) return;
+          event.preventDefault();
+          event.stopPropagation();
+          if (field.expanded) { field.expanded = false; fit(); } else set(field, true);
+        });
+        el.addEventListener("keydown", function (event) {
+          if (event.target === el && !field.managed && (field.clipped || field.expanded) &&
+              (event.key === "Enter" || event.key === " ")) {
+            event.preventDefault();
+            if (field.expanded) { field.expanded = false; fit(); } else set(field, true);
+          }
+        });
+      });
+      var close = function () {
+        if (fields.some(function (field) { return field.expanded; })) {
+          fields.forEach(function (field) { field.expanded = false; });
+          fit();
+        }
+      };
+      if (date) date.addEventListener("click", close);
+      document.addEventListener("click", function (event) { if (!credit.contains(event.target)) close(); });
+      document.addEventListener("keydown", function (event) { if (event.key === "Escape") close(); });
+      fit();
+      var timer;
+      window.addEventListener("resize", function () { clearTimeout(timer); timer = setTimeout(fit, 50); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     })();
     // An image a feed floats so text wraps beside it ("float: left", .alignright, align="left")
     // is taken out of the float, along with the block that carries it and its caption. Images

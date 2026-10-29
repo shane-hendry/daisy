@@ -1,0 +1,8 @@
+title = "NetNewsWire 7.2.1b1 for Mac"
+byline = "brentsimmons"
+feed_link_title = "Release notes from NetNewsWire"
+feed_link = "https://github.com/Ranchero-Software/NetNewsWire/"
+preferred_link = "https://example.org/github-releases"
+date_medium = "Oct 29, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

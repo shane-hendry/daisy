@@ -1,0 +1,11 @@
+title = "C2PA's eMudhra Model"
+byline = "da.vidbuchanan.co.uk by retr0id"
+feed_link_title = "Lobsters"
+feed_link = "https://lobste.rs/"
+preferred_link = "https://lobste.rs/s/abc123/c2pa"
+external_link = "https://da.vidbuchanan.co.uk/blog/c2pa-four.html"
+external_link_stripped = "da.vidbuchanan.co.uk/blog/c2pa-four.html"
+external_link_label = "Source:"
+date_medium = "Oct 29, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

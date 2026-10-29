@@ -1,0 +1,8 @@
+title = "M 1.5 - 19 km NE of Maricopa, CA"
+byline = "U.S. Geological Survey"
+feed_link_title = "USGS All Earthquakes, Past Hour"
+feed_link = "https://earthquake.usgs.gov/"
+preferred_link = "https://example.org/agency-author"
+date_medium = "Oct 29, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

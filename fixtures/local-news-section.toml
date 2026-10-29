@@ -1,0 +1,8 @@
+title = "A local news section in the feed name"
+byline = "Jennifer McRae"
+feed_link_title = "Local News - CBS Colorado"
+feed_link = "https://www.cbsnews.com/colorado/"
+preferred_link = "https://example.org/local-news-section"
+date_medium = "Oct 29, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

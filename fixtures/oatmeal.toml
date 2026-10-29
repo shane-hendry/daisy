@@ -1,0 +1,8 @@
+title = "A comics section in the feed name"
+byline = "Matthew Inman"
+feed_link_title = "The Oatmeal - Comics"
+feed_link = "https://theoatmeal.com/"
+preferred_link = "https://example.org/oatmeal"
+date_medium = "Oct 29, 2026"
+body = '''<p>The feed name ends in a section, which the credit drops. This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''
