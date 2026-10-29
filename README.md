@@ -8,7 +8,7 @@ Two [NetNewsWire](https://netnewswire.com/) themes by [Shane Hendry](https://sha
 - **Daisy** is set in New York, a refined serif
 - **Daisy Sans** is set in SF Pro, a modern sans serif
 
-Learn more at [daisyrss.com[(https://daosyrss.com), and read about [how I designed them](https://shanehendry.com/daisy).
+Learn more at [daisyrss.com](https://daisyrss.com), and read about [how I designed them](https://shanehendry.com/daisy).
 <!-- nnw-theme-identity:end -->
 
 ## Daisy's house style
