@@ -52,7 +52,9 @@ Daisy and Daisy Sans are in beta. [Version 0.6.0](https://github.com/shane-hendr
 
 ## Update notices (experimental while in beta)
 
-When a new release comes out, a short note and a link to install it can appear at the end of an article. It only appears in about one in four long articles from the last two days, for only 36 hours after a release. To find out about releases, the theme fetches one small file, `updates.json`, from daisyrss.com at most once a day. The request sends no cookies or referrer and nothing about you, your feeds or your articles, but like any website, the host sees your IP address. Offline, nothing is added to your articles.
+For 36 hours after a new release, a note to update can appear at the end of an article.
+
+To be as unobtrusive as possible, only articles less than 2 days old with over 500 words ever look for updates, by fetching updates.json from daisyrss.com. No cookies, referrer information, or feed/article information is sent, but like any website, it sees your IP address.
 
 ## Credits
 
