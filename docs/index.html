@@ -7644,9 +7644,9 @@ Stackly, which calls itself &#8220;meeting infrastructure,&#8221; says 40% of it
   if (!sw || !phones.length) return;
   var probe = document.createElement("div");
   probe.setAttribute("aria-hidden", "true");
-  probe.style.cssText = "height:100lvh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
+  probe.style.cssText = "height:100svh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
   document.body.appendChild(probe);
-  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 26, GAP_BOTTOM = 25;   // the control and phone fill the space from 26px under the sticky menu to 25px above the bottom of the screen (the full screen height); MAX (0.8) is the size of the other phones on the page: never larger.
+  var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 26, GAP_BOTTOM = 25;   // the control and phone fill the space from 26px under the sticky menu to 25px above the bottom of the screen (the visible height with the browser bars showing); MAX (0.8) is the size of the other phones on the page: never larger.
   var lastW = 0, lastH = 0;
   function fit() {
     var narrow = getComputedStyle(sw).display !== "none";
@@ -18699,12 +18699,12 @@ window.addEventListener(&quot;message&quot;,function(e){
 </script>
 <script>
 // Responsive phones (the footnotes and iPad blocks when they are a phone): sized like the feed's phone, to fill the space from 26px under the sticky
-// menu to 25px above the bottom of the screen (its full height). At most the usual 0.8 scale; wide screens keep the Mac window and the iPad as they are.
+// menu to 25px above the bottom of the screen (the height showing with the browser bars visible). At most the usual 0.8 scale; wide screens keep the Mac window and the iPad as they are.
 (function () {
   var MAX = 0.8, MIN = 0.4, PHONE_H = 807.5, GAP_TOP = 26, GAP_BOTTOM = 25, WIDE = 880;
   var probe = document.createElement("div");
   probe.setAttribute("aria-hidden", "true");
-  probe.style.cssText = "height:100lvh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
+  probe.style.cssText = "height:100svh;left:0;pointer-events:none;position:fixed;top:0;visibility:hidden;width:0";
   document.body.appendChild(probe);
   function fit() {
     var h = probe.offsetHeight || window.innerHeight;
