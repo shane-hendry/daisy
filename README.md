@@ -56,17 +56,11 @@ When a new release comes out, a short note and a link to install it can appear a
 
 ## Credits
 
-Daisy and Daisy Sans were built with [Dave Marquard's](https://github.com/dave-atx) [NetNewsWire theme template](https://github.com/dave-atx/netnewswire-theme-template). It was a collaborative effort by the whole team here at SH Enterprises Worldwide.
-
-* **CEO** Me
-* **Product** Yours truly
-* **Design and content** Moi
-* **Marketing** Ya boi
-* **Engineering** Claude 🤖
+I designed Daisy and Daisy Sans, using [Dave Marquard's](https://github.com/dave-atx) [NetNewsWire theme template](https://github.com/dave-atx/netnewswire-theme-template), with the help of claude code.
 
 Daisy and Daisy Sans aren't affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for.
-The theme format is documented in NetNewsWire's
-[themes technote](https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md).
+Learn more about NetNewsWire's
+[themes format](https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md).
 
 ## License
 
