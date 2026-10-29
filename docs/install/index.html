@@ -26,6 +26,10 @@
       [hidden] { display: none !important; }
       /* The update link is underlined (the theme's link line is not) so it reads as the thing to tap. */
       #add { text-decoration: underline; }
+      /* On iPhone the update link is the one thing to tap, so it is orange. */
+      #add-ios { color: var(--accent); text-decoration: underline; }
+      .thanks { margin-bottom: 1em; }
+      #credit-ios { margin-top: var(--space-large); }
       /* Wrap without leaving a word or a version number alone on a line. */
       li, p, .view-post span { text-wrap: pretty; }
       .articleBody > p:last-child { margin-bottom: 0; text-box: trim-end cap alphabetic; }
@@ -48,6 +52,7 @@
       .articleBody > ul:last-child { margin-bottom: 0; }
       .articleBody > ul:last-child > li:last-child { margin-bottom: 0; text-box: trim-end cap alphabetic; }
       .view-post span { display: block; }
+      .view-post .theme-name { display: inline; }
     </style>
   </head>
   <body>
@@ -60,16 +65,16 @@
         <h1 id="title">Get the latest version of Daisy for NetNewsWire</h1>
         <div class="external-link"><a id="add" href="https://github.com/shane-hendry/daisy/releases"><span class="external-link-label">Update</span></a></div>
       </header>
-      <div class="articleBody" id="body-web"><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
+      <div class="articleBody" id="body-web"><p class="thanks">Thanks for beta testing Daisy.</p><p id="intro">This update includes:</p><ul id="notes-list"></ul></div>
       <!-- iPhone and iPad: steps for getting out of NetNewsWire's in-app browser. -->
       <div class="articleBody" id="body-ios" hidden>
+        <p class="thanks">Thanks for beta testing Daisy.</p>
         <p class="lead-in">To update:</p>
         <ol>
           <li>Open this page in your browser</li>
-          <li>Close the in-app browser in NetNewsWire</li>
-          <li>In your browser, <a id="add-ios" href="https://github.com/shane-hendry/daisy/releases">update to Daisy</a></li>
+          <li>Return to NetNewsWire and <strong>close the in-app browser</strong></li>
+          <li>Return to your browser, and <a id="add-ios" href="https://github.com/shane-hendry/daisy/releases">update to Daisy</a></li>
         </ol>
-        <p><span><a href="https://shanehendry.com/daisy" target="_blank" rel="noopener">Daisy and Daisy Sans</a> are made by Shane&nbsp;Hendry.</span></p>
       </div>
       <footer class="view-post">
         <div id="credit-web">
@@ -77,6 +82,7 @@
         </div>
         <!-- iPhone and iPad: the credit moves into the body above, and the release notes alone close the footer, collapsed. -->
         <details id="notes-toggle" hidden><summary>View release notes</summary><ul id="notes-list-ios"></ul></details>
+        <div id="credit-ios" hidden><span><span class="theme-name">Daisy</span> is made by <a href="https://shanehendry.com/" target="_blank" rel="noopener">Shane&nbsp;Hendry</a>.</span></div>
       </footer>
     </main>
     <script>
@@ -97,6 +103,7 @@
           document.getElementById("body-web").hidden = true;
           document.getElementById("body-ios").hidden = false;
           document.getElementById("notes-toggle").hidden = false;
+          document.getElementById("credit-ios").hidden = false;
           document.getElementById("credit-web").hidden = true;
           document.querySelector(".external-link").hidden = true;
         }
@@ -110,6 +117,8 @@
         addIos.textContent = "update to " + (theme[0] + " " + shown(version)).replace(/ /g, "\u00a0");
         addIos.href = document.getElementById("add").href;
         document.getElementById("byline").textContent = theme[0];
+        document.querySelectorAll(".thanks").forEach(function (el) { el.textContent = "Thanks for beta testing " + theme[0] + "."; });
+        document.querySelector(".theme-name").textContent = theme[0];
         // The release notes and publish date are optional: without an entry for this version the list stays empty.
         fetch("../release-notes.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (all) {
           var entry = all && all[version];
