@@ -28,6 +28,8 @@
       #add { text-decoration: underline; }
       /* On iPhone the update link is the one thing to tap, so it is orange. */
       #add-ios { color: var(--accent); text-decoration: underline; }
+      /* In the steps, "close the in-app browser" and "update to Daisy 0.5" each stay whole on a line; on a very narrow screen they wrap as usual. */
+      @media (min-width: 22rem) { #body-ios li strong, #add-ios { white-space: nowrap; } }
       .thanks { margin-bottom: 1em; }
       #credit-ios { margin-top: var(--space-large); }
       /* Wrap without leaving a word or a version number alone on a line. */
