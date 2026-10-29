@@ -183,8 +183,9 @@ a:hover { color: var(--accent); }
 
 /* Hero: the block is pasted in as it is. */
 .hero { margin-top: clamp(1.75rem, 5vw, 3.5rem); padding-bottom: calc(clamp(3rem, 8vw, 5.5rem) + 1.6rem); }
-/* On a wide screen the devices run 25% wider than the text column; as the window narrows, their edges come back in line with it. */
-.hero .daisy-hero { margin-inline: calc((100% - min(125%, 100vw - var(--gutter, 2rem))) / 2); width: min(125%, 100vw - var(--gutter, 2rem)); }
+/* On a wide screen the devices run 25% wider than the text column; as the window narrows, they pull in to keep a margin from its edge. */
+.hero { --edge: clamp(1.25rem, 4.5vw, 3rem); } /* the least room between the devices and the window edge, scrollbar included */
+.hero .daisy-hero { margin-inline: calc((100% - min(125%, 100vw - 2 * var(--edge) - 1rem)) / 2); width: min(125%, 100vw - 2 * var(--edge) - 1rem); }
 
 /* Feature sections: prose set like the page, with the WordPress blocks between. */
 .feature { margin-top: clamp(2rem, 5vw, 3.2rem); }
