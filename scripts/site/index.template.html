@@ -447,7 +447,7 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
     <p class="history"><a href="https://github.com/shane-hendry/daisy/releases">View all releases</a></p>
     <section class="credits" id="credits">
       <h2>Credits</h2>
-      <p>Daisy and Daisy Sans were designed and built by <a href="https://shanehendry.com/">Shane Hendry</a>, using <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>, and with the help of Claude Code.</p>
+      <p>Daisy and Daisy Sans were designed and built by <a href="https://shanehendry.com/">Shane Hendry</a>, using <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>, and with help from Claude Code.</p>
       <p>Daisy and Daisy Sans aren&#8217;t affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for. The theme format is documented in NetNewsWire&#8217;s <a href="https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md">themes technote</a>.</p>
     </section>
   </div>
@@ -519,18 +519,19 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
 </script>
 <script>
 // The update steps: a Mac opens the update link directly. On an iPhone or iPad, NetNewsWire's in-app browser
-// closes without installing and a page cannot tell it from Safari, so the steps lead with the way out of it.
+// closes without installing and a page cannot tell it from Safari, so for someone arriving from a theme's update notice the steps lead with the way out of it.
 // ?theme=daisy or ?theme=daisy-sans (from the theme's update notice) keeps only that theme's link.
 (function () {
   var howto = document.getElementById("howto");
   if (!howto) return;
   var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  if (ios) {
-    document.getElementById("howto-mac").hidden = true;
-    document.getElementById("howto-ios").hidden = false;
-  }
   var theme = new URLSearchParams(location.search).get("theme");
   if (theme === "daisy" || theme === "daisy-sans") {
+    // Only someone who came from an update notice may be in the in-app browser, so only they get the steps.
+    if (ios) {
+      document.getElementById("howto-mac").hidden = true;
+      document.getElementById("howto-ios").hidden = false;
+    }
     document.getElementById("updates").setAttribute("data-theme", theme);
     // The heading carries the version, so the release's own "Version" line goes, and its date moves up under the heading.
     var latest = document.querySelector("#updates .release");
