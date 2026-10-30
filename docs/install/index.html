@@ -31,6 +31,9 @@
       /* In the steps, "close the in-app browser" and "update to Daisy 0.5" each stay whole on a line; on a very narrow screen they wrap as usual. */
       @media (min-width: 22rem) { #body-ios li strong, #add-ios { white-space: nowrap; } }
       .thanks { margin-bottom: 1em; }
+      /* On a Mac the page is just the update: no byline or dateline, and a narrower paragraph that does not leave a short last line. */
+      .desktop .meta { display: none; }
+      .desktop .thanks { max-width: 30rem; text-wrap: balance; }
       #credit-ios { margin-top: var(--space-large); }
       /* Wrap without leaving a word or a version number alone on a line. */
       li, p, .view-post span { text-wrap: pretty; }
@@ -100,6 +103,7 @@
         // NetNewsWire's in-app browser closes without installing, and a page cannot tell it from
         // Safari. So on an iPhone or iPad the page leads with the way out: open it in Safari.
         var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        if (!ios) document.body.classList.add("desktop");
         if (ios) {
           title = "Open in your browser to update " + theme[0];
           document.getElementById("body-web").hidden = true;

@@ -316,6 +316,7 @@ a:hover { color: var(--accent); }
 .howto a:not(.button) { color: var(--accent); text-decoration: underline; }
 .howto .thanks { margin: 1.5rem 0 0; }
 /* In the steps, "close the in-app browser" and the update link each stay whole on a line; on a very narrow screen they wrap as usual. */
+@media (min-width: 40.01rem) { .howto .thanks { margin-inline: auto; max-width: 30rem; text-wrap: balance; } }
 @media (min-width: 22rem) { .howto li strong, .howto li a:not([hidden]) { white-space: nowrap; } }
 .made-by { margin: 2.5rem 0 0; }
 .release details { margin-top: 0.9rem; }
@@ -18777,7 +18778,8 @@ window.addEventListener(&quot;message&quot;,function(e){
     madeBy.hidden = false;
     // The byline names the theme and the dateline is when this release came out ("3 days ago", or the date once it is older than a month).
     var time = latest && latest.querySelector("time");
-    if (time) {
+    // The byline and dateline mimic the article only on iPhone and iPad, where the page is the theme's own update steps; a Mac gets the short version.
+    if (time && ios) {
       var days = Math.floor((Date.now() - new Date(time.getAttribute("datetime"))) / 864e5);
       var ago = days < 1 ? "Today" : days === 1 ? "Yesterday" : days < 30 ? days + " days ago" : time.textContent;
       var line = document.createElement("p");
