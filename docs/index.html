@@ -314,7 +314,9 @@ a:hover { color: var(--accent); }
 .howto ol { margin: 0; padding-inline-start: 1.5rem; }
 .howto li { margin-block: 0.5em; }
 .howto a:not(.button) { color: var(--accent); text-decoration: underline; }
-.howto .thanks { margin: 0 0 1.5rem; }
+.howto .thanks { margin: 1.5rem 0 0; }
+/* In the steps, "close the in-app browser" and the update link each stay whole on a line; on a very narrow screen they wrap as usual. */
+@media (min-width: 22rem) { .howto li strong, .howto li a:not([hidden]) { white-space: nowrap; } }
 .made-by { margin: 2.5rem 0 0; }
 .release details { margin-top: 0.9rem; }
 .release summary { cursor: pointer; font-weight: 600; list-style: none; -webkit-tap-highlight-color: transparent; }
@@ -18613,7 +18615,6 @@ window.addEventListener(&quot;message&quot;,function(e){
       <h3>Version 0.7</h3>
       <time datetime="2026-10-29T23:29:38Z">Oct 29, 2026</time>
       <div class="howto" id="howto">
-        <p class="thanks" hidden></p>
         <div id="howto-mac">
           <p class="buttons">
             <a class="button button--serif" data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.7.0%2FDaisy.nnwtheme.zip">Daisy 0.7</a>
@@ -18625,9 +18626,10 @@ window.addEventListener(&quot;message&quot;,function(e){
           <ol>
             <li>Open this page in your browser</li>
             <li>Return to NetNewsWire and <strong>close the in-app browser</strong></li>
-            <li>Return to your browser, and <span class="to">update to </span><a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.7.0%2FDaisy.nnwtheme.zip">Daisy&nbsp;0.7</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.7.0%2FDaisy.Sans.nnwtheme.zip">Daisy&nbsp;Sans&nbsp;0.7</a></li>
+            <li>Return to your browser and <span class="to">update to </span><a data-theme="daisy" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.7.0%2FDaisy.nnwtheme.zip">Daisy&nbsp;0.7</a><span class="or"> or </span><a data-theme="daisy-sans" href="netnewswire://theme/add?url=https%3A%2F%2Fgithub.com%2Fshane-hendry%2Fdaisy%2Freleases%2Fdownload%2Fv0.7.0%2FDaisy.Sans.nnwtheme.zip">Daisy&nbsp;Sans&nbsp;0.7</a></li>
           </ol>
         </div>
+        <p class="thanks" hidden>Thanks for beta testing. These update notices are experimental while in beta, and may be removed in future updates.</p>
       </div>
       <details><summary>View release notes</summary>
       <ul>
@@ -18769,9 +18771,7 @@ window.addEventListener(&quot;message&quot;,function(e){
     var label = theme === "daisy" ? "Daisy" : "Daisy Sans";
     if (ios) heading.textContent = "Open in your browser to update " + label;
     else { heading.textContent = "Update to "; heading.appendChild(name); }
-    var thanks = howto.querySelector(".thanks");
-    thanks.textContent = "Thanks for beta testing " + label + ".";
-    thanks.hidden = false;
+    howto.querySelector(".thanks").hidden = false;
     var madeBy = document.querySelector(".made-by");
     madeBy.innerHTML = label + ' is made by <a href="https://shanehendry.com/">Shane Hendry</a>.';
     madeBy.hidden = false;
