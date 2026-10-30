@@ -33,6 +33,8 @@
       .thanks { margin-bottom: 1em; }
       /* On a Mac the page is just the update: no byline or dateline, and a narrower paragraph that does not leave a short last line. */
       .desktop .meta { display: none; }
+      /* On an iPad the page is a left-aligned column, the same width as the front page's update view. */
+      @media (min-width: 641px) { .ios .article { margin-inline: auto; max-width: 576px; } }
       .desktop .thanks { max-width: 30rem; text-wrap: balance; }
       #credit-ios { margin-top: var(--space-large); }
       /* Wrap without leaving a word or a version number alone on a line. */
@@ -103,7 +105,7 @@
         // NetNewsWire's in-app browser closes without installing, and a page cannot tell it from
         // Safari. So on an iPhone or iPad the page leads with the way out: open it in Safari.
         var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-        if (!ios) document.body.classList.add("desktop");
+        document.body.classList.add(ios ? "ios" : "desktop");
         if (ios) {
           title = "Open in your browser to update " + theme[0];
           document.getElementById("body-web").hidden = true;

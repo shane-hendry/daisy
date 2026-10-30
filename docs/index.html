@@ -307,6 +307,12 @@ a:hover { color: var(--accent); }
   .focus .updates[data-theme] .howto .buttons { justify-content: center; }
   .focus .updates[data-theme] .release ul { margin-inline: auto; max-width: 34rem; text-align: left; }
 }
+/* On an iPad the steps are a left-aligned column, as on a phone, instead of centred like the Mac page. */
+@media (min-width: 40.01rem) {
+  .focus .updates.ios[data-theme] { padding-block: clamp(3rem, 10svh, 6rem) 0; text-align: left; }
+  .focus .updates.ios > .wrap { max-width: 36rem; }
+  .focus .updates.ios .howto .thanks { margin-inline: 0; max-width: none; text-wrap: pretty; }
+}
 .howto { margin-block: 1.75rem 2.4rem; }
 .howto .buttons { gap: 0.5rem; justify-content: flex-start; margin: 0; }
 .howto .button { font-size: 1.22rem; padding: 0.5em 1em; }
@@ -18757,6 +18763,7 @@ window.addEventListener(&quot;message&quot;,function(e){
   if (theme === "daisy" || theme === "daisy-sans") {
     // Only someone who came from an update notice may be in the in-app browser, so only they get the steps.
     if (ios) {
+      document.getElementById("updates").classList.add("ios");
       document.getElementById("howto-mac").hidden = true;
       document.getElementById("howto-ios").hidden = false;
     }
