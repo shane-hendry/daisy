@@ -414,7 +414,7 @@ Part of the title block. The line under the title that shows where a post points
 ##### What it says
 
 - It's written as **Source: example.com/path**. (v0.1.0)
-- If the link goes to the same site as the post or the publication, it's written as **A follow-up to example.com/path**. (v0.1.0)
+- If the link goes to the same site as the post or the publication and the path looks like a past post (a dated path, a post folder like `/linked/` or `/blog/`, or a hyphenated slug), it's written as **A follow-up to example.com/path**. Other pages on the same site, such as `/feeds/sponsors` or `/about`, say **Source:** instead. (v0.1.0, narrowed in v0.8.0)
 - The address drops `https://`, `www.`, and a trailing slash. (v0.1.0)
 
 ##### When it's hidden

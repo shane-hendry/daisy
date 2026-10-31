@@ -1486,7 +1486,20 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       };
       var target = hostOf(from.getAttribute("href"));
       var site = [hostOf(own.getAttribute("href")), hostOf((document.querySelector(".feed") || {}).href || "")];
-      var inSite = target && site.indexOf(target) >= 0;
+      // Only a link that looks like a past post counts as a follow-up: a dated path, a known
+      // post folder, or a slug. Pages like /feeds/sponsors or /about are plain sources.
+      var isPost = function (href) {
+        var u;
+        try { u = new URL(href); } catch (error) { return false; }
+        if (/^(p|post|id|article|story|page_id)$/i.test(Array.from(u.searchParams.keys())[0] || "")) return true;
+        var parts = u.pathname.split("/").filter(Boolean);
+        if (!parts.length || /^(feeds?|rss|atom|about|archives?|tags?|categor(y|ies)|contact|sponsors?|search|subscribe|colophon|membership|members)$/i.test(parts[0])) return false;
+        if (/(^|\/)(19|20)\d\d\/\d{1,2}(\/|$)/.test(u.pathname) || /^(19|20)\d\d$/.test(parts[0])) return true;
+        if (/^(linked|a|articles?|blog|posts?|p|stor(y|ies)|news|entry|entries|notes?|journal|essays?|reviews?|features?)$/i.test(parts[0]) && parts.length > 1) return true;
+        var last = parts[parts.length - 1].replace(/\.\w+$/, "");
+        return parts.length > 1 ? /-/.test(last) : (last.match(/-/g) || []).length >= 2;
+      };
+      var inSite = target && site.indexOf(target) >= 0 && isPost(from.getAttribute("href"));
       var text = inSite ? words[7] : words[6];
       if (text) label.textContent = text;
     })();
