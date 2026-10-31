@@ -1,0 +1,8 @@
+title = "The October inflection point for vibe game development"
+byline = "Simon Willison"
+feed_link_title = "Simon Willison's Weblog"
+feed_link = "https://simonwillison.net/"
+preferred_link = "https://example.org/weblog-author-feed"
+date_medium = "Oct 30, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>'''

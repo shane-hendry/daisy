@@ -1,0 +1,11 @@
+title = "A Colorful Cottage Redo"
+byline = "Sarah Everett"
+feed_link_title = "apartmenttherapy.com"
+feed_link = "https://www.apartmenttherapy.com/"
+preferred_link = "https://www.apartmenttherapy.com/red-yellow-kitchen-37697186"
+external_link = "https://www.apartmenttherapy.com/red-yellow-kitchen-37697186?utm_source=RSS&utm_medium=feed"
+external_link_label = "Link:"
+external_link_stripped = "apartmenttherapy.com/red-yellow-kitchen-37697186?utm_source=RSS&utm_medium=feed"
+date_medium = "Oct 30, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

@@ -1,0 +1,38 @@
+title = "Spec 1: headings and flow"
+feed_link_title = "Spec sheet"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/spec-flow"
+byline = "Pat Writer"
+date_medium = "Oct 31, 2026"
+body = '''<p>Body paragraph before a heading. It runs long enough to wrap onto a second line so the space below it is easy to judge against the heading that follows.</p>
+<h1>Heading 1 after a paragraph</h1>
+<p>Body paragraph directly under an h1, long enough to wrap onto a second line at the Mac column width.</p>
+<p>A second paragraph, to show paragraph-to-paragraph spacing in running text.</p>
+<p>A third paragraph, long enough to wrap onto a second line so the gap between each pair of paragraphs reads against real line spacing. Paragraphs run one after another with the same gap every time.</p>
+<p>A fourth paragraph, short.</p>
+<p>A fifth paragraph, which also runs long enough to wrap onto a second line at the Mac column width, to close out the run of body text.</p>
+<h2>Heading 2 after a paragraph</h2>
+<p>Body paragraph directly under an h2, long enough to wrap onto a second line at the Mac column width.</p>
+<h3>Heading 3 after a paragraph</h3>
+<p>Body paragraph directly under an h3, long enough to wrap onto a second line at the Mac column width.</p>
+<h4>Heading 4 after a paragraph</h4>
+<p>Body paragraph directly under an h4.</p>
+<h5>Heading 5 after a paragraph</h5>
+<p>Body paragraph directly under an h5.</p>
+<h6>Heading 6 after a paragraph</h6>
+<p>Body paragraph directly under an h6.</p>
+<h2>Heading 2 directly before a heading 3</h2>
+<h3>Heading 3 directly after a heading 2</h3>
+<ul><li>An unordered list item</li><li>A second item, long enough to wrap onto a second line so the line spacing inside the list is visible.</li></ul>
+<h2>Heading 2 after a list</h2>
+<ol><li>An ordered list item</li><li>A second ordered item.</li></ol>
+<p>A paragraph after the list.</p>
+<blockquote><p>A one-paragraph quote that ends the section.</p></blockquote>
+<h3>Heading 3 after a quote</h3>
+<p>A paragraph before a figure.</p>
+<p><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='160'%3E%3Crect width='600' height='160' fill='%23ddd'/%3E%3C/svg%3E" width="600" height="160" alt=""></p>
+<h2>Heading 2 after an image</h2>
+<pre><code>let spacing = "code block"
+print(spacing)</code></pre>
+<h3>Heading 3 after code</h3>
+<p>Last paragraph, then the end of the article.</p>'''

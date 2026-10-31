@@ -342,6 +342,8 @@ a:hover { color: var(--accent); }
 .credits p { margin: 0.75rem 0; }
 /* On a phone the space above the divider equals the padding below it: the Try it band supplies its own bottom padding, and Updates adds the rest. */
 @media (max-width: 40rem) { .updates:not([data-theme]) { margin-top: calc(clamp(7rem, 22vw, 12rem) - clamp(3rem, 8vw, 5.5rem)); } }
+/* On the site itself, Updates and Credits are the last gray band; from an update notice (.focus) the page stays plain white. */
+html:not(.focus) .updates { background: var(--band); border-top: 0; margin-top: 0; padding-top: clamp(3rem, 8vw, 5.5rem); }
 /* Try it: its line is as large as the tagline under the hero. */
 #try-it > p { font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; }
 @media (min-width: 40rem) { #try-it > p { font-size: clamp(1.242rem, 2.736vw, 1.611rem); } } /* 10 percent smaller on a wide screen */

@@ -48,6 +48,15 @@ Part of the [hero block](#hero-block): who wrote the post, and for which publica
 - No author: only the publication name shows. (v0.1.0)
 - Author and publication have the same name: it shows once. (v0.1.0)
 
+#### Publication names
+
+- A publication name ending in **on Medium** drops those words: **Typography on Medium** shows as **Typography**. (v0.8.0)
+- A publication name that starts with **Jekyll** shows as **Jekyll**, dropping everything after the word. (v0.8.0)
+- A name made of two or more parts around a pipe, a dash or a bullet shows only the part that matches the domain of the publication's link: **Atlas Obscura - Latest Articles and Places** shows as **Atlas Obscura**, **Travel | The Guardian** as **The Guardian**, **Blog – Hackaday** as **Hackaday**, **Latest articles | smithsonianmag.com** as **smithsonianmag.com**. Only one part may match, and "The" and a trailing .com are ignored when comparing. (v0.8.0)
+- A closing **Articles** is dropped: **The Points Guy Articles** shows as **The Points Guy**. (v0.8.0)
+- The publication at bringatrailer.com shows as **Bring a Trailer**, and an author named "bringatrailer" shows the same, so the credit says it once. (v0.8.0)
+- A publication named for its author, **Simon Willison's Weblog** or **Simon Willison's Blog** with the author **Simon Willison**, shows as just **Simon Willison**, linked to the publication. (v0.8.0)
+
 #### Mastodon and Bluesky
 
 - A post from Mastodon or Bluesky is written as **Name on Mastodon** or **Name on Bluesky**. (v0.1.0)
@@ -366,6 +375,28 @@ When a title is hidden:
 - A short label that ends in **Guide** or **Guides**, up to four words, moves to the eyebrow when a colon follows it: **November Culture Guide: 44 Things to Do in the DC Area** becomes **November Culture Guide** over **44 Things to Do in the DC Area**. (v0.7.0)
 - Only a colon counts. A dash after "Guide" leaves the headline as it is. (v0.7.0)
 
+##### How I AI
+
+- **How I AI:** moves to the eyebrow, along with up to eight characters before it, such as an emoji: **🎙️ How I AI: Headline** becomes **🎙️ How I AI** over **Headline**. (v0.8.0)
+
+##### More recurring labels
+
+- These move to the eyebrow when a colon follows them: **PSA**, **The Editors' Cut**, **Kitchen of the Week**, **New & Noteworthy**, **Extra, Extra**, **Current Obsessions**, and **10 Easy Pieces** (any number). (v0.8.0)
+- **PSA** keeps its capitals in the eyebrow. (v0.8.0)
+
+##### Numbered roundups
+
+- **Roundup #89: Headline** becomes **Roundup #89** over **Headline**. The label is the word Roundup, a pound sign, a number and a colon. (v0.8.0)
+
+##### Dated series with a comma
+
+- **Politics Chat, October 27, 2026** becomes **Politics Chat** over **October 27, 2026**. Only the form with a comma after the name moves. (v0.8.0)
+- **Essential Releases, October 30, 2026** (Bandcamp Daily) becomes **Essential Releases** over **October 30, 2026**. (v0.8.0)
+
+##### A List Apart
+
+- The feed name **A List Apart: The Full** shows as **A List Apart**. (v0.8.0)
+
 ##### Star ratings
 
 - A star rating that closes a title after a dash moves to its own line under the title, without the dash: **Resident Evil, 2026 - ★★★★** shows as **Resident Evil, 2026** over **★★★★**. (v0.7.0)
@@ -392,6 +423,8 @@ Part of the title block. The line under the title that shows where a post points
 - The link has the same path as the post on the publication's own site: hidden. (v0.1.0)
 - There's no address: hidden. (v0.1.0)
 - The eyebrow became the link: hidden. (v0.1.0)
+- The title links to an id-style address on the publication's own site (`/?post=123`) and the link goes to that site's real article address: hidden. (v0.8.0)
+- The link differs from the title's address only by tracking parameters (`utm_source`, `utm_medium`, `fbclid`, `gclid`): hidden. (v0.8.0)
 - The title is hidden: hidden, and **View original** takes the link. (v0.1.0)
 
 ## Footnotes
@@ -454,6 +487,14 @@ Things publishing tools add that the reader doesn't need.
 
 - A bare image marked to sit on the right or left of the text (the old `align="right"` or `align="left"`) stays beside the text, at no more than a third of the column or 12rem, and the text wraps around it. (v0.4.0)
 - A tiny permalink icon, an image inside a link titled "permalink", is hidden. (v0.4.0)
+
+### Medium
+
+- A block at the top of the post that repeats the title exactly is removed. This applies to posts from Medium feeds (**on Medium** in the publication name, or a medium.com link). (v0.8.0)
+
+### Fonts In Use
+
+- The **Contributed by** line that opens a post is a paragraph of its own, so it has the usual space before the images that follow it. (v0.8.0)
 
 ### Substack
 

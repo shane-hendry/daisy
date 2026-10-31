@@ -1,0 +1,10 @@
+title = "Chat apps have become so much more!"
+byline = "Kinny Cheng"
+feed_link_title = "Stories by Kinny Cheng on Medium"
+feed_link = "https://medium.com/@kinny"
+preferred_link = "https://example.org/medium-feed"
+date_medium = "Apr 4, 2015"
+body = '''<h3>Chat apps have become so much more!</h3>
+<p>Originally published on 02 October 2014</p>
+<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>'''

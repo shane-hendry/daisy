@@ -1,0 +1,19 @@
+title = "Configuration Pricing Tables"
+feed_link_title = "Example Journal"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/pricing"
+byline = "Pat Writer"
+date_medium = "Oct 31, 2026"
+body = '''<h2>Max</h2>
+<pre><code>18-core CPU / 32-core GPU:
+    14-inch:          $4100
+    16-inch:          $4400
+
+    RAM:    36 GB       +0
+
+    SSD:     2 TB       +0
+             4 TB    +1000
+             8 TB    +3000
+            16 TB    +7000   (PROLED XDR only)
+</code></pre>
+<p>The most curious detail in these tables is that the base configuration has the least memory of the lineup, which is why this paragraph runs long enough to read as body text.</p>'''

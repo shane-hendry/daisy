@@ -1,0 +1,8 @@
+title = "Jekyll 4.3.3 Released"
+byline = "mattr-"
+feed_link_title = "Jekyll • Simple, blog-aware, static sites"
+feed_link = "https://jekyllrb.com/"
+preferred_link = "https://example.org/jekyll-feed"
+date_medium = "Dec 27, 2023"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>'''

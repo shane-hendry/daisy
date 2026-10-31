@@ -1,0 +1,8 @@
+title = "‘The view from the Moon’ in Narnia"
+byline = "Graham Little"
+feed_link_title = "Travel | The Guardian"
+feed_link = "https://www.theguardian.com/uk/travel"
+preferred_link = "https://www.theguardian.com/travel/narnia"
+date_medium = "Oct 30, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

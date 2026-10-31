@@ -1,0 +1,8 @@
+title = "Posters with exact words: a prompt-first workflow"
+byline = "Kling4 AI"
+feed_link_title = "Typography on Medium"
+feed_link = "https://medium.com/tag/typography"
+preferred_link = "https://example.org/medium-feed-topic"
+date_medium = "Oct 30, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>'''

@@ -1,0 +1,21 @@
+title = "Spec 2: quotes and footnotes"
+feed_link_title = "Spec sheet"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/spec-quotes"
+byline = "Pat Writer"
+date_medium = "Oct 31, 2026"
+body = '''<p>Body paragraph before a quote, long enough to wrap onto a second line so the space beneath it reads clearly.<sup id="fnr1-spec"><a href="#fn1-spec">1</a></sup></p>
+<blockquote><p>First quote paragraph, long enough to wrap onto a second line so the line spacing inside the quote is visible next to the body text.</p><p>Second quote paragraph, to show paragraph spacing within a quote.</p><p>Third quote paragraph, the last one before the quote ends.</p></blockquote>
+<p>Body paragraph after a quote.</p>
+<blockquote><p>A single-line quote.</p></blockquote>
+<p>Body paragraph after a short quote.</p>
+<blockquote><p>An outer quote paragraph.</p><blockquote><p>A nested quote inside it, long enough to wrap onto a second line at the Mac column width.</p></blockquote><p>The outer quote resumes.</p></blockquote>
+<h2>Heading after a quote</h2>
+<blockquote><p>A quote directly after a heading, with a second line of text so it wraps at the Mac column width.</p></blockquote>
+<p>A paragraph that cites a second note.<sup id="fnr2-spec"><a href="#fn2-spec">2</a></sup> And a third.<sup id="fnr3-spec"><a href="#fn3-spec">3</a></sup></p>
+<div class="footnotes"><hr />
+<ol>
+<li id="fn1-spec"><p>A footnote with two paragraphs. This first one is long enough to wrap onto a second line so the leading is visible.</p><p>The second paragraph of the same footnote, to show paragraph spacing within a note. <a href="#fnr1-spec" class="footnoteBackLink" title="Jump back to footnote 1 in the text.">&#8617;&#xFE0E;</a></p></li>
+<li id="fn2-spec"><p>A short single-paragraph note. <a href="#fnr2-spec" class="footnoteBackLink" title="Jump back to footnote 2 in the text.">&#8617;&#xFE0E;</a></p></li>
+<li id="fn3-spec"><p>A third note, long enough to wrap onto a second line so the gap between notes and the gap at the foot of the article can both be judged. <a href="#fnr3-spec" class="footnoteBackLink" title="Jump back to footnote 3 in the text.">&#8617;&#xFE0E;</a></p></li>
+</ol></div>'''

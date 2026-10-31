@@ -1,0 +1,9 @@
+title = "Pinko magazine and website"
+byline = "TypeTogether"
+feed_link_title = "fontsinuse.com"
+feed_link = "https://fontsinuse.com/"
+preferred_link = "https://example.org/contributed-by-images"
+date_medium = "Oct 30, 2026"
+body = '''Contributed by <a href="https://fontsinuse.com/contributors/1/typetogether">TypeTogether</a><br/><a href="https://example.org/a"><img src="https://picsum.photos/id/10/800/500"/></a><br/><a href="https://example.org/b"><img src="https://picsum.photos/id/20/800/500"/></a>
+<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the images.</p>'''

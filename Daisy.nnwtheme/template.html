@@ -519,6 +519,41 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         last.classList.add("feed-credit");
       }
     })();
+    // Medium repeats the title at the top of the body ("Stories by Name on Medium" feeds): when one of
+    // the first blocks says exactly the title, it is removed. Sample: fixtures/medium-feed.toml.
+    (function () {
+      var feedEl = document.querySelector(".attribution .feed");
+      var heading = document.querySelector(".article-header h1");
+      var body = document.querySelector(".articleBody");
+      if (!feedEl || !heading || !body) return;
+      if (!/\son\s+medium\s*$/i.test(feedEl.textContent) && !/(^|\.)medium\.com\//i.test((feedEl.getAttribute("href") || "").replace(/^https?:\/\//, ""))) return;
+      var norm = function (t) { return t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); };
+      var title = norm(heading.textContent);
+      if (!title) return;
+      var seen = 0;
+      Array.prototype.some.call(body.children, function (el) {
+        if (!el.textContent.trim()) return false;
+        if (norm(el.textContent) === title && !el.querySelector("img, video, iframe")) { el.remove(); return true; }
+        return ++seen >= 3;
+      });
+    })();
+    // Fonts In Use opens with "Contributed by <a>Name</a><br><a><img></a>" as loose text in the body.
+    // The text before the first line break becomes a paragraph of its own when an image follows it, so
+    // it is spaced like any paragraph. Sample: fixtures/contributed-by-images.toml.
+    (function () {
+      var body = document.querySelector(".articleBody");
+      if (!body) return;
+      var run = [], n = body.firstChild;
+      while (n && n.nodeName !== "BR" && !(n.nodeType === 1 && /^(P|DIV|FIGURE|UL|OL|BLOCKQUOTE|H[1-6]|TABLE|PRE|IMG)$/.test(n.nodeName))) { run.push(n); n = n.nextSibling; }
+      if (!n || n.nodeName !== "BR" || !run.some(function (r) { return r.textContent.trim(); })) return;
+      var next = n.nextSibling;
+      while (next && next.nodeType === 3 && !next.nodeValue.trim()) next = next.nextSibling;
+      if (!next || !(next.nodeName === "IMG" || (next.nodeName === "A" && next.querySelector("img")))) return;
+      var para = document.createElement("p");
+      body.insertBefore(para, run[0]);
+      run.forEach(function (r) { para.appendChild(r); });
+      body.removeChild(n);
+    })();
     // Blank paragraphs and divs (publishers' spacers) are hidden; anything with text
     // or media stays.
     document.querySelectorAll(".articleBody p, .articleBody div").forEach(function (el) {
@@ -853,6 +888,8 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       function normalize(href) {
         try {
           var url = new URL(href);
+          // Tracking parameters (utm_source=RSS and the like) do not make another page.
+          Array.from(url.searchParams.keys()).forEach(function (key) { if (/^(utm_|fbclid$|gclid$)/i.test(key)) url.searchParams.delete(key); });
           return url.hostname.replace(/^www\./i, "").toLowerCase() +
             url.pathname.replace(/\/+$/, "") + url.search;
         } catch (error) {
@@ -872,6 +909,12 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var own = parts(title.getAttribute("href"));
       var out = parts(link.getAttribute("href"));
       var feed = parts((document.querySelector(".feed") || {}).href || "");
+      // A post whose title links to an id-style address on the site's own host ("hypebeast.com/?post=6808464")
+      // while the link line has the article's real address: the same post. Sample: fixtures/id-permalink.toml.
+      if (own && out && out.host === own.host && /^\?(?:p|post|post_id|page_id|id|article)=\d+$/i.test(own.rest) && out.rest && !/^\?/.test(out.rest)) {
+        row.classList.add("same-page");
+        return;
+      }
       if (own && out && own.rest && own.rest === out.rest &&
           (out.host === own.host || (feed && out.host === feed.host))) {
         row.classList.add("same-page");
@@ -905,11 +948,58 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
     // A feed name that ends in "feed" ("Wikipedia featured articles feed") drops the word, and a
     // title that ends with the feed's own name ("October 23 Wikipedia featured article") drops
     // that part, since the credit already says it. Singular and plural count as the same.
+    // The feed "A List Apart: The Full" shows as "A List Apart".
     (function () {
       var feedEl = document.querySelector(".attribution .feed");
       if (!feedEl) return;
       var trimmed = feedEl.textContent.replace(/\s+feed\s*$/i, "");
       if (trimmed.trim() && trimmed !== feedEl.textContent) feedEl.textContent = trimmed;
+      // A List Apart names its full-text feed "A List Apart: The Full"; the credit shows just "A List Apart".
+      if (/^a list apart:\s*the full$/i.test(trimmed.trim())) { trimmed = "A List Apart"; feedEl.textContent = trimmed; }
+      // A feed name that closes with "on Medium" drops it ("Stories by Kinny Cheng on Medium" shows as
+      // "Stories by Kinny Cheng"). Jekyll's feed name shows as just "Jekyll", dropping what follows the word.
+      var cleaned = trimmed.replace(/\s+on\s+medium\s*$/i, "").replace(/^(jekyll)\b.*$/i, "$1");
+      if (cleaned.trim() && cleaned !== trimmed) { trimmed = cleaned; feedEl.textContent = trimmed; }
+      // A feed name made of a publication and a description around a pipe or a dash ("Atlas Obscura - Latest
+      // Articles and Places", "Travel | The Guardian", "Latest articles | smithsonianmag.com") shows only the
+      // part that is the site's own name: the one that matches the domain of the feed's link. Then a closing
+      // "Articles" goes ("The Points Guy Articles"), and Bring a Trailer is written out.
+      // Samples: fixtures/feed-domain-suffix.toml, fixtures/feed-domain-prefix.toml, fixtures/feed-articles.toml.
+      (function () {
+        var host = "";
+        try { host = new URL(feedEl.getAttribute("href") || "").hostname.replace(/^www\./i, "").toLowerCase(); } catch (error) {}
+        var squash = function (t) { return t.toLowerCase().replace(/\.(?:com|org|net|co|io|dev|blog)$/i, "").replace(/[^\p{L}\p{N}]/gu, ""); };
+        var labels = host ? host.split(".").slice(0, -1).map(squash) : [];
+        var isDomain = function (part) {
+          var key = squash(part);
+          if (key.length < 3) return false;
+          return labels.some(function (label) { return label === key || label === key.replace(/^the/, "") || label.replace(/^the/, "") === key; });
+        };
+        if (host === "bringatrailer.com") {
+          trimmed = "Bring a Trailer";
+          feedEl.textContent = trimmed;
+          var by = document.querySelector(".attribution .byline");
+          if (by && squash(by.textContent) === "bringatrailer") by.textContent = trimmed;
+          return;
+        }
+        var pieces = trimmed.split(/\s+[|\-\u2013\u2014\u2022\u00b7]\s+/);
+        if (pieces.length > 1) {
+          var match = pieces.filter(isDomain);
+          if (match.length === 1) { trimmed = match[0].trim(); feedEl.textContent = trimmed; }
+        }
+        var bare = trimmed.replace(/\s+articles\s*$/i, "");
+        if (bare.trim() && bare !== trimmed) { trimmed = bare.trim(); feedEl.textContent = trimmed; }
+      })();
+      // "Simon Willison for Simon Willison's Weblog": a blog named for its author ("<author>'s weblog" or
+      // "<author>'s blog") shows as the author's name, linked to the feed. The credit shows it once
+      // (see "same-name" below).
+      var ownerEl = document.querySelector(".attribution .byline");
+      var owned = trimmed.trim().match(/^(.+?)['\u2019]s\s+(?:weblog|blog)$/i);
+      var plainName = function (t) { return t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); };
+      if (owned && ownerEl && plainName(owned[1]).length > 2 && plainName(owned[1]) === plainName(ownerEl.textContent)) {
+        trimmed = ownerEl.textContent.trim();
+        feedEl.textContent = trimmed;
+      }
       var link = document.querySelector(".article-header h1 a");
       var node = link && link.firstChild;
       if (!node || node.nodeType !== 3) return;
@@ -928,7 +1018,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var series = "app report|podcast|the talk show";
       // Editorial formats and recurring sections. Only a label before a colon counts, and only
       // the names listed here. Add a name to follow another section.
-      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|magsafe monday|apple @ work|apple @ work podcast|indie app spotlight|monthly log|new theme|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream|early addition|early edition";
+      var labels = "cartoon|commentary|review|hands-on|exclusive|interview|deals|bonus|special edition|special episode|report|the sunday read|sunday special|the latest|the field|hello developer|version history|fragments|solo acts|the headlines|opinion|daily cartoon|transcript|the download|the pulse|popinfo weekly|brickbat|today in supreme court history|following|best of|extra|pivot extra|pluralistic|macstories weekly|homekit weekly|magsafe monday|apple @ work|apple @ work podcast|indie app spotlight|monthly log|new theme|show hn|ask hn|tell hn|launch hn|watch|book review|restaurant review|roundup|feature|revealed|special|live|tested|archive|the interview|modern love|the run-up|the argument|interesting times|today in apple history|price cut|price drop|poll|livestream|early addition|early edition|psa|the editors[\\u2019']? cut|kitchen of the week|new & noteworthy|extra, extra|current obsessions|\\d+ easy pieces";
       // Tags that may close a headline in brackets or parentheses: "Headline [Gallery]".
       var closingWords = "rebroadcast|repeat|replay|from the archive|bonus|exclusive|update|throwback|repost";
       var trailingTags = "gallery|video|poll|updated|live|" + closingWords + "|" + sponsorWords;
@@ -1009,7 +1099,15 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var openers = "(?:(?:the|our|amazon|early|best|top|biggest|new|official|last-minute|final|\\d{4})\\s+)*";
       var recurring = text.match(new RegExp("^\\s*(" + openers + "(?:(?:" + shopEvents + ")(?:\\s+" + eventWords + ")*|(?:" + seasons + ")(?:\\s+" + eventWords + ")+))\\s*(?:[:\\uff1a]\\s+|\\s[\\u2013\\u2014-]\\s+)", "i"));
       var guide = text.match(/^\s*((?:[\p{L}\p{N}'’&.-]+\s+){0,3}guides?)\s*[:：]\s+/iu);
-      var found = tagged || plain || named || echo || numbered || dated || paywall || opinion || newsletter || live || election || recurring || guide;
+      // "How I AI: ..." with a few characters of decoration before it ("\ud83c\udf99\ufe0f How I AI: ..."): the symbol comes along.
+      // Sample: fixtures/how-i-ai.toml.
+      var howIAi = text.match(/^\s*((?:[^:\uff1a]{1,8}?\s+)?how i ai)\s*[:\uff1a]\s+/i);
+      // "Roundup #89: Headline": a numbered roundup. Sample: fixtures/roundup-number.toml.
+      var roundup = text.match(/^\s*(roundup\s*#\s*\d+)\s*[:\uff1a]\s+/i);
+      // "Politics Chat, October 27, 2026" and "Essential Releases, October 30, 2026": the label stands
+      // before a comma and the rest is the title. Samples: fixtures/politics-chat.toml, fixtures/essential-releases.toml.
+      var politicsChat = text.match(/^\s*(politics chat|essential releases)\s*,\s+/i);
+      var found = tagged || plain || named || echo || numbered || dated || paywall || opinion || newsletter || live || election || recurring || guide || howIAi || roundup || politicsChat;
       var label, rest;
       if (found) {
         if (text.length <= found[0].length) return;
@@ -1070,7 +1168,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       }
       if (!/\p{L}/u.test(label)) return;
       // A live label or a listed label shouted in capitals ("EN DIRECT", "WATCH") is shown in lowercase.
-      if (found && (found === live || found === named) && label === label.toUpperCase()) label = label.toLowerCase();
+      if (found && (found === live || found === named) && label.length > 4 && label === label.toUpperCase()) label = label.toLowerCase();
       if (found && new RegExp("^(" + sponsorWords + ")$", "i").test(label)) {
         var split = rest.match(/^(.{1,60}?):\s+(.+)$/);
         if (split) {
@@ -2084,7 +2182,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       // table written with spaces) is not code. With no declared language, lines that hold
       // columns and none of the punctuation code needs stay a plain <pre>.
       function isPlainTable(text) {
-        if (/[{}();=<>|`\\]|\/\/|\/\*|^\s*[#$>]/m.test(text)) return false;
+        if (/[{};=<>|`\\]|\/\/|\/\*|^\s*[#$>]/m.test(text)) return false;
         var lines = text.split("\n").filter(function (l) { return l.trim(); });
         if (lines.length < 3) return false;
         var columns = lines.filter(function (l) { return /\S {2,}\S/.test(l); }).length;

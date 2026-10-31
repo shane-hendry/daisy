@@ -1,0 +1,8 @@
+title = "How to Sell UX Research with Two Simple Questions"
+byline = "Chris Callaghan"
+feed_link_title = "A List Apart: The Full"
+feed_link = "https://alistapart.com/"
+preferred_link = "https://example.org/list-apart"
+date_medium = "Oct 21, 2021"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''

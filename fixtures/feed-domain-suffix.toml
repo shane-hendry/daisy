@@ -1,0 +1,8 @@
+title = "On the Trail of the Mothman"
+byline = "The Podcast Team"
+feed_link_title = "Atlas Obscura - Latest Articles and Places"
+feed_link = "https://www.atlasobscura.com/"
+preferred_link = "https://www.atlasobscura.com/articles/mothman"
+date_medium = "Oct 30, 2026"
+body = '''<p>This paragraph carries enough extra words that the fixture reads as a real article when the check looks for readable content in the rendered page.</p>
+<p>A second paragraph keeps the readability check happy and gives the preview something to show under the title.</p>'''
