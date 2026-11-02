@@ -34,7 +34,7 @@ Date and time:
 Presentation:
   text_size_class            Article text-size class selected by the reader.
 -->
-<main class="article [[text_size_class]]" data-nnw-theme="daisy" data-update-key="daisy-sans" data-version="0.7.0">
+<main class="article [[text_size_class]]" data-nnw-theme="daisy" data-update-key="daisy-sans" data-version="0.8.0">
   <header class="article-header">
     <div class="meta">
       <div class="attribution"><span class="byline">[[byline]]</span><span class="byline-for"> for </span><a class="feed" href="[[feed_link]]">[[feed_link_title]]</a></div>
@@ -2482,10 +2482,10 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         var have = parts(mine);
         var latest = entry && parts(entry.version);
         if (!have || !latest || !newer(latest, have)) return;
-        // Only for a day and a half after the release went out; after that it is never shown.
+        // Only for 72 hours after the release went out; after that it is never shown.
         // An entry without a release time is not shown.
         var released = Date.parse(entry.released);
-        if (!(Date.now() - released < 36 * 60 * 60 * 1000)) return;
+        if (!(Date.now() - released < 72 * 60 * 60 * 1000)) return;
         // The note is one sentence per language ({"en": "...", "de": "..."}); a plain string
         // is English. A language without its own sentence gets the English one.
         var notes = entry.note;

@@ -1,4 +1,29 @@
 {
+  "0.8.0": {
+    "published": "2026-11-02T11:21:59Z",
+    "notes": [
+      {
+        "title": "Typography refinements.",
+        "text": ""
+      },
+      {
+        "title": "Byline and eyebrow formatting.",
+        "text": "Continued to improve byline and eyebrow support formatting."
+      },
+      {
+        "title": "Outside links.",
+        "text": "Improved outside link conditions and formatting."
+      },
+      {
+        "title": "Update notice.",
+        "text": "The update notice at the bottom of articles can now be shown for 72 hours after a new release."
+      },
+      {
+        "title": "Odds and ends.",
+        "text": "Other odds, ends, and niceties."
+      }
+    ]
+  },
   "0.7.0": {
     "published": "2026-10-29T23:29:38Z",
     "notes": [

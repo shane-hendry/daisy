@@ -4,7 +4,7 @@
 # supports. Keeps the template, Daisy Sans, docs/updates.json and the release tag in step.
 # Usage: scripts/set-version.sh 0.5.0 notes.json
 #        scripts/set-version.sh --check     (fails if template and updates.json disagree)
-# "released" is stamped when this runs; the theme shows its notice only for 36 hours after it,
+# "released" is stamped when this runs; the theme shows its notice only for 72 hours after it,
 # so run this when you publish the release.
 # notes.json: {"daisy": {"en": "...", "de": "...", ...}, "daisy-sans": {...}}, with a
 # sentence for every language in the theme's STRINGS table (the script lists any missing).
