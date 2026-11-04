@@ -1,0 +1,7 @@
+title = "Commit message in an inline-styled pre"
+feed_link_title = "Recent Commits to NetNewsWire:main"
+feed_link = "https://github.com/Ranchero-Software/NetNewsWire/commits/main"
+preferred_link = "https://example.org/commit"
+byline = "brentsimmons"
+date_medium = "Nov 4, 2026"
+body = '''<pre style='white-space:pre-wrap;width:81ex'>Stop an image too large for the timeline from blocking it as an icon. Save new conditional GET info when a check finds the image unchanged.</pre>'''

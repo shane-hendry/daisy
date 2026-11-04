@@ -53,7 +53,7 @@ Daisy and Daisy Sans are in beta. [Version 0.7.0](https://github.com/shane-hendr
 
 For 72 hours after a new release, a note to update your theme can appear at the end of an article.
 
-To be as unobtrusive as possible, only articles less than 2 days old with over 500 words ever look for updates, by fetching updates.json from daisyrss.com. No cookies, referrer information, or feed/article information is sent, but like any website, it sees your IP address.
+To be as unobtrusive as possible, only articles less than 3 days old with over 300 words ever look for updates, by fetching updates.json from daisyrss.com. No cookies, referrer information, or feed/article information is sent, but like any website, it sees your IP address.
 
 ## Credits
 

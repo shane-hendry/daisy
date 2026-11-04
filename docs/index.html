@@ -78,25 +78,22 @@ a:hover { color: var(--accent); }
 .top { container-type: inline-size; padding-block: clamp(3.5rem, 10vw, 7rem) 0; text-align: center; }
 .title {
   --t: calc(100cqw / 9.22);
-  align-items: baseline;
   color: var(--ink);
-  display: flex;
-  flex-wrap: nowrap;
   font-size: var(--t);
-  gap: 0 0.245em;
-  justify-content: center;
   line-height: 0.86;
   margin: 0;
+  white-space: nowrap; /* inline spans, not flex items, so a triple-click selects the whole line */
 }
+.title .t1 { margin-right: 0.07em; }
 .title .t1 { word-spacing: -0.005em; font-family: var(--serif); font-variation-settings: "opsz" 130; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
 .title .amp { font-size: 0.7377em; font-weight: 800; letter-spacing: -0.03em; }
 .title .t2 { font-family: var(--sans); font-size: 0.9254em; font-variation-settings: "wdth" 116; font-weight: 800; letter-spacing: -0.02em; line-height: 0.82; white-space: nowrap; }
 .title .t2 span { display: inline; }
 .top .tagline { font-family: var(--sans); font-size: calc(100cqw / 8.3 * 0.3453); font-variation-settings: "wdth" 120; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; margin: 0.45em 0 0; }
 @container (max-width: 40rem) {
-  .title { --t: 17cqw; flex-direction: column; align-items: center; }
+  .title { --t: 17cqw; display: flex; flex-direction: column; align-items: center; white-space: normal; }
   .top .tagline { font-size: calc(17cqw * 0.3453); }
-  .title .t1 { margin-bottom: 0.1em; }
+  .title .t1 { margin: 0 0 0.1em; }
   .title .t2 span { display: block; }
 }
 /* On a phone the space above the title equals the space between the tagline and the devices below it (measured to the letters: the hero's own margin, about 1.75rem of room inside the hero, less the title's 4px of top leading). */
@@ -18655,7 +18652,7 @@ window.addEventListener(&quot;message&quot;,function(e){
     <section class="credits" id="credits">
       <h2>Credits</h2>
       <p>Daisy and Daisy Sans were designed and built by <a href="https://shanehendry.com/">Shane Hendry</a>, using <a href="https://github.com/dave-atx">Dave Marquard&#8217;s</a> <a href="https://github.com/dave-atx/netnewswire-theme-template">NetNewsWire theme template</a>, and with help from Claude Code.</p>
-      <p>This project isn&#8217;t affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for. Learn more about <a href="https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md">NetNewsWire&#8217;s theme format</a>.</p>
+      <p>This is a personal project. It isn&#8217;t affiliated with or endorsed by NetNewsWire, or any of the sites and writers whose feeds it tidies up.</p>
     </section>
   </div>
 </section>

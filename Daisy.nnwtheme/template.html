@@ -46,6 +46,7 @@ Presentation:
   <div class="articleBody [[text_size_class]]">
     [[body]]
   </div>
+  <div class="enclosures">[[enclosures]]</div>
   <footer class="view-post [[text_size_class]]"><a href="[[preferred_link]]">View original</a></footer>
   <aside class="theme-update" hidden><p class="theme-update-title">Update</p><p class="theme-update-note"></p></aside>
 <!-- highlight.js:begin -->
@@ -245,6 +246,20 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
           title.className = "footnotes-title";
           title.textContent = words[5];
           list.parentNode.insertBefore(title, list);
+          // Some publishers (Kottke) give the list no rule above it. Add one so the section
+          // looks like every other: the stylesheet spaces an hr directly before the heading.
+          var before = title.previousElementSibling;
+          if (!before || before.tagName !== "HR") {
+            // A short paragraph right before the list was tagged as the list's label and
+            // sits tight to it; with the rule between them it takes normal spacing again.
+            var rule = document.createElement("hr");
+            title.parentNode.insertBefore(rule, title);
+            Array.prototype.forEach.call(document.querySelectorAll("p.list-label"), function (label) {
+              if (label.nextElementSibling === rule || label.parentNode.nextElementSibling === rule.parentNode) {
+                label.classList.remove("list-label");
+              }
+            });
+          }
         }
         var number = marker.textContent.trim() || String(index + 1);
         var label = document.createElement("a");
@@ -878,6 +893,16 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       document.addEventListener("keydown", function (event) {
         if (event.key === "Escape") show(false);
       });
+    })();
+    // Daring Fireball's XML feed gives every post a df4.us short link, and NetNewsWire files
+    // it in the link line. It only repeats the post's own address, so the row is hidden.
+    (function () {
+      var row = document.querySelector(".external-link");
+      var link = row && row.querySelector("a");
+      if (!link) return;
+      try {
+        if (new URL(link.getAttribute("href")).hostname.toLowerCase() === "df4.us") row.classList.add("same-page");
+      } catch (error) {}
     })();
     // Hide the "Link:" row when it points at the same page as the title.
     (function () {
@@ -2463,19 +2488,19 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         return false;
       };
       // The notice is meant to be seen now and then, not on every article, and a page cannot
-      // reliably remember a dismissal. So it shows only on a long read (about 500 words or more),
-      // published within the last two days, and then on about one article in four, chosen from
+      // reliably remember a dismissal. So it shows only on a long read (about 300 words or more),
+      // published within the last three days (the length of the release window), and then on about one article in three, chosen from
       // the article's link so the same article always decides the same way.
       var eligible = function () {
         var body = document.querySelector(".articleBody");
-        if (!body || (body.textContent || "").length < 3000) return false;
+        if (!body || (body.textContent || "").length < 1800) return false;
         var published = daisy.published;
-        if (!published || !(Date.now() - published < 2 * DAY)) return false;
+        if (!published || !(Date.now() - published < 3 * DAY)) return false;
         var anchor = document.querySelector(".article-header h1 a");
         var seed = (anchor && anchor.getAttribute("href")) || "";
         var hash = 0;
         for (var i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-        return hash % 4 === 0;
+        return hash % 3 === 0;
       };
       var show = function (all) {
         var entry = all && all[key];

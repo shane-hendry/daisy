@@ -1,0 +1,79 @@
+# nnw-theme catalog fixture: media-rss (catalog version 1)
+# Markup: a photo-and-video post whose feed lists its media as RSS <enclosure> and
+#   Media RSS <media:content> items, as NetNewsWire renders them, captured 2026-10.
+# Text and links are synthetic; the structure and the enclosures' fields are real. The
+#   YouTube link is the channel-feed form NetNewsWire turns into its player; previews
+#   swap in a same-size placeholder and never load it.
+# Exercises: [[enclosures]] images with captions, a landscape and a portrait image,
+#   a video file with its poster, the YouTube player, an image the body already shows
+#   (skipped), and a PDF (not shown).
+# Enclosures need NetNewsWire with enclosure support (upstream main, October 2026).
+# Refresh: npx nnw-theme@2 fixture add media-rss --force
+
+byline = 'Ines Calloway'
+date_long = 'October 19, 2026'
+date_medium = 'Oct 19, 2026'
+date_short = '10/19/26'
+dateline_style = 'articleDateline'
+datetime_long = 'October 19, 2026 at 7:40:00 AM'
+datetime_medium = 'Oct 19, 2026 at 7:40 AM'
+datetime_short = '10/19/26, 7:40 AM'
+feed_link = 'https://example.org/'
+feed_link_title = 'Field & Frame'
+preferred_link = 'https://example.org/2026/10/ridge-at-first-light/'
+time_long = '7:40:00 AM PDT'
+time_medium = '7:40:00 AM'
+time_short = '7:40 AM'
+title = 'The ridge at first light'
+image_url = 'https://example.org/media/2026/10/ridge-poster.jpg'
+body = '''
+<p>We left the trailhead at four, which is the only way to reach the ridge before the light does. The forecast promised clear skies and delivered a lid of low cloud that burned off, all at once, about ten minutes after sunrise.</p>
+<p><img src="https://example.org/media/2026/10/ridge-wide.jpg" width="2000" height="1000" alt="The ridge from the saddle, under cloud"></p>
+<p>The feed lists everything we shot as enclosures. The wide view above is in the post itself, so the reader shows it once. The rest follow the post: two photographs, the timelapse, and the video walk-through from the channel.</p>
+<p>Getting there: the saddle is four miles and 2,600 feet from the upper trailhead. The last half mile is loose scree, slow going in the dark, and worth a helmet if anyone is above you. Bring more water than seems reasonable; there is none after the first creek crossing.</p>
+<p>Next month: the same ridge under the first snow, if the road stays open long enough to reach it.</p>
+<p>The PDF trail map rides along as an enclosure too, though there is nothing to show for it in the article.</p>
+'''
+
+[[attachments]]
+url = 'https://example.org/media/2026/10/ridge-wide.jpg'
+mime_type = 'image/jpeg'
+width = 2000
+height = 1000
+medium = 'image'
+
+[[attachments]]
+url = 'https://example.org/media/2026/10/cairn.jpg'
+mime_type = 'image/jpeg'
+title = 'The cairn at the false summit, with the real one behind it.'
+width = 1600
+height = 1067
+medium = 'image'
+
+[[attachments]]
+url = 'https://example.org/media/2026/10/larch.jpg'
+title = 'Larches turning on the north slope.'
+width = 1000
+height = 1500
+
+[[attachments]]
+url = 'https://example.org/media/2026/10/ridge-timelapse.mp4'
+mime_type = 'video/mp4'
+title = 'Timelapse: the cloud lid lifting, 40 minutes in 30 seconds.'
+size_in_bytes = 48210944
+duration_in_seconds = 30
+width = 1920
+height = 1080
+medium = 'video'
+
+[[attachments]]
+url = 'https://www.youtube.com/v/Xr2kTq9mZ4c?version=3'
+mime_type = 'application/x-shockwave-flash'
+width = 640
+height = 390
+
+[[attachments]]
+url = 'https://example.org/media/2026/10/ridge-trail-map.pdf'
+mime_type = 'application/pdf'
+size_in_bytes = 2310144
+medium = 'document'

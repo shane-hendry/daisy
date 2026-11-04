@@ -1,0 +1,14 @@
+title = "A post with footnotes and no rule"
+feed_link_title = "Example Weblog"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/footnotes-no-rule"
+byline = "Pat Writer"
+date_medium = "Nov 3, 2026"
+body = '''<p>Comments have livened things up.<sup id="fnref:one"><a href="#fn:one" rel="footnote">1</a></sup> And more to come!</p>
+<p>Search is faster, at the expense of, well, increased expense.<sup id="fnref:two"><a href="#fn:two" rel="footnote">2</a></sup> It is still not magic.</p>
+<ol>
+<li class="footnote" id="fn:one"><p>Maybe readers have always felt this way, but the comments added a new dimension. <a href="#fnref:one" title="return to article">&#8617;</a></p></li>
+<li class="footnote" id="fn:two"><p>A couple of outside services handle search, and it won't cost more than a few bucks a month. <a href="#fnref:two" title="return to article">&#8617;</a></p></li>
+</ol>'''
+[expect.footnotes]
+keep_with_word = false
