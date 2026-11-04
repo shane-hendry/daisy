@@ -659,6 +659,25 @@ blockquote.single-line:has(+ :is(h1, h2, h3, h4, h5, h6))::before {
   top: -0.35em;
 }
 
+/* An untitled post's last block is trimmed to the baseline (see .untitled below), and if
+   that block is its only one, to the cap top as well. The bar follows, as it does for a
+   quote beside a heading. */
+.untitled .articleBody > blockquote:last-child::before {
+  bottom: -0.09em;
+}
+
+.untitled .articleBody > blockquote.single-line:last-child::before {
+  bottom: -0.345em;
+}
+
+.untitled .articleBody > blockquote:first-child:last-child::before {
+  top: -0.09em;
+}
+
+.untitled .articleBody > blockquote.single-line:first-child:last-child::before {
+  top: -0.35em;
+}
+
 
 /* --- 1.9 Code ---------------------------------------------------------- */
 
@@ -680,6 +699,7 @@ code {
 pre {
   background: var(--code-surface);
   border-radius: 0.25rem;
+  box-sizing: border-box;
   line-height: var(--leading-compact);
   overflow-x: auto;
   padding: 1rem;
@@ -2308,6 +2328,45 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   .article .footnote-panel-close {
     margin: 0 0 0 -12px;
   }
+}
+
+/* --- Enclosures (NetNewsWire 7.3+) --------------------------------------
+   The macro sits outside .articleBody so the body keeps its own children. Older
+   releases print the macro as literal text, so the container hides unless it holds
+   enclosures. Images and video fill the column like body media; audio and captions
+   follow the same rhythm. Sample articles: fixtures/media-rss.toml, podcast.toml. */
+
+.enclosures:not(:has(.nnw-enclosures)) {
+  display: none;
+}
+
+.enclosures {
+  margin-top: 1.6rem;
+}
+
+.nnw-enclosure {
+  margin: 0 0 1.6rem;
+}
+
+.nnw-enclosure :is(img, video, iframe) {
+  display: block;
+  width: 100%;
+}
+
+.nnw-enclosure iframe {
+  aspect-ratio: 16 / 9;
+  border: 0;
+  height: auto;
+}
+
+.nnw-enclosure audio {
+  display: block;
+  width: 100%;
+}
+
+.nnw-enclosure-caption {
+  font-size: 0.8em;
+  margin-top: 0.5em;
 }
 
 /* Install page: stands in for [[font-size]] (see scripts/build-install-css.sh). */

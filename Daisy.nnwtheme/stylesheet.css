@@ -659,6 +659,25 @@ blockquote.single-line:has(+ :is(h1, h2, h3, h4, h5, h6))::before {
   top: -0.35em;
 }
 
+/* An untitled post's last block is trimmed to the baseline (see .untitled below), and if
+   that block is its only one, to the cap top as well. The bar follows, as it does for a
+   quote beside a heading. */
+.untitled .articleBody > blockquote:last-child::before {
+  bottom: -0.09em;
+}
+
+.untitled .articleBody > blockquote.single-line:last-child::before {
+  bottom: -0.345em;
+}
+
+.untitled .articleBody > blockquote:first-child:last-child::before {
+  top: -0.09em;
+}
+
+.untitled .articleBody > blockquote.single-line:first-child:last-child::before {
+  top: -0.35em;
+}
+
 
 /* --- 1.9 Code ---------------------------------------------------------- */
 

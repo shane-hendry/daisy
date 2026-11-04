@@ -1,0 +1,11 @@
+title = ""
+feed_link_title = "Manton Reece"
+feed_link = "http://manton.micro.blog/"
+preferred_link = "http://manton.micro.blog/2026/11/04/good-rundown-by-ben-thompson.html"
+byline = "Manton Reece"
+date_medium = "Nov 4, 2026"
+body = '''<p>Good rundown <a href="https://stratechery.com/2026/ai-on-the-ballot/">by Ben Thompson</a> about how the election results will affect data centers:</p>
+<blockquote>
+<p>Many of the theories about AI assume that it becomes a commodity; I think it’s just as likely we are looking at scarcity for much longer than we expected, which will have ripple effects on everything.</p>
+</blockquote>
+'''
