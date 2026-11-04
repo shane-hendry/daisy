@@ -527,6 +527,11 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   window.addEventListener("scroll", function () { setOpen(false); onScroll(); }, { passive: true });
   window.addEventListener("resize", onScroll);
   toggle.addEventListener("click", function () { setOpen(!menu.hasAttribute("data-open")); });
+  // With a mouse, resting on the menu opens it and leaving closes it, each after a brief pause so passing through on the way to the browser's toolbar does nothing.
+  var hoverTimer;
+  function hoverOpen(on, ms) { clearTimeout(hoverTimer); hoverTimer = setTimeout(function () { setOpen(on); }, ms); }
+  menu.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") hoverOpen(true, 80); });
+  menu.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") hoverOpen(false, 120); });
   logo.addEventListener("click", function (e) { e.preventDefault(); setOpen(false); glide(0); });
   links.forEach(function (a) {
     a.addEventListener("click", function (e) {
