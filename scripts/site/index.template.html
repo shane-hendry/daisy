@@ -338,6 +338,9 @@ a:hover { color: var(--accent); }
 /* On a phone the space above the divider equals the padding below it: the Try it band supplies its own bottom padding, and Updates adds the rest. */
 @media (max-width: 40rem) { .updates:not([data-theme]) { margin-top: calc(clamp(7rem, 22vw, 12rem) - clamp(3rem, 8vw, 5.5rem)); } }
 /* On the site itself, Updates and Credits are the last gray band; from an update notice (.focus) the page stays plain white. */
+/* Past the page's midpoint the window behind the page is gray, so overscroll at the bottom shows gray; near the top it stays white (the script sets .late). */
+html.late:not(.focus), html.late:not(.focus) body { background: var(--band); }
+html.late:not(.focus) :is(.top, .hero, .band:not(.band--gray)) { background: var(--canvas); } /* the white sections stay white while the page behind them is gray */
 html:not(.focus) .updates { background: var(--band); border-top: 0; margin-top: 0; padding-top: clamp(3rem, 8vw, 5.5rem); }
 /* Try it: its line is as large as the tagline under the hero. */
 #try-it > p { font-size: clamp(1.38rem, 3.04vw, 1.79rem); line-height: 1.3; }
@@ -514,6 +517,8 @@ if (/[?&]theme=(daisy|daisy-sans)(&|$)/.test(location.search)) document.document
   function top(el) { return el.getBoundingClientRect().top + window.pageYOffset; }
   function glide(y) { window.scrollTo({ top: Math.max(0, y), behavior: reduce ? "auto" : "smooth" }); }
   function update() {
+    var de = document.documentElement;
+    de.classList.toggle("late", window.pageYOffset + window.innerHeight / 2 > de.scrollHeight / 2);
     var shown = title ? title.getBoundingClientRect().bottom < 0 : window.pageYOffset > 300;
     if (shown) menu.setAttribute("data-shown", ""); else { menu.removeAttribute("data-shown"); setOpen(false); }
     var line = window.innerHeight * 0.35, current = links[0];
