@@ -35,6 +35,7 @@ Read more about [how the themes work,](https://shanehendry.com/daisy/) and it's 
 
 * Clear, interactive footnotes
 * Relative datelines that reveal the exact time on tap
+* Variable titles that change size and width to fit each headline as you swipe through your feed
 * Cleaner Wordpress, Substack, and Lemmy layouts
 * Minimal UI so the words do all the work
 * Support for 30+ languages, right-to-left languages, and XXXXXL font sizes
@@ -57,7 +58,7 @@ To be as unobtrusive as possible, only articles less than 3 days old with over 3
 
 ## Credits
 
-I designed Daisy and Daisy Sans, using [Dave Marquard's](https://github.com/dave-atx) [NetNewsWire theme template](https://github.com/dave-atx/netnewswire-theme-template), with the help of claude code. They aren't affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for.
+I designed Daisy and Daisy Sans, using [Dave Marquard's](https://github.com/dave-atx) [NetNewsWire theme template](https://github.com/dave-atx/netnewswire-theme-template), with the help of Claude Code. They aren't affiliated with or endorsed by NetNewsWire or any of the authors or publications whose feeds the themes have rules for.
 Learn more about 
 [NetNewsWire's themes format](https://github.com/Ranchero-Software/NetNewsWire/blob/main/Technotes/Themes.md).
 
