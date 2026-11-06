@@ -1,4 +1,29 @@
 {
+  "1.0.0": {
+    "published": "2026-11-06T00:22:56Z",
+    "notes": [
+      {
+        "title": "Daisy and Daisy Sans 1.0.",
+        "text": ""
+      },
+      {
+        "title": "Code blocks.",
+        "text": "Cleaner, more readable code in articles."
+      },
+      {
+        "title": "Enclosures.",
+        "text": "Support for audio and video attachments in articles."
+      },
+      {
+        "title": "Block quotes.",
+        "text": "Fixed quote formatting on untitled posts."
+      },
+      {
+        "title": "Odds and ends.",
+        "text": "More polish across headers, bylines, and typography."
+      }
+    ]
+  },
   "0.8.0": {
     "published": "2026-11-02T11:21:59Z",
     "notes": [
