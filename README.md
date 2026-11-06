@@ -35,7 +35,7 @@ Read more about [how the themes work,](https://shanehendry.com/daisy/) and it's 
 
 * Clear, interactive footnotes
 * Relative datelines that reveal the exact time on tap
-* Variable titles that change size and width to fit each headline as you swipe through your feed
+* Variable titles that fit each headline as you swipe
 * Cleaner Wordpress, Substack, and Lemmy layouts
 * Minimal UI so the words do all the work
 * Support for 30+ languages, right-to-left languages, and XXXXXL font sizes
