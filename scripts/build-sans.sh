@@ -45,6 +45,9 @@ sed -e "s|^\(  --serif: \).*;|\1$SANS;|" \
     -e 's|^\(  --title-long-scale: \)[0-9.]*;|\11.3;|' \
     -e 's|^\(  --title-short-leading: \)[0-9.]*;|\10.9;|' \
     -e 's|^\(  --title-long-leading: \)[0-9.]*;|\11;|' \
+    -e 's|^\(  --title-em-style: \).*;|\1normal;|' \
+    -e 's|^\(  --title-em-display: \).*;|\1inline-block;|' \
+    -e 's|^\(  --title-em-transform: \).*;|\1skewX(-12deg);|' \
     -e 's|^\(  --title-brief-scale: \)[0-9.]*;|\11.2;|' \
     -e 's|^\(  --title-short-scale-phone: \)[0-9.]*;|\12.0;|' \
     -e 's|^\(  --title-brief-scale-phone: \)[0-9.]*;|\11.35;|' \

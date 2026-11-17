@@ -1,0 +1,7 @@
+title = "This is a man ready to plumb some pipe"
+feed_link_title = "Lemmy.World - All"
+feed_link = "https://lemmy.world/c/all"
+preferred_link = "https://lemmy.world/post/1"
+byline = '<a href="https://lemmy.world/u/cannedtuna">https://lemmy.world/u/cannedtuna</a>'
+date_medium = "Nov 5, 2026"
+body = '''<p>submitted by <a href="https://lemmy.world/u/cannedtuna">cannedtuna</a> to <a href="https://lemmy.world/c/all">all</a><br>984 points | <a href="https://lemmy.world/post/1">77 comments</a><br><a href="https://lemmy.world/pictrs/image/x.png">https://lemmy.world/pictrs/image/x.png</a></p><img src="https://placehold.co/600x400.png" alt=""><p>After the image.</p>'''

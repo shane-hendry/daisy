@@ -31,6 +31,10 @@ Date and time:
   time_medium                Medium localized publication time.
   time_short                 Short localized publication time.
 
+Media (NetNewsWire 7.3 and later):
+  primary_media              The article's main image, audio or video.
+  enclosures                 Other attached media, apart from the primary media.
+
 Presentation:
   text_size_class            Article text-size class selected by the reader.
 -->
@@ -43,6 +47,7 @@ Presentation:
     <h1><a href="[[preferred_link]]">[[title]]</a></h1>
     <div class="external-link"><a href="[[external_link]]"><span class="external-link-label">[[external_link_label]]</span> <span class="external-link-url">[[external_link_stripped]]</span></a></div>
   </header>
+  <div class="primary-media">[[primary_media]]</div>
   <div class="articleBody [[text_size_class]]">
     [[body]]
   </div>
@@ -1296,6 +1301,58 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
       var n = h1.textContent.trim().length - (stars ? stars.textContent.length : 0);
       h1.setAttribute("data-len", n <= 24 ? "short" : n <= 36 ? "brief" : n >= 70 ? "long" : "medium");
     })();
+    // Character count is only a proxy for how big a title feels. A balanced title of three or
+    // more lines whose widest line stops well short of the column (narrow glyphs, short words)
+    // reads smaller than its neighbours, so it is measured and scaled up until the widest
+    // line fills most of the column, never past MAX and never into an extra line. It sets
+    // --title-fit rather than font-size, because NetNewsWire strips inline font styles.
+    // Sample: fixtures/narrow-balanced-title.toml.
+    (function () {
+      var h1 = document.querySelector(".article-header h1");
+      if (!h1) return;
+      var FILL = 0.88, MAX = 1.3, STEP = 0.03, queued = false;
+      function measure() {
+        var rects = [], walker = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT), text;
+        while ((text = walker.nextNode())) {
+          var range = document.createRange();
+          range.selectNodeContents(text);
+          Array.prototype.forEach.call(range.getClientRects(), function (r) { if (r.width > 0) rects.push(r); });
+        }
+        if (!rects.length) return null;
+        var left = Infinity, right = -Infinity, tops = {};
+        rects.forEach(function (r) {
+          left = Math.min(left, r.left);
+          right = Math.max(right, r.right);
+          tops[Math.round(r.top / 4)] = 1;
+        });
+        return { width: right - left, lines: Object.keys(tops).length };
+      }
+      function fit() {
+        queued = false;
+        h1.style.removeProperty("--title-fit");
+        var base = measure(), col = h1.clientWidth;
+        if (!base || base.lines < 3 || !col || base.width >= col * FILL) return;
+        var scale = Math.min(MAX, (col * FILL) / base.width);
+        for (; scale > 1.02; scale -= STEP) {
+          h1.style.setProperty("--title-fit", scale);
+          var now = measure();
+          if (now && now.lines <= base.lines && now.width <= col) return;
+        }
+        h1.style.removeProperty("--title-fit");
+      }
+      fit();
+      // Refit when the column's width changes (rotation, window resize), not on the title's own size.
+      var lastWidth = h1.parentNode.clientWidth;
+      function refit() {
+        var w = h1.parentNode.clientWidth;
+        if (w === lastWidth || queued) return;
+        lastWidth = w;
+        queued = true;
+        requestAnimationFrame(fit);
+      }
+      if (window.ResizeObserver) new ResizeObserver(refit).observe(h1.parentNode);
+      else window.addEventListener("resize", refit);
+    })();
     // Quotation marks in headings (the title and the headings inside the article).
     // 1. Straight quotes become typographic ones. Apostrophes (Don't, '90s, dogs') become a
     //    plain ’ and are otherwise left alone, as are inch and foot marks (12", 5'10") and
@@ -1661,6 +1718,11 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         }
       }
       dropLine(first);
+      // Mark the block holding the points line so the stylesheet can give it paragraph
+      // spacing against an image that follows (or sits inside it).
+      var tallyBlock = tally;
+      while (tallyBlock.parentNode && tallyBlock.parentNode !== body) tallyBlock = tallyBlock.parentNode;
+      if (tallyBlock.nodeType === 1 && tallyBlock !== body) tallyBlock.classList.add("lemmy-tally");
       var credit = document.querySelector(".attribution");
       var author = credit && credit.querySelector(".byline");
       if (author) {

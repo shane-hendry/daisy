@@ -1,0 +1,10 @@
+title = "Oprah Gives Everyone in Her Audience a ‘Duo iPhone’"
+feed_link_title = "Daring Fireball JSON"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/oprah-duo-iphone"
+external_link = "https://youtu.be/j0Rsv1U3Q7A"
+byline = "John Gruber"
+date_medium = "Nov 17, 2026"
+body = '''<p>The Oprah Podcast:</p>
+<blockquote><p>In a special holiday episode Oprah brings back one of her legendary traditions with a live audience.</p></blockquote>
+<p>Skip to the end, 1h:02m, for the Duos.</p>'''

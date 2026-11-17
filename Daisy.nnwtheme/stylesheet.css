@@ -95,6 +95,12 @@
   --title-long-scale: 0.9;
   --title-short-leading: 1;                /* line spacing of the short and long titles; Sans is narrow there and sets 0.9 and 1 */
   --title-long-leading: 1.1;
+  /* Italic words inside a title. Serif uses the face's own italic. Sans sets these three:
+     the system italic has no width axis, so it would come out wider than the narrow
+     roman around it; the roman face is slanted instead. */
+  --title-em-style: italic;
+  --title-em-display: inline;
+  --title-em-transform: none;
   --title-brief-scale: 1.12;               /* brief titles (25 to 36 characters) grow; Sans sets 1.2 */
   --title-phone: clamp(1.7em, 1.36em + 2.02vw, 2.05em);
   --title-short-scale-phone: 1.4;          /* short and brief titles are larger still on phones, where they have room to spare */
@@ -858,6 +864,13 @@ audio {
   width: 100%;
 }
 
+/* Videos with transparent edges (an alpha-channel clip made to sit on both light and
+   dark pages) must show the page behind them while playing, not WebKit's default
+   black video backing. */
+video {
+  background: transparent !important;
+}
+
 iframe {
   max-width: 100%;
 }
@@ -1251,7 +1264,7 @@ caption {
    the same gap (--title-gap) as the sponsor label above it. */
 
 .article-header h1 {
-  font-size: var(--text-h1);
+  font-size: calc(var(--text-h1) * var(--title-fit, 1));
   font-variation-settings: var(--title-axes);
   font-weight: var(--title-weight);
   letter-spacing: -0.02em;
@@ -1261,6 +1274,12 @@ caption {
   text-wrap: balance;
 }
 
+.article-header h1 :is(em, i) {
+  display: var(--title-em-display);
+  font-style: var(--title-em-style);
+  transform: var(--title-em-transform);
+}
+
 /* A star rating that closed the title ("Title - ★★★★") sits on its own line under it. */
 .article-header h1 .rating {
   display: block;
@@ -1268,18 +1287,18 @@ caption {
 }
 
 .article-header h1[data-len="short"] {
-  font-size: calc(var(--text-h1) * var(--title-short-scale));
+  font-size: calc(var(--text-h1) * var(--title-short-scale) * var(--title-fit, 1));
   font-variation-settings: var(--title-short-axes);
   letter-spacing: -0.01em;
   line-height: var(--title-short-leading);
 }
 
 .article-header h1[data-len="brief"] {
-  font-size: calc(var(--text-h1) * var(--title-brief-scale));
+  font-size: calc(var(--text-h1) * var(--title-brief-scale) * var(--title-fit, 1));
 }
 
 .article-header h1[data-len="long"] {
-  font-size: calc(var(--text-h1) * var(--title-long-scale));
+  font-size: calc(var(--text-h1) * var(--title-long-scale) * var(--title-fit, 1));
   font-variation-settings: var(--title-long-axes);
   line-height: var(--title-long-leading);
 }
@@ -1471,6 +1490,22 @@ h1 a {
   margin-block: 0;
   padding-block: 0;
   text-box: normal;
+}
+
+/* Lemmy and PieFed: the points line (marked .lemmy-tally by template.html) gets paragraph
+   spacing from the image that follows it, whether the image is its own block or shares
+   the paragraph. Sample: fixtures/lemmy-image.toml. */
+.articleBody .lemmy-tally {
+  margin-block-end: 1em;
+}
+
+.articleBody .lemmy-tally :is(img, figure, a:has(> img), picture) {
+  display: block;
+  margin-block: 1em;
+}
+
+.articleBody .lemmy-tally + :is(img, figure, a:has(> img), picture) {
+  margin-block-start: 0;
 }
 
 /* Reddit's "submitted by ... [link] [comments]" block; "Join the conversation" below
@@ -2336,8 +2371,24 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
    enclosures. Images and video fill the column like body media; audio and captions
    follow the same rhythm. Sample articles: fixtures/media-rss.toml, podcast.toml. */
 
-.enclosures:not(:has(.nnw-enclosures)) {
+.enclosures:not(:has(.nnw-enclosures)),
+.primary-media:not(:has(.nnw-primary-media)) {
   display: none;
+}
+
+/* The article's main media sits between the header and the body. */
+.primary-media {
+  margin-bottom: 1.6rem;
+}
+
+.nnw-primary-media :is(img, video, iframe, audio) {
+  display: block;
+  width: 100%;
+}
+
+.nnw-primary-image-caption {
+  font-size: 0.8em;
+  margin-top: 0.5em;
 }
 
 .enclosures {
