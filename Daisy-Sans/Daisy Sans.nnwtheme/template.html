@@ -38,7 +38,7 @@ Media (NetNewsWire 7.3 and later):
 Presentation:
   text_size_class            Article text-size class selected by the reader.
 -->
-<main class="article [[text_size_class]]" data-nnw-theme="daisy" data-update-key="daisy-sans" data-version="1.0.0">
+<main class="article [[text_size_class]]" data-nnw-theme="daisy" data-update-key="daisy-sans" data-version="1.0.1">
   <header class="article-header">
     <div class="meta">
       <div class="attribution"><span class="byline">[[byline]]</span><span class="byline-for"> for </span><a class="feed" href="[[feed_link]]">[[feed_link_title]]</a></div>
@@ -1748,6 +1748,44 @@ https://github.com/highlightjs/highlight.js/issues/2277`),I=o,S=_),b===void 0&&(
         domain.textContent = sourceText.replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "");
         row.classList.remove("same-page");
       }
+    })();
+    // Linked posts that wrap the link in the body: an opening line "\uD83D\uDCCE Linking to <a>site</a>" and,
+    // at the very end, "<a>Read it at site \u2192</a> \u00b7 <a>Permalink</a>". Both are removed, only
+    // "Permalink" stays, and the address moves to the link line under the title as "Source: address".
+    // Sample: fixtures/linking-to-wrapper.toml.
+    (function () {
+      var body = document.querySelector(".articleBody");
+      var row = document.querySelector(".article-header .external-link");
+      var anchor = row && row.querySelector("a");
+      var label = row && row.querySelector(".external-link-label");
+      var domain = row && row.querySelector(".external-link-url");
+      if (!body || !anchor || !label || !domain) return;
+      var paras = Array.prototype.filter.call(body.children, function (el) { return el.tagName === "P"; });
+      var opener = paras[0];
+      var hasOpener = opener && /^\s*\uD83D\uDCCE\s*Linking to\s/i.test(opener.textContent) && opener.querySelector("a[href]");
+      var closer = null, readIt = null;
+      var lastPara = paras[paras.length - 1];
+      if (lastPara) {
+        var links = Array.prototype.slice.call(lastPara.querySelectorAll("a[href]"));
+        readIt = links.filter(function (a) { return /^\s*Read it at\s/i.test(a.textContent); })[0];
+        var permalink = links.filter(function (a) { return /^\s*Permalink\s*$/i.test(a.textContent); })[0];
+        if (readIt && permalink && readIt.parentNode === lastPara) closer = lastPara;
+        else readIt = null;
+      }
+      if (!hasOpener && !closer) return;
+      var address = (readIt || (hasOpener && opener.querySelector("a[href]"))).getAttribute("href");
+      if (!/^https?:\/\//i.test(address)) return;
+      if (hasOpener) opener.parentNode.removeChild(opener);
+      if (closer) {
+        // The separator after the link goes with it: " \u00b7 " between the two links.
+        var next = readIt.nextSibling;
+        if (next && next.nodeType === 3) next.data = next.data.replace(/^[\s\u00a0]*[\u00b7\u2022|\u2014\u2013-]?[\s\u00a0]*/, "");
+        closer.removeChild(readIt);
+      }
+      anchor.setAttribute("href", address);
+      label.textContent = (daisy.words && daisy.words[6]) || "Source:";
+      domain.textContent = address.replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "");
+      row.classList.remove("same-page");
     })();
     // A feed that gives the author as "email (Name)" shows only the name. Smashing Magazine's
     // feed name, "Articles on Smashing Magazine — For Web Designers And Developers", also

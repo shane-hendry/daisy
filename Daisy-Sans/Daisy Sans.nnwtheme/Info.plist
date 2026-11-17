@@ -11,6 +11,8 @@
 	<key>CreatorName</key>
 	<string>Shane Hendry</string>
 	<key>Version</key>
-	<integer>26</integer>
+	<integer>27</integer>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2026 Shane Hendry</string>
 </dict>
 </plist>

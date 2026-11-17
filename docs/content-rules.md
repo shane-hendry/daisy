@@ -483,6 +483,12 @@ Things publishing tools add that the reader doesn't need.
 - The "The post X appeared first on Y" line WordPress adds at the very end is hidden. It needs two links and must be the last paragraph. (v0.2.0)
 - Spacer blocks are hidden. (v0.1.0)
 
+### Linking-post wrappers
+
+- A first paragraph that starts with a paperclip and **Linking to**, followed by a link, is removed. (v1.0.1)
+- A last paragraph holding **Read it at …** and **Permalink** loses the **Read it at …** link and the separator after it, so only **Permalink** stays. (v1.0.1)
+- The address from the removed link goes to the secondary link as **Source: example.com/path**. The closing link's address is used first, then the opening one. (v1.0.1)
+
 ### Thumbnails beside the text
 
 - A bare image marked to sit on the right or left of the text (the old `align="right"` or `align="left"`) stays beside the text, at no more than a third of the column or 12rem, and the text wraps around it. (v0.4.0)

@@ -1,0 +1,11 @@
+title = "A linked post with its link wrapped in the body"
+feed_link_title = "Example Linkblog"
+feed_link = "https://example.org/"
+preferred_link = "https://example.org/linked/wrapped-link"
+byline = "Pat Writer"
+date_medium = "Oct 26, 2026"
+body = '''<p>📎 Linking to <a href="https://news.example.com/2026/10/story">news.example.com</a></p>
+<p>NEWS SITE:</p>
+<blockquote><p>A quoted passage from the article, long enough to wrap onto a second line so the preview has something to show under the title.</p></blockquote>
+<p>A short comment on the story, followed by the closing line the feed adds.</p>
+<p><a href="https://news.example.com/2026/10/story">Read it at news.example.com →</a> · <a href="https://example.org/linked/wrapped-link">Permalink</a></p>'''

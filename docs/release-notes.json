@@ -1,4 +1,29 @@
 {
+  "1.0.1": {
+    "published": "2026-11-17T19:42:22Z",
+    "notes": [
+      {
+        "title": "Title fit.",
+        "text": "Long titles that looked under-filled now scale up."
+      },
+      {
+        "title": "Italics in titles.",
+        "text": "Italic words in headlines now render cleanly in both Daisy and Daisy Sans."
+      },
+      {
+        "title": "Main media.",
+        "text": "Support for NetNewsWire 7.3’s main article image, audio or video, with captions."
+      },
+      {
+        "title": "Linked posts.",
+        "text": "Posts that wrap their link in the body (“Linking to…” and “Read it at…”) are cleaned up, and the address moves to a source line under the title."
+      },
+      {
+        "title": "Odds and ends.",
+        "text": "Transparent videos no longer show a black background, and Lemmy and PieFed images have better spacing."
+      }
+    ]
+  },
   "1.0.0": {
     "published": "2026-11-06T00:22:56Z",
     "notes": [
