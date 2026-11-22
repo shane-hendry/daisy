@@ -1,4 +1,17 @@
 {
+  "1.0.2": {
+    "published": "2026-11-22T14:23:04Z",
+    "notes": [
+      {
+        "title": "Small images.",
+        "text": "Tiny thumbnails used as an article’s main image, such as commit avatars and movie posters, are now hidden instead of stretched into a blur."
+      },
+      {
+        "title": "Update notices.",
+        "text": "They now stay up for 5 days after a release, and appear on articles of about 250 words or more."
+      }
+    ]
+  },
   "1.0.1": {
     "published": "2026-11-17T19:42:22Z",
     "notes": [
