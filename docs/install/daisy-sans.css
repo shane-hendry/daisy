@@ -2386,6 +2386,18 @@ blockquote.wp-embedded-content:has(+ iframe.wp-embedded-content),
   width: 100%;
 }
 
+/* A thumbnail-sized main image (a commit avatar, a movie poster) is dropped; rules.js
+   marks it. It stays invisible until judged so it never flashes at full width. */
+.judges-media .nnw-primary-image.pending {
+  visibility: hidden;
+}
+
+.articleBody img.small-media,
+.nnw-primary-image.small-media,
+.primary-media:has(.nnw-primary-image.small-media):not(:has(.nnw-primary-media > :not(.small-media))) {
+  display: none !important;
+}
+
 .nnw-primary-image-caption {
   font-size: 0.8em;
   margin-top: 0.5em;

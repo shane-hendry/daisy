@@ -47,14 +47,14 @@ Read more about [how the themes work,](https://shanehendry.com/daisy/) and it's 
 1. Download the theme (or both), then open the zip:
    - [Daisy](https://github.com/shane-hendry/daisy/releases/download/v1.0.1/Daisy.nnwtheme.zip)
    - [Daisy Sans](https://github.com/shane-hendry/daisy/releases/download/v1.0.1/Daisy.Sans.nnwtheme.zip)
-2. On your Mac, drag the **.nnwtheme** file onto the NetNewsWire dock icon. On iPhone and iPad, save them to Files, then open NetNewsWire, go to **Settings → Theme → +**.
+2. On your Mac, drag the **.nnwtheme** file onto the NetNewsWire dock icon. On iPhone and iPad, save the file to Files, then open NetNewsWire and go to **Settings → Appearance → Articles → Theme**. Tap **+** (Import Theme), choose the file, and tap **Install Theme**. This location applies to NetNewsWire for iOS 7.3 and later.
 3. Select **Daisy** or **Daisy Sans** from the list.
 
 ## Update notices
 
-For 72 hours after a new release, a note to update your theme can appear at the end of an article.
+For 5 days after a new release, a note to update your theme can appear at the end of an article.
 
-To be as unobtrusive as possible, only articles less than 3 days old with over 300 words ever look for updates, by fetching updates.json from daisyrss.com. No cookies, referrer information, or feed/article information is sent, but like any website, it sees your IP address.
+To be as unobtrusive as possible, only articles less than 5 days old with over 250 words ever look for updates, by fetching updates.json from daisyrss.com. No cookies, referrer information, or feed/article information is sent, but like any website, it sees your IP address.
 
 ## Credits
 
